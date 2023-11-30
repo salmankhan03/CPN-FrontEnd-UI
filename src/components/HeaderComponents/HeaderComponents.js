@@ -4,7 +4,9 @@ import ImageComponent from '../ImageComponents/ImageComponents';
 import logo from "../../assets/images/logo.png"
 
 
+
 function Header() {
+
     return (
         <div className="main_nav_container">
             <div className="ml-2 mr-2">
@@ -69,14 +71,17 @@ function Header() {
                       </a>
                     </li>
                     <li className="checkout">
-                      <a href="#" >
+                      <Link to="/cart">
                         <i className="fas fa-shopping-bag"></i>
                         {/* {cart.totalQty !== undefined && (
                           <span id="checkout_items" className="checkout_items">
                             {cart.totalQty}
                           </span>
                         )} */}
-                      </a>
+                         <span id="checkout_items" className="checkout_items">
+                          3
+                          </span>
+                      </Link>
                     </li>
                   </ul>
                   <div

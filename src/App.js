@@ -7,6 +7,7 @@ import TopNavBar from './components/TopNavBarComponents/TopNavBarComponents';
 import "./assets/css/style.css";
 import "./assets/css/responsive.css";
 import ProductDetails from './pages/ProductsDetails/ProductDetails';
+import CartPage from './pages/Cart/Cart';
 function App() {
   return (
     <div className='pagebox'>
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<WithNavbar component={HomeScreen} />} />
           <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
+          <Route path="/cart" element={<WithNavbar component={CartPage} />} />
 
         </Routes>
       </Router>
