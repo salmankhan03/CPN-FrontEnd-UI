@@ -2229,3 +2229,35 @@ ul.stander li a {
   padding: 4px 8px;
   border-radius: 4px;
 }
+
+/*********************************
+* Products Details Tabs
+*********************************/
+
+.product-details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tab {
+  padding: 10px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.tab.active {
+  background-color: #eee;
+}
+
+.content {
+  padding: 10px;
+}
+.tableBody-border{
+  border: 1px solid #ccc;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+}
+
