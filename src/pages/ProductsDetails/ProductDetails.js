@@ -230,14 +230,14 @@ function ProductDetails(props) {
                                             className={
                                                 productData?.quantity > 1 ? "minus" : "minus disabled"
                                             }
-                                            onClick={() => this.onRemoveClicked()}
+                                            onClick={() => handleDecrement()}
                                         >
                                             <i className="fa fa-minus" aria-hidden="true"></i>
                                         </span>
-                                        <span id="quantity_value">{productData.quantity}</span>
+                                        <span id="quantity_value">{quantity}</span>
                                         <span
                                             className="plus"
-                                        // onClick={() => this.onAddClicked()}
+                                        onClick={() => handleIncrement()}
                                         >
                                             <i className="fa fa-plus" aria-hidden="true"></i>
                                         </span>
