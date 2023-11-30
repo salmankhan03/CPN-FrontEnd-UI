@@ -27,9 +27,9 @@ function LeftSideBarComponents({ categoriesData,brandData,availabilityData }) {
                 handleDataChange={handleDataChange}
                 />
             </div>
-            <div className="mt-2 mb-2">
+            {/* <div className="mt-2 mb-2">
               <ButtonComponent  onClick={handleButtonClick} label="Filter" />
-            </div>
+            </div> */}
             <div className="mt-2">
                 <h4>Brands</h4>
                 <ListComponents

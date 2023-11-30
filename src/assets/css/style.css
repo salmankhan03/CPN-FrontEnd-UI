@@ -1353,13 +1353,16 @@ section {
 /*********************************
 9. single product
 *********************************/
+.prductsListBorder{
+  border: 1px solid #f9f9f9
+}
 .single_product_container {
   margin-top: 150px;
   padding-bottom: 80px;
   border-bottom: solid 1px #ebebeb;
 }
 .single_product_thumbnails {
-  height: 527px;
+  /* height: 527px; */
 }
 .single_product_thumbnails ul li {
   position: relative;
@@ -1404,7 +1407,7 @@ section {
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
 }
 
@@ -2261,3 +2264,17 @@ ul.stander li a {
 
 }
 
+.prev-next-button{
+  position: absolute;
+  top: 50%; /* Position at the vertical center */
+  transform: translateY(-50%);
+  left: 10px;
+}
+.productsSlider-ul{
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    justify-content: center;
+  }

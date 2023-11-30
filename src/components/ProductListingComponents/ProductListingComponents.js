@@ -16,7 +16,7 @@ function ProductListing(props) {
     };
 
     return (
-        <div className="product-item men m-1" style={{ border: "1px solid" }}>
+        <div className="product-item men m-1 prductsListBorder">
             <div
                 className="product discount product_filter"
                 onClick={() =>
@@ -30,16 +30,14 @@ function ProductListing(props) {
                 <div className="product_image">
                     <ImageComponent src={productItem.imagePath} alt={"products Image"} />
                 </div>
-                {/* <div className="favorite favorite_left">
-           <i className="far fa-heart"></i>
-         </div> */}
                 <div className="product_info">
                     <h6 className="product_name">
                         <div>{truncateString(productItem.title, 20)}</div>
                     </h6>
-                    <div className="product_rating">
+                    {/* Rating Commented */}
+                    {/* <div className="product_rating">
                         <RatingComponents rating={productItem.rating} showReviewCount={78} />
-                    </div>
+                    </div> */}
                     <div className="product_price">
                         ₹ {productItem.price}
                         <span> ₹ {(parseFloat(productItem.price) + 30).toFixed(2)}</span>
