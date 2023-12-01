@@ -1,8 +1,8 @@
 import React from 'react';
 
-function ImageComponent({ src, alt }) {
+function ImageComponent({ src, alt, classAtribute}) {
     return (
-        <img src={src} alt={alt} />
+        <img src={src} alt={alt} className={classAtribute} />
     );
 }
 

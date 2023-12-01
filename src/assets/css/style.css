@@ -2362,3 +2362,9 @@ h1, h2 {
   text-overflow: ellipsis;
   margin-bottom: 5px; /* Adjust as needed */
 }
+.cart-products{
+  height: 100px;
+}
+.cart-checkout-btn{
+  width:25%
+}

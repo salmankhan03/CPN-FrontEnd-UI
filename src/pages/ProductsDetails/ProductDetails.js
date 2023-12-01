@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import ProductTags from "../../components/ProductTagsComponents/ProductTagsComponents";
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
 import ImageComponent from "../../components/ImageComponents/ImageComponents";
+import Magnifier from 'react-image-magnify';
 
 
 
@@ -53,6 +54,15 @@ function ProductDetails(props) {
     const [selectedTab, setSelectedTab] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
     const [startIndex, setStartIndex] = useState(0);
+    // const image = {
+    //     small: 'https://example.com/small-image.jpg',
+    //     large: 'https://example.com/large-image.jpg',
+    //   };
+      
+    //   const onError = (error) => {
+    //     console.error('Image loading error:', error);
+    //     // Handle the error as needed
+    //   };
 
     const handleNext = () => {
         const newIndex = Math.min(startIndex + 1, productData.variants.length - 1);
@@ -165,6 +175,17 @@ function ProductDetails(props) {
                                                     backgroundImage: `url(${selectedImage})`,
                                                 }}
                                             />
+                                            {/* <Magnifier
+                                                image={image}
+                                                style={{ width: '400px', height: '300px' }}
+                                                className="custom-magnifier"
+                                                enlargedImagePosition="over"
+                                                enlargedImageContainerStyle={{ background: 'white' }}
+                                                cursorStyle="crosshair"
+                                                dragToMove={true}
+                                                dragToMoveEnabled={true}
+                                                onError={onError}
+                                            /> */}
                                         </div>
                                         <div className="single_product_thumbnails">
                                             <div className="thumbnail-container" >
