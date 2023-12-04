@@ -320,6 +320,15 @@
   .newsletter_submit_btn {
     margin-top: 15px;
   }
+  .sidebar_hide{
+    display: none !important;
+  }
+  .product_info {
+    text-align: center !important;
+  }
+  .cart-checkout-btn{
+    width: 100%;
+  }
 }
 
 /************

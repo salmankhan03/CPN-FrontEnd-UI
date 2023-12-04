@@ -50,6 +50,10 @@ const CartPage = () => {
         updatedCartItems[index] = updatedItem;
         setCartItems(updatedCartItems);
     };
+    const gotoCheckout = ()=>{
+        console.log("Click")
+        navigate('/checkout')
+    }
     return (
         <div className="container mt-5">
             {totalItems === 0 ? (
@@ -63,13 +67,13 @@ const CartPage = () => {
                     <div className="text-center">
                         <h1 className='tex'>Your Cart  ({cartItems.length} items)</h1>
                     </div>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col" className="col-6">Item</th>
-                                <th scope="col" className="col-2">Price</th>
-                                <th scope="col" className="col-2">Quantity</th>
-                                <th scope="col" className="col-2 text-right">Total</th>
+                    <table className="table mt-3">
+                        <thead >
+                            <tr className=''>
+                                <th scope="col" className="col-6 custom-no-border">Item</th>
+                                <th scope="col" className="col-2 custom-no-border">Price</th>
+                                <th scope="col" className="col-2 custom-no-border">Quantity</th>
+                                <th scope="col" className="col-2 text-right custom-no-border">Total</th>
                             </tr>
                         </thead>
 
@@ -126,7 +130,7 @@ const CartPage = () => {
                     <div className='row'>
                         <div className='text-right'>
                             <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br/>Shipping</h6>
-                            <button class="checkout-button cart-checkout-btn" >Proceed to Checkout</button>
+                            <button class="checkout-button cart-checkout-btn" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
                         </div>
 
                     </div>

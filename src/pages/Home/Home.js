@@ -6,7 +6,7 @@ function HomeScreen() {
     const [productsListData, setProductsListData] = useState([
     {
         id :"sda214541hhgsda",
-        imagePath:"https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
+        imagePath:"https://m.media-amazon.com/images/I/61x-4kyVgsL._AC_AA180_.jpg",
         title:"Centrum OstoCalcium Total Chewables (60s)",
         price:"35",
         rating:4.5
@@ -92,7 +92,7 @@ const [categoriesData, setCategoriesData] = useState([
         <div className="" >
             <div className='m-2'>
             <div className="row">
-            <div className="col-md-3">
+            <div className="col-md-3 sidebar_hide">
                 <div className='m-1'>
                     <LeftSideBarComponents 
                         categoriesData={categoriesData} 
