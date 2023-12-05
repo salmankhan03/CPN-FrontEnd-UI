@@ -10,56 +10,32 @@ function Header() {
     return (
         <div className="main_nav_container">
             <div className="ml-2 mr-2">
-            <div className="row">
-              <div className="col-lg-12 text-right">
+            <div className="row" style={{backgroundColor:'pink'}} >
+              <div className='col-xl-3 col-lg-2 col-sm-12'>
                 <div className="logo_container">
-                  <Link to="/">
-                    {/* Fashion<span>Cube</span> */}
+                  <Link to="/">              
                     <ImageComponent src={logo} alt="LOGO" />
                   </Link>
                 </div>
-                <nav className="navbar">
-                  <ul className="navbar_menu">
-                    <li>
-                      <Link to="#">home</Link>
-                    </li>
-                    <li className="mega-drop-down">
-                      <a href="#">
-                        shop <i className="fa fa-angle-down"></i>
-                      </a>
-  
-                      <div className="mega-menu">
-                        {/* <div className="mega-menu-wrap">
-                          {departments &&
-                            departments.map((item, index) => {
-                              return (
-                                <div className="mega-menu-content" key={index}>
-                                  <h5>{item.departmentName}</h5>
-                                  <ul className="stander">
-                                    {item.categories.split(",").map((i, idx) => {
-                                      return (
-                                        <li key={idx}>
-                                          <a
-                                            href={`/fashion-cube/shops/${item.departmentName}/${i}`}
-                                          >
-                                            {i}
-                                          </a>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                </div>
-                              );
-                            })}
-                        </div> */}
-                      </div>
-                    </li>
-  
-                    <li>
-                      <a href="#">contact</a>
-                    </li>
-                  </ul>
-                  <ul className="navbar_user">
+              </div>
+              <div className='col-xl-6 col-lg-6'>
+                {/* <div className="custom_container">
+                  <div className="search-input">
+                      <input type="text" placeholder="Search..." />
+                  </div>
+                  <div className="category-dropdown">
+                      <label for="category">Category:</label>
+                      <select id="category">
+                          <option value="category1">Category 1</option>
+                          <option value="category2">Category 2</option>
+                          <option value="category3">Category 3</option>
+                      </select>
+                  </div>
+                </div> */}
+              </div>
+              <div className='col-xl-3 col-lg-4 col-sm-12' style={{backgroundColor:'orange'}}>
+              <nav className="navbar">
+              <ul className="navbar_user">
                     <li>
                       <a href="#">
                         <i className="fa fa-search" aria-hidden="true"></i>
@@ -84,14 +60,11 @@ function Header() {
                       </Link>
                     </li>
                   </ul>
-                  <div
-                    className="hamburger_container"
-                    // onClick={() => this.handleMenuClicked()}
-                  >
-                    <i className="fa fa-bars" aria-hidden="true"></i>
-                  </div>
-                </nav>
+              </nav>
               </div>
+
+             
+             
             </div>
           </div>
           {/* <MediaQuery query={device.max.tabletL}>
