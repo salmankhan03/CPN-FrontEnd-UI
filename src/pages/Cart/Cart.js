@@ -13,7 +13,7 @@ const CartPage = () => {
             price: "25",
             rating: "3",
             quantity: "2",
-            totalPrice:"25"
+            totalPrice: "25"
         },
         {
             id: "trerwfdfvgds",
@@ -22,7 +22,7 @@ const CartPage = () => {
             price: "35",
             rating: "3",
             quantity: "5",
-            totalPrice:"35"
+            totalPrice: "35"
         },
     ]);
     // const cartItems = 
@@ -50,7 +50,7 @@ const CartPage = () => {
         updatedCartItems[index] = updatedItem;
         setCartItems(updatedCartItems);
     };
-    const gotoCheckout = ()=>{
+    const gotoCheckout = () => {
         console.log("Click")
         navigate('/checkout')
     }
@@ -68,28 +68,26 @@ const CartPage = () => {
                         <h1 className='tex'>Your Cart  ({cartItems.length} items)</h1>
                     </div>
                     <table className="table mt-3">
-                        <thead >
+                        <thead>
                             <tr className=''>
-                                <th scope="col" className="col-6 custom-no-border">Item</th>
-                                <th scope="col" className="col-2 custom-no-border">Price</th>
-                                <th scope="col" className="col-2 custom-no-border">Quantity</th>
-                                <th scope="col" className="col-2 text-right custom-no-border">Total</th>
+                                <th scope="col" className="col-sm-6 custom-no-border">Item</th>
+                                <th scope="col" className="col-sm-2 custom-no-border">Price</th>
+                                <th scope="col" className="col-sm-2 custom-no-border">Quantity</th>
+                                <th scope="col" className="col-sm-2 text-right custom-no-border">Total</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {cartItems.map((item, index) => (
-
                                 <tr key={index}>
                                     <td>
                                         <div className='row'>
-                                            <div className='col-3'>
+                                            <div className='col-12 col-sm-3'>
                                                 <ImageComponent src={item.imagePath} alt="Product Image" classAtribute="cart-products" />
                                             </div>
-                                            <div className='col-9'>
+                                            <div className='col-12 col-sm-9'>
                                                 <h4 className='product-name mr-3'>{item.productName}</h4>
                                             </div>
-
                                         </div>
                                     </td>
                                     <td className='align-middle'>{item.price}</td>
@@ -120,16 +118,17 @@ const CartPage = () => {
                         </tbody>
                     </table>
 
+
                     <div class=" text-right">
                         <p>Subtotal: <span className='ml-5'>37</span></p>
                         <p>Sales Tax: <span className='ml-5'>00</span></p>
                         <p>Couppon code: <span className='ml-5'>add Couppon</span></p>
                         <p>Grandtotal: <span className='ml-5'>37</span></p>
-                       
+
                     </div>
                     <div className='row'>
                         <div className='text-right'>
-                            <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br/>Shipping</h6>
+                            <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
                             <button class="checkout-button cart-checkout-btn" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
                         </div>
 
