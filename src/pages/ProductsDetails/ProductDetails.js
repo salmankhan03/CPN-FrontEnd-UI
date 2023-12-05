@@ -10,53 +10,50 @@ import ProductTags from "../../components/ProductTagsComponents/ProductTagsCompo
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
 import ImageComponent from "../../components/ImageComponents/ImageComponents";
 import Magnifier from 'react-image-magnify';
+import ProductServices from "../../services/ProductServices";
 // import ReactImageZoom from 'react-image-zoom';
 
 
 
-function ProductDetails(props) {
+function ProductDetails() {
     const location = useLocation();
-    const [productData, setProductData] = useState({
-        id: "sda214541hhgsda",
-        imagePath: "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
-        description: "Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis.",
-        title: "Broad Pharmacy Action Vitamin D 1000IU Cap X",
-        price: "35",
-        variants: [
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/614LY1dO+ZL._SX679_.jpg"
-            },
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/61zKrW4lc0L._SX679_.jpg"
-            },
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/61HC3V8todL._SX679_.jpg"
-            },
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/61HAvPE6HmL._SX679_.jpg"
-            },
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg"
-            },
-            {
-                "imagePath": "https://m.media-amazon.com/images/I/610QgFSxa3L._SL1080_.jpg"
-            }
-        ],
-        tags: ['New', 'Sale', 'Organic', 'Free Shipping'],
-        rating: 4.5,
-        quantity: 60,
-        sku: "dsad0121",
-        category: "test",
-        brand: "Seltzer"
+    // console.log(props)
+    // console.log(location)
 
-    })
+    const [productData, setProductData] = useState()
+    const[productID, setProductID] = useState(location?.state?.id)
     const [quantity, setQuantity] = useState(1);
-    const [selectedImage, setSelectedImage] = useState(productData.imagePath);
+    const [selectedImage, setSelectedImage] = useState();
     const [selectedTab, setSelectedTab] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
     const [startIndex, setStartIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
+    useEffect(() => {
+        if(productID){
+            getProductsDetails();
+        }
+    }, []);
+    
+    function getProductsDetails() {
+        ProductServices.getProductById(productID).then((resp) => {
+            if (resp?.status_code === 200) {
+                // console.log("res",resp.data)
+                setProductData(resp?.data)
+                console.log(resp?.data?.images)
+                if(resp?.data?.images.length > 0){
+                    // setSelectedImage(resp?.data?.images[0]?.name)
+                    setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
 
+                }else{
+                    setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
+                }
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+    
+    
     const handleMouseEnter = () => {
         setIsHovered(true);
       };
@@ -75,12 +72,6 @@ function ProductDetails(props) {
         setStartIndex(newIndex);
     };
 
-    useEffect(() => {
-        getProductsDetails()
-    }, [])
-    function getProductsDetails() {
-        // ProductDetails Api Call
-    }
     const handleIncrement = () => {
         setQuantity(quantity + 1);
     };
@@ -118,13 +109,7 @@ function ProductDetails(props) {
     const renderContent = () => {
         switch (selectedTab) {
             case 'description':
-                return <p>Mauris fermentum dictum magna. Sed laoreet aliquam leo. Ut tellus dolor, dapibus eget, elementum vel, cursus eleifend, elit. Aenean auctor wisi et urna. Aliquam erat volutpat. Duis ac turpis. Integer rutrum ante eu lacus. Vestibulum libero nisl, porta vel, scelerisque eget, malesuada at, neque. Vivamus eget nibh. Etiam cursus leo vel metus. Nulla facilisi. Aenean nec eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.
-
-                    Suspendisse sollicitudin velit sed leo.arrow_forward
-                    Ut pharetra augue nec auguearrow_forward
-                    Nam elit agna, endrerit sit amet, tincidunt ac, viverra sed, nullaarrow_forward
-                    Donec porta diam eu massaarrow_forward
-                    Quisque diam lorem, interdum vitae, dapibus ac.</p>;
+                return <p>{productData?.description}</p>;
             case 'review':
                 return <p>Product Reviews Go Here</p>;
             case 'enquiry':
@@ -150,7 +135,7 @@ function ProductDetails(props) {
                                     <li>
                                         <a href="#">
                                             <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            {productData.id}
+                                            {productData?.id}
                                         </a>
                                     </li>
                                     {/* <li className="active">
@@ -209,9 +194,9 @@ function ProductDetails(props) {
                                         </div>
                                         <div className="single_product_thumbnails">
                                             <div className="thumbnail-container" >
-                                                <div className="row">
+                                            {productData?.images.length > 0 ?(
+                                                <div className="row">                                        
                                                     <div className="col-lg-1 col-2">
-
                                                         <button className="prev-button prev-next-button" onClick={handlePrev} disabled={startIndex === 0}>
                                                             <i class="fa fa-angle-double-left p-2"></i>
                                                         </button>
@@ -219,15 +204,15 @@ function ProductDetails(props) {
                                                     <div className="col-lg-10 col-8">
                                                         <div className="thumbnails-container overflow-x-hidden">
                                                             <ul className="productsSlider-ul">
-                                                                {productData.variants &&
-                                                                    productData.variants.slice(startIndex, startIndex + 3).map((item, index) => (
+                                                                {productData?.images &&
+                                                                    productData?.images?.slice(startIndex, startIndex + 3).map((item, index) => (
                                                                         <li
                                                                             key={index}
-                                                                            onMouseEnter={() => handleThumbnailHover(item.imagePath)}
-                                                                            onClick={() => handleThumbnailClick(item.imagePath)}
+                                                                            onMouseEnter={() => handleThumbnailHover(item?.name)}
+                                                                            onClick={() => handleThumbnailClick(item?.name)}
                                                                             className="m-2"
                                                                         >
-                                                                            <ImageComponent src={item.imagePath} alt={`Product Image ${index}`} />
+                                                                            <ImageComponent src={item?.name} alt={`Product Image ${index}`} />
                                                                         </li>
                                                                     ))}
                                                             </ul>
@@ -235,12 +220,12 @@ function ProductDetails(props) {
                                                     </div>
                                                     <div className="col-lg-1 col-2">
 
-                                                        <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData.variants.length - 4}>
+                                                        <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData?.variants?.length - 4}>
                                                             <i class="fa fa-angle-double-right p-2"></i>
-
                                                         </button>
                                                     </div>
                                                 </div>
+                                            ):null}
                                             </div>
                                         </div>
 
@@ -251,7 +236,7 @@ function ProductDetails(props) {
                         <div className="col-lg-5">
                             <div className="product_details">
                                 <div className="product_details_title">
-                                    <h2>{productData?.title}</h2>
+                                    <h2>{productData?.name}</h2>
                                     <p>{productData?.description}</p>
                                 </div>
                                 {/* <div className="original_price">
@@ -259,7 +244,7 @@ function ProductDetails(props) {
                                     ₹ {(parseFloat(productData.price) + 30).toFixed(2)}
                                 </div> */}
                                 <div className="product_price mt-3">
-                                    ₹ {productData.price}
+                                    ₹ {productData?.price}
                                 </div>
                                 {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
@@ -289,29 +274,23 @@ function ProductDetails(props) {
                                     //   onClick={this.addToBag}
                                     >
                                         <a href="#">add to cart</a>
-                                    </div>
-
-                                    {/* <div className="red_cart_button product_add_to_cart_icon">
-                      <a href="#">
-                        <i className="fas fa-cart-arrow-down"></i>
-                      </a>
-                    </div> */}
-
+                                    </div>  
                                     <div className="product_favorite d-flex flex-column align-items-center justify-content-center">
                                         <i className="far fa-heart"></i>
                                     </div>
                                 </div>
                                 <div className="mt-3">
-                                    SKU: <span className="ml-2">{productData.sku}</span>
+                                    SKU: <span className="ml-2">{productData?.sku}</span>
                                 </div>
                                 <div className="mt-3">
-                                    Category: <span className="ml-2">{productData.category}</span>
+                                    Category: <span className="ml-2">{productData?.category}</span>
                                 </div>
                                 <div className="product-tags-container mt-3">
-                                    Tags:<ProductTags tags={productData.tags} />
+                                    Tags:
+                                    {/* <ProductTags tags={productData?.tags} /> */}
                                 </div>
                                 <div className="mt-3">
-                                    Brand: <span className="ml-2">{productData.brand}</span>
+                                    Brand: <span className="ml-2">{productData?.brand}</span>
                                 </div>
                             </div>
                         </div>
