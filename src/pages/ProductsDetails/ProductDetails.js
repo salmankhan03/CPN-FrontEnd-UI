@@ -10,6 +10,7 @@ import ProductTags from "../../components/ProductTagsComponents/ProductTagsCompo
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
 import ImageComponent from "../../components/ImageComponents/ImageComponents";
 import Magnifier from 'react-image-magnify';
+// import ReactImageZoom from 'react-image-zoom';
 
 
 
@@ -54,15 +55,15 @@ function ProductDetails(props) {
     const [selectedTab, setSelectedTab] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
     const [startIndex, setStartIndex] = useState(0);
-    // const image = {
-    //     small: 'https://example.com/small-image.jpg',
-    //     large: 'https://example.com/large-image.jpg',
-    //   };
-      
-    //   const onError = (error) => {
-    //     console.error('Image loading error:', error);
-    //     // Handle the error as needed
-    //   };
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+      };
+    
+      const handleMouseLeave = () => {
+        setIsHovered(false);
+      };
 
     const handleNext = () => {
         const newIndex = Math.min(startIndex + 1, productData.variants.length - 1);
@@ -169,14 +170,14 @@ function ProductDetails(props) {
                                 <div className="row">
                                     <div className="col-lg-12 image_col order-lg-2 order-1">
                                         <div className="single_product_image">
-                                            <div
-                                                className="single_product_image_background"
-                                                style={{
-                                                    backgroundImage: `url(${selectedImage})`,
-                                                }}
-                                            />
+                                            {/* <div
+                                            //     className="single_product_image_background"
+                                            //     // style={{
+                                            //     //     backgroundImage: `url(${selectedImage})`,
+                                            //     // }}
+                                            // /> */}
                                             {/* <Magnifier
-                                                image={image}
+                                                image={selectedImage}
                                                 style={{ width: '400px', height: '300px' }}
                                                 className="custom-magnifier"
                                                 enlargedImagePosition="over"
@@ -184,8 +185,27 @@ function ProductDetails(props) {
                                                 cursorStyle="crosshair"
                                                 dragToMove={true}
                                                 dragToMoveEnabled={true}
-                                                onError={onError}
+                                                // onError={onError}
                                             /> */}
+
+                                            <div
+                                                className="single_product_image_background"
+                                                onMouseEnter={handleMouseEnter}
+                                                onMouseLeave={handleMouseLeave}                                                
+                                                style={{
+                                                    backgroundImage: `url(${selectedImage})`,
+                                                }}
+                                            >
+                                            </div>
+
+                                            {isHovered && (
+                                                <div className="zoomed-image-container sidebar_hide">
+                                                    {/* Replace 'path/to/your/large-image.jpg' with the path to your larger image */}
+                                                    <img src={selectedImage} alt="Zoomed Product" />
+                                                </div>
+                                            )}
+
+
                                         </div>
                                         <div className="single_product_thumbnails">
                                             <div className="thumbnail-container" >
@@ -216,7 +236,7 @@ function ProductDetails(props) {
                                                     <div className="col-lg-1 col-2">
 
                                                         <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData.variants.length - 4}>
-                                                        <i class="fa fa-angle-double-right p-2"></i>
+                                                            <i class="fa fa-angle-double-right p-2"></i>
 
                                                         </button>
                                                     </div>
@@ -258,7 +278,7 @@ function ProductDetails(props) {
                                         <span id="quantity_value">{quantity}</span>
                                         <span
                                             className="plus"
-                                        onClick={() => handleIncrement()}
+                                            onClick={() => handleIncrement()}
                                         >
                                             <i className="fa fa-plus" aria-hidden="true"></i>
                                         </span>

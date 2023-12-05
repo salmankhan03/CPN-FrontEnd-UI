@@ -2730,3 +2730,34 @@ h2 {
     transition: .3s ease-in-out;
     outline: 0;
 }
+
+
+/* pp */
+.product-image {
+  position: relative;
+  overflow: hidden;
+  width: 200px; /* Adjust the size of the product image */
+}
+
+.product-image img {
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoomed-image-container {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 20px; /* Adjust the space between the product image and zoomed image */
+  width: 90%; /* Adjust the size of the zoomed image */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.zoomed-image-container img {
+  width: 100%;
+}
+
+
