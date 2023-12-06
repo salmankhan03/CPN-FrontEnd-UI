@@ -329,6 +329,9 @@
   .cart-checkout-btn{
     width: 100%;
   }
+  .custom-margin {
+    margin: 0 !important;
+}
 }
 
 /************

@@ -2685,7 +2685,7 @@ h2 {
 }
 
 .cart-checkout-btn {
-  width: 25%
+  width: 25% !important;
 }
 
 .custom-no-border {
@@ -2761,3 +2761,7 @@ h2 {
 }
 
 
+/* Checkout page */
+.margin{
+  margin: 3rem;
+}

@@ -2,56 +2,50 @@ import React, { useState } from 'react';
 import ButtonComponent from '../../components/ButtonComponents/ButtonComponents';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCartItems } from '../../redux/action/cart-action';
+import InputComponent from '../../components/InputComponents/InputComponents';
 
 const CartPage = () => {
     const navigate = useNavigate();
-    const [cartItems, setCartItems] = useState([
-        {
-            id: "trerwfdfvgds",
-            imagePath: "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
-            productName: "Cipla Maxirich Omega 3 | Super Strength Capsule | EPA 500mg | DHA 350mg | Immune Booster Capsules | Supports Heart, Eye, Joint & Brain Health | 60 Capsules",
-            price: "25",
-            rating: "3",
-            quantity: "2",
-            totalPrice: "25"
-        },
-        {
-            id: "trerwfdfvgds",
-            imagePath: "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
-            productName: "Cipla Maxirich Omega 3 | Super Strength Capsule | EPA 500mg | DHA 350mg | Immune Booster Capsules | Supports Heart, Eye, Joint & Brain Health | 60 Capsules",
-            price: "35",
-            rating: "3",
-            quantity: "5",
-            totalPrice: "35"
-        },
-    ]);
-    // const cartItems = 
+    const cartItems = useSelector(state => state.CartReducer.cartItems);
+    const dispatch = useDispatch();
     const totalItems = cartItems?.length;
+    const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
 
+    const [showCouponInput, setShowCouponInput] = useState(false);
+    const [couponCode, setCouponCode] = useState('');
     const handleNavigation = () => {
-        // Handle the "Add to Cart" action
         navigate(`/`)
-        console.log("Product added to cart!");
+    };
+
+    const handleCouponClick = () => {
+        setShowCouponInput(!showCouponInput);
+    };
+
+    const handleApplyCoupon = () => {
+        setCouponCode(couponCode)
+        setShowCouponInput(false)
+        console.log('Coupon code applied:', couponCode);
     };
     const handleIncrement = (index) => {
         const updatedCartItems = [...cartItems];
         const updatedItem = { ...updatedCartItems[index] };
-        updatedItem.quantity = JSON.parse(updatedItem.quantity) + 1;
-        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.quantity;
+        updatedItem.purchaseQty = JSON.parse(updatedItem.purchaseQty) + 1;
+        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
         updatedCartItems[index] = updatedItem;
-        setCartItems(updatedCartItems);
+        dispatch(updateCartItems(updatedCartItems));
     };
 
     const handleDecrement = (index) => {
         const updatedCartItems = [...cartItems];
         const updatedItem = { ...updatedCartItems[index] };
-        updatedItem.quantity = Math.max(1, JSON.parse(updatedItem.quantity) - 1);
-        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.quantity;
+        updatedItem.purchaseQty = Math.max(1, JSON.parse(updatedItem.purchaseQty) - 1);
+        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
         updatedCartItems[index] = updatedItem;
-        setCartItems(updatedCartItems);
+        dispatch(updateCartItems(updatedCartItems));
     };
     const gotoCheckout = () => {
-        console.log("Click")
         navigate('/checkout')
     }
     return (
@@ -96,13 +90,13 @@ const CartPage = () => {
                                             <div className="quantity_selector">
                                                 <span
                                                     className={
-                                                        item?.quantity > 1 ? "minus" : "minus disabled"
+                                                        item?.purchaseQty > 1 ? "minus" : "minus disabled"
                                                     }
                                                     onClick={() => handleDecrement(index)}
                                                 >
                                                     <i className="fa fa-minus" aria-hidden="true"></i>
                                                 </span>
-                                                <span id="quantity_value">{item?.quantity}</span>
+                                                <span id="quantity_value">{item?.purchaseQty}</span>
                                                 <span
                                                     className="plus"
                                                     onClick={() => handleIncrement(index)}
@@ -120,10 +114,33 @@ const CartPage = () => {
 
 
                     <div class=" text-right">
-                        <p>Subtotal: <span className='ml-5'>37</span></p>
+                        <p>Subtotal: <span className='ml-5'>{subtotal}</span></p>
                         <p>Sales Tax: <span className='ml-5'>00</span></p>
-                        <p>Couppon code: <span className='ml-5'>add Couppon</span></p>
-                        <p>Grandtotal: <span className='ml-5'>37</span></p>
+                        <p>
+                            Coupon code:{' '}
+                            <span className='ml-5' onClick={handleCouponClick}>
+                                {couponCode ? couponCode : 'add Coupon'}
+                            </span>
+                        </p>
+
+                        {showCouponInput && (
+                            <div className="coupon-section">
+                                <InputComponent
+                                    type="text"
+                                    id="coupon"
+                                    label=""
+                                    customClass={`form-control gray-bg cart-checkout-btn ml-auto `}
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value)}
+                                    placeholder="Enter your coupon code"
+                                    required
+                                />                               
+                                 <button class="checkout-button cart-checkout-btn" onClick={handleApplyCoupon} >Apply Coupon</button>
+
+                            </div>
+                        )}
+
+                        <p>Grandtotal: <span className='ml-5'>{subtotal}</span></p>
 
                     </div>
                     <div className='row'>

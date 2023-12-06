@@ -1,0 +1,26 @@
+export const addtoCartItems = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "ADD_TO_CARTS",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+export const updateCartItems = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "UPDATE_CARTS",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+

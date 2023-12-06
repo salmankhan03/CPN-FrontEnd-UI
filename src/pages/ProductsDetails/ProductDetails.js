@@ -1,30 +1,20 @@
-/*
- ** Author: Santosh Kumar Dash
- ** Author URL: http://santoshdash.epizy.com/
- ** Github URL: https://github.com/quintuslabs/fashion-cube
- */
-
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { json, useLocation } from "react-router-dom";
 import ProductTags from "../../components/ProductTagsComponents/ProductTagsComponents";
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
 import ImageComponent from "../../components/ImageComponents/ImageComponents";
 import Magnifier from 'react-image-magnify';
 import ProductServices from "../../services/ProductServices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import ReactImageZoom from 'react-image-zoom';
 import { setProductDetails } from '../../redux/action/action';
-
-
+import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
 
 
 function ProductDetails() {
     const location = useLocation();
+    const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
-
-    // console.log(props)
-    // console.log(location)
-
     const [productData, setProductData] = useState()
     const [productID, setProductID] = useState(location?.state?.id)
     const [quantity, setQuantity] = useState(1);
@@ -128,7 +118,36 @@ function ProductDetails() {
                 return null;
         }
     };
-
+    const addtoCart = (product) =>{
+        const existingCartItem = cartItems.find(item => item.id === product.id);
+        if (existingCartItem) {
+            const updatedCartItems = cartItems.map(item => {
+                if (item.id === product.id) {
+                    return {
+                        ...item,
+                        purchaseQty:  quantity,//item.purchaseQty +
+                        totalPrice:  quantity * JSON.parse(product.price) //(item.purchaseQty + quantity) 
+                    };
+                } else {
+                    return item;
+                }
+            });
+            dispatch(updateCartItems(updatedCartItems));
+            // dispatch(updateCartItems(updatedCartItems));
+        } else {
+            let cartObj = {
+                id: product.id,
+                name: product.name,
+                image: product.images,
+                description: product.description,
+                price: product.price,
+                sku: product.sku,
+                purchaseQty: quantity,
+                totalPrice: quantity * JSON.parse(product.price)
+            };
+            dispatch(addtoCartItems(cartObj));
+        }
+    }
     return (
         <div className="" >
             <div className="container single_product_container">
@@ -278,8 +297,10 @@ function ProductDetails() {
                                             </span>
                                         </div>
 
-                                        <div className="red_button product-add_to_cart_button">
-                                            <a href="#">add to cart</a>
+                                        <div className="red_button product-add_to_cart_button" onClick={()=>addtoCart(productData)}>
+                                            {/* <div className=""> */}
+                                                add to cart
+                                            {/* </div> */}
                                         </div>
 
                                     </div>

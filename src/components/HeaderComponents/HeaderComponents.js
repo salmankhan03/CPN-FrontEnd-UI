@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 import logo from "../../assets/images/logo.png"
+import { useSelector } from 'react-redux';
 
 
 
 function Header() {
-
+  const cartItems = useSelector(state => state.CartReducer.cartItems);
     return (
         <div className="main_nav_container">
             <div className="ml-2 mr-2">
@@ -73,14 +74,12 @@ function Header() {
                     <li className="checkout">
                       <Link to="/cart">
                         <i className="fas fa-shopping-bag"></i>
-                        {/* {cart.totalQty !== undefined && (
+                        {cartItems.length !== undefined && cartItems.length > 0 && (
                           <span id="checkout_items" className="checkout_items">
-                            {cart.totalQty}
+                            {cartItems.length}
                           </span>
-                        )} */}
-                         <span id="checkout_items" className="checkout_items">
-                          3
-                          </span>
+                        )}
+
                       </Link>
                     </li>
                   </ul>

@@ -5,9 +5,11 @@ import countryList from 'react-select-country-list';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { getAllCountries, getStatesOfCountry } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
+import { useSelector } from 'react-redux';
 
 
 const CheckoutPage = () => {
+    const cartItems = useSelector(state => state.CartReducer.cartItems);
 
     const [billingFormData, setBillingFormData] = useState({
         firstName: '',
@@ -32,26 +34,7 @@ const CheckoutPage = () => {
         phone: '',
         email: '',
     });
-    const [cartItems, setCartItems] = useState([
-        {
-            id: "trerwfdfvgds",
-            imagePath: "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
-            productName: "Hand Sanitizer",
-            price: "25",
-            rating: "3",
-            quantity: "1",
-            totalPrice: "25"
-        },
-        {
-            id: "trerwfdfvgds",
-            imagePath: "https://m.media-amazon.com/images/I/41T+9XsJd5L._SY300_SX300_.jpg",
-            productName: "Hand Wash",
-            price: "35",
-            rating: "3",
-            quantity: "1",
-            totalPrice: "35"
-        },
-    ]);
+
 
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
@@ -61,6 +44,7 @@ const CheckoutPage = () => {
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
 
+    const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
 
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
         setFormData({
@@ -178,15 +162,8 @@ const CheckoutPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(e)
-        console.log(billingFormData)
-        // Validate billing form
         const isBillingFormValid = validateForm(billingFormData, "billingform Error");
-        console.log("isBillingFormValid", isBillingFormValid)
-        // Validate shipping form only if shipping is not the same as billing
-        console.log(isChecked)
         const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
-        console.log("isShippingFormValid", isShippingFormValid)
 
         // If both forms are valid, proceed with submission
         if (isBillingFormValid && isShippingFormValid) {
@@ -520,7 +497,7 @@ const CheckoutPage = () => {
                     </label>
                 </div>
                 <div className='mt-5'>
-                    <div className='m-5 border'>
+                    <div className='custom-margin margin border'>
                         <div className='p-5'>
                             <div>Your order</div>
                             <div>
@@ -540,7 +517,7 @@ const CheckoutPage = () => {
                                                     <td>
                                                         <div className='row'>
                                                             <div className=''>
-                                                                <h6 className='product-name mr-3 p-3'>{item.productName} X {item.quantity}</h6>
+                                                                <h6 className='product-name mr-3 p-3'>{item.name} X {item.purchaseQty}</h6>
                                                             </div>
 
                                                         </div>
@@ -553,11 +530,11 @@ const CheckoutPage = () => {
                                                     <>
                                                         <tr key="subtotal">
                                                             <td colSpan="" className="text-right font-weight-bold ">Subtotal:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold">60</td>
+                                                            <td colSpan="" className="text-right font-weight-bold">{subtotal}</td>
                                                         </tr>
-                                                        <tr key="subtotal">
-                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">Subtotal:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">60</td>
+                                                        <tr key="total">
+                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">total:</td>
+                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">{subtotal}</td>
                                                         </tr>
                                                     </>
 
