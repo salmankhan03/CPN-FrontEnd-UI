@@ -11,12 +11,17 @@ import RatingComponents from "../../components/RatingComponents/RatingComponents
 import ImageComponent from "../../components/ImageComponents/ImageComponents";
 import Magnifier from 'react-image-magnify';
 import ProductServices from "../../services/ProductServices";
+import { useDispatch } from "react-redux";
 // import ReactImageZoom from 'react-image-zoom';
+import { setProductDetails } from '../../redux/action/action';
+
 
 
 
 function ProductDetails() {
     const location = useLocation();
+    const dispatch = useDispatch();
+
     // console.log(props)
     // console.log(location)
 
@@ -38,6 +43,9 @@ function ProductDetails() {
         ProductServices.getProductById(productID).then((resp) => {
             if (resp?.status_code === 200) {
                 // console.log("res",resp.data)
+                dispatch(setProductDetails({
+                    ...resp.data
+                }))
                 setProductData(resp?.data)
                 console.log(resp?.data?.images)
                 if (resp?.data?.images.length > 0) {
