@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ProductListing from '../../components/ProductListingComponents/ProductListingComponents';
 import LeftSideBarComponents from '../../components/LeftSideBar/LeftSideBar';
 import ProductServices from '../../services/ProductServices';
+import { setProductList } from '../../redux/action/action';
+import { useDispatch } from 'react-redux';
 
 function HomeScreen() {
     const [page, setPage]= useState(1)
@@ -9,6 +11,7 @@ function HomeScreen() {
     const [category, setCategory]= useState("")
     const [searchText, setSearchText]= useState("")
     const [sortedField, setSortedField]= useState("")
+    const dispatch = useDispatch();
 
 
     const [productsListData, setProductsListData] = useState();
@@ -41,6 +44,9 @@ function HomeScreen() {
         title: searchText,
         price: sortedField,}).then((resp) => {
         if (resp?.status_code === 200) {
+            dispatch(setProductList({
+                ...resp?.list?.data
+            }))
             setProductsListData(resp?.list?.data)
         }
     }).catch((error) => {
