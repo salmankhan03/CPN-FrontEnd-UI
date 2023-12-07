@@ -30,9 +30,7 @@ function ProductListing(props) {
                 {productItem?.images.length > 0 ? (
                     <div className="product_image">
                         {productItem.images[0].name ? (
-                            // <ImageComponent src={productItem.images[0].name} alt={"products Image"} />
-                            <ImageComponent src="https://m.media-amazon.com/images/I/71wbxatiuDL._AC_UL320_.jpg" alt={"products Image"} />
-                        ) : (
+                            <ImageComponent src={productItem.images[0].name} alt={"products Image"} />                        ) : (
                             <p>Image not available</p>
                         )}
                     </div>

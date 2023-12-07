@@ -39,8 +39,8 @@ function ProductDetails() {
                 setProductData(resp?.data)
                 console.log(resp?.data?.images)
                 if (resp?.data?.images.length > 0) {
-                    // setSelectedImage(resp?.data?.images[0]?.name)
-                    setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
+                    setSelectedImage(resp?.data?.images[0]?.name)
+                    // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
 
                 } else {
                     setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
