@@ -9,6 +9,7 @@ import InputComponent from '../../components/InputComponents/InputComponents';
 const CartPage = () => {
     const navigate = useNavigate();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
+    console.log(cartItems)
     const dispatch = useDispatch();
     const totalItems = cartItems?.length;
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
@@ -77,7 +78,7 @@ const CartPage = () => {
                                     <td>
                                         <div className='row'>
                                             <div className='col-12 col-sm-3'>
-                                                <ImageComponent src={item.imagePath} alt="Product Image" classAtribute="cart-products" />
+                                                <ImageComponent src={item?.image[0]?.name} alt="Product Image" classAtribute="cart-products" />
                                             </div>
                                             <div className='col-12 col-sm-9'>
                                                 <h4 className='product-name mr-3'>{item.productName}</h4>
