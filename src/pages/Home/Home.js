@@ -4,87 +4,97 @@ import LeftSideBarComponents from '../../components/LeftSideBar/LeftSideBar';
 import ProductServices from '../../services/ProductServices';
 import { setProductList } from '../../redux/action/action';
 import { useDispatch } from 'react-redux';
+import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
+import Loading from '../../components/LoadingComponents/LoadingComponents';
 
 function HomeScreen() {
-    const [page, setPage]= useState(1)
-    const [defaultLimit, setDefaultLimit]= useState(20)
-    const [category, setCategory]= useState("")
-    const [searchText, setSearchText]= useState("")
-    const [sortedField, setSortedField]= useState("")
+    const [loading, setLoading] = useState(true)
+    const [page, setPage] = useState(1)
+    const [defaultLimit, setDefaultLimit] = useState(20)
+    const [category, setCategory] = useState("")
+    const [searchText, setSearchText] = useState("")
+    const [sortedField, setSortedField] = useState("")
     const dispatch = useDispatch();
 
 
     const [productsListData, setProductsListData] = useState();
     const [categoriesData, setCategoriesData] = useState([
-    { id: 1, name: 'Electronics' },
-    { id: 2, name: 'Clothing' },
-    { id: 3, name: 'Home and Furniture' },
+        { id: 1, name: 'Electronics' },
+        { id: 2, name: 'Clothing' },
+        { id: 3, name: 'Home and Furniture' },
     ]);
     const [brandData, setBrandData] = useState([
-    { id: 10, name: 'Brand 1' },
-    { id: 12, name: 'Brand 2' },
-    { id: 13, name: 'Brand 3' },
-    { id: 14, name: 'Brand 4' },
-    { id: 15, name: 'Brand 5' },
-    { id: 16, name: 'Brand 6' },
+        { id: 10, name: 'Brand 1' },
+        { id: 12, name: 'Brand 2' },
+        { id: 13, name: 'Brand 3' },
+        { id: 14, name: 'Brand 4' },
+        { id: 15, name: 'Brand 5' },
+        { id: 16, name: 'Brand 6' },
     ]);
     const [availabilityData, setAvailabilityData] = useState([
-    { id: 4, name: 'exclude-from-catalog' },
-    { id: 5, name: 'exclude-from-search' },
-    { id: 6, name: 'featured' },
-    { id: 7, name: 'outofstock' }
+        { id: 4, name: 'exclude-from-catalog' },
+        { id: 5, name: 'exclude-from-search' },
+        { id: 6, name: 'featured' },
+        { id: 7, name: 'outofstock' }
     ]);
-   useEffect(()=>{
-    getProductsList()
-   },[])
-   function getProductsList(){
-    ProductServices.getAllProducts({page: page,
-        limit: defaultLimit,
-        category: category,
-        title: searchText,
-        price: sortedField,}).then((resp) => {
-        if (resp?.status_code === 200) {
-            dispatch(setProductList({
-                ...resp?.list?.data
-            }))
-            setProductsListData(resp?.list?.data)
-        }
-    }).catch((error) => {
-        console.log(error)
-    })
-   }
+    useEffect(() => {
+        getProductsList()
+    }, [])
+    function getProductsList() {
+        ProductServices.getAllProducts({
+            page: page,
+            limit: defaultLimit,
+            category: category,
+            title: searchText,
+            price: sortedField,
+        }).then((resp) => {
+            setLoading(false)
+            if (resp?.status_code === 200) {
+                dispatch(setProductList({
+                    ...resp?.list?.data
+                }))
+                setProductsListData(resp?.list?.data)
+            }
+        }).catch((error) => {
+            setLoading(false)
+            console.log(error)
+        })
+    }
     return (
         <div className="" >
             <div className='m-2'>
-            <div className="row">
-            <div className="col-md-3 sidebar_hide">
-                <div className='m-1'>
-                    <LeftSideBarComponents 
-                        categoriesData={categoriesData} 
-                        brandData={brandData}
-                        availabilityData={availabilityData}
-                    />
+                <div className="row">
+                    <div className="col-md-3 sidebar_hide">
+                        <div className='m-1'>
+                            <LeftSideBarComponents
+                                categoriesData={categoriesData}
+                                brandData={brandData}
+                                availabilityData={availabilityData}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-md-9">
+                        <div className="row">
+                            {productsListData?.length > 0 ? (
+                                productsListData.map((item, index) => (
+                                    <div className="col-lg-4 col-md-4 col-sm-6" key={index} data-aos="zoom-in">
+                                        <ProductListing productItem={item} />
+                                    </div>
+                                ))
+                            ) : (
+                                loading ? (
+                                    <div>  
+                                        <Loading skNumber={15} />
+                                    </div>
+                                ) : <NotFound title="Sorry, There are no Products right now." />
+                            )}
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div className="col-md-9">
-            <div className="row">
-            {productsListData &&
-              productsListData?.map((item, index) => {
-                return (
-                    <div className="col-lg-4 col-md-4 col-sm-6" key={index} data-aos="zoom-in">
-                        <ProductListing
-                        productItem={item}
-                        />
-                    </div>
-                );
-              })}
-          </div>
-            </div>
+        </div>
 
-            </div>
-        </div>
-        </div>
-        
     );
 }
 

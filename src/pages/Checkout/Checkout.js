@@ -6,11 +6,12 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { getAllCountries, getStatesOfCountry } from 'country-state-city';
 import { Country, State, City } from 'country-state-city';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
 const CheckoutPage = () => {
+    const navigate = useNavigate();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
-
     const [billingFormData, setBillingFormData] = useState({
         firstName: '',
         lastName: '',
@@ -22,7 +23,6 @@ const CheckoutPage = () => {
         phone: '',
         email: '',
     });
-
     const [shippingFormData, setShippingFormData] = useState({
         firstName: '',
         lastName: '',
@@ -34,18 +34,30 @@ const CheckoutPage = () => {
         phone: '',
         email: '',
     });
-
-
     const [selectedCountry, setSelectedCountry] = useState('');
     const [selectedState, setSelectedState] = useState('');
-
     const [isChecked, setIsChecked] = useState(false);
-
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
 
-    const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
+    
+    function generateGuestUserId() {
+        const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
+        return uniqueId;
+      }
+      
+      // Check if guest user ID exists in local storage, otherwise generate one
+      let guestUserId = localStorage.getItem('guestUserId');
+      if (!guestUserId) {
+        guestUserId = generateGuestUserId();
+        localStorage.setItem('guestUserId', guestUserId);
+      }
+      
+      console.log('Guest User ID:', guestUserId);
+      
 
+
+    const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
         setFormData({
             ...formData,
@@ -169,6 +181,13 @@ const CheckoutPage = () => {
         if (isBillingFormValid && isShippingFormValid) {
             console.log('Billing Form Data:', billingFormData);
             console.log('Shipping Form Data:', shippingFormData);
+
+            navigate(`/thankyou`, {
+                state: {
+                    order_id: "hasghehjkdsf1245fds"
+                }
+            })
+
         } else {
             console.log('Form validation failed');
         }

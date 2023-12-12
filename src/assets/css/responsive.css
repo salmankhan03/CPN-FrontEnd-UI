@@ -258,8 +258,16 @@
 ************/
 
 @media only screen and (max-width: 768px) {
+  .cart_table_hide{
+    display: none;
+  }
+  .cart-products{
+    height: 35px;
+  }
+  .small-card{
+    display: block;
+  }
 }
-
 /************
 10. 767px
 ************/
@@ -331,7 +339,7 @@
   }
   .custom-margin {
     margin: 0 !important;
-}
+  }
 }
 
 /************
@@ -367,6 +375,9 @@
   }
   .footer_nav li a {
     font-size: 13px;
+  }
+  .cart-checkout-btn{
+    width: 50% !important;
   }
 }
 
@@ -591,4 +602,16 @@
 ************/
 
 @media only screen and (max-width: 400px) {
+}
+
+/* React Image Magnify */
+@media (min-width: 480px) {
+  .fluid {
+    flex-direction: row;
+  }
+
+  .fluid__image-container{
+    flex: 0 0 30%;
+    margin: 20px 0 20px 20px;
+  }
 }
