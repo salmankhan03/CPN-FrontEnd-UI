@@ -7,11 +7,13 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { Country, State, City } from 'country-state-city';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import OrderServices from '../../services/orderService';
 
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
+    const [userID, setUserID] = useState('');
     const [billingFormData, setBillingFormData] = useState({
         firstName: '',
         lastName: '',
@@ -171,8 +173,27 @@ const CheckoutPage = () => {
         }
     };
 
+    function orderGenrate (orderData) {
+        console.log(orderData)
+        OrderServices.generateOrders(orderData).then((resp) => {
+            if (resp?.status_code === 200) {
+                
+            navigate(`/thankyou`, {
+                state: {
+                    order_id: resp.order_id
+                }
+            })
+            }
+        }).catch((error) => {
+            // setLoading(false)
+            console.log(error)
+        })
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(cartItems)
 
         const isBillingFormValid = validateForm(billingFormData, "billingform Error");
         const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
@@ -181,12 +202,39 @@ const CheckoutPage = () => {
         if (isBillingFormValid && isShippingFormValid) {
             console.log('Billing Form Data:', billingFormData);
             console.log('Shipping Form Data:', shippingFormData);
+            let submitobj = {
+                total_amount: subtotal,
+                user_id: userID ? userID : null,
+                is_guest: !userID ? 1 : 0,
+                guest_user_id: guestUserId,
+                promo_code: "Promo Code",
+                percent_discount_applied: "20",
+                shipping_address: shippingFormData,
+                billing_address: billingFormData,
+                product_data: [],
+                payment_data: {
+                    "external_payment_id": "Stripe Payment Id",
+                    "type": "Payment Method Type",
+                    "payment_gateway_name" : "Stripe",
+                    "is_order_cod" : "1",
+                    "is_cod_paymend_received" : "0",
+                    "amount": subtotal,
+                    "status" : "SUCCESS"
+                },                
+              };
+              
+              for (let index = 0; index < cartItems.length; index++) {
+                let products = {
+                  product_id: cartItems[index]?.id,
+                  price: cartItems[index]?.price,
+                  quantity: cartItems[index]?.purchaseQty,
+                  use_product_original_data: 0
+                };
+                submitobj.product_data.push(products);
+              }
+        
+            orderGenrate(submitobj)
 
-            navigate(`/thankyou`, {
-                state: {
-                    order_id: "hasghehjkdsf1245fds"
-                }
-            })
 
         } else {
             console.log('Form validation failed');

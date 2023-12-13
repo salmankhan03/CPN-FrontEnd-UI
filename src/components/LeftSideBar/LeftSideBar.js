@@ -6,7 +6,8 @@ function LeftSideBarComponents({ categoriesData,brandData,availabilityData }) {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     const handleDataChange = (event) => {
-      const categoryId = parseInt(event.target.value, 10);
+      const categoryId = parseInt(event?.target?.value, 10);
+      console.log(categoryId,"CATID")
       const updatedCategories = event.target.checked
         ? [...selectedCategories, categoryId]
         : selectedCategories.filter(id => id !== categoryId);
@@ -30,7 +31,7 @@ function LeftSideBarComponents({ categoriesData,brandData,availabilityData }) {
             {/* <div className="mt-2 mb-2">
               <ButtonComponent  onClick={handleButtonClick} label="Filter" />
             </div> */}
-            <div className="mt-2">
+            {/* <div className="mt-2">
                 <h4>Brands</h4>
                 <ListComponents
                 data={brandData}
@@ -45,7 +46,7 @@ function LeftSideBarComponents({ categoriesData,brandData,availabilityData }) {
                 selectedData={selectedCategories}
                 handleDataChange={handleDataChange}
                 />
-            </div>
+            </div> */}
 
         </div>
       );

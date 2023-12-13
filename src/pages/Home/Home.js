@@ -6,6 +6,8 @@ import { setProductList } from '../../redux/action/action';
 import { useDispatch } from 'react-redux';
 import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
+import CategoryServices from '../../services/categoryService';
+import { setCategoryList } from '../../redux/action/category-action';
 
 function HomeScreen() {
     const [loading, setLoading] = useState(true)
@@ -18,11 +20,7 @@ function HomeScreen() {
 
 
     const [productsListData, setProductsListData] = useState();
-    const [categoriesData, setCategoriesData] = useState([
-        { id: 1, name: 'Electronics' },
-        { id: 2, name: 'Clothing' },
-        { id: 3, name: 'Home and Furniture' },
-    ]);
+    const [categoriesData, setCategoriesData] = useState();
     const [brandData, setBrandData] = useState([
         { id: 10, name: 'Brand 1' },
         { id: 12, name: 'Brand 2' },
@@ -39,7 +37,26 @@ function HomeScreen() {
     ]);
     useEffect(() => {
         getProductsList()
+        getCategoryList()
     }, [])
+    function getCategoryList() {
+        CategoryServices.getAllCategory({
+            page: page,
+            limit: defaultLimit,
+        }).then((resp) => {
+            setLoading(false)
+            console.log(resp)
+            if (resp?.status_code === 200) {
+                dispatch(setCategoryList([
+                    ...resp?.tree?.data
+                ]))
+                setCategoriesData(resp?.tree?.data)
+            }
+        }).catch((error) => {
+            setLoading(false)
+            console.log(error)
+        })
+    }
     function getProductsList() {
         ProductServices.getAllProducts({
             page: page,

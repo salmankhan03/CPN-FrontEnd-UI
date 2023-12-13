@@ -10,13 +10,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProductDetails } from '../../redux/action/action';
 import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
 import ReactImageMagnify from 'react-image-magnify';
-
+// import { notifyError, notifySuccess } from "../../components/ToastComponents/ToastComponents";
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
+import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 
 
 function ProductDetails() {
+    const dispatch = useDispatch();
     const location = useLocation();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
-    const dispatch = useDispatch();
+    const categoryList = useSelector(state => state.CategoryReducer.categoryListData);
+    const [categoryName, setCategoryName] = useState()
     const [productData, setProductData] = useState()
     const [productID, setProductID] = useState(location?.state?.id)
     const [quantity, setQuantity] = useState(1);
@@ -26,23 +32,33 @@ function ProductDetails() {
     const [startIndex, setStartIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
-    const image = {
-        small: {
-            alt: 'Small Image',
-            isFluidWidth: false,
-            src: 'https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg',
-        },
-        large: {
-            src: 'https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg',
-            width: 1200,
-            height: 1800,
-        },
-    };
     useEffect(() => {
+        // 
+        // notifyError('added to the cart!');
         if (productID) {
             getProductsDetails();
         }
     }, []);
+
+ 
+
+    useEffect(() => {
+        setCategoryName(getCategoryNameById(productData?.category_id, categoryList));
+    }, [productData])
+    const getCategoryNameById = (categoryId, categoryList) => {
+        for (const category of categoryList) {
+            if (category.id === categoryId) {
+                return category.name;
+            }
+            if (category.children && category.children.length > 0) {
+                const childCategoryName = getCategoryNameById(categoryId, category.children);
+                if (childCategoryName) {
+                    return childCategoryName;
+                }
+            }
+        }
+        return null;
+    };
 
     function getProductsDetails() {
         ProductServices.getProductById(productID).then((resp) => {
@@ -54,7 +70,6 @@ function ProductDetails() {
                 }))
                 // setLoading(false)
                 setProductData(resp?.data)
-                console.log(resp?.data?.images)
                 if (resp?.data?.images.length > 0) {
                     setSelectedImage(resp?.data?.images[0]?.name)
                     // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
@@ -137,6 +152,7 @@ function ProductDetails() {
         }
     };
     const addtoCart = (product) => {
+        // notifySuccess('added to the cart!');
         const existingCartItem = cartItems.find(item => item.id === product.id);
         if (existingCartItem) {
             const updatedCartItems = cartItems.map(item => {
@@ -151,6 +167,7 @@ function ProductDetails() {
                 }
             });
             dispatch(updateCartItems(updatedCartItems));
+
             // dispatch(updateCartItems(updatedCartItems));
         } else {
             let cartObj = {
@@ -163,6 +180,7 @@ function ProductDetails() {
                 purchaseQty: quantity,
                 totalPrice: quantity * JSON.parse(product.price)
             };
+            notifySuccess(`${product.name} added to the cart!`);
             dispatch(addtoCartItems(cartObj));
         }
     }
@@ -171,6 +189,8 @@ function ProductDetails() {
             {productData && (
                 <div>
                     <div className="row">
+                    <Toast />
+
                         <div className="col">
                             <div className="breadcrumbs d-flex flex-row align-items-center">
                                 <ul>
@@ -220,22 +240,22 @@ function ProductDetails() {
                                             }} />
                                         </div> */}
                                         {/* <div className="fluid"> */}
-                                            <div className="fluid__image-container">
-                                                <ReactImageMagnify {...{
-                                                    smallImage: {
-                                                        alt: 'Wristwatch by Ted Baker London',
-                                                        isFluidWidth: true,
-                                                        src: selectedImage,
-                                                    },
-                                                    largeImage: {
-                                                        src: selectedImage,
-                                                        width: 1200,
-                                                        height: 1800
-                                                    },
-                                                    enlargedImageContainerClassName: 'custom-enlarged-container',
+                                        <div className="fluid__image-container">
+                                            <ReactImageMagnify {...{
+                                                smallImage: {
+                                                    alt: 'Wristwatch by Ted Baker London',
+                                                    isFluidWidth: true,
+                                                    src: selectedImage,
+                                                },
+                                                largeImage: {
+                                                    src: selectedImage,
+                                                    width: 1200,
+                                                    height: 1800
+                                                },
+                                                enlargedImageContainerClassName: 'custom-enlarged-container',
 
-                                                }} />
-                                            </div>
+                                            }} />
+                                        </div>
                                         {/* </div> */}
                                         <div className="single_product_thumbnails">
                                             <div className="thumbnail-container" >
@@ -319,13 +339,12 @@ function ProductDetails() {
                                         add to cart
                                         {/* </div> */}
                                     </div>
-
                                 </div>
                                 <div className="mt-3">
                                     SKU: <span className="ml-2">{productData?.sku}</span>
                                 </div>
                                 <div className="mt-3">
-                                    Category: <span className="ml-2">{productData?.category}</span>
+                                    Category: <span className="ml-2">{categoryName}</span>
                                 </div>
                                 <div className="product-tags-container mt-3">
                                     Tags:

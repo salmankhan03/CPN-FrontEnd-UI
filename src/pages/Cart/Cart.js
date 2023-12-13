@@ -5,6 +5,7 @@ import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCartItems } from '../../redux/action/cart-action';
 import InputComponent from '../../components/InputComponents/InputComponents';
+import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ const CartPage = () => {
 
     const removeProduct = (index) => {
         const updatedCartItemsList = [...cartItems];
+        notifySuccess(`${updatedCartItemsList[index]?.name} successfully remove to the cart!`);
         updatedCartItemsList.splice(index, 1)
         dispatch(updateCartItems(updatedCartItemsList));
     }
@@ -57,6 +59,7 @@ const CartPage = () => {
     }
     return (
         <div className="container mt-5">
+              <Toast />
             {totalItems === 0 ? (
                 <div className="empty-cart">
                     <p className='emptyCart'>Your cart is currently empty.</p>
@@ -212,6 +215,7 @@ const CartPage = () => {
                         </div>
 
                     </div>
+                  
                 </div>
             )}
         </div>
