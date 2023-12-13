@@ -60,46 +60,6 @@
 import React, { useState } from 'react';
 
 const ListComponents = ({ data, selectedData, handleDataChange }) => {
-  data =  [
-    {
-        "id": 52,
-        "name": "A",
-        "description": "description",
-        "status": "show",
-        "children": [
-            {
-                "id": 54,
-                "name": "a 1",
-                "description": "description",
-                "parent_id": 52,
-                "status": "hide",
-                "children": []
-            }
-        ]
-    },
-    {
-        "id": 53,
-        "name": "B",
-        "description": "description",
-        "status": "show",
-        "children": []
-    },  {
-        "id": 58,
-        "name": "C",
-        "description": "description",
-        "status": "show",
-        "children": [
-            {
-                "id": 60,
-                "name": "C 1",
-                "description": "description",
-                "parent_id": 58,
-                "status": "hide",
-                "children": []
-            }
-        ]
-    },
-];
 const [expandedItems, setExpandedItems] = useState([]);
 
 const handleToggleExpand = (itemId) => {
