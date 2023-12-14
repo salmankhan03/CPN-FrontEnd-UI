@@ -30,7 +30,7 @@ function ProductListing(props) {
                         })
                     }
                 >
-                    {productItem?.images.length > 0 ? (
+                    {productItem?.images?.length > 0 ? (
                         <div className="product_image">
                             {productItem.images[0].name ? (
                                 <ImageComponent src={productItem.images[0].name} alt={"products Image"} />) : (

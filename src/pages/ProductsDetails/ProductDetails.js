@@ -10,11 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProductDetails } from '../../redux/action/action';
 import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
 import ReactImageMagnify from 'react-image-magnify';
-// import { notifyError, notifySuccess } from "../../components/ToastComponents/ToastComponents";
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
+// import Slider from "react-slick";
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
+
 
 
 function ProductDetails() {
@@ -32,6 +32,32 @@ function ProductDetails() {
     const [startIndex, setStartIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+        ],
+    };
+
     useEffect(() => {
         // 
         // notifyError('added to the cart!');
@@ -40,7 +66,7 @@ function ProductDetails() {
         }
     }, []);
 
- 
+
 
     useEffect(() => {
         setCategoryName(getCategoryNameById(productData?.category_id, categoryList));
@@ -94,12 +120,17 @@ function ProductDetails() {
     };
 
     const handleNext = () => {
-        const newIndex = Math.min(startIndex + 1, productData?.images?.length - 1);
+        // const newIndex = Math.min(startIndex + 1, productData?.images?.length - 1);
+        const newIndex = (startIndex + 1) % productData?.images?.length;
         setStartIndex(newIndex);
+
+        // setStartIndex(newIndex);
     };
 
     const handlePrev = () => {
-        const newIndex = Math.max(startIndex - 1, 0);
+        // const newIndex = Math.max(startIndex - 1, 0);
+        const newIndex = (startIndex - 1 + productData?.images?.length) % productData?.images?.length;
+
         setStartIndex(newIndex);
     };
 
@@ -189,7 +220,7 @@ function ProductDetails() {
             {productData && (
                 <div>
                     <div className="row">
-                    <Toast />
+                        <Toast />
 
                         <div className="col">
                             <div className="breadcrumbs d-flex flex-row align-items-center">
@@ -218,28 +249,7 @@ function ProductDetails() {
                         <div className="col-lg-7">
                             <div className="single_product_pics">
                                 <div className="row">
-                                    <div className="col-lg-12 image_col order-lg-2 order-1">
-                                        {/* <div className="single_product_image">
-                                            <ReactImageMagnify {...{
-                                                smallImage: {
-                                                    alt: 'Wristwatch by Ted Baker London',
-                                                    isFluidWidth: true,
-                                                    src: selectedImage,
-                                                    sizes: String,
-                                                    width: 1200,
-                                                    height: 1200,
-                                                    
-                                                },
-                                                largeImage: {
-                                                    src: selectedImage,
-                                                    width: 1200,
-                                                    height: 1200
-                                                },
-                                                enlargedImagePosition: 'over-right',
-                                                enlargedImageContainerClassName: 'custom-enlarged-container',
-                                            }} />
-                                        </div> */}
-                                        {/* <div className="fluid"> */}
+                                    <div className="col-lg-12 image_col order-lg-2 order-1">                                      
                                         <div className="fluid__image-container">
                                             <ReactImageMagnify {...{
                                                 smallImage: {
@@ -256,7 +266,6 @@ function ProductDetails() {
 
                                             }} />
                                         </div>
-                                        {/* </div> */}
                                         <div className="single_product_thumbnails">
                                             <div className="thumbnail-container" >
                                                 {productData?.images.length > 0 ? (
@@ -270,7 +279,7 @@ function ProductDetails() {
                                                             <div className="thumbnails-container overflow-x-hidden">
                                                                 <ul className="productsSlider-ul">
                                                                     {productData?.images &&
-                                                                        productData?.images?.slice(startIndex, startIndex + 3).map((item, index) => (
+                                                                        productData?.images?.slice(startIndex, startIndex + 4).map((item, index) => (
                                                                             <li
                                                                                 key={index}
                                                                                 onMouseEnter={() => handleThumbnailHover(item?.name)}
@@ -292,8 +301,7 @@ function ProductDetails() {
                                                     </div>
                                                 ) : null}
                                             </div>
-                                        </div>
-
+                                        </div>                        
                                     </div>
                                 </div>
                             </div>

@@ -10,17 +10,24 @@ import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
 
 function HomeScreen() {
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
     const [category, setCategory] = useState("")
     const [searchText, setSearchText] = useState("")
     const [sortedField, setSortedField] = useState("")
-    const dispatch = useDispatch();
-
-
     const [productsListData, setProductsListData] = useState();
     const [categoriesData, setCategoriesData] = useState();
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [filteredPrice, setFilteredPrice] = useState([0, 100]);
+    const [customeFilteredPrice, setCustomeFilteredPrice] = useState([]);
+
+
+    
+
+
+
     const [brandData, setBrandData] = useState([
         { id: 10, name: 'Brand 1' },
         { id: 12, name: 'Brand 2' },
@@ -39,6 +46,23 @@ function HomeScreen() {
         getProductsList()
         getCategoryList()
     }, [])
+    useEffect(()=>{
+        console.log(filteredPrice)
+        console.log(customeFilteredPrice)
+        let data ={
+            "category": selectedCategories,
+            "price": filteredPrice
+        }
+
+        if(selectedCategories.length > 0 || filteredPrice){
+            getfilterWiseProduct(data)
+            setProductsListData([])
+        }else{
+            setProductsListData([])
+            getProductsList()
+        }
+        
+    },[selectedCategories, filteredPrice,customeFilteredPrice])
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
@@ -56,6 +80,24 @@ function HomeScreen() {
             setLoading(false)
             console.log(error)
         })
+    }
+    function getfilterWiseProduct(data){
+        setLoading(true)
+        ProductServices.getfilterWiseProducts(data).then((resp) => {
+            setLoading(false)
+            if (resp?.status_code === 200) {
+                console.log(resp)
+                // dispatch(setProductList({
+                //     ...resp?.list?.data
+                // }))
+                setProductsListData(resp?.list)
+            }
+        }).catch((error) => {
+            setLoading(false)
+            console.log(error)
+        })
+        
+
     }
     function getProductsList() {
         ProductServices.getAllProducts({
@@ -87,6 +129,12 @@ function HomeScreen() {
                                 categoriesData={categoriesData}
                                 brandData={brandData}
                                 availabilityData={availabilityData}
+                                selectedCategories={selectedCategories}
+                                setSelectedCategories={setSelectedCategories}
+                                filteredPrice={filteredPrice}
+                                setFilteredPrice={setFilteredPrice}
+                                customeFilteredPrice={customeFilteredPrice}
+                                setCustomeFilteredPrice={setCustomeFilteredPrice}
                             />
                         </div>
                     </div>

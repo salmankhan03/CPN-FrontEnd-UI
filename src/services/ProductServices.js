@@ -19,6 +19,10 @@ const ProductServices = {
     console.log("id",id)
     return requests.get(`/product/${id}/data`);
   },
+  getfilterWiseProducts:  async (body) => {
+    return requests.post("/product/filter", body);
+  },
+
   addProduct: async (body) => {
     return requests.post("/product/save", body);
   },
