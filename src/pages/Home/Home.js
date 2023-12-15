@@ -8,12 +8,15 @@ import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
 import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
+import CustomPagination from '../../components/PaginationComponents/Pagination';
 
 function HomeScreen() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
+    const [productDisplayLimit, setProductDisplayLimit] = useState(12)
+    const [totalPages, setTotalPages] = useState(12)
     const [category, setCategory] = useState("")
     const [searchText, setSearchText] = useState("")
     const [sortedField, setSortedField] = useState("")
@@ -21,6 +24,12 @@ function HomeScreen() {
     const [categoriesData, setCategoriesData] = useState();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [filteredPrice, setFilteredPrice] = useState([0, 100000]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const handlePageChange = (newPage) => {
+      // Your logic to fetch and display data for the new page
+      setCurrentPage(newPage);
+    };
 
 
     
@@ -111,6 +120,7 @@ function HomeScreen() {
                     ...resp?.list?.data
                 }))
                 setProductsListData(resp?.list?.data)
+                setTotalPages(resp?.list?.last_page)
             }
         }).catch((error) => {
             setLoading(false)
@@ -149,6 +159,9 @@ function HomeScreen() {
                                     </div>
                                 ) : <NotFound title="Sorry, There are no Products right now." />
                             )}
+                        </div>
+                        <div className='row text-center'>
+                            <CustomPagination totalItems={totalPages} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} />
                         </div>
                     </div>
 

@@ -2803,3 +2803,23 @@ h2 {
 .imageHeight{
   height: 250px;
 }
+/* pagination */
+.circle {
+  width: 2rem;
+  height: 2rem;
+  background-color: #dce3e6;
+  border-radius: 50%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2e3133; 
+  font-size: 0.875rem; 
+  cursor: pointer;
+}
+.active-page{
+  background-color: #2e3133;
+  color: #fff; 
+}
+.hide-button{
+  display: none;
+}
