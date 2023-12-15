@@ -5,7 +5,7 @@ import PriceFilter from '../PriceFilterComponents/PriceFilterComponents';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
-function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories,filteredPrice,setFilteredPrice,customeFilteredPrice,setCustomeFilteredPrice }) {
+function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories,filteredPrice,setFilteredPrice }) {
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const handleDataChange = (event) => {
     const categoryId = parseInt(event?.target?.value, 10);
@@ -33,7 +33,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
       </div>
       <div className='mt-3'>
         <h4>Filter by Price</h4>
-        <RangeSliderInput min={0} max={100000} values={priceRange}  filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} customeFilteredPrice={customeFilteredPrice} setCustomeFilteredPrice={setCustomeFilteredPrice}/>
+        <RangeSliderInput min={0} max={100000} values={priceRange}  filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice}/>
       </div>
       {/* <div className="mt-2 mb-2">
               <ButtonComponent  onClick={handleButtonClick} label="Filter" />

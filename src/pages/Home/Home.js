@@ -20,8 +20,7 @@ function HomeScreen() {
     const [productsListData, setProductsListData] = useState();
     const [categoriesData, setCategoriesData] = useState();
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [filteredPrice, setFilteredPrice] = useState([0, 100]);
-    const [customeFilteredPrice, setCustomeFilteredPrice] = useState([]);
+    const [filteredPrice, setFilteredPrice] = useState([0, 100000]);
 
 
     
@@ -47,11 +46,10 @@ function HomeScreen() {
         getCategoryList()
     }, [])
     useEffect(()=>{
-        console.log(filteredPrice)
-        console.log(customeFilteredPrice)
         let data ={
             "category": selectedCategories,
-            "price": filteredPrice
+            "price": filteredPrice,
+            "brands" :[]
         }
 
         if(selectedCategories.length > 0 || filteredPrice){
@@ -62,7 +60,7 @@ function HomeScreen() {
             getProductsList()
         }
         
-    },[selectedCategories, filteredPrice,customeFilteredPrice])
+    },[selectedCategories, filteredPrice])
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
@@ -133,8 +131,6 @@ function HomeScreen() {
                                 setSelectedCategories={setSelectedCategories}
                                 filteredPrice={filteredPrice}
                                 setFilteredPrice={setFilteredPrice}
-                                customeFilteredPrice={customeFilteredPrice}
-                                setCustomeFilteredPrice={setCustomeFilteredPrice}
                             />
                         </div>
                     </div>
