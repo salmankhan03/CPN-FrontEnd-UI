@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ListComponents = ({ data, selectedData, handleDataChange }) => {
+const ListComponents = ({ data, selectedData, handleDataChange,datatypes }) => {
   const [expandedItems, setExpandedItems] = useState([]);
 
   const handleToggleExpand = (itemId) => {
@@ -24,19 +24,20 @@ const ListComponents = ({ data, selectedData, handleDataChange }) => {
               type="checkbox"
               value={category.id}
               checked={selectedData.includes(category.id)}
+              data-datatype={datatypes} 
               onChange={handleDataChange}
             />
-            <span className='pl-2'>{category.name}</span>
+            <span className='pl-2'>{category?.name}</span>
           </label>
-          {category.children.length > 0 && (
+          {category?.children?.length > 0 && (
             <span>
               <i className={`fa fa-angle-${isExpanded ? 'down' : 'right'}`}></i>
             </span>
           )}
         </div>
-        {category.children && isExpanded && (
+        {category?.children && isExpanded && (
           <div className='margin-left'>
-            {category.children.map((child) => renderCategory(child))}
+            {category?.children.map((child) => renderCategory(child))}
           </div>
         )}
       </div>

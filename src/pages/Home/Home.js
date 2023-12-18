@@ -22,7 +22,9 @@ function HomeScreen() {
     const [sortedField, setSortedField] = useState("")
     const [productsListData, setProductsListData] = useState();
     const [categoriesData, setCategoriesData] = useState();
+    const [brandData, setBrandData] = useState();
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedBrands, setSelectedBrands] = useState([]);
     const [filteredPrice, setFilteredPrice] = useState([0, 100000]);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -36,14 +38,6 @@ function HomeScreen() {
 
 
 
-    const [brandData, setBrandData] = useState([
-        { id: 10, name: 'Brand 1' },
-        { id: 12, name: 'Brand 2' },
-        { id: 13, name: 'Brand 3' },
-        { id: 14, name: 'Brand 4' },
-        { id: 15, name: 'Brand 5' },
-        { id: 16, name: 'Brand 6' },
-    ]);
     const [availabilityData, setAvailabilityData] = useState([
         { id: 4, name: 'exclude-from-catalog' },
         { id: 5, name: 'exclude-from-search' },
@@ -53,15 +47,17 @@ function HomeScreen() {
     useEffect(() => {
         getProductsList()
         getCategoryList()
+        getBrandList()
+
     }, [])
     useEffect(()=>{
         let data ={
             "category": selectedCategories,
             "price": filteredPrice,
-            "brands" :[]
+            "brands" :selectedBrands
         }
 
-        if(selectedCategories.length > 0 || filteredPrice){
+        if(selectedCategories.length > 0 ||selectedBrands.length > 0 || filteredPrice ){
             getfilterWiseProduct(data)
             setProductsListData([])
         }else{
@@ -69,7 +65,25 @@ function HomeScreen() {
             getProductsList()
         }
         
-    },[selectedCategories, filteredPrice])
+    },[selectedCategories, selectedBrands,filteredPrice])
+    function getBrandList(){
+        CategoryServices.getAllBrand({
+            page: page,
+            limit: defaultLimit,
+        }).then((resp) => {
+            setLoading(false)
+            console.log(resp)
+            if (resp?.status_code === 200) {
+                console.log(resp.list.data)
+                setBrandData(resp?.list?.data)
+            }
+        }).catch((error) => {
+            setLoading(false)
+            console.log(error)
+        })
+
+    }
+
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
@@ -139,6 +153,8 @@ function HomeScreen() {
                                 availabilityData={availabilityData}
                                 selectedCategories={selectedCategories}
                                 setSelectedCategories={setSelectedCategories}
+                                selectedBrands={selectedBrands}
+                                setSelectedBrands={setSelectedBrands}
                                 filteredPrice={filteredPrice}
                                 setFilteredPrice={setFilteredPrice}
                             />
