@@ -9,6 +9,7 @@ import Loading from '../../components/LoadingComponents/LoadingComponents';
 import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
 import CustomPagination from '../../components/PaginationComponents/Pagination';
+import { setBrandList } from '../../redux/action/brand-action';
 
 function HomeScreen() {
     const dispatch = useDispatch();
@@ -51,10 +52,12 @@ function HomeScreen() {
 
     }, [])
     useEffect(()=>{
+        const getselectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
+        const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
         let data ={
             "category": selectedCategories,
             "price": filteredPrice,
-            "brands" :selectedBrands
+            "brands" :selectedBrandNames
         }
 
         if(selectedCategories.length > 0 ||selectedBrands.length > 0 || filteredPrice ){
@@ -75,6 +78,9 @@ function HomeScreen() {
             console.log(resp)
             if (resp?.status_code === 200) {
                 console.log(resp.list.data)
+                dispatch(setBrandList([
+                    ...resp?.list?.data
+                ]))
                 setBrandData(resp?.list?.data)
             }
         }).catch((error) => {
