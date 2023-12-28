@@ -61,6 +61,8 @@ const CheckoutPage = () => {
 
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
+
+        console.log('field-----------------------', field, value)
         setFormData({
             ...formData,
             [field]: value,
@@ -302,6 +304,7 @@ const CheckoutPage = () => {
                                         // onChange={handleCountryChange}
                                         onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}
                                         valueType="short"
+                                        whitelist={['CA']}
                                         className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}
                                     />
                                     {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}
@@ -336,15 +339,14 @@ const CheckoutPage = () => {
                             <div className="form-group col-md-12">
                                 <div className='mb-3'>
                                     <label htmlFor="lastName">State</label>
-                                    {selectedCountry && (
-                                        <Select
-                                            options={selectedCountry.states}
-                                            value={selectedState}
-                                            onChange={handleStateChange}
-                                            placeholder="Select State"
-                                            styles={customStyles}
-                                        />
-                                    )}
+                                    <RegionDropdown
+                                        defaultOptionLabel={'Select state'}
+                                        className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
+                                        country={billingFormData.country}
+                                        countryValueType={'short'}
+                                        value={billingFormData.state}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group col-md-12">
@@ -455,6 +457,7 @@ const CheckoutPage = () => {
                                         // onChange={handleCountryChange}
                                         onChange={(e) => handleInputChange(shippingFormData, setBillingFormData, 'country', e, "shippingform Error")}
                                         valueType="short"
+                                        whitelist={['CA']}
                                         className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}
                                         disabled={isChecked}
                                     />
@@ -493,15 +496,15 @@ const CheckoutPage = () => {
                             <div className="form-group col-md-12">
                                 <div className='mb-3'>
                                     <label htmlFor="lastName">State</label>
-                                    {selectedCountry && (
-                                        <Select
-                                            options={selectedCountry.states}
-                                            value={selectedState}
-                                            onChange={handleStateChange}
-                                            placeholder="Select State"
-                                            styles={customStyles}
-                                        />
-                                    )}
+                                    <RegionDropdown
+                                        defaultOptionLabel={'Select state'}
+                                        className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
+                                        country={shippingFormData.country}
+                                        countryValueType={'short'}
+                                        value={shippingFormData.state}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
+                                        disabled={isChecked}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group col-md-12">
