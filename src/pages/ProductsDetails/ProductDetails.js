@@ -246,7 +246,7 @@ function ProductDetails() {
                     </div>
 
                     <div className="row ">
-                        <div className="col-lg-7">
+                        <div className="col-lg-5">
                             <div className="single_product_pics">
                                 <div className="row">
                                     <div className="col-lg-12 image_col order-lg-2 order-1">                                      
@@ -306,7 +306,7 @@ function ProductDetails() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-5">
+                        <div className="col-lg-7">
                             <div className="product_details">
                                 <div className="product_details_title">
                                     <h2>{productData?.name}</h2>
