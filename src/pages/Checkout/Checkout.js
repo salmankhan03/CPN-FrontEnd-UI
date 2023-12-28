@@ -61,6 +61,8 @@ const CheckoutPage = () => {
 
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
+
+        console.log('field-----------------------', field, value)
         setFormData({
             ...formData,
             [field]: value,
