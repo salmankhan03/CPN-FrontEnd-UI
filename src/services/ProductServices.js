@@ -11,7 +11,7 @@ const ProductServices = {
         price:searchPrice,
       }
     return requests.post(
-      `/product/list?page=1&pageSize=20`,body
+      `/product/list?page=${page}&pageSize=${limit}`,body
     );
   },
 

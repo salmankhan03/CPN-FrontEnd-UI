@@ -335,7 +335,7 @@
     text-align: center !important;
   }
   .cart-checkout-btn{
-    width: 100%;
+    width: 100% !important;
   }
   .custom-margin {
     margin: 0 !important;
@@ -377,7 +377,7 @@
     font-size: 13px;
   }
   .cart-checkout-btn{
-    width: 50% !important;
+    width: 100% !important;
   }
 }
 

@@ -31,7 +31,7 @@ function ProductDetails() {
     const tabNames = ['description', 'review', 'shipping'];
     const [startIndex, setStartIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
-
+    console.log(categoryList)
     const settings = {
         dots: true,
         infinite: true,
@@ -198,8 +198,8 @@ function ProductDetails() {
                 }
             });
             dispatch(updateCartItems(updatedCartItems));
-
-            // dispatch(updateCartItems(updatedCartItems));
+            notifySuccess(`${product.name} already added in the cart!`);
+                        // dispatch(updateCartItems(updatedCartItems));
         } else {
             let cartObj = {
                 id: product.id,
@@ -307,7 +307,7 @@ function ProductDetails() {
                             </div>
                         </div>
                         <div className="col-lg-7">
-                            <div className="product_details">
+                            <div className="product_details mt-3">
                                 <div className="product_details_title">
                                     <h2>{productData?.name}</h2>
                                     <p>{productData?.description}</p>
@@ -352,7 +352,7 @@ function ProductDetails() {
                                     SKU: <span className="ml-2">{productData?.sku}</span>
                                 </div>
                                 <div className="mt-3">
-                                    Category: <span className="ml-2">{categoryName}</span>
+                                    Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
                                 </div>
                                 <div className="product-tags-container mt-3">
                                     Tags:
@@ -364,8 +364,8 @@ function ProductDetails() {
                             </div>
                         </div>
                     </div>
-                    <div className="row mt-4" >
-                        <table className="product-details-table">
+                    <div className="row mt-5" >
+                        <table className="product-details-table mt-2">
                             <tbody>
                                 <tr>{renderTabs()}</tr>
                                 <tr className="tableBody-border" >

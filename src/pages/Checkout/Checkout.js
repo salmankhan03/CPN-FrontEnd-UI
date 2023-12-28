@@ -42,21 +42,21 @@ const CheckoutPage = () => {
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
 
-    
+
     function generateGuestUserId() {
         const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
         return uniqueId;
-      }
-      
-      // Check if guest user ID exists in local storage, otherwise generate one
-      let guestUserId = localStorage.getItem('guestUserId');
-      if (!guestUserId) {
+    }
+
+    // Check if guest user ID exists in local storage, otherwise generate one
+    let guestUserId = localStorage.getItem('guestUserId');
+    if (!guestUserId) {
         guestUserId = generateGuestUserId();
         localStorage.setItem('guestUserId', guestUserId);
-      }
-      
-      console.log('Guest User ID:', guestUserId);
-      
+    }
+
+    console.log('Guest User ID:', guestUserId);
+
 
 
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
@@ -173,16 +173,16 @@ const CheckoutPage = () => {
         }
     };
 
-    function orderGenrate (orderData) {
+    function orderGenrate(orderData) {
         console.log(orderData)
         OrderServices.generateOrders(orderData).then((resp) => {
             if (resp?.status_code === 200) {
-                
-            navigate(`/thankyou`, {
-                state: {
-                    order_id: resp.order_id
-                }
-            })
+
+                navigate(`/thankyou`, {
+                    state: {
+                        order_id: resp.order_id
+                    }
+                })
             }
         }).catch((error) => {
             // setLoading(false)
@@ -215,24 +215,24 @@ const CheckoutPage = () => {
                 payment_data: {
                     "external_payment_id": "Stripe Payment Id",
                     "type": "Payment Method Type",
-                    "payment_gateway_name" : "Stripe",
-                    "is_order_cod" : "1",
-                    "is_cod_paymend_received" : "0",
+                    "payment_gateway_name": "Stripe",
+                    "is_order_cod": "1",
+                    "is_cod_paymend_received": "0",
                     "amount": subtotal,
-                    "status" : "SUCCESS"
-                },                
-              };
-              
-              for (let index = 0; index < cartItems.length; index++) {
+                    "status": "SUCCESS"
+                },
+            };
+
+            for (let index = 0; index < cartItems.length; index++) {
                 let products = {
-                  product_id: cartItems[index]?.id,
-                  price: cartItems[index]?.price,
-                  quantity: cartItems[index]?.purchaseQty,
-                  use_product_original_data: 0
+                    product_id: cartItems[index]?.id,
+                    price: cartItems[index]?.price,
+                    quantity: cartItems[index]?.purchaseQty,
+                    use_product_original_data: 0
                 };
                 submitobj.product_data.push(products);
-              }
-        
+            }
+
             orderGenrate(submitobj)
 
 
@@ -243,316 +243,350 @@ const CheckoutPage = () => {
     return (
         <div className="container mt-5">
             <div className="row ">
-                <div className="col-md-6">
-                    <h2>Billing Details</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-row mt-3">
-                            <div className="form-group col-md-6">
-                                <InputComponent
-                                    type="text"
-                                    id="firstName"
-                                    label="First Name *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.firstName ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.firstName}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'firstName', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.firstName && <div className="validation-error">{billingFormErrors.firstName}</div>}
-                            </div>
-                            <div className="form-group col-md-6">
-                                <InputComponent
-                                    type="text"
-                                    id="lastName"
-                                    label="Last Name *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.lastName ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.lastName}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'lastName', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.lastName && <div className="validation-error">{billingFormErrors.lastName}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="compnay"
-                                    label="Company name (optional)"
-                                    customClass={`form-control gray-bg`}
-                                    value={billingFormData?.compnay}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'compnay', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
+                <div className="col-md-8">
+                    <div>
+                        <h2>Billing Details</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-row mt-3">
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="firstName"
+                                        label="First Name *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.firstName ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.firstName}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'firstName', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.firstName && <div className="validation-error">{billingFormErrors.firstName}</div>}
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="lastName"
+                                        label="Last Name *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.lastName ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.lastName}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'lastName', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.lastName && <div className="validation-error">{billingFormErrors.lastName}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="compnay"
+                                        label="Company name (optional)"
+                                        customClass={`form-control gray-bg`}
+                                        value={billingFormData?.compnay}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'compnay', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
 
-                            </div>
-                            <div className="form-group col-md-12">
-                                <div className='mb-3'>
-                                    <label htmlFor="lastName">Country / Region *</label>
-                                    {/* <Select
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <div className='mb-3'>
+                                        <label htmlFor="lastName">Country / Region *</label>
+                                        {/* <Select
                                         value={selectedCountry}
                                         onChange={handleCountryChange}
                                         options={countryList}
                                         styles={customStyles} // Apply custom styles
 
                                     /> */}
-                                    <CountryDropdown
-                                        id="country"
-                                        value={billingFormData?.country}
-                                        // onChange={handleCountryChange}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}
-                                        valueType="short"
-                                        className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}
-                                    />
-                                    {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}
-                                </div>
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="streetAddress"
-                                    label="Street address *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.streetAddress}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'streetAddress', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.streetAddress && <div className="validation-error">{billingFormErrors.streetAddress}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="city"
-                                    label="Town / City *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.city}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <div className='mb-3'>
-                                    <label htmlFor="lastName">State</label>
-                                    {selectedCountry && (
-                                        <Select
-                                            options={selectedCountry.states}
-                                            value={selectedState}
-                                            onChange={handleStateChange}
-                                            placeholder="Select State"
-                                            styles={customStyles}
+                                        <CountryDropdown
+                                            id="country"
+                                            value={billingFormData?.country}
+                                            // onChange={handleCountryChange}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}
+                                            valueType="short"
+                                            className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}
                                         />
-                                    )}
+                                        {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}
+                                    </div>
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="streetAddress"
+                                        label="Street address *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.streetAddress}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'streetAddress', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.streetAddress && <div className="validation-error">{billingFormErrors.streetAddress}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="city"
+                                        label="Town / City *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.city}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <div className='mb-3'>
+                                        <label htmlFor="lastName">State</label>
+                                        {selectedCountry && (
+                                            <Select
+                                                options={selectedCountry.states}
+                                                value={selectedState}
+                                                onChange={handleStateChange}
+                                                placeholder="Select State"
+                                                styles={customStyles}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="zip"
+                                        label="ZIP Code *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.zip}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="phone"
+                                        label="Phone *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.phone}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="email"
+                                        label="Email Address *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.email}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
                                 </div>
                             </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="zip"
-                                    label="ZIP Code *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.zip}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="phone"
-                                    label="Phone *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.phone}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="email"
-                                    label="Email Address *"
-                                    customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
-                                    value={billingFormData?.email}
-                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
-                                    placeholder=""
-                                    required
-                                />
-                                {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
-                            </div>
-                        </div>
 
-                    </form>
+                        </form>
+                    </div>
+                    <div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                            />
+                            <span className="ml-2">Shipping address is the same as billing address.</span>
+                        </label>
+                    </div>
+                    <div>
+                        <h2>Shipping Details</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-row mt-3">
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="firstName"
+                                        label="First Name *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.firstName ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.firstName}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'firstName', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required={true}
+                                        isdisabled={isChecked}
+
+                                    />
+                                    {shippingFormErrors.firstName && <div className="validation-error">{shippingFormErrors.firstName}</div>}
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="lastName"
+                                        label="Last Name *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.lastName ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.lastName}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'lastName', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.lastName && <div className="validation-error">{shippingFormErrors.lastName}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="compnay"
+                                        label="Company name (optional)"
+                                        customClass={`form-control gray-bg`}
+                                        value={shippingFormData?.compnay}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'compnay', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <div className='mb-3'>
+                                        <label htmlFor="lastName">Country / Region *</label>
+                                        {/* <Select
+                                        value={selectedCountry}
+                                        onChange={handleCountryChange}
+                                        options={countryList}
+                                        styles={customStyles} // Apply custom styles
+
+                                    /> */}
+
+                                        <CountryDropdown
+                                            id="country"
+                                            value={shippingFormData?.country}
+                                            // onChange={handleCountryChange}
+                                            onChange={(e) => handleInputChange(shippingFormData, setBillingFormData, 'country', e, "shippingform Error")}
+                                            valueType="short"
+                                            className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}
+                                            disabled={isChecked}
+                                        />
+                                        {shippingFormErrors.country && <div className="validation-error">{shippingFormErrors.country}</div>}
+
+                                    </div>
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="streetAddress"
+                                        label="Street address *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.streetAddress}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'streetAddress', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.streetAddress && <div className="validation-error">{shippingFormErrors.streetAddress}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="city"
+                                        label="Town / City *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.city ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.city}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'city', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.city && <div className="validation-error">{shippingFormErrors.city}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <div className='mb-3'>
+                                        <label htmlFor="lastName">State</label>
+                                        {selectedCountry && (
+                                            <Select
+                                                options={selectedCountry.states}
+                                                value={selectedState}
+                                                onChange={handleStateChange}
+                                                placeholder="Select State"
+                                                styles={customStyles}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="zip"
+                                        label="ZIP Code *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.zip ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.zip}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zip', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.zip && <div className="validation-error">{shippingFormErrors.zip}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="phone"
+                                        label="Phone *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.phone ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.phone}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'phone', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.phone && <div className="validation-error">{shippingFormErrors.phone}</div>}
+                                </div>
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="email"
+                                        label="Email Address *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.email}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
                 </div>
 
-                <div className="col-md-6">
-                    <h2>Shipping Details</h2>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-row mt-3">
-                            <div className="form-group col-md-6">
-                                <InputComponent
-                                    type="text"
-                                    id="firstName"
-                                    label="First Name *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.firstName ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.firstName}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'firstName', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required={true}
-                                    isdisabled={isChecked}
+                <div className="col-md-4">
 
-                                />
-                                {shippingFormErrors.firstName && <div className="validation-error">{shippingFormErrors.firstName}</div>}
-                            </div>
-                            <div className="form-group col-md-6">
-                                <InputComponent
-                                    type="text"
-                                    id="lastName"
-                                    label="Last Name *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.lastName ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.lastName}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'lastName', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.lastName && <div className="validation-error">{shippingFormErrors.lastName}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="compnay"
-                                    label="Company name (optional)"
-                                    customClass={`form-control gray-bg`}
-                                    value={shippingFormData?.compnay}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'compnay', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
+                <div className="text-center">
+                            <h3 className='tex'>Order Summary</h3>
+                        </div>
+                        <div className="text-right mt-5">
+                            <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
+                            <p className='mt-1'>Sales Tax: <span className='ml-5'>00</span></p>
 
-                            </div>
-                            <div className="form-group col-md-12">
-                                <div className='mb-3'>
-                                    <label htmlFor="lastName">Country / Region *</label>
-                                    {/* <Select
-                                        value={selectedCountry}
-                                        onChange={handleCountryChange}
-                                        options={countryList}
-                                        styles={customStyles} // Apply custom styles
+                            <p>Grandtotal: <span className='ml-5'>{subtotal}</span></p>
 
-                                    /> */}
-
-                                    <CountryDropdown
-                                        id="country"
-                                        value={shippingFormData?.country}
-                                        // onChange={handleCountryChange}
-                                        onChange={(e) => handleInputChange(shippingFormData, setBillingFormData, 'country', e, "shippingform Error")}
-                                        valueType="short"
-                                        className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}
-                                        disabled={isChecked}
-                                    />
-                                    {shippingFormErrors.country && <div className="validation-error">{shippingFormErrors.country}</div>}
-
-                                </div>
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="streetAddress"
-                                    label="Street address *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.streetAddress}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'streetAddress', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.streetAddress && <div className="validation-error">{shippingFormErrors.streetAddress}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="city"
-                                    label="Town / City *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.city ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.city}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'city', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.city && <div className="validation-error">{shippingFormErrors.city}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <div className='mb-3'>
-                                    <label htmlFor="lastName">State</label>
-                                    {selectedCountry && (
-                                        <Select
-                                            options={selectedCountry.states}
-                                            value={selectedState}
-                                            onChange={handleStateChange}
-                                            placeholder="Select State"
-                                            styles={customStyles}
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="zip"
-                                    label="ZIP Code *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.zip}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zip', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.zip && <div className="validation-error">{shippingFormErrors.zip}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="phone"
-                                    label="Phone *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.phone}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'phone', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.phone && <div className="validation-error">{shippingFormErrors.phone}</div>}
-                            </div>
-                            <div className="form-group col-md-12">
-                                <InputComponent
-                                    type="text"
-                                    id="email"
-                                    label="Email Address *"
-                                    customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
-                                    value={shippingFormData?.email}
-                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
-                                    placeholder=""
-                                    required
-                                    isdisabled={isChecked}
-                                />
-                                {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
+                        </div>
+                        <div className='row'>
+                            <div className='text-right'>
+                                <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
+                                <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>
+                                <button class="checkout-button cart-checkout-btn mt-4" onClick={handleSubmit}>Place Order</button>
                             </div>
                         </div>
 
-                    </form>
 
                 </div>
             </div>
-            <div className="row ">
+            {/* <div className="row ">
                 <div>
                     <label>
                         <input
@@ -627,7 +661,7 @@ const CheckoutPage = () => {
 
                 </div>
 
-            </div>
+            </div> */}
         </div>
     );
 };

@@ -28,14 +28,22 @@ function HomeScreen() {
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [filteredPrice, setFilteredPrice] = useState([0, 100000]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedOption, setSelectedOption] = useState();
+    const [selectedSortingOption, setSelectedSortingOption] = useState();
+
+
 
     const handlePageChange = (newPage) => {
-      // Your logic to fetch and display data for the new page
-      setCurrentPage(newPage);
+        // Your logic to fetch and display data for the new page
+        setCurrentPage(newPage);
     };
 
 
-    
+    useEffect(() => {
+        console.log(selectedOption)
+        getProductsList(selectedOption)
+
+    }, [selectedOption])
 
 
 
@@ -51,25 +59,25 @@ function HomeScreen() {
         getBrandList()
 
     }, [])
-    useEffect(()=>{
+    useEffect(() => {
         const getselectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
         const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
-        let data ={
+        let data = {
             "category": selectedCategories,
             "price": filteredPrice,
-            "brands" :selectedBrandNames
+            "brands": selectedBrandNames
         }
 
-        if(selectedCategories.length > 0 ||selectedBrands.length > 0 || filteredPrice ){
+        if (selectedCategories.length > 0 || selectedBrands.length > 0 || filteredPrice) {
             getfilterWiseProduct(data)
             setProductsListData([])
-        }else{
+        } else {
             setProductsListData([])
             getProductsList()
         }
-        
-    },[selectedCategories, selectedBrands,filteredPrice])
-    function getBrandList(){
+
+    }, [selectedCategories, selectedBrands, filteredPrice])
+    function getBrandList() {
         CategoryServices.getAllBrand({
             page: page,
             limit: defaultLimit,
@@ -108,7 +116,7 @@ function HomeScreen() {
             console.log(error)
         })
     }
-    function getfilterWiseProduct(data){
+    function getfilterWiseProduct(data) {
         setLoading(true)
         ProductServices.getfilterWiseProducts(data).then((resp) => {
             setLoading(false)
@@ -123,13 +131,14 @@ function HomeScreen() {
             setLoading(false)
             console.log(error)
         })
-        
+
 
     }
-    function getProductsList() {
+    function getProductsList(limit) {
+        console.log(limit)
         ProductServices.getAllProducts({
             page: page,
-            limit: defaultLimit,
+            limit: limit ? limit : defaultLimit,
             category: category,
             title: searchText,
             price: sortedField,
@@ -147,12 +156,19 @@ function HomeScreen() {
             console.log(error)
         })
     }
+    const handleChange = (e) => {
+        setSelectedOption(e.target.value);
+    };
+    const handleSortingChange = (e) => {
+        setSelectedSortingOption(e.target.value);
+    };
+    
     return (
         <div className="" >
             <div className='m-2'>
-                <div className="row">
-                    <div className="col-md-3 sidebar_hide">
-                        <div className='m-1'>
+                <div className="row mt-5">
+                    <div className="col-md-3 sidebar_hide mt-2">
+                        <div className='m-2'>
                             <LeftSideBarComponents
                                 categoriesData={categoriesData}
                                 brandData={brandData}
@@ -166,8 +182,42 @@ function HomeScreen() {
                             />
                         </div>
                     </div>
-                    <div className="col-md-9">
-                        <div className="row">
+                    <div className="col-md-9 mt-2">
+                        <div className="row mb-5">
+                            <div className="col-md-6 col-xs-4 mt-1">
+                                <div>
+                                    Showing all {productsListData?.length} results
+                                    <span className='ml-2'>
+                                        <select
+                                            id="simpleDropdown"
+                                            value={selectedOption}
+                                            onChange={handleChange}
+                                            className='select-dropdown'
+                                        >
+                                            <option value="12">12</option>
+                                            <option value="24">24</option>
+                                            <option value="36">36</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
+                                <select
+                                    id="sortingDropdown"
+                                    value={selectedSortingOption}
+                                    onChange={handleSortingChange}
+                                    className='select-dropdown'
+                                >
+                                    <option value="default-sorting">Default sorting</option>
+                                    <option value="sort-by-popularity">Sort by popularity</option>
+                                    <option value="sort-by-average-rating">Sort by average rating</option>
+                                    <option value="sort-by-latest">Sort by latest</option>
+                                    <option value="sort-by-low-to-high">Sort by price: low to high</option>
+                                    <option value="sort-by-high-to-low">Sort by price: high to low</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="row m-1">
                             {productsListData?.length > 0 ? (
                                 productsListData.map((item, index) => (
                                     <div className="col-lg-4 col-md-4 col-sm-6" key={index} data-aos="zoom-in">
@@ -176,7 +226,7 @@ function HomeScreen() {
                                 ))
                             ) : (
                                 loading ? (
-                                    <div>  
+                                    <div>
                                         <Loading skNumber={15} />
                                     </div>
                                 ) : <NotFound title="Sorry, There are no Products right now." />

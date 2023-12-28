@@ -18,7 +18,7 @@ function ProductListing(props) {
     return (
 
 
-        <div className="product-item men m-1 prductsListBorder">
+        <div className="product-item men m-md-4 mt-5 prductsListBorder">
         
                 <div
                     className="product discount product_filter"
@@ -44,7 +44,7 @@ function ProductListing(props) {
                     )}
                     <div className="product_info">
                         <h6 className="product_name">
-                            <div>{truncateString(productItem?.name, 20)}</div>
+                            <div>{truncateString(productItem?.name, 80)}</div>
                         </h6>
                         <div className="product_price">
                             ₹ {productItem.price}

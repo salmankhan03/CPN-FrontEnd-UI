@@ -99,11 +99,11 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
                     </div>
 
                 </div>
-                <div className='mt-1'>
+                {/* <div className='mt-1'>
                     <div>
                         Price: {filteredPrice[0]} - {filteredPrice[1]}
                     </div>
-                </div>            
+                </div>             */}
             </>
         </div>
     );
