@@ -5,6 +5,7 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import OrderServices from '../../services/orderService';
+import { ProvinceTax } from '../../helpers/TaxTable'
 
 
 const CheckoutPage = () => {
@@ -36,6 +37,11 @@ const CheckoutPage = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
+    const [pst, setPst] = useState();
+    const [hst, setHst] = useState();
+    const [gst, setGst] = useState();
+    const [total, setTotal] = useState();
+    const [province, setProvince] = useState();
 
 
     function generateGuestUserId() {
@@ -234,6 +240,25 @@ const CheckoutPage = () => {
             console.log('Form validation failed');
         }
     };
+
+    const getToFixed = (a) => {
+        return a.toFixed(2);
+    }
+
+    useEffect(() => {
+        const selectedProvince = ProvinceTax.find(p => p.provinceName === billingFormData.state);
+        const subTotalPlusGst = selectedProvince?.gst ? getToFixed((selectedProvince?.gst / 100) * subtotal): 0;
+        const subTotalPlusHst = selectedProvince?.hst ? getToFixed((selectedProvince?.hst / 100) * subtotal) : 0;
+        const subTotalPlusPst = selectedProvince?.pst ? getToFixed((selectedProvince?.pst / 100) * subtotal) : 0;
+        const total = subtotal + +subTotalPlusGst + +subTotalPlusHst + +subTotalPlusPst;
+
+        setTotal(total)
+        setGst(subTotalPlusGst)
+        setHst(subTotalPlusHst)
+        setPst(subTotalPlusPst)
+        setProvince(selectedProvince)
+    }, [billingFormData.state])
+
     return (
         <div className="container mt-5">
             <div className="row ">
@@ -566,7 +591,7 @@ const CheckoutPage = () => {
 
                 </div>
             </div>
-            {/* <div className="row ">
+            { <div className="row ">
                 <div>
                     <label>
                         <input
@@ -613,9 +638,21 @@ const CheckoutPage = () => {
                                                             <td colSpan="" className="text-right font-weight-bold ">Subtotal:</td>
                                                             <td colSpan="" className="text-right font-weight-bold">{subtotal}</td>
                                                         </tr>
+                                                        {gst !== 0 && <tr key="gst">
+                                                            <td colSpan="" className="text-right font-weight-bold ">GST:</td>
+                                                            <td colSpan="" className="text-right font-weight-bold">{gst} {`(${province?.gst}%)`}</td>
+                                                        </tr>}
+                                                        {pst !== 0 && <tr key="pst">
+                                                            <td colSpan="" className="text-right font-weight-bold ">PST:</td>
+                                                            <td colSpan="" className="text-right font-weight-bold">{pst} {`(${province?.pst}%)`}</td>
+                                                        </tr>}
+                                                        {hst !== 0 && <tr key="hst">
+                                                            <td colSpan="" className="text-right font-weight-bold ">HST:</td>
+                                                            <td colSpan="" className="text-right font-weight-bold">{hst} {`(${province?.hst}%)`}</td>
+                                                        </tr>}
                                                         <tr key="total">
                                                             <td colSpan="" className="text-right font-weight-bold border-bottom-0">total:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">{subtotal}</td>
+                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">{total}</td>
                                                         </tr>
                                                     </>
 
@@ -641,7 +678,7 @@ const CheckoutPage = () => {
 
                 </div>
 
-            </div> */}
+            </div> }
         </div>
     );
 };
