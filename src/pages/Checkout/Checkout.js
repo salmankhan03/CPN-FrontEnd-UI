@@ -157,7 +157,8 @@ const CheckoutPage = () => {
         setIsChecked(!isChecked);
 
         if (!isChecked) {
-            setShippingFormData({ ...billingFormData });
+            setBillingFormData({...shippingFormData})
+            // setShippingFormData({ ...billingFormData });
         } else {
             // setShippingFormData({
             //     firstName: '',
@@ -246,7 +247,7 @@ const CheckoutPage = () => {
     }
 
     useEffect(() => {
-        const selectedProvince = ProvinceTax.find(p => p.provinceName === billingFormData.state);
+        const selectedProvince = ProvinceTax.find(p => p.provinceName === shippingFormData.state);
         const subTotalPlusGst = selectedProvince?.gst ? getToFixed((selectedProvince?.gst / 100) * subtotal): 0;
         const subTotalPlusHst = selectedProvince?.hst ? getToFixed((selectedProvince?.hst / 100) * subtotal) : 0;
         const subTotalPlusPst = selectedProvince?.pst ? getToFixed((selectedProvince?.pst / 100) * subtotal) : 0;
@@ -257,162 +258,14 @@ const CheckoutPage = () => {
         setHst(subTotalPlusHst)
         setPst(subTotalPlusPst)
         setProvince(selectedProvince)
-    }, [billingFormData.state])
+    }, [shippingFormData.state])
 
     return (
         <div className="container mt-5">
             <div className="row ">
                 <div className="col-md-8">
-                    <div>
-                        <h2>Billing Details</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-row mt-3">
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="firstName"
-                                        label="First Name *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.firstName ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.firstName}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'firstName', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.firstName && <div className="validation-error">{billingFormErrors.firstName}</div>}
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="lastName"
-                                        label="Last Name *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.lastName ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.lastName}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'lastName', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.lastName && <div className="validation-error">{billingFormErrors.lastName}</div>}
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="compnay"
-                                        label="Company name (optional)"
-                                        customClass={`form-control gray-bg`}
-                                        value={billingFormData?.compnay}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'compnay', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
 
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <div className='mb-3'>
-                                        <label htmlFor="lastName">Country / Region *</label>                            
-                                        <CountryDropdown
-                                        id="country"
-                                        value={billingFormData?.country}
-                                        // onChange={handleCountryChange}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}
-                                        valueType="short"
-                                        whitelist={['CA']}
-                                        className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}
-                                        />
-                                        {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}
-                                    </div>
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="streetAddress"
-                                        label="Street address *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.streetAddress}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'streetAddress', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.streetAddress && <div className="validation-error">{billingFormErrors.streetAddress}</div>}
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="city"
-                                        label="Town / City *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.city}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <div className='mb-3'>
-                                        <label htmlFor="lastName">State</label>
-                                        <RegionDropdown
-                                        defaultOptionLabel={'Select state'}
-                                        className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
-                                        country={billingFormData.country}
-                                        countryValueType={'short'}
-                                        value={billingFormData.state}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
-                                    />  
-                                    </div>
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="zip"
-                                        label="ZIP Code *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.zip}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="phone"
-                                        label="Phone *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.phone}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
-                                </div>
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="email"
-                                        label="Email Address *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.email}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                    />
-                                    {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
-                                </div>
-                            </div>
 
-                        </form>
-                    </div>
-                    <div>
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isChecked}
-                                onChange={handleCheckboxChange}
-                            />
-                            <span className="ml-2">Shipping address is the same as billing address.</span>
-                        </label>
-                    </div>
                     <div>
                         <h2>Shipping Details</h2>
                         <form onSubmit={handleSubmit}>
@@ -427,7 +280,7 @@ const CheckoutPage = () => {
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'firstName', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required={true}
-                                        isdisabled={isChecked}
+
 
                                     />
                                     {shippingFormErrors.firstName && <div className="validation-error">{shippingFormErrors.firstName}</div>}
@@ -442,41 +295,66 @@ const CheckoutPage = () => {
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'lastName', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
-                                        isdisabled={isChecked}
                                     />
                                     {shippingFormErrors.lastName && <div className="validation-error">{shippingFormErrors.lastName}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
+                                <div className="form-group col-md-6">
                                     <InputComponent
                                         type="text"
-                                        id="compnay"
-                                        label="Company name (optional)"
-                                        customClass={`form-control gray-bg`}
-                                        value={shippingFormData?.compnay}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'compnay', e.target.value, "shippingform Error")}
+                                        id="phone"
+                                        label="Phone *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.phone ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.phone}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'phone', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
-                                        isdisabled={isChecked}
                                     />
-
+                                    {shippingFormErrors.phone && <div className="validation-error">{shippingFormErrors.phone}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
-                                    <div className='mb-3'>
-                                        <label htmlFor="lastName">Country / Region *</label>                            
-                                        <CountryDropdown
-                                            id="country"
-                                            value={shippingFormData?.country}
-                                            // onChange={handleCountryChange}
-                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'country', e, "shippingform Error")}
-                                            valueType="short"
-                                            whitelist={['CA']}
-                                            className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}
-                                            disabled={isChecked}
-                                        />
-                                        {shippingFormErrors.country && <div className="validation-error">{shippingFormErrors.country}</div>}
-
-                                    </div>
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="email"
+                                        label="Email Address *"
+                                        customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.email}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
+                                        placeholder=""
+                                        required
+                                    />
+                                    {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
                                 </div>
+                                {/*<div className="form-group col-md-12">*/}
+                                {/*    <InputComponent*/}
+                                {/*        type="text"*/}
+                                {/*        id="compnay"*/}
+                                {/*        label="Company name (optional)"*/}
+                                {/*        customClass={`form-control gray-bg`}*/}
+                                {/*        value={shippingFormData?.compnay}*/}
+                                {/*        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'compnay', e.target.value, "shippingform Error")}*/}
+                                {/*        placeholder=""*/}
+                                {/*        required*/}
+                                {/*        isdisabled={isChecked}*/}
+                                {/*    />*/}
+
+                                {/*</div>*/}
+                                {/*<div className="form-group col-md-12">*/}
+                                {/*    <div className='mb-3'>*/}
+                                {/*        <label htmlFor="lastName">Country / Region *</label>                            */}
+                                {/*        <CountryDropdown*/}
+                                {/*            id="country"*/}
+                                {/*            value={shippingFormData?.country}*/}
+                                {/*            // onChange={handleCountryChange}*/}
+                                {/*            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'country', e, "shippingform Error")}*/}
+                                {/*            valueType="short"*/}
+                                {/*            whitelist={['CA']}*/}
+                                {/*            className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}*/}
+                                {/*            disabled={isChecked}*/}
+                                {/*        />*/}
+                                {/*        {shippingFormErrors.country && <div className="validation-error">{shippingFormErrors.country}</div>}*/}
+
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 <div className="form-group col-md-12">
                                     <InputComponent
                                         type="text"
@@ -487,11 +365,10 @@ const CheckoutPage = () => {
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'streetAddress', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
-                                        isdisabled={isChecked}
                                     />
                                     {shippingFormErrors.streetAddress && <div className="validation-error">{shippingFormErrors.streetAddress}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
+                                <div className="form-group col-md-6">
                                     <InputComponent
                                         type="text"
                                         id="city"
@@ -501,66 +378,194 @@ const CheckoutPage = () => {
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'city', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
-                                        isdisabled={isChecked}
                                     />
                                     {shippingFormErrors.city && <div className="validation-error">{shippingFormErrors.city}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
+                                <div className="form-group col-md-3">
                                     <div className='mb-3'>
-                                        <label htmlFor="lastName">State</label>
+                                        <label htmlFor="lastName">Province</label>
                                         <RegionDropdown
-                                        defaultOptionLabel={'Select state'}
+                                        defaultOptionLabel={'Select Province'}
                                         className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
-                                        country={shippingFormData.country}
+                                        country={'CA'}
                                         countryValueType={'short'}
                                         value={shippingFormData.state}
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
-                                        disabled={isChecked}
                                     />  
                                     </div>
                                 </div>
-                                <div className="form-group col-md-12">
+                                <div className="form-group col-md-3">
                                     <InputComponent
                                         type="text"
                                         id="zip"
-                                        label="ZIP Code *"
+                                        label="Postal Code *"
                                         customClass={`form-control gray-bg ${shippingFormErrors.zip ? 'validation-error-border' : ''}`}
                                         value={shippingFormData?.zip}
                                         onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zip', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
-                                        isdisabled={isChecked}
                                     />
                                     {shippingFormErrors.zip && <div className="validation-error">{shippingFormErrors.zip}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
+                            </div>
+
+                        </form>
+                    </div>
+                    <div>
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                            />
+                            <span className="ml-2">Billing address is the same as Shipping address.</span>
+                        </label>
+                    </div>
+                    <div>
+                        <h2>Billing Details</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-row mt-3">
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="firstName"
+                                        label="First Name *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.firstName ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.firstName}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'firstName', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {billingFormErrors.firstName && <div className="validation-error">{billingFormErrors.firstName}</div>}
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="lastName"
+                                        label="Last Name *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.lastName ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.lastName}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'lastName', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {billingFormErrors.lastName && <div className="validation-error">{billingFormErrors.lastName}</div>}
+                                </div>
+                                <div className="form-group col-md-6">
                                     <InputComponent
                                         type="text"
                                         id="phone"
                                         label="Phone *"
-                                        customClass={`form-control gray-bg ${shippingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                        value={shippingFormData?.phone}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'phone', e.target.value, "shippingform Error")}
+                                        customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.phone}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
                                         placeholder=""
                                         required
                                         isdisabled={isChecked}
                                     />
-                                    {shippingFormErrors.phone && <div className="validation-error">{shippingFormErrors.phone}</div>}
+                                    {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
                                 </div>
-                                <div className="form-group col-md-12">
+                                <div className="form-group col-md-6">
                                     <InputComponent
                                         type="text"
                                         id="email"
                                         label="Email Address *"
-                                        customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
-                                        value={shippingFormData?.email}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
+                                        customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.email}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
                                         placeholder=""
                                         required
                                         isdisabled={isChecked}
                                     />
-                                    {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
+                                    {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
                                 </div>
+                                {/*<div className="form-group col-md-12">*/}
+                                {/*    <InputComponent*/}
+                                {/*        type="text"*/}
+                                {/*        id="compnay"*/}
+                                {/*        label="Company name (optional)"*/}
+                                {/*        customClass={`form-control gray-bg`}*/}
+                                {/*        value={billingFormData?.compnay}*/}
+                                {/*        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'compnay', e.target.value, "billingform Error")}*/}
+                                {/*        placeholder=""*/}
+                                {/*        required*/}
+                                {/*    />*/}
+
+                                {/*</div>*/}
+                                {/*<div className="form-group col-md-12">*/}
+                                {/*    <div className='mb-3'>*/}
+                                {/*        <label htmlFor="lastName">Country / Region *</label>                            */}
+                                {/*        <CountryDropdown*/}
+                                {/*        id="country"*/}
+                                {/*        value={billingFormData?.country}*/}
+                                {/*        // onChange={handleCountryChange}*/}
+                                {/*        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}*/}
+                                {/*        valueType="short"*/}
+                                {/*        whitelist={['CA']}*/}
+                                {/*        className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}*/}
+                                {/*        />*/}
+                                {/*        {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                <div className="form-group col-md-12">
+                                    <InputComponent
+                                        type="text"
+                                        id="streetAddress"
+                                        label="Street address *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.streetAddress ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.streetAddress}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'streetAddress', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {billingFormErrors.streetAddress && <div className="validation-error">{billingFormErrors.streetAddress}</div>}
+                                </div>
+                                <div className="form-group col-md-6">
+                                    <InputComponent
+                                        type="text"
+                                        id="city"
+                                        label="Town / City *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.city}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
+                                </div>
+                                <div className="form-group col-md-3">
+                                    <div className='mb-3'>
+                                        <label htmlFor="lastName">Province</label>
+                                        <RegionDropdown
+                                            defaultOptionLabel={'Select state'}
+                                            className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
+                                            country={'CA'}
+                                            countryValueType={'short'}
+                                            value={billingFormData.state}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
+                                            isdisabled={isChecked}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group col-md-3">
+                                    <InputComponent
+                                        type="text"
+                                        id="zip"
+                                        label="Postal Code *"
+                                        customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
+                                        value={billingFormData?.zip}
+                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
+                                        placeholder=""
+                                        required
+                                        isdisabled={isChecked}
+                                    />
+                                    {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
+                                </div>
+
                             </div>
 
                         </form>
@@ -575,9 +580,12 @@ const CheckoutPage = () => {
                         </div>
                         <div className="text-right mt-5">
                             <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
-                            <p className='mt-1'>Sales Tax: <span className='ml-5'>00</span></p>
+                            {gst !== 0 && <p className='mt-1'>GST {`(${province?.gst}%)`}: <span className='ml-5'>{gst}</span></p>}
+                            {pst !== 0 && <p className='mt-1'>PST {`(${province?.pst}%)`}: <span className='ml-5'>{pst}</span></p>}
+                            {hst !== 0 && <p className='mt-1'>HST {`(${province?.hst}%)`}: <span className='ml-5'>{hst}</span></p>}
+                            {/*<p className='mt-1'>Sales Tax: <span className='ml-5'>00</span></p>*/}
 
-                            <p>Grandtotal: <span className='ml-5'>{subtotal}</span></p>
+                            <p>Grandtotal: <span className='ml-5'>{total}</span></p>
 
                         </div>
                         <div className='row'>
@@ -591,94 +599,94 @@ const CheckoutPage = () => {
 
                 </div>
             </div>
-            { <div className="row ">
-                <div>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={handleCheckboxChange}
-                        />
-                        <span className="ml-2">Shipping address is the same as billing address.</span>
-                    </label>
-                </div>
-                <div className='mt-5'>
-                    <div className='custom-margin margin border'>
-                        <div className='p-5'>
-                            <div>Your order</div>
-                            <div>
-                                <table className="table mt-3">
-                                    <thead >
-                                        <tr className=''>
-                                            <th scope="col" className="col-6 custom-no-border">Product</th>
+            {/*{ <div className="row ">*/}
+            {/*    <div>*/}
+            {/*        <label>*/}
+            {/*            <input*/}
+            {/*                type="checkbox"*/}
+            {/*                checked={isChecked}*/}
+            {/*                onChange={handleCheckboxChange}*/}
+            {/*            />*/}
+            {/*            <span className="ml-2">Shipping address is the same as billing address.</span>*/}
+            {/*        </label>*/}
+            {/*    </div>*/}
+            {/*    <div className='mt-5'>*/}
+            {/*        <div className='custom-margin margin border'>*/}
+            {/*            <div className='p-5'>*/}
+            {/*                <div>Your order</div>*/}
+            {/*                <div>*/}
+            {/*                    <table className="table mt-3">*/}
+            {/*                        <thead >*/}
+            {/*                            <tr className=''>*/}
+            {/*                                <th scope="col" className="col-6 custom-no-border">Product</th>*/}
 
-                                            <th scope="col" className="col-6 text-right custom-no-border">Sub Total</th>
-                                        </tr>
-                                    </thead>
+            {/*                                <th scope="col" className="col-6 text-right custom-no-border">Sub Total</th>*/}
+            {/*                            </tr>*/}
+            {/*                        </thead>*/}
 
-                                    <tbody>
-                                        {cartItems.map((item, index) => (
-                                            <React.Fragment>
-                                                <tr key={index}>
-                                                    <td>
-                                                        <div className='row'>
-                                                            <div className=''>
-                                                                <h6 className='product-name mr-3 p-3'>{item.name} X {item.purchaseQty}</h6>
-                                                            </div>
+            {/*                        <tbody>*/}
+            {/*                            {cartItems.map((item, index) => (*/}
+            {/*                                <React.Fragment>*/}
+            {/*                                    <tr key={index}>*/}
+            {/*                                        <td>*/}
+            {/*                                            <div className='row'>*/}
+            {/*                                                <div className=''>*/}
+            {/*                                                    <h6 className='product-name mr-3 p-3'>{item.name} X {item.purchaseQty}</h6>*/}
+            {/*                                                </div>*/}
 
-                                                        </div>
-                                                    </td>
-                                                    <td className='align-middle text-right'>{item?.totalPrice}</td>
+            {/*                                            </div>*/}
+            {/*                                        </td>*/}
+            {/*                                        <td className='align-middle text-right'>{item?.totalPrice}</td>*/}
 
-                                                </tr>
-                                                {index === cartItems.length - 1 && (
-                                                    // Add the subtotal row after the last item row
-                                                    <>
-                                                        <tr key="subtotal">
-                                                            <td colSpan="" className="text-right font-weight-bold ">Subtotal:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold">{subtotal}</td>
-                                                        </tr>
-                                                        {gst !== 0 && <tr key="gst">
-                                                            <td colSpan="" className="text-right font-weight-bold ">GST:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold">{gst} {`(${province?.gst}%)`}</td>
-                                                        </tr>}
-                                                        {pst !== 0 && <tr key="pst">
-                                                            <td colSpan="" className="text-right font-weight-bold ">PST:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold">{pst} {`(${province?.pst}%)`}</td>
-                                                        </tr>}
-                                                        {hst !== 0 && <tr key="hst">
-                                                            <td colSpan="" className="text-right font-weight-bold ">HST:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold">{hst} {`(${province?.hst}%)`}</td>
-                                                        </tr>}
-                                                        <tr key="total">
-                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">total:</td>
-                                                            <td colSpan="" className="text-right font-weight-bold border-bottom-0">{total}</td>
-                                                        </tr>
-                                                    </>
+            {/*                                    </tr>*/}
+            {/*                                    {index === cartItems.length - 1 && (*/}
+            {/*                                        // Add the subtotal row after the last item row*/}
+            {/*                                        <>*/}
+            {/*                                            <tr key="subtotal">*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold ">Subtotal:</td>*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold">{subtotal}</td>*/}
+            {/*                                            </tr>*/}
+            {/*                                            {gst !== 0 && <tr key="gst">*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold ">GST:</td>*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold">{gst} {`(${province?.gst}%)`}</td>*/}
+            {/*                                            </tr>}*/}
+            {/*                                            {pst !== 0 && <tr key="pst">*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold ">PST:</td>*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold">{pst} {`(${province?.pst}%)`}</td>*/}
+            {/*                                            </tr>}*/}
+            {/*                                            {hst !== 0 && <tr key="hst">*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold ">HST:</td>*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold">{hst} {`(${province?.hst}%)`}</td>*/}
+            {/*                                            </tr>}*/}
+            {/*                                            <tr key="total">*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold border-bottom-0">total:</td>*/}
+            {/*                                                <td colSpan="" className="text-right font-weight-bold border-bottom-0">{total}</td>*/}
+            {/*                                            </tr>*/}
+            {/*                                        </>*/}
 
-                                                )}
-                                            </React.Fragment>
+            {/*                                    )}*/}
+            {/*                                </React.Fragment>*/}
 
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            {/*                            ))}*/}
+            {/*                        </tbody>*/}
+            {/*                    </table>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
 
 
-                    </div>
+            {/*        </div>*/}
 
-                </div>
+            {/*    </div>*/}
 
-                <div className='mt-5'>
-                    <div className='mb-4'>
-                        <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>
-                    </div>
-                    <button type="submit" className="place_order" onClick={handleSubmit}>Place Order</button>
+            {/*    <div className='mt-5'>*/}
+            {/*        <div className='mb-4'>*/}
+            {/*            <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>*/}
+            {/*        </div>*/}
+            {/*        <button type="submit" className="place_order" onClick={handleSubmit}>Place Order</button>*/}
 
-                </div>
+            {/*    </div>*/}
 
-            </div> }
+            {/*</div> }*/}
         </div>
     );
 };
