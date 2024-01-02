@@ -39,7 +39,7 @@ function ProductListing(props) {
                         </div>
                     ) : (
                         <div className="product_image">
-                            <ImageComponent src="https://m.media-amazon.com/images/I/71wbxatiuDL._AC_UL320_.jpg" alt={"products Image"} />
+                            <ImageComponent src="https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp" alt={"products Image"} />
                         </div>
                     )}
                     <div className="product_info">

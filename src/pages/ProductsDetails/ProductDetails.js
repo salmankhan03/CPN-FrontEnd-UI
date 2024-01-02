@@ -101,7 +101,7 @@ function ProductDetails() {
                     // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
 
                 } else {
-                    setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
+                    setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
                 }
             }
         }).catch((error) => {
