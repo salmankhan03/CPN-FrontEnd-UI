@@ -1,5 +1,6 @@
 const initialState = {
     cartItems: [],
+    cartSubTotal: null
 }
 
 export const CartReducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 cartItems:  action.payload
                 }
+        case "UPDATE_CART_SUBTOTAL":
+            return {
+                ...state,
+                cartSubTotal:  action.payload
+            }
         default:
             return state
     }

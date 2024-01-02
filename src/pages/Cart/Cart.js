@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ButtonComponent from '../../components/ButtonComponents/ButtonComponents';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCartItems } from '../../redux/action/cart-action';
+import {updateCartItems, updateCartSubTotal} from '../../redux/action/cart-action';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 
@@ -16,6 +16,9 @@ const CartPage = () => {
 
     const [showCouponInput, setShowCouponInput] = useState(false);
     const [couponCode, setCouponCode] = useState('');
+    const [checkCouponCode, setCheckCouponCode] = useState(null)
+    const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
+    const [couponDiscount, setCouponDiscount] = useState(0)
     const handleNavigation = () => {
         navigate(`/`)
     };
@@ -31,9 +34,31 @@ const CartPage = () => {
         dispatch(updateCartItems(updatedCartItemsList));
     }
 
-    const handleApplyCoupon = () => {
+    const handleApplyCoupon = async() => {
         setCouponCode(couponCode)
-        setShowCouponInput(false)
+
+        const payload= {
+            coupon_code: couponCode,
+            cart_amount: subtotal
+        }
+
+        try {
+            const response = await fetch('https://backend.kingsmankids.com/api/coupon-code/validate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json()
+            setCheckCouponCode(data)
+
+            console.log('Success:', data);
+            setShowCouponInput(false)
+        } catch (error) {
+            console.error('Error:', error);
+        }
         console.log('Coupon code applied:', couponCode);
     };
     const handleIncrement = (index) => {
@@ -56,6 +81,23 @@ const CartPage = () => {
     const gotoCheckout = () => {
         navigate('/checkout')
     }
+
+    useEffect(() => {
+        const isMinimumAmountReached = (subtotal > checkCouponCode?.coupon_code?.minimum_amount);
+
+        const discount = isMinimumAmountReached
+            ? checkCouponCode?.coupon_code?.calculation_type === "percentage" ? (parseFloat(checkCouponCode?.coupon_code?.amount) / 100) * subtotal : checkCouponCode?.coupon_code?.calculation_type === "fixed" ? parseFloat(checkCouponCode?.coupon_code?.amount) : 0
+            : 0;
+
+        setCouponDiscount(discount)
+
+        const discountedTotal = parseFloat(subtotal) - discount;
+        dispatch(updateCartSubTotal(discountedTotal));
+
+        setSubTotalWithCoupon(discountedTotal)
+
+    }, [checkCouponCode, subtotal])
+
     return (
         <div className="container mt-5">
             <Toast />
@@ -182,7 +224,7 @@ const CartPage = () => {
                         </div>
                         <div className="text-right mt-5">
                             <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
-                            <p className='mt-1'>Sales Tax: <span className='ml-5'>00</span></p>
+                            {couponDiscount > 0 && <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
                             <p className='mt-1'>
                                 Coupon code:{' '}
                                 <span className='ml-5' onClick={handleCouponClick}>
@@ -207,12 +249,13 @@ const CartPage = () => {
                                 </div>
                             )}
 
-                            <p>Grandtotal: <span className='ml-5'>{subtotal}</span></p>
+                            <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p>
 
                         </div>
                         <div className='row'>
                             <div className='text-right'>
-                                <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
+                                {checkCouponCode?.is_coupon_code_valid === false && <h6 style={{color: 'red'}}>{checkCouponCode.message}</h6>}
+                                {/*<h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>*/}
                                 <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
                             </div>
                         </div>

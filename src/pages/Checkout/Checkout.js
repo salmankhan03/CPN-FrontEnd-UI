@@ -11,6 +11,7 @@ import { ProvinceTax } from '../../helpers/TaxTable'
 const CheckoutPage = () => {
     const navigate = useNavigate();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
+    const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
     const [userID, setUserID] = useState('');
     const [billingFormData, setBillingFormData] = useState({
         firstName: '',
@@ -60,7 +61,7 @@ const CheckoutPage = () => {
 
 
 
-    const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
+    // const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
 
         console.log('field-----------------------', field, value)

@@ -24,3 +24,16 @@ export const updateCartItems = (data) => {
     }
 }
 
+export const updateCartSubTotal = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "UPDATE_CART_SUBTOTAL",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
