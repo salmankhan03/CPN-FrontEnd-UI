@@ -220,7 +220,7 @@ function HomeScreen() {
                         <div className="row m-1">
                             {productsListData?.length > 0 ? (
                                 productsListData.map((item, index) => (
-                                    <div className="col-lg-4 col-md-4 col-sm-6" key={index} data-aos="zoom-in">
+                                    <div className="col-lg-4 col-md-4 col-sm-6 mt-3" key={index} data-aos="zoom-in">
                                         <ProductListing productItem={item} />
                                     </div>
                                 ))
