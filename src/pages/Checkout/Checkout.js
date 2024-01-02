@@ -15,7 +15,7 @@ const CheckoutPage = () => {
     const [billingFormData, setBillingFormData] = useState({
         firstName: '',
         lastName: '',
-        country: '',
+        country: 'CA',
         streetAddress: '',
         city: '',
         state: '',
@@ -26,7 +26,7 @@ const CheckoutPage = () => {
     const [shippingFormData, setShippingFormData] = useState({
         firstName: '',
         lastName: '',
-        country: '',
+        country: 'CA',
         streetAddress: '',
         city: '',
         state: '',
@@ -34,7 +34,7 @@ const CheckoutPage = () => {
         phone: '',
         email: '',
     });
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
     const [pst, setPst] = useState();
@@ -195,8 +195,10 @@ const CheckoutPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(cartItems)
-
-        const isBillingFormValid = validateForm(billingFormData, "billingform Error");
+        if(isChecked){
+              setBillingFormData({...shippingFormData})
+        }
+        const isBillingFormValid = validateForm(isChecked ? shippingFormData :billingFormData, "billingform Error");
         const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
 
         // If both forms are valid, proceed with submission
@@ -421,6 +423,7 @@ const CheckoutPage = () => {
                             <span className="ml-2">Billing address is the same as Shipping address.</span>
                         </label>
                     </div>
+                    {!isChecked ? (
                     <div>
                         <h2>Billing Details</h2>
                         <form onSubmit={handleSubmit}>
@@ -570,7 +573,7 @@ const CheckoutPage = () => {
 
                         </form>
                     </div>
-
+                    ):null} 
                 </div>
 
                 <div className="col-md-4">
