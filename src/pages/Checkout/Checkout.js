@@ -6,10 +6,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import OrderServices from '../../services/orderService';
 import { ProvinceTax } from '../../helpers/TaxTable'
+import LoginScreen from '../Login/Login';
 
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
+    const [islogin, setIsLogin] = useState(false)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
     const [userID, setUserID] = useState('');
@@ -265,10 +267,9 @@ const CheckoutPage = () => {
 
     return (
         <div className="container mt-5">
+            {islogin ? (
             <div className="row ">
                 <div className="col-md-8">
-
-
                     <div>
                         <h2>Shipping Details</h2>
                         <form onSubmit={handleSubmit}>
@@ -603,94 +604,10 @@ const CheckoutPage = () => {
 
                 </div>
             </div>
-            {/*{ <div className="row ">*/}
-            {/*    <div>*/}
-            {/*        <label>*/}
-            {/*            <input*/}
-            {/*                type="checkbox"*/}
-            {/*                checked={isChecked}*/}
-            {/*                onChange={handleCheckboxChange}*/}
-            {/*            />*/}
-            {/*            <span className="ml-2">Shipping address is the same as billing address.</span>*/}
-            {/*        </label>*/}
-            {/*    </div>*/}
-            {/*    <div className='mt-5'>*/}
-            {/*        <div className='custom-margin margin border'>*/}
-            {/*            <div className='p-5'>*/}
-            {/*                <div>Your order</div>*/}
-            {/*                <div>*/}
-            {/*                    <table className="table mt-3">*/}
-            {/*                        <thead >*/}
-            {/*                            <tr className=''>*/}
-            {/*                                <th scope="col" className="col-6 custom-no-border">Product</th>*/}
-
-            {/*                                <th scope="col" className="col-6 text-right custom-no-border">Sub Total</th>*/}
-            {/*                            </tr>*/}
-            {/*                        </thead>*/}
-
-            {/*                        <tbody>*/}
-            {/*                            {cartItems.map((item, index) => (*/}
-            {/*                                <React.Fragment>*/}
-            {/*                                    <tr key={index}>*/}
-            {/*                                        <td>*/}
-            {/*                                            <div className='row'>*/}
-            {/*                                                <div className=''>*/}
-            {/*                                                    <h6 className='product-name mr-3 p-3'>{item.name} X {item.purchaseQty}</h6>*/}
-            {/*                                                </div>*/}
-
-            {/*                                            </div>*/}
-            {/*                                        </td>*/}
-            {/*                                        <td className='align-middle text-right'>{item?.totalPrice}</td>*/}
-
-            {/*                                    </tr>*/}
-            {/*                                    {index === cartItems.length - 1 && (*/}
-            {/*                                        // Add the subtotal row after the last item row*/}
-            {/*                                        <>*/}
-            {/*                                            <tr key="subtotal">*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold ">Subtotal:</td>*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold">{subtotal}</td>*/}
-            {/*                                            </tr>*/}
-            {/*                                            {gst !== 0 && <tr key="gst">*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold ">GST:</td>*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold">{gst} {`(${province?.gst}%)`}</td>*/}
-            {/*                                            </tr>}*/}
-            {/*                                            {pst !== 0 && <tr key="pst">*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold ">PST:</td>*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold">{pst} {`(${province?.pst}%)`}</td>*/}
-            {/*                                            </tr>}*/}
-            {/*                                            {hst !== 0 && <tr key="hst">*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold ">HST:</td>*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold">{hst} {`(${province?.hst}%)`}</td>*/}
-            {/*                                            </tr>}*/}
-            {/*                                            <tr key="total">*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold border-bottom-0">total:</td>*/}
-            {/*                                                <td colSpan="" className="text-right font-weight-bold border-bottom-0">{total}</td>*/}
-            {/*                                            </tr>*/}
-            {/*                                        </>*/}
-
-            {/*                                    )}*/}
-            {/*                                </React.Fragment>*/}
-
-            {/*                            ))}*/}
-            {/*                        </tbody>*/}
-            {/*                    </table>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-
-
-            {/*        </div>*/}
-
-            {/*    </div>*/}
-
-            {/*    <div className='mt-5'>*/}
-            {/*        <div className='mb-4'>*/}
-            {/*            <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>*/}
-            {/*        </div>*/}
-            {/*        <button type="submit" className="place_order" onClick={handleSubmit}>Place Order</button>*/}
-
-            {/*    </div>*/}
-
-            {/*</div> }*/}
+            ):(
+                <LoginScreen></LoginScreen>
+            )}
+          
         </div>
     );
 };

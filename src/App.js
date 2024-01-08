@@ -10,6 +10,7 @@ import ProductDetails from './pages/ProductsDetails/ProductDetails';
 import CartPage from './pages/Cart/Cart';
 import CheckoutPage from './pages/Checkout/Checkout';
 import ThankYouScreen from './pages/ThankYou/ThankYou';
+import LoginScreen from './pages/Login/Login';
 function App() {
   return (
     <div className='pagebox'>
@@ -21,6 +22,7 @@ function App() {
           <Route path="/cart" element={<WithNavbar component={CartPage} />} />
           <Route path="/checkout" element={<WithNavbar component={CheckoutPage} />} />
           <Route path="/thankyou" element={<WithNavbar component={ThankYouScreen} />} />
+          <Route path="/login" element={<WithNavbar component={LoginScreen} />} />
 
         </Routes>
       </Router>
