@@ -11,7 +11,7 @@ import LoginScreen from '../Login/Login';
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
-    const [islogin, setIsLogin] = useState(false)
+    const [islogin, setIsLogin] = useState(true)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
     const [userID, setUserID] = useState('');
@@ -59,14 +59,14 @@ const CheckoutPage = () => {
         localStorage.setItem('guestUserId', guestUserId);
     }
 
-    console.log('Guest User ID:', guestUserId);
+    // console.log('Guest User ID:', guestUserId);
 
 
 
     // const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
 
-        console.log('field-----------------------', field, value)
+        // console.log('field-----------------------', field, value)
         setFormData({
             ...formData,
             [field]: value,
@@ -197,11 +197,11 @@ const CheckoutPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(cartItems)
+        let updatedBillingFormData = {} ;
         if(isChecked){
-              setBillingFormData({...shippingFormData})
+            updatedBillingFormData = { ...shippingFormData };
         }
-        const isBillingFormValid = validateForm(isChecked ? shippingFormData :billingFormData, "billingform Error");
+        const isBillingFormValid = validateForm(isChecked ? updatedBillingFormData :billingFormData, "billingform Error");
         const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
 
         // If both forms are valid, proceed with submission
@@ -216,7 +216,7 @@ const CheckoutPage = () => {
                 promo_code: "Promo Code",
                 percent_discount_applied: "20",
                 shipping_address: shippingFormData,
-                billing_address: billingFormData,
+                billing_address: isChecked ? updatedBillingFormData :billingFormData,
                 product_data: [],
                 payment_data: {
                     "external_payment_id": "Stripe Payment Id",
