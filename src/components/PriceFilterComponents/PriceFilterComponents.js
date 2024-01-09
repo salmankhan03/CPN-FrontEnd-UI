@@ -34,11 +34,11 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
         const timeoutId = setTimeout(() => {
             setFilteredPrice((prevFilteredPrice) => {
                 return price;
-              });
+            });
         }, 1000);
         return () => clearTimeout(timeoutId);
-      }, [price, filteredPrice, setFilteredPrice]);
-    const customHandleInputChange = (e,type) => {
+    }, [price, filteredPrice, setFilteredPrice]);
+    const customHandleInputChange = (e, type) => {
         const inputValue = parseFloat(e);
         if (!isNaN(inputValue)) {
             setPrice(prevPrice => {
@@ -62,9 +62,9 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
                     max={max}
                     range
                     step={1}
-                    value={filteredPrice}
+                    defaultValue={filteredPrice[0] === undefined && filteredPrice[1] === undefined ? filteredPrice : [min,max]}
                     onChange={handleSliderChange}
-                />
+                />              
                 <div className='mt-1'>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div className='m-2'>

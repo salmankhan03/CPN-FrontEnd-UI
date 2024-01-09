@@ -14,6 +14,9 @@ const ProductServices = {
       `/product/list?page=${page}&pageSize=${limit}`,body
     );
   },
+  getMaximumPrice: async () => {
+    return requests.get(`/product/get-max-price`);
+  },
 
   getProductById: async (id) => {
     console.log("id",id)

@@ -26,10 +26,11 @@ function HomeScreen() {
     const [brandData, setBrandData] = useState();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
-    const [filteredPrice, setFilteredPrice] = useState([0, 100000]);
+    const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
     const [selectedSortingOption, setSelectedSortingOption] = useState();
+    const [maxPrice, setMaxPrice]= useState()
 
 
 
@@ -57,6 +58,7 @@ function HomeScreen() {
         getProductsList()
         getCategoryList()
         getBrandList()
+        getPriceFilter()
 
     }, [])
     useEffect(() => {
@@ -64,11 +66,15 @@ function HomeScreen() {
         const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
         let data = {
             "category": selectedCategories,
-            "price": filteredPrice,
-            "brands": selectedBrandNames
+            "brands": selectedBrandNames,
+            // "price": filteredPrice[1] === null || filteredPrice[1] === undefined ? [0, JSON.parse(maxPrice)] :filteredPrice ,
+            "price": filteredPrice[1] === null || filteredPrice[1] === undefined
+            ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
+            : filteredPrice,
         }
+        // console.log("FILterData",data)
 
-        if (selectedCategories.length > 0 || selectedBrands.length > 0 || filteredPrice) {
+            if ((selectedCategories.length > 0 || selectedBrands.length > 0 ) &&  filteredPrice !== null) {
             getfilterWiseProduct(data)
             setProductsListData([])
         } else {
@@ -156,6 +162,19 @@ function HomeScreen() {
             console.log(error)
         })
     }
+    function getPriceFilter() {
+        ProductServices.getMaximumPrice().then((resp) => {
+            setLoading(false)
+            if (resp?.status_code === 200) {
+                const roundedMaxPrice = Math.ceil(parseFloat(152.88))
+                setMaxPrice(roundedMaxPrice)                
+            }
+        }).catch((error) => {
+            setLoading(false)
+            console.log(error)
+        })
+
+    }
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
     };
@@ -179,6 +198,7 @@ function HomeScreen() {
                                 setSelectedBrands={setSelectedBrands}
                                 filteredPrice={filteredPrice}
                                 setFilteredPrice={setFilteredPrice}
+                                maximumPrice={maxPrice}
                             />
                         </div>
                     </div>

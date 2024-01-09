@@ -5,8 +5,8 @@ import PriceFilter from '../PriceFilterComponents/PriceFilterComponents';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
-function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice }) {
-  const [priceRange, setPriceRange] = useState([0, 100000]);
+function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice}) {
+  const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const handleDataChange = (event,) => {
     const dataType = event.target.dataset.datatype; // Access the 'datatypes' attribute
     console.log("types ==>", dataType)
@@ -48,7 +48,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
       <div className='mt-5 m-3'>
         <h4>Filter by Price</h4>
         <div className='mt-4'>
-          <RangeSliderInput min={0} max={100000} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
+          <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
       <div className="mt-5 m-3">
