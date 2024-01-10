@@ -277,7 +277,6 @@ const CheckoutPage = () => {
 
     return (
         <div className="container mt-5">
-            {islogin ? (
             <div className="row ">
                 <div className="col-md-8">
                     <div>
@@ -614,10 +613,6 @@ const CheckoutPage = () => {
 
                 </div>
             </div>
-            ):(
-                <LoginScreen></LoginScreen>
-            )}
-          
         </div>
     );
 };
