@@ -12,6 +12,7 @@ import CheckoutPage from './pages/Checkout/Checkout';
 import ThankYouScreen from './pages/ThankYou/ThankYou';
 import LoginScreen from './pages/Login/Login';
 import React, {useState} from "react";
+import SignUp from './pages/SignUP/SignUp';
 
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
             <Route path="/" element={<WithNavbar component={HomeScreen} />} />
             <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
             <Route path="/login" element={<LoginScreen setLoggedIn={setLoggedIn} />} />
+            <Route path="/signup" element={<SignUp component={SignUp} />} />
+
             <Route
                 path="/cart"
                 element={<WithNavbar component={CartPage} />}
