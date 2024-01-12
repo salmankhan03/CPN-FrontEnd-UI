@@ -11,45 +11,40 @@ import CartPage from './pages/Cart/Cart';
 import CheckoutPage from './pages/Checkout/Checkout';
 import ThankYouScreen from './pages/ThankYou/ThankYou';
 import LoginScreen from './pages/Login/Login';
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SignUp from './pages/SignUP/SignUp';
+import PrivateRoute from './PrivateRoute';
+import { useSelector } from 'react-redux';
 
 
 function App() {
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  const PrivateRoute = ({ element, ...rest }) => {
-    return isLoggedIn ? (
-        element
-    ) : (
-        <Navigate to="/login" />
-    );
-  };
+  const AuthData = useSelector(state => state.AuthReducer.userData);
+  const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id)
+  const loginStatusUpdate = () =>{
+    console.log("call")
+  }
 
   return (
-      <div className='pagebox'>
-        <Router>
-          <Routes>
-            <Route path="/" element={<WithNavbar component={HomeScreen} />} />
-            <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
-            <Route path="/login" element={<LoginScreen setLoggedIn={setLoggedIn} />} />
-            <Route path="/signup" element={<SignUp component={SignUp} />} />
+    <div className='pagebox'>
+      <Router>
+        <Routes>
+          <Route path="/" element={<WithNavbar component={HomeScreen} />} />
+          <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
+          <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} />
+          <Route path="/signup" element={<SignUp />} />
 
-            <Route
-                path="/cart"
-                element={<WithNavbar component={CartPage} />}
-            />
-            <Route
-                path="/checkout"
-                element={<PrivateRoute element={<WithNavbar component={CheckoutPage} />} />}
-            />
-            <Route
-                path="/thankyou"
-                element={<PrivateRoute element={<WithNavbar component={ThankYouScreen} />} />}
-            />
+          <Route path="/cart" element={<CartPage element={<WithNavbar component={CartPage} />} />} />
+          <Route
+            path="/checkout"
+            element={<PrivateRoute element={<CheckoutPage />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+          />
+          <Route
+            path="/thankyou"
+            element={<PrivateRoute element={<ThankYouScreen />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+          />
           </Routes>
-        </Router>
-      </div>
+      </Router>
+    </div>
   );
 }
 
@@ -60,7 +55,7 @@ interface WithNavbarProps {
 function WithNavbar({ component: Component, ...rest }: WithNavbarProps) {
   return (
     <>
-    <TopNavBar></TopNavBar>
+      <TopNavBar></TopNavBar>
       <Header></Header>
       <Component {...rest} />
     </>

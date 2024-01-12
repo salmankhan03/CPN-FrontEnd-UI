@@ -56,6 +56,13 @@ const CheckoutPage = () => {
     const [total, setTotal] = useState();
     const [province, setProvince] = useState();
 
+    useEffect(()=>{
+        console.log(cartItems)
+        if(cartItems.length === 0){
+            navigate('/');
+        }
+    },[])
+
 
     function generateGuestUserId() {
         const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
@@ -336,38 +343,7 @@ const CheckoutPage = () => {
                                         required
                                     />
                                     {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
-                                </div>
-                                {/*<div className="form-group col-md-12">*/}
-                                {/*    <InputComponent*/}
-                                {/*        type="text"*/}
-                                {/*        id="compnay"*/}
-                                {/*        label="Company name (optional)"*/}
-                                {/*        customClass={`form-control gray-bg`}*/}
-                                {/*        value={shippingFormData?.compnay}*/}
-                                {/*        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'compnay', e.target.value, "shippingform Error")}*/}
-                                {/*        placeholder=""*/}
-                                {/*        required*/}
-                                {/*        isdisabled={isChecked}*/}
-                                {/*    />*/}
-
-                                {/*</div>*/}
-                                {/*<div className="form-group col-md-12">*/}
-                                {/*    <div className='mb-3'>*/}
-                                {/*        <label htmlFor="last_name">Country / Region *</label>                            */}
-                                {/*        <CountryDropdown*/}
-                                {/*            id="country"*/}
-                                {/*            value={shippingFormData?.country}*/}
-                                {/*            // onChange={handleCountryChange}*/}
-                                {/*            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'country', e, "shippingform Error")}*/}
-                                {/*            valueType="short"*/}
-                                {/*            whitelist={['CA']}*/}
-                                {/*            className={`country-Dropdown gray-bg ${shippingFormErrors.country ? 'validation-error-border' : ''}`}*/}
-                                {/*            disabled={isChecked}*/}
-                                {/*        />*/}
-                                {/*        {shippingFormErrors.country && <div className="validation-error">{shippingFormErrors.country}</div>}*/}
-
-                                {/*    </div>*/}
-                                {/*</div>*/}
+                                </div>                        
                                 <div className="form-group col-md-12">
                                     <InputComponent
                                         type="text"
@@ -494,35 +470,7 @@ const CheckoutPage = () => {
                                         isdisabled={isChecked}
                                     />
                                     {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
-                                </div>
-                                {/*<div className="form-group col-md-12">*/}
-                                {/*    <InputComponent*/}
-                                {/*        type="text"*/}
-                                {/*        id="compnay"*/}
-                                {/*        label="Company name (optional)"*/}
-                                {/*        customClass={`form-control gray-bg`}*/}
-                                {/*        value={billingFormData?.compnay}*/}
-                                {/*        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'compnay', e.target.value, "billingform Error")}*/}
-                                {/*        placeholder=""*/}
-                                {/*        required*/}
-                                {/*    />*/}
-
-                                {/*</div>*/}
-                                {/*<div className="form-group col-md-12">*/}
-                                {/*    <div className='mb-3'>*/}
-                                {/*        <label htmlFor="last_name">Country / Region *</label>                            */}
-                                {/*        <CountryDropdown*/}
-                                {/*        id="country"*/}
-                                {/*        value={billingFormData?.country}*/}
-                                {/*        // onChange={handleCountryChange}*/}
-                                {/*        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'country', e, "billingform Error")}*/}
-                                {/*        valueType="short"*/}
-                                {/*        whitelist={['CA']}*/}
-                                {/*        className={`country-Dropdown gray-bg ${billingFormErrors.country ? 'validation-error-border' : ''}`}*/}
-                                {/*        />*/}
-                                {/*        {billingFormErrors.country && <div className="validation-error">{billingFormErrors.country}</div>}*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
+                                </div>                
                                 <div className="form-group col-md-12">
                                     <InputComponent
                                         type="text"

@@ -5,7 +5,7 @@ import AuthServices from '../../services/AuthServices';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../../redux/action/auth-action';
 
-const LoginScreen = () => {
+const LoginScreen = ({onLogin}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,12 +48,14 @@ const LoginScreen = () => {
             console.log(resp)
             dispatch(setUserData({
               ...resp?.data
-          }))
-            navigate(`/`, {
-              state: {
-                order_id: resp.order_id
-              }
-            })
+            }))
+            onLogin(); 
+            navigate('/checkout');
+            // navigate(`/`, {
+            //   state: {
+            //     order_id: resp.order_id
+            //   }
+            // })
           }
         }).catch((error) => {
           // setLoading(false)
@@ -76,74 +78,77 @@ const LoginScreen = () => {
 
   return (
     <div className="container">
-      <div className='m-5'>
+      <div className='m-3 mt-5'>
         <div className='row' style={{ backgroundColor: '' }}>
-          <div className='col-md-6 text-center'>
-            <div className="h-32 md:h-auto md:w-1/2">
-              <img
-                aria-hidden="true"
-                className="object-cover w-full h-full dark:hidden"
-                src="https://img.freepik.com/free-vector/account-concept-illustration_114360-399.jpg"
-                alt="Office"
-                style={{ height: 350 }}
-              />
-            </div>
-          </div>
           <div className='col-md-6'>
             <div>
-              <h2>Login</h2>
+              <h2>Secure Checkout</h2>
+              <div className='mt-5 d-flex align-items-center'>
+                <span className='mr-2'><i className="fa fa-shopping-cart"></i></span>
+                <h5 className='mb-0'>Guest Checkout</h5>
+              </div>
+              <div className='mt-3'>
+                <p>No account? No problem. Create an account later to keep track of your orders.</p>
+                <p className='text-primary'>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+              </div>
             </div>
-            <form onSubmit={handleSubmit}>
-              <div className="form-row mt-3">
-                <div className="form-group col-md-6">
-                  <div className="form-outline mb-4">
-                    <label className="form-label" htmlFor="registerName">Email</label>
-                    <InputComponent
-                      type="text"
-                      id="email"
-                      // label="User Name *"
-                      customClass={`form-control gray-bg ${formDataErrors?.email ? 'validation-error-border' : ''} `}//
-                      value={formData?.email}
-                      onChange={(e) => handleChange('email', e.target.value,)}
-                      placeholder=""
-                      required={true}
-                    />
-                    {formDataErrors?.email && <div className="validation-error">{formDataErrors?.email}</div>}
-                  </div>
-                  <div className="form-outline mb-4">
-                    <label className="form-label" htmlFor="registerName">Password</label>
-                    <InputComponent
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      customClass={`form-control gray-bg ${formDataErrors?.password ? 'validation-error-border' : ''}`}
-                      value={formData?.password}
-                      onChange={(e) => handleChange('password', e.target.value)}
-                      placeholder=""
-                      required={true}
-                    />
 
-                    {formDataErrors?.password && <div className="validation-error">{formDataErrors?.password}</div>}
-                  </div>
+          </div>
+          <div className='col-md-6 '>
+            <div className='ml-5 mr-5'>
+              <h2>Login</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="form-row mt-3 ">
+                  <div className="form-group col-md-12">
+                    <div className="form-outline mb-4">
+                      <label className="form-label" htmlFor="registerName">Email</label>
+                      <InputComponent
+                        type="text"
+                        id="email"
+                        // label="User Name *"
+                        customClass={`form-control gray-bg ${formDataErrors?.email ? 'validation-error-border' : ''} `}//
+                        value={formData?.email}
+                        onChange={(e) => handleChange('email', e.target.value,)}
+                        placeholder=""
+                        required={true}
+                      />
+                      {formDataErrors?.email && <div className="validation-error">{formDataErrors?.email}</div>}
+                    </div>
+                    <div className="form-outline mb-4">
+                      <label className="form-label" htmlFor="registerName">Password</label>
+                      <InputComponent
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        customClass={`form-control gray-bg ${formDataErrors?.password ? 'validation-error-border' : ''}`}
+                        value={formData?.password}
+                        onChange={(e) => handleChange('password', e.target.value)}
+                        placeholder=""
+                        required={true}
+                      />
 
-                  <div className="form-group">
-                    <button className="btn btn-primary btn-block" type="submit">
-                      <span>Login</span>
-                    </button>
-                  </div>
-                  <div className='mt-4 mb-4'>
-                    <hr />
-                  </div>
-                  <div className="form-outline mb-2">
-                    <p>Forgot Password</p>
-                  </div>
-                  <div className="form-outline mb-4">
-                    <p onClick={gotoSignUp}>Create account</p>
+                      {formDataErrors?.password && <div className="validation-error">{formDataErrors?.password}</div>}
+                    </div>
+
+                    <div className="form-group">
+                      <button className="btn btn-primary btn-block" type="submit">
+                        <span>Login</span>
+                      </button>
+                    </div>
+                    <div className='mt-4 mb-4'>
+                      <hr />
+                    </div>
+                    <div className="form-outline mb-2">
+                      <p>Forgot Password</p>
+                    </div>
+                    <div className="form-outline mb-4">
+                      <p onClick={gotoSignUp}>Create account</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
