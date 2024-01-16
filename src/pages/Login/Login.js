@@ -4,6 +4,7 @@ import InputComponent from '../../components/InputComponents/InputComponents';
 import AuthServices from '../../services/AuthServices';
 import { useDispatch } from 'react-redux';
 import { setGuestUser, setUserData } from '../../redux/action/auth-action';
+import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 
 const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -56,6 +57,8 @@ const LoginScreen = ({ onLogin }) => {
         }).catch((error) => {
           // setLoading(false)
           console.log(error)
+          notifyError(`${error?.response?.data?.message} added to the cart!`);
+
         })
       } catch (error) {
         console.error('Login failed:', error);
@@ -100,6 +103,8 @@ const LoginScreen = ({ onLogin }) => {
   return (
     <div className="container">
       <div className='m-3 mt-5'>
+      <Toast/>
+
         <div className='row' style={{ backgroundColor: '' }}>
           <div className='col-md-6'>
             <div>
