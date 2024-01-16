@@ -3,9 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import AuthServices from '../../services/AuthServices';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '../../redux/action/auth-action';
+import { setGuestUser, setUserData } from '../../redux/action/auth-action';
 
-const LoginScreen = ({onLogin}) => {
+const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -49,13 +49,9 @@ const LoginScreen = ({onLogin}) => {
             dispatch(setUserData({
               ...resp?.data
             }))
-            onLogin(); 
+            onLogin();
             navigate('/checkout');
-            // navigate(`/`, {
-            //   state: {
-            //     order_id: resp.order_id
-            //   }
-            // })
+            
           }
         }).catch((error) => {
           // setLoading(false)
@@ -75,6 +71,31 @@ const LoginScreen = ({onLogin}) => {
   const gotoSignUp = () => {
     navigate('/signup');
   };
+  const guestUserCheckout = () => {
+
+    // Check if guest user ID exists in local storage, otherwise generate one
+    let guestUserId = localStorage.getItem('guestUserId');
+    if (!guestUserId) {
+      guestUserId = generateGuestUserId();
+      localStorage.setItem('guestUserId', guestUserId);
+    }
+    console.log(guestUserId)
+    let guesData ={
+      guestUserId: guestUserId
+    }
+    dispatch(setGuestUser({
+      ...guesData
+    }))
+    console.log("Dispatch Successfully")
+    navigate('/checkout');
+
+    
+  };
+  function generateGuestUserId() {
+    const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
+    return uniqueId;
+}
+
 
   return (
     <div className="container">
@@ -89,7 +110,7 @@ const LoginScreen = ({onLogin}) => {
               </div>
               <div className='mt-3'>
                 <p>No account? No problem. Create an account later to keep track of your orders.</p>
-                <p className='text-primary'>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+                <p className='text-primary' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
               </div>
             </div>
 

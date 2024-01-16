@@ -14,17 +14,19 @@ const CheckoutPage = () => {
     const [islogin, setIsLogin] = useState(true)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
-    const [userID, setUserID] = useState('');
-    // "first_name": "1",
-    // "last_name": "2",
-    // "country": "3",
-    // "company_name": "4",
-    // "street_address": "5",
-    // "city": "6",
-    // "state": "7",
-    // "zip": "8",
-    // "phone": "9",
-    // "email": "10"
+    const AuthData = useSelector(state => state.AuthReducer.userData);
+    const [userID, setUserID] = useState(AuthData ? AuthData.id : ''); 
+    const GuestData = useSelector(state => state.AuthReducer.guestUserData)
+   
+    
+    const [isChecked, setIsChecked] = useState(true);
+    const [billingFormErrors, setBillingFormErrors] = useState({});
+    const [shippingFormErrors, setShippingFormErrors] = useState({});
+    const [pst, setPst] = useState();
+    const [hst, setHst] = useState();
+    const [gst, setGst] = useState();
+    const [total, setTotal] = useState();
+    const [province, setProvince] = useState();
     const [billingFormData, setBillingFormData] = useState({
         first_name: '',
         last_name: '',
@@ -47,14 +49,6 @@ const CheckoutPage = () => {
         phone: '',
         email: '',
     });
-    const [isChecked, setIsChecked] = useState(true);
-    const [billingFormErrors, setBillingFormErrors] = useState({});
-    const [shippingFormErrors, setShippingFormErrors] = useState({});
-    const [pst, setPst] = useState();
-    const [hst, setHst] = useState();
-    const [gst, setGst] = useState();
-    const [total, setTotal] = useState();
-    const [province, setProvince] = useState();
 
     useEffect(()=>{
         console.log(cartItems)
@@ -70,11 +64,11 @@ const CheckoutPage = () => {
     }
 
     // Check if guest user ID exists in local storage, otherwise generate one
-    let guestUserId = localStorage.getItem('guestUserId');
-    if (!guestUserId) {
-        guestUserId = generateGuestUserId();
-        localStorage.setItem('guestUserId', guestUserId);
-    }
+    // let guestUserId = localStorage.getItem('guestUserId');
+    // if (!guestUserId) {
+    //     guestUserId = generateGuestUserId();
+    //     localStorage.setItem('guestUserId', guestUserId);
+    // }
 
     // console.log('Guest User ID:', guestUserId);
 
@@ -229,7 +223,7 @@ const CheckoutPage = () => {
                 total_amount: subtotal,
                 user_id: userID ? userID : null,
                 is_guest: !userID ? 1 : 0,
-                guest_user_id: guestUserId,
+                guest_user_id: userID ? "" : GuestData.guestUserId,
                 promo_code: "Promo Code",
                 percent_discount_applied: "20",
                 shipping_address: shippingFormData,

@@ -3,7 +3,7 @@ import InputComponent from '../../components/InputComponents/InputComponents';
 import { useNavigate } from 'react-router-dom';
 import AuthServices from '../../services/AuthServices';
 import { useDispatch } from 'react-redux';
-import { setUserData } from '../../redux/action/auth-action';
+import { setGuestUser, setUserData } from '../../redux/action/auth-action';
 
 
 
@@ -97,6 +97,30 @@ const SignUp = () => {
     const gotoLogin = () => {
         navigate(`/signup`)
     }
+    const guestUserCheckout = () => {
+
+        // Check if guest user ID exists in local storage, otherwise generate one
+        let guestUserId = localStorage.getItem('guestUserId');
+        if (!guestUserId) {
+          guestUserId = generateGuestUserId();
+          localStorage.setItem('guestUserId', guestUserId);
+        }
+        console.log(guestUserId)
+        let guesData ={
+          guestUserId: guestUserId
+        }
+        dispatch(setGuestUser({
+          ...guesData
+        }))
+        console.log("Dispatch Successfully")
+        navigate('/checkout');
+    
+        
+      };
+      function generateGuestUserId() {
+        const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
+        return uniqueId;
+    }
 
 
 
@@ -113,7 +137,7 @@ const SignUp = () => {
                             </div>
                             <div className='mt-3'>
                                 <p>No account? No problem. Create an account later to keep track of your orders.</p>
-                                <p className='text-primary'>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+                                <p className='text-primary' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
                             </div>
                         </div>
 

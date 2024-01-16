@@ -11,7 +11,7 @@ import CartPage from './pages/Cart/Cart';
 import CheckoutPage from './pages/Checkout/Checkout';
 import ThankYouScreen from './pages/ThankYou/ThankYou';
 import LoginScreen from './pages/Login/Login';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SignUp from './pages/SignUP/SignUp';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
@@ -19,10 +19,23 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const AuthData = useSelector(state => state.AuthReducer.userData);
-  const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id)
+  const GuestData = useSelector(state => state.AuthReducer.guestUserData)
+  console.log(GuestData)
+  console.log(AuthData)
+
+  const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
+  console.log(isLoggedIn)
   const loginStatusUpdate = () =>{
     console.log("call")
   }
+    useEffect(()=>{
+      console.log(AuthData)
+      console.log(GuestData)
+      if(AuthData || GuestData){
+        setLoggedIn(true)
+      }
+
+    },[GuestData, AuthData])
 
   return (
     <div className='pagebox'>
@@ -33,10 +46,10 @@ function App() {
           <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} />
           <Route path="/signup" element={<SignUp />} />
 
-          <Route path="/cart" element={<CartPage element={<WithNavbar component={CartPage} />} />} />
+          <Route path="/cart" element={<WithNavbar component={CartPage} />} />
           <Route
             path="/checkout"
-            element={<PrivateRoute element={<CheckoutPage />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+            element={<PrivateRoute element={<WithNavbar component={CheckoutPage} />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
           <Route
             path="/thankyou"
