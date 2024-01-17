@@ -400,7 +400,7 @@ section {
   right: 0;
   top: 120%;
   margin: 0;
-  width: 100%;
+  width:fit-content;
   background: #ffffff;
   visibility: hidden;
   opacity: 0;

@@ -11,7 +11,7 @@ const SignUp = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [formData, setFormData] = useState({
+    const [registerFormData, setRegisterFormData] = useState({
         first_name: '',
         last_name: '',
         date_of_birth: '',
@@ -20,7 +20,7 @@ const SignUp = () => {
         password: '',
         id: null
     });
-    const [formDataErrors, setFormDataErrors] = useState({
+    const [registerFormDataErrors, setRegisterFormDataErrors] = useState({
         first_name: '',
         last_name: '',
         date_of_birth: '',
@@ -36,33 +36,33 @@ const SignUp = () => {
         if (fieldName === 'date_of_birth') {
             formattedValue = new Date(value).toISOString();
         }
-        setFormData({ ...formData, [fieldName]: formattedValue });
-        console.log("formData", formData)
+        setRegisterFormData({ ...registerFormData, [fieldName]: formattedValue });
+        console.log("registerFormData", registerFormData)
     };
 
     const validateForm = () => {
         const errors = {};
 
-        if (!formData.first_name.trim()) {
+        if (!registerFormData.first_name.trim()) {
             errors.first_name = 'First Name is required';
         }
-        if (!formData.last_name.trim()) {
+        if (!registerFormData.last_name.trim()) {
             errors.last_name = 'Last Name is required';
         }
-        if (!formData.date_of_birth.trim()) {
+        if (!registerFormData.date_of_birth.trim()) {
             errors.date_of_birth = 'Date of Birth is required';
         }
-        if (!formData.phone.trim()) {
+        if (!registerFormData.phone.trim()) {
             errors.phone = 'Phone Number is required';
         }
-        if (!formData.email.trim()) {
+        if (!registerFormData.email.trim()) {
             errors.email = 'Email is required';
         }
-        if (!formData.password.trim()) {
+        if (!registerFormData.password.trim()) {
             errors.password = 'Password is required';
         }
 
-        setFormDataErrors(errors);
+        setRegisterFormDataErrors(errors);
         return Object.keys(errors).length === 0;
     };
 
@@ -70,8 +70,8 @@ const SignUp = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                console.log("FINAL", formData)
-                AuthServices.customerSignUp(formData).then((resp) => {
+                console.log("FINAL", registerFormData)
+                AuthServices.customerSignUp(registerFormData).then((resp) => {
                     if (resp?.status_code === 200) {
                         console.log(resp)
                         dispatch(setUserData({
@@ -91,33 +91,33 @@ const SignUp = () => {
                 console.error('Login failed:', error);
             }
         } else {
-            console.log('Validation errors:', formDataErrors);
+            console.log('Validation errors:', registerFormDataErrors);
         }
     };
     const gotoLogin = () => {
         navigate(`/signup`)
     }
     const guestUserCheckout = () => {
-
+        console.log("CALL")
         // Check if guest user ID exists in local storage, otherwise generate one
         let guestUserId = localStorage.getItem('guestUserId');
         if (!guestUserId) {
-          guestUserId = generateGuestUserId();
-          localStorage.setItem('guestUserId', guestUserId);
+            guestUserId = generateGuestUserId();
+            localStorage.setItem('guestUserId', guestUserId);
         }
         console.log(guestUserId)
-        let guesData ={
-          guestUserId: guestUserId
+        let guesData = {
+            guestUserId: guestUserId
         }
         dispatch(setGuestUser({
-          ...guesData
+            ...guesData
         }))
         console.log("Dispatch Successfully")
         navigate('/checkout');
-    
-        
-      };
-      function generateGuestUserId() {
+
+
+    };
+    function generateGuestUserId() {
         const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
         return uniqueId;
     }
@@ -139,9 +139,7 @@ const SignUp = () => {
                                 <p>No account? No problem. Create an account later to keep track of your orders.</p>
                                 <p className='text-primary' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
                             </div>
-                        </div>
-
-                    </div>
+                        </div>                    </div>
                     <div className='col-md-6'>
                         <div className='ml-5 mr-5'>
                             <h2>Create account</h2>
@@ -155,7 +153,7 @@ const SignUp = () => {
                                                 type="text"
                                                 id="first_name"
                                                 customClass={`form-control gray-bg `}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                                value={formData?.first_name}
+                                                value={registerFormData?.first_name}
                                                 onChange={(e) => handleChange('first_name', e.target.value,)}
                                                 placeholder=""
                                                 required={true}
@@ -167,7 +165,7 @@ const SignUp = () => {
                                                 type="text"
                                                 id="last_name"
                                                 customClass={`form-control gray-bg `}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                                value={formData?.last_name}
+                                                value={registerFormData?.last_name}
                                                 onChange={(e) => handleChange('last_name', e.target.value,)}
                                                 placeholder=""
                                                 required={true}
@@ -179,7 +177,7 @@ const SignUp = () => {
                                                 type="date"
                                                 id="date_of_birth"
                                                 customClass={`form-control gray-bg `}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                                value={formData?.date_of_birth}
+                                                value={registerFormData?.date_of_birth}
                                                 onChange={(e) => handleChange('date_of_birth', e.target.value,)}
                                                 placeholder=""
                                             />
@@ -190,7 +188,7 @@ const SignUp = () => {
                                                 type="number"
                                                 id="phone"
                                                 customClass={`form-control gray-bg `}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                                value={formData?.phone}
+                                                value={registerFormData?.phone}
                                                 onChange={(e) => handleChange('phone', e.target.value,)}
                                                 placeholder=""
                                                 required={true}
@@ -202,7 +200,7 @@ const SignUp = () => {
                                                 type="email"
                                                 id="email"
                                                 customClass={`form-control gray-bg `}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                                value={formData?.email}
+                                                value={registerFormData?.email}
                                                 onChange={(e) => handleChange('email', e.target.value,)}
                                                 placeholder=""
                                                 required={true}
@@ -215,7 +213,7 @@ const SignUp = () => {
                                                 id="password"
                                                 // label="User Name *"
                                                 customClass={`form-control gray-bg `}
-                                                value={formData?.password}
+                                                value={registerFormData?.password}
                                                 onChange={(e) => handleChange('password', e.target.value,)}
                                                 placeholder=""
                                                 required={true}

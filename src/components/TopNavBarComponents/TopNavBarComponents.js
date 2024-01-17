@@ -1,11 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGuestUser, setUserData } from '../../redux/action/auth-action';
+import {Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
 
 
 function TopNavBar() {
+    const dispatch = useDispatch();
 
+    const  authData = useSelector(state => state?.AuthReducer?.userData);
+    const  guestData = useSelector(state => state?.AuthReducer?.guestUserData);
+    const [isLogin,setIsLogin]= useState(false)
+    useEffect(()=>{
+        if (Object.keys(authData).length > 0 || Object.keys(guestData).length > 0) {
+            setIsLogin(true);
+        } else {
+            setIsLogin(false);
+        }
+    },[authData,guestData])
+    const logout = ()=>{
+        console.log("Working")
+        dispatch(setUserData({}))
+        dispatch(setGuestUser({}))
+        notifySuccess(`logOut Suceefully`);
+        
+
+      };
     return (
         <div className={`top_nav`}>
             <div className="ml-2 mr-2">
+            <Toast />
                 <div className="row">
                     <div className="col-md-7">
                         <div className="top_nav_left">
@@ -34,7 +57,7 @@ function TopNavBar() {
                             <div className="col-md-5">
                                 <div className="top_nav_right">
                                     <ul className="top_nav_menu">
-                                        <li className="currency">
+                                        {/* <li className="currency">
                                             <a href="#">
                                                 usd
                                                 <i className="fa fa-angle-down"></i>
@@ -53,20 +76,22 @@ function TopNavBar() {
                                                     <a href="#">gbp</a>
                                                 </li>
                                             </ul>
-                                        </li>
-                                        <li className="language">
+                                        </li> */}
+                                        <li className="currency">
                                             <a href="#">
-                                                English
-                                                <i className="fa fa-angle-down"></i>
+                                                {/* {customerName} */}
+                                                <i className="fa fa-user" aria-hidden="true"></i>
                                             </a>
-                                            <ul className="language_selection">
+                                            {isLogin ? (
+                                            <ul className="currency_selection">
                                                 <li>
-                                                    <a href="#">French</a>
+                                                    <div onClick={logout}>Logout</div>
                                                 </li>
-                                                <li>
+                                                {/* <li>
                                                     <a href="#">Spanish</a>
-                                                </li>
+                                                </li> */}
                                             </ul>
+                                            ):null}
                                         </li>
                                     </ul>
                                 </div>
