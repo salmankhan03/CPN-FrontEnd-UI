@@ -51,9 +51,19 @@ const CheckoutPage = () => {
     });
 
     useEffect(()=>{
-        console.log(cartItems)
+        // console.log(cartItems)
         if(cartItems.length === 0){
             navigate('/');
+        }
+        if(AuthData){
+            setShippingFormData((prevData) => ({
+                ...prevData,
+                first_name:AuthData?.first_name,
+                last_name: AuthData?.last_name,
+                phone: AuthData?.contact_no,
+                email: AuthData?.email,
+            }))
+
         }
     },[])
 
@@ -105,40 +115,40 @@ const CheckoutPage = () => {
     const validateForm = (formData, setFormErrors) => {
 
         let errors = {};
-
-        if (formData.first_name.trim() === '') {
+        console.log(formData)
+        if (formData?.first_name?.trim() === '' || formData?.first_name === null ) {
             errors.first_name = 'First name is required';
         }
 
-        if (formData.last_name.trim() === '') {
+        if (formData.last_name?.trim() === ''  || formData?.last_name === null ) {
             errors.last_name = 'Last name is required';
         }
 
-        if (formData.country.trim() === '') {
+        if (formData.country?.trim() === ''  || formData?.country === null ) {
             errors.country = 'Country is required';
         }
 
-        if (formData.street_address.trim() === '') {
+        if (formData.street_address?.trim() === ''  || formData?.street_address === null ) {
             errors.street_address = 'Street address is required';
         }
 
-        if (formData.city.trim() === '') {
+        if (formData.city?.trim() === ''  || formData?.city === null ) {
             errors.city = 'City is required';
         }
 
-        // if (formData.state.trim() === '') {
+        // if (formData.state?.trim() === '') {
         //     errors.state = 'State is required';
         // }
 
-        if (formData.zip.trim() === '') {
+        if (formData.zip?.trim() === ''  || formData?.zip === null ) {
             errors.zip = 'ZIP Code is required';
         }
 
-        if (formData.phone.trim() === '') {
+        if (formData.phone?.trim() === '' || formData?.phone === null ) {
             errors.phone = 'Phone number is required';
         }
 
-        if (formData.email.trim() === '') {
+        if (formData.email?.trim() === '' || formData?.email === null ) {
             errors.email = 'Email address is required';
         } else if (!isValidEmail(formData.email)) {
             errors.email = 'Invalid email address';
