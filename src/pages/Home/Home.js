@@ -30,7 +30,7 @@ function HomeScreen() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
     const [selectedSortingOption, setSelectedSortingOption] = useState();
-    const [maxPrice, setMaxPrice]= useState()
+    const [maxPrice, setMaxPrice] = useState()
 
 
 
@@ -69,12 +69,12 @@ function HomeScreen() {
             "brands": selectedBrandNames,
             // "price": filteredPrice[1] === null || filteredPrice[1] === undefined ? [0, JSON.parse(maxPrice)] :filteredPrice ,
             "price": filteredPrice[1] === null || filteredPrice[1] === undefined
-            ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
-            : filteredPrice,
+                ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
+                : filteredPrice,
         }
-        // console.log("FILterData",data)
-
-            if ((selectedCategories.length > 0 || selectedBrands.length > 0 ) &&  filteredPrice !== null) {
+        console.log("FILterData", data)
+            // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
+        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !==  0 ) {
             getfilterWiseProduct(data)
             setProductsListData([])
         } else {
@@ -167,7 +167,7 @@ function HomeScreen() {
             setLoading(false)
             if (resp?.status_code === 200) {
                 const roundedMaxPrice = Math.ceil(parseFloat(152.88))
-                setMaxPrice(roundedMaxPrice)                
+                setMaxPrice(roundedMaxPrice)
             }
         }).catch((error) => {
             setLoading(false)
@@ -181,7 +181,7 @@ function HomeScreen() {
     const handleSortingChange = (e) => {
         setSelectedSortingOption(e.target.value);
     };
-    
+
     return (
         <div className="" >
             <div className='m-2'>
