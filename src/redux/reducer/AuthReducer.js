@@ -1,6 +1,7 @@
 const initialState = {
     userData: {},
-    guestUserData:{}
+    guestUserData: {},
+    userToken:{}
 }
 
 export const AuthReducer = (state = initialState, action) => {
@@ -9,6 +10,11 @@ export const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userData: action.payload
+            }
+        case "SET_USERTOKEN":
+            return {
+                ...state,
+                userToken: action.payload
             }
         case "SET_GUEST_USERDATA":
             return {

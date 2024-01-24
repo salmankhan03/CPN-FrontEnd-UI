@@ -9,6 +9,9 @@ const AuthServices = {
         console.log(body)
         return requests.post(`/customer/signup`, body);
     },
+    customerLogout: async () => {
+        return requests.get(`/customer/logout`, );
+    },
 
 
 };

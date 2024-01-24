@@ -3,8 +3,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import AuthServices from '../../services/AuthServices';
 import { useDispatch } from 'react-redux';
-import { setGuestUser, setUserData } from '../../redux/action/auth-action';
+import { setGuestUser, setUserData, setUserToken } from '../../redux/action/auth-action';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
+import Cookies from 'js-cookie';
 
 const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -70,10 +71,18 @@ const LoginScreen = ({ onLogin }) => {
       try {
         AuthServices.customerLogin(formData).then((resp) => {
           if (resp?.status_code === 200) {
+            const cookieTimeOut = 1000;
+
             console.log(resp)
             dispatch(setUserData({
               ...resp?.data
             }))
+            dispatch(setUserToken(
+              resp?.token
+            ))
+            Cookies.set('userToken', JSON.stringify(resp?.token), {
+              expires: cookieTimeOut,
+            });
             onLogin();
             navigate('/checkout');
 

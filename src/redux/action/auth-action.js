@@ -10,6 +10,18 @@ export const setUserData = (data) => {
         }
     }
 }
+export const setUserToken = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "SET_USERTOKEN",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 export const setGuestUser = (data) => {
     return async (dispatch) => {
         try {
