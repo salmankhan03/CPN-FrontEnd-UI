@@ -209,7 +209,8 @@ function ProductDetails() {
                 price: product.price,
                 sku: product.sku,
                 purchaseQty: quantity,
-                totalPrice: quantity * JSON.parse(product.price)
+                totalPrice: quantity * JSON.parse(product.price),
+                is_tax_apply:product?.is_tax_apply
             };
             notifySuccess(`${product.name} added to the cart!`);
             dispatch(addtoCartItems(cartObj));

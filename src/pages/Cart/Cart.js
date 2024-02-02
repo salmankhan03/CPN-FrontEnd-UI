@@ -231,7 +231,7 @@ const CartPage = () => {
                         </div>
                         <div className="text-right mt-5">
                             <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
-                            {couponDiscount > 0 && <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
+                            {/* {couponDiscount > 0 && <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
                             <p className='mt-1'>
                                 Coupon code:{' '}
                                 <span className='ml-5' onClick={handleCouponClick}>
@@ -254,7 +254,7 @@ const CartPage = () => {
                                     <button class="checkout-button cart-checkout-btn" onClick={handleApplyCoupon} >Apply Coupon</button>
 
                                 </div>
-                            )}
+                            )} */}
 
                             <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p>
 

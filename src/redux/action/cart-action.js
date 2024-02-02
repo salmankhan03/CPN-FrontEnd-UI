@@ -37,3 +37,15 @@ export const updateCartSubTotal = (data) => {
     }
 }
 
+export const addCoupon = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "ADD_COUPON",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

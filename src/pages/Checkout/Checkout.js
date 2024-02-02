@@ -2,23 +2,25 @@ import React, { useEffect, useState } from 'react';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { getAllCountries, getStatesOfCountry } from 'country-state-city';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import OrderServices from '../../services/orderService';
 import { ProvinceTax } from '../../helpers/TaxTable'
 import LoginScreen from '../Login/Login';
+import { addCoupon, updateCartItems, updateCartSubTotal } from '../../redux/action/cart-action';
 
 
 const CheckoutPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [islogin, setIsLogin] = useState(true)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
+    const CouponDetails = useSelector(state => state.CartReducer.coupon)
     const AuthData = useSelector(state => state.AuthReducer.userData);
-    const [userID, setUserID] = useState(AuthData ? AuthData.id : ''); 
+    const [userID, setUserID] = useState(AuthData ? AuthData.id : '');
     const GuestData = useSelector(state => state.AuthReducer.guestUserData)
-   
-    
     const [isChecked, setIsChecked] = useState(true);
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
@@ -27,6 +29,12 @@ const CheckoutPage = () => {
     const [gst, setGst] = useState();
     const [total, setTotal] = useState();
     const [province, setProvince] = useState();
+    const [showCouponInput, setShowCouponInput] = useState(false);
+    const [couponCode, setCouponCode] = useState(CouponDetails ? CouponDetails?.couponCode : '');
+    const [checkCouponCode, setCheckCouponCode] = useState(null)
+    const [couponDiscount, setCouponDiscount] = useState(CouponDetails ? CouponDetails?.couponDiscount : 0)
+    const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
+
     const [billingFormData, setBillingFormData] = useState({
         first_name: '',
         last_name: '',
@@ -50,22 +58,22 @@ const CheckoutPage = () => {
         email: '',
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log(cartItems)
-        if(cartItems.length === 0){
+        if (cartItems.length === 0) {
             navigate('/');
         }
-        if(AuthData){
+        if (AuthData) {
             setShippingFormData((prevData) => ({
                 ...prevData,
-                first_name:AuthData?.first_name,
+                first_name: AuthData?.first_name,
                 last_name: AuthData?.last_name,
                 phone: AuthData?.contact_no,
                 email: AuthData?.email,
             }))
 
         }
-    },[])
+    }, [])
 
 
     function generateGuestUserId() {
@@ -116,23 +124,23 @@ const CheckoutPage = () => {
 
         let errors = {};
         console.log(formData)
-        if (formData?.first_name?.trim() === '' || formData?.first_name === null ) {
+        if (formData?.first_name?.trim() === '' || formData?.first_name === null) {
             errors.first_name = 'First name is required';
         }
 
-        if (formData.last_name?.trim() === ''  || formData?.last_name === null ) {
+        if (formData.last_name?.trim() === '' || formData?.last_name === null) {
             errors.last_name = 'Last name is required';
         }
 
-        if (formData.country?.trim() === ''  || formData?.country === null ) {
+        if (formData.country?.trim() === '' || formData?.country === null) {
             errors.country = 'Country is required';
         }
 
-        if (formData.street_address?.trim() === ''  || formData?.street_address === null ) {
+        if (formData.street_address?.trim() === '' || formData?.street_address === null) {
             errors.street_address = 'Street address is required';
         }
 
-        if (formData.city?.trim() === ''  || formData?.city === null ) {
+        if (formData.city?.trim() === '' || formData?.city === null) {
             errors.city = 'City is required';
         }
 
@@ -140,15 +148,15 @@ const CheckoutPage = () => {
         //     errors.state = 'State is required';
         // }
 
-        if (formData.zip?.trim() === ''  || formData?.zip === null ) {
+        if (formData.zip?.trim() === '' || formData?.zip === null) {
             errors.zip = 'ZIP Code is required';
         }
 
-        if (formData.phone?.trim() === '' || formData?.phone === null ) {
+        if (formData.phone?.trim() === '' || formData?.phone === null) {
             errors.phone = 'Phone number is required';
         }
 
-        if (formData.email?.trim() === '' || formData?.email === null ) {
+        if (formData.email?.trim() === '' || formData?.email === null) {
             errors.email = 'Email address is required';
         } else if (!isValidEmail(formData.email)) {
             errors.email = 'Invalid email address';
@@ -181,7 +189,7 @@ const CheckoutPage = () => {
         setIsChecked(!isChecked);
 
         if (!isChecked) {
-            setBillingFormData({...shippingFormData})
+            setBillingFormData({ ...shippingFormData })
             // setShippingFormData({ ...billingFormData });
         } else {
             // setShippingFormData({
@@ -218,11 +226,11 @@ const CheckoutPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let updatedBillingFormData = {} ;
-        if(isChecked){
+        let updatedBillingFormData = {};
+        if (isChecked) {
             updatedBillingFormData = { ...shippingFormData };
         }
-        const isBillingFormValid = validateForm(isChecked ? updatedBillingFormData :billingFormData, "billingform Error");
+        const isBillingFormValid = validateForm(isChecked ? updatedBillingFormData : billingFormData, "billingform Error");
         const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
 
         // If both forms are valid, proceed with submission
@@ -237,7 +245,7 @@ const CheckoutPage = () => {
                 promo_code: "Promo Code",
                 percent_discount_applied: "20",
                 shipping_address: shippingFormData,
-                billing_address: isChecked ? updatedBillingFormData :billingFormData,
+                billing_address: isChecked ? updatedBillingFormData : billingFormData,
                 product_data: [],
                 payment_data: {
                     "external_payment_id": "Stripe Payment Id",
@@ -273,18 +281,104 @@ const CheckoutPage = () => {
     }
 
     useEffect(() => {
-        const selectedProvince = ProvinceTax.find(p => p.provinceName === shippingFormData.state);
-        const subTotalPlusGst = selectedProvince?.gst ? getToFixed((selectedProvince?.gst / 100) * subtotal): 0;
-        const subTotalPlusHst = selectedProvince?.hst ? getToFixed((selectedProvince?.hst / 100) * subtotal) : 0;
-        const subTotalPlusPst = selectedProvince?.pst ? getToFixed((selectedProvince?.pst / 100) * subtotal) : 0;
-        const total = subtotal + +subTotalPlusGst + +subTotalPlusHst + +subTotalPlusPst;
 
-        setTotal(total)
-        setGst(subTotalPlusGst)
-        setHst(subTotalPlusHst)
-        setPst(subTotalPlusPst)
+        // Manage condition wise Tax
+        const selectedProvince = ProvinceTax.find(p => p.provinceName === shippingFormData.state);
+        const updatedCartItems = cartItems.map((item) => {
+            if (item.is_tax_apply === 0) {
+                const calculateTax = (taxRate) => {
+                    if (selectedProvince && taxRate && !isNaN(taxRate) && taxRate !== 0) {
+                        return getToFixed((taxRate / 100) * item.totalPrice);
+                    } else {
+                        return 0;
+                    }
+                };
+
+
+                const subTotalPlusGst = calculateTax(selectedProvince?.gst);
+                const subTotalPlusHst = calculateTax(selectedProvince?.hst);
+                const subTotalPlusPst = calculateTax(selectedProvince?.pst);
+
+                const withTaxPrice = parseFloat(item.totalPrice) +
+                    parseFloat(subTotalPlusGst) +
+                    parseFloat(subTotalPlusHst) +
+                    parseFloat(subTotalPlusPst);
+
+                return {
+                    ...item,
+                    taxes: {
+                        gst: subTotalPlusGst,
+                        hst: subTotalPlusHst,
+                        pst: subTotalPlusPst
+                    },
+                    withTaxPrice: withTaxPrice
+                };
+            }
+            return item;
+        });
+        const totalPrice = updatedCartItems.reduce((acc, item) => acc + (item.withTaxPrice !== undefined ? item.withTaxPrice : item.totalPrice), 0);
+
+        dispatch(updateCartSubTotal(totalPrice))
+        dispatch(updateCartItems(updatedCartItems));
         setProvince(selectedProvince)
     }, [shippingFormData.state])
+
+    const handleCouponClick = () => {
+        setShowCouponInput(!showCouponInput);
+    };
+
+    useEffect(() => {
+        const isMinimumAmountReached = (subtotal > checkCouponCode?.coupon_code?.minimum_amount);
+
+        const discount = isMinimumAmountReached
+            ? checkCouponCode?.coupon_code?.calculation_type === "percentage" ? (parseFloat(checkCouponCode?.coupon_code?.amount) / 100) * subtotal : checkCouponCode?.coupon_code?.calculation_type === "fixed" ? parseFloat(checkCouponCode?.coupon_code?.amount) : 0
+            : 0;
+
+        const discountedTotal = parseFloat(subtotal) - discount;
+        dispatch(updateCartSubTotal(discountedTotal));
+        console.log("discountedTotal", discountedTotal)
+        setSubTotalWithCoupon(discountedTotal);
+        console.log("Codupon Dis|", discount);
+        setCouponDiscount(discount)
+        dispatch(addCoupon({ couponCode: couponCode, couponDiscount: discount }));
+
+
+
+    }, [checkCouponCode])
+
+
+    const handleApplyCoupon = async () => {
+        console.log("call")
+        setCouponCode(couponCode)
+
+        const payload = {
+            coupon_code: couponCode,
+            cart_amount: subtotal
+        }
+
+        try {
+            const response = await fetch('https://backend.kingsmankids.com/api/coupon-code/validate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json()
+            setCheckCouponCode(data)
+
+            console.log('Success:', data);
+            setShowCouponInput(false)
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        console.log('Coupon code applied:', couponCode);
+    };
+    const handleRemoveCoupon = () => {
+        console.log("Remove Coupen")
+
+    }
 
     return (
         <div className="container mt-5">
@@ -347,7 +441,7 @@ const CheckoutPage = () => {
                                         required
                                     />
                                     {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
-                                </div>                        
+                                </div>
                                 <div className="form-group col-md-12">
                                     <InputComponent
                                         type="text"
@@ -378,13 +472,13 @@ const CheckoutPage = () => {
                                     <div className='mb-3'>
                                         <label htmlFor="last_name">Province</label>
                                         <RegionDropdown
-                                        defaultOptionLabel={'Select Province'}
-                                        className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
-                                        country={'CA'}
-                                        countryValueType={'short'}
-                                        value={shippingFormData.state}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
-                                    />  
+                                            defaultOptionLabel={'Select Province'}
+                                            className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
+                                            country={'CA'}
+                                            countryValueType={'short'}
+                                            value={shippingFormData.state}
+                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group col-md-3">
@@ -415,152 +509,190 @@ const CheckoutPage = () => {
                         </label>
                     </div>
                     {!isChecked ? (
-                    <div>
-                        <h2>Billing Details</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="form-row mt-3">
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="first_name"
-                                        label="First Name *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.first_name ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.first_name}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'first_name', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.first_name && <div className="validation-error">{billingFormErrors.first_name}</div>}
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="last_name"
-                                        label="Last Name *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.last_name ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.last_name}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'last_name', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.last_name && <div className="validation-error">{billingFormErrors.last_name}</div>}
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="phone"
-                                        label="Phone *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.phone}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="email"
-                                        label="Email Address *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.email}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
-                                </div>                
-                                <div className="form-group col-md-12">
-                                    <InputComponent
-                                        type="text"
-                                        id="street_address"
-                                        label="Street address *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.street_address ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.street_address}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'street_address', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.street_address && <div className="validation-error">{billingFormErrors.street_address}</div>}
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <InputComponent
-                                        type="text"
-                                        id="city"
-                                        label="Town / City *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.city}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
-                                </div>
-                                <div className="form-group col-md-3">
-                                    <div className='mb-3'>
-                                        <label htmlFor="last_name">Province</label>
-                                        <RegionDropdown
-                                            defaultOptionLabel={'Select state'}
-                                            className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
-                                            country={'CA'}
-                                            countryValueType={'short'}
-                                            value={billingFormData.state}
-                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
+                        <div>
+                            <h2>Billing Details</h2>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-row mt-3">
+                                    <div className="form-group col-md-6">
+                                        <InputComponent
+                                            type="text"
+                                            id="first_name"
+                                            label="First Name *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.first_name ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.first_name}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'first_name', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
                                             isdisabled={isChecked}
                                         />
+                                        {billingFormErrors.first_name && <div className="validation-error">{billingFormErrors.first_name}</div>}
                                     </div>
-                                </div>
-                                <div className="form-group col-md-3">
-                                    <InputComponent
-                                        type="text"
-                                        id="zip"
-                                        label="Postal Code *"
-                                        customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                        value={billingFormData?.zip}
-                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
-                                        placeholder=""
-                                        required
-                                        isdisabled={isChecked}
-                                    />
-                                    {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
+                                    <div className="form-group col-md-6">
+                                        <InputComponent
+                                            type="text"
+                                            id="last_name"
+                                            label="Last Name *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.last_name ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.last_name}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'last_name', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.last_name && <div className="validation-error">{billingFormErrors.last_name}</div>}
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <InputComponent
+                                            type="text"
+                                            id="phone"
+                                            label="Phone *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.phone}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <InputComponent
+                                            type="text"
+                                            id="email"
+                                            label="Email Address *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.email}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
+                                    </div>
+                                    <div className="form-group col-md-12">
+                                        <InputComponent
+                                            type="text"
+                                            id="street_address"
+                                            label="Street address *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.street_address ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.street_address}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'street_address', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.street_address && <div className="validation-error">{billingFormErrors.street_address}</div>}
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <InputComponent
+                                            type="text"
+                                            id="city"
+                                            label="Town / City *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.city}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
+                                    </div>
+                                    <div className="form-group col-md-3">
+                                        <div className='mb-3'>
+                                            <label htmlFor="last_name">Province</label>
+                                            <RegionDropdown
+                                                defaultOptionLabel={'Select state'}
+                                                className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
+                                                country={'CA'}
+                                                countryValueType={'short'}
+                                                value={billingFormData.state}
+                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
+                                                isdisabled={isChecked}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group col-md-3">
+                                        <InputComponent
+                                            type="text"
+                                            id="zip"
+                                            label="Postal Code *"
+                                            customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.zip}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
+                                            placeholder=""
+                                            required
+                                            isdisabled={isChecked}
+                                        />
+                                        {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
+                                    </div>
+
                                 </div>
 
-                            </div>
-
-                        </form>
-                    </div>
-                    ):null} 
+                            </form>
+                        </div>
+                    ) : null}
                 </div>
 
                 <div className="col-md-4">
 
-                <div className="text-center">
-                            <h3 className='tex'>Order Summary</h3>
-                        </div>
-                        <div className="text-right mt-5">
-                            <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
-                            {gst !== 0 && <p className='mt-1'>GST {`(${province?.gst}%)`}: <span className='ml-5'>{gst}</span></p>}
-                            {pst !== 0 && <p className='mt-1'>PST {`(${province?.pst}%)`}: <span className='ml-5'>{pst}</span></p>}
-                            {hst !== 0 && <p className='mt-1'>HST {`(${province?.hst}%)`}: <span className='ml-5'>{hst}</span></p>}
-                            {/*<p className='mt-1'>Sales Tax: <span className='ml-5'>00</span></p>*/}
+                    <div className="text-center">
+                        <h3 className='tex'>Order Summary</h3>
+                    </div>
+                    <div className="text-right mt-5">
+                        {cartItems.map((item, index) => (
+                            <>
+                                <p className='mt-1'>{item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}: <span className='ml-5'>{item?.totalPrice}</span></p>
+                                {item.taxes && item.taxes.gst !== 0 && <p className='mt-1'>GST {`(${province?.gst}%)`}: <span className='ml-5'>{item.taxes.gst}</span></p>}
+                                {item.taxes && item.taxes.pst !== 0 && <p className='mt-1'>PST {`(${province?.pst}%)`}: <span className='ml-5'>{item.taxes.pst}</span></p>}
+                                {item.taxes && item.taxes.hst !== 0 && <p className='mt-1'>HST {`(${province?.hst}%)`}: <span className='ml-5'>{item.taxes.hst}</span></p>}
 
-                            <p>Grandtotal: <span className='ml-5'>{total}</span></p>
+                            </>
+                        ))}
+                        <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
+                        {/*  */}
+                        {couponDiscount > 0 &&
+                            <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
+                        <p className='mt-1'>
+                            Coupon code:{' '}
+                            <span className='ml-5' onClick={handleCouponClick}>
+                                {couponCode ? couponCode : 'add Coupon'}
+                            </span>
+                        </p>
 
-                        </div>
-                        <div className='row'>
-                            <div className='text-right'>
-                                <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
-                                <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>
-                                <button class="checkout-button cart-checkout-btn mt-4" onClick={handleSubmit}>Place Order</button>
+                        {showCouponInput && (
+                            <div className="coupon-section">
+                                <InputComponent
+                                    type="text"
+                                    id="coupon"
+                                    label=""
+                                    customClass={`form-control gray-bg cart-checkout-btn ml-auto `}
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value)}
+                                    placeholder="Enter your coupon code"
+                                    required
+                                />
+                                {/* <button class="checkout-button cart-checkout-btn" disabled={couponDiscount  > 0} onClick={handleApplyCoupon} >{"Apply Coupon"}</button> */}
+                                <button
+                                    className={`checkout-button cart-checkout-btn ${couponDiscount > 0 ? 'disabled' : ''}`}
+                                    disabled={couponDiscount > 0}
+                                    onClick={handleApplyCoupon}
+                                >
+                                    {"Apply Coupon"}
+                                </button>
+
+
                             </div>
+                        )}
+                        <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p>
+
+                    </div>
+                    <div className='row'>
+                        <div className='text-right'>
+                            <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
+                            <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>
+                            <button class="checkout-button cart-checkout-btn mt-4" onClick={handleSubmit}>Place Order</button>
                         </div>
+                    </div>
 
 
                 </div>

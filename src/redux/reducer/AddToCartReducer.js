@@ -1,6 +1,7 @@
 const initialState = {
     cartItems: [],
-    cartSubTotal: null
+    cartSubTotal: null,
+    coupon:{}
 }
 
 export const CartReducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 cartSubTotal:  action.payload
             }
+        case "ADD_COUPON":
+                return {
+                    ...state,
+                    coupon:  action.payload
+                }
         default:
             return state
     }
