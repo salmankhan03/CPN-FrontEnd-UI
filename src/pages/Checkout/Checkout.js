@@ -144,9 +144,9 @@ const CheckoutPage = () => {
             errors.city = 'City is required';
         }
 
-        // if (formData.state?.trim() === '') {
-        //     errors.state = 'State is required';
-        // }
+        if (formData.state?.trim() === '') {
+            errors.state = 'State is required';
+        }
 
         if (formData.zip?.trim() === '' || formData?.zip === null) {
             errors.zip = 'ZIP Code is required';
@@ -321,6 +321,7 @@ const CheckoutPage = () => {
         dispatch(updateCartSubTotal(totalPrice))
         dispatch(updateCartItems(updatedCartItems));
         setProvince(selectedProvince)
+        setSubTotalWithCoupon(totalPrice);
     }, [shippingFormData.state])
 
     const handleCouponClick = () => {
@@ -479,6 +480,7 @@ const CheckoutPage = () => {
                                             value={shippingFormData.state}
                                             onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
                                         />
+                                        {shippingFormErrors.state && <div className="validation-error">{shippingFormErrors.state}</div>}
                                     </div>
                                 </div>
                                 <div className="form-group col-md-3">
@@ -609,6 +611,7 @@ const CheckoutPage = () => {
                                                 onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
                                                 isdisabled={isChecked}
                                             />
+                                            {billingFormErrors.state && <div className="validation-error">{billingFormErrors.state}</div>}
                                         </div>
                                     </div>
                                     <div className="form-group col-md-3">
