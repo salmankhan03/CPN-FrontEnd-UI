@@ -10,7 +10,8 @@ import { Toast, notifySuccess, notifyError } from '../../components/ToastCompone
 const CartPage = () => {
     const navigate = useNavigate();
     const AuthData = useSelector(state => state.AuthReducer.userData);
-    const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id)
+    const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId )
+    const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id || !!GuestData)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
     const totalItems = cartItems?.length;

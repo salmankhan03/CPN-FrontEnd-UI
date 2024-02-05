@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import AuthServices from '../../services/AuthServices';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setGuestUser, setUserData, setUserToken } from '../../redux/action/auth-action';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import Cookies from 'js-cookie';
@@ -11,6 +11,8 @@ const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginFormShowHide, setLoginFormShowHide] = useState(true)
+  const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
+  const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId )
 
   const [formData, setFormData] = useState({
     email: '',
@@ -38,6 +40,10 @@ const LoginScreen = ({ onLogin }) => {
     password: '',
 
   });
+  useEffect(()=>{
+    if(AuthData || GuestData){
+      window.history.back();
+    }  },[])
 
   const handleChange = (fieldName, value, type) => {
     if (type === "signupForm") {
@@ -84,7 +90,7 @@ const LoginScreen = ({ onLogin }) => {
               expires: cookieTimeOut,
             });
             onLogin();
-            navigate('/checkout');
+            navigate('/checkout', { replace: true });
 
           }
         }).catch((error) => {
