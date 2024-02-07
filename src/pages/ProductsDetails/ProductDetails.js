@@ -171,7 +171,7 @@ function ProductDetails() {
     const renderContent = () => {
         switch (selectedTab) {
             case 'description':
-                return <p>{productData?.description}</p>;
+                return <div dangerouslySetInnerHTML={{ __html: atob(productData?.description) }} />;
             case 'review':
                 return <p>Product Reviews Go Here</p>;
             case 'enquiry':

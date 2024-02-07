@@ -166,7 +166,7 @@ function HomeScreen() {
         ProductServices.getMaximumPrice().then((resp) => {
             setLoading(false)
             if (resp?.status_code === 200) {
-                const roundedMaxPrice = Math.ceil(parseFloat(152.88))
+                const roundedMaxPrice = Math.ceil(parseFloat(resp?.max_price))
                 setMaxPrice(roundedMaxPrice)
             }
         }).catch((error) => {
