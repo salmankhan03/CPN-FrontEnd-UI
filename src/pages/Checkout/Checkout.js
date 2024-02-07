@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import OrderServices from '../../services/orderService';
 import { ProvinceTax } from '../../helpers/TaxTable'
 import LoginScreen from '../Login/Login';
-import { addCoupon, updateCartItems, updateCartSubTotal } from '../../redux/action/cart-action';
+import { addCoupon, updateCartItems, updateCartSubTotal, updateCartTotalTax } from '../../redux/action/cart-action';
+import { Collapse, Button } from 'react-bootstrap';
+import ImageComponent from '../../components/ImageComponents/ImageComponents';
 
 
 const CheckoutPage = () => {
@@ -17,6 +19,8 @@ const CheckoutPage = () => {
     const [islogin, setIsLogin] = useState(true)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
+    const cartTotalTax = useSelector(state => state.CartReducer.cartTotalTax);
+
     const CouponDetails = useSelector(state => state.CartReducer.coupon)
     const AuthData = useSelector(state => state.AuthReducer.userData);
     const [userID, setUserID] = useState(AuthData ? AuthData.id : '');
@@ -34,6 +38,10 @@ const CheckoutPage = () => {
     const [checkCouponCode, setCheckCouponCode] = useState(null)
     const [couponDiscount, setCouponDiscount] = useState(CouponDetails ? CouponDetails?.couponDiscount : 0)
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
+    const [shipping, setShipping] = useState()
+
+
+    const [open, setOpen] = useState(false);
 
     const [billingFormData, setBillingFormData] = useState({
         first_name: '',
@@ -74,7 +82,10 @@ const CheckoutPage = () => {
 
         }
     }, [])
-
+    const truncateString = (str, maxLength) => {
+        if (str?.length <= maxLength) return str;
+        return str.substr(0, maxLength) + "...";
+    };
 
     function generateGuestUserId() {
         const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
@@ -298,7 +309,13 @@ const CheckoutPage = () => {
                 const subTotalPlusGst = calculateTax(selectedProvince?.gst);
                 const subTotalPlusHst = calculateTax(selectedProvince?.hst);
                 const subTotalPlusPst = calculateTax(selectedProvince?.pst);
-
+                // console.log("cartTotalTax",cartTotalTax)
+                // let newCartTotalTax = {
+                //     gst: JSON.parse(cartTotalTax?.gst) + subTotalPlusGst,
+                //     hst:0,
+                //     pst:0
+                // }
+                // console.log("new CartTotalTax", newCartTotalTax)
                 const withTaxPrice = parseFloat(item.totalPrice) +
                     parseFloat(subTotalPlusGst) +
                     parseFloat(subTotalPlusHst) +
@@ -316,13 +333,47 @@ const CheckoutPage = () => {
             }
             return item;
         });
-        const totalPrice = updatedCartItems.reduce((acc, item) => acc + (item.withTaxPrice !== undefined ? item.withTaxPrice : item.totalPrice), 0);
+        function calculateTotalTaxes(products) {
+            let totalTaxes = {
+                gst: 0,
+                hst: 0,
+                pst: 0
+            };
 
+            products.map(product => {
+                console.log("product", product)
+                if (product.is_tax_apply === 0) {
+                    if (!isNaN(parseFloat(product?.taxes?.gst))) {
+                        totalTaxes.gst += parseFloat(product?.taxes?.gst);
+                    }
+                    if (!isNaN(parseFloat(product?.taxes?.hst))) {
+                        totalTaxes.hst += parseFloat(product?.taxes?.hst);
+                    }
+                    if (!isNaN(parseFloat(product?.taxes?.pst))) {
+                        totalTaxes.pst += parseFloat(product?.taxes?.pst);
+                    }
+                    console.log("total tax", totalTaxes)
+
+                }
+            });
+
+            totalTaxes.gst = totalTaxes.gst.toFixed(2);
+            totalTaxes.hst = totalTaxes.hst.toFixed(2);
+            totalTaxes.pst = totalTaxes.pst.toFixed(2);
+            return totalTaxes;
+        }
+
+
+        const totalPrice = updatedCartItems.reduce((acc, item) => acc + (item.withTaxPrice !== undefined ? item.withTaxPrice : item.totalPrice), 0);
+        console.log("updatedCartItems", updatedCartItems)
+        const totalTaxes = calculateTotalTaxes(updatedCartItems);
+        console.log("totalTaxes", totalTaxes)
+        dispatch(updateCartTotalTax(totalTaxes))
         dispatch(updateCartSubTotal(totalPrice))
         dispatch(updateCartItems(updatedCartItems));
         setProvince(selectedProvince)
         setSubTotalWithCoupon(totalPrice);
-    }, [shippingFormData.state])
+    }, [shippingFormData.state,subtotal])
 
     const handleCouponClick = () => {
         setShowCouponInput(!showCouponInput);
@@ -380,6 +431,31 @@ const CheckoutPage = () => {
         console.log("Remove Coupen")
 
     }
+
+    const handleIncrement = (index) => {
+        const updatedCartSubTotals = subtotal;
+        const updatedCartItems = [...cartItems];
+        const updatedItem = { ...updatedCartItems[index] };
+        updatedItem.purchaseQty = JSON.parse(updatedItem.purchaseQty) + 1;
+        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
+        updatedCartItems[index] = updatedItem;
+        dispatch(updateCartItems(updatedCartItems));
+        dispatch(updateCartSubTotal(updatedCartSubTotals + JSON.parse(updatedItem.price)))
+        setSubTotalWithCoupon(updatedCartSubTotals + JSON.parse(updatedItem.price));
+    };
+
+    const handleDecrement = (index) => {
+        const updatedCartSubTotals = subtotal;
+        const updatedCartItems = [...cartItems];
+        const updatedItem = { ...updatedCartItems[index] };
+        updatedItem.purchaseQty = Math.max(1, JSON.parse(updatedItem.purchaseQty) - 1);
+        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
+        updatedCartItems[index] = updatedItem;
+        dispatch(updateCartItems(updatedCartItems));
+        dispatch(updateCartSubTotal(updatedCartSubTotals - JSON.parse(updatedItem.price)))
+        setSubTotalWithCoupon(updatedCartSubTotals - JSON.parse(updatedItem.price));
+
+    };
 
     return (
         <div className="container mt-5">
@@ -641,8 +717,46 @@ const CheckoutPage = () => {
                     <div className="text-center">
                         <h3 className='tex'>Order Summary</h3>
                     </div>
-                    <div className="text-right mt-5">
-                        {cartItems.map((item, index) => (
+                    <div className="mt-5">
+                        <div className="d-flex justify-content-between mt-2">
+                            <div className="mr-auto">Subtotal</div>
+                            <div>
+                                <span >{subtotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <div className="d-flex justify-content-between mt-2">
+                            <div className="mr-auto">Shipping</div>
+                            <div>
+                                <span className="ml-5">{shipping ? shipping : "----"}</span>
+                            </div>
+                        </div>
+
+                        <>
+                            {parseFloat(cartTotalTax?.gst) !== 0 &&
+                                <div className="d-flex justify-content-between mt-2">
+                                    <div className="mr-auto">GST {`(${province?.gst}%)`}</div>
+                                    <div className='ml-5'>{cartTotalTax?.gst}</div>
+                                </div>
+                            }
+                            {parseFloat(cartTotalTax?.pst) !== 0 &&
+                                <div className="d-flex justify-content-between mt-2">
+                                    <div className="mr-auto">PST {`(${province?.pst}%)`}</div>
+                                    <div className='ml-5'>{cartTotalTax?.pst}</div>
+                                </div>
+                            }
+                            {parseFloat(cartTotalTax?.hst) !== 0 &&
+                                <div className="d-flex justify-content-between mt-2s">
+                                    <div className="mr-auto">HST {`(${province?.hst}%)`}</div>
+                                    <div className='ml-5'>{cartTotalTax?.hst}</div>
+                                </div>
+                            }
+                        </>
+                        <hr></hr>
+                        <div className="d-flex justify-content-between m2 mb-2">
+                            <div className='h4'>Order Total</div>
+                            <div className='h4'>{subTotalWithCoupon.toFixed(2)}</div>
+                        </div>
+                        {/* {cartItems.map((item, index) => (
                             <>
                                 <p className='mt-1'>{item.name.length > 20 ? `${item.name.substring(0, 20)}...` : item.name}: <span className='ml-5'>{item?.totalPrice}</span></p>
                                 {item.taxes && item.taxes.gst !== 0 && <p className='mt-1'>GST {`(${province?.gst}%)`}: <span className='ml-5'>{item.taxes.gst}</span></p>}
@@ -652,7 +766,6 @@ const CheckoutPage = () => {
                             </>
                         ))}
                         <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
-                        {/*  */}
                         {couponDiscount > 0 &&
                             <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
                         <p className='mt-1'>
@@ -674,7 +787,6 @@ const CheckoutPage = () => {
                                     placeholder="Enter your coupon code"
                                     required
                                 />
-                                {/* <button class="checkout-button cart-checkout-btn" disabled={couponDiscount  > 0} onClick={handleApplyCoupon} >{"Apply Coupon"}</button> */}
                                 <button
                                     className={`checkout-button cart-checkout-btn ${couponDiscount > 0 ? 'disabled' : ''}`}
                                     disabled={couponDiscount > 0}
@@ -686,13 +798,73 @@ const CheckoutPage = () => {
 
                             </div>
                         )}
-                        <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p>
+                        <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p> */}
 
                     </div>
+
+                    <div>
+                        <div style={{ backgroundColor: 'lightgray' }}>
+                            <div
+                                className=''
+                                onClick={() => setOpen(!open)}
+                                aria-controls="example-collapse-text"
+                                aria-expanded={open}
+                            >
+                                <div className="d-flex justify-content-between mb-2">
+                                    <div style={{ color: 'black', padding: 15 }}>Items in order ({cartItems?.length})</div>
+                                    <div style={{ padding: 15 }}>{open ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <Collapse in={open}>
+                            <div className='' id="example-collapse-text" style={{ borderLeft: '1px solid', borderRight: '1px solid', borderBottom: '1px solid' }}>
+                                <div className="container">
+                                    {cartItems.map((item, index) => (
+                                        <div className="row p-2 mt-3">
+                                            <div className="col-md-3">
+                                                <div className="">
+                                                    <ImageComponent src={item?.image[0]?.name} alt="Product Image" classAtribute="cart-products" />
+                                                </div>
+                                            </div>
+                                            <div className="col-md-7">
+                                                <div className="">{truncateString(item?.name, 30)}</div>
+                                                <div className="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                                                    <div className="quantity_selector">
+                                                        <span
+                                                            className={
+                                                                item?.purchaseQty > 1 ? "minus" : "minus disabled"
+                                                            }
+                                                            onClick={() => handleDecrement(index)}
+                                                        >
+                                                            <i className="fa fa-minus" aria-hidden="true"></i>
+                                                        </span>
+                                                        <span id="quantity_value">{item?.purchaseQty}</span>
+                                                        <span
+                                                            className="plus"
+                                                            onClick={() => handleIncrement(index)}
+                                                        >
+                                                            <i className="fa fa-plus" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-2">
+                                                <div className=""> ₹ {item?.totalPrice}</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </Collapse>
+
+                    </div>
+
                     <div className='row'>
                         <div className='text-right'>
-                            <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
-                            <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p>
+                            {/* <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
+                            <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p> */}
                             <button class="checkout-button cart-checkout-btn mt-4" onClick={handleSubmit}>Place Order</button>
                         </div>
                     </div>
