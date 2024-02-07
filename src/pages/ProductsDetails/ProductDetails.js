@@ -311,7 +311,7 @@ function ProductDetails() {
                             <div className="product_details mt-3">
                                 <div className="product_details_title">
                                     <h2>{productData?.name}</h2>
-                                    <p>{productData?.description}</p>
+                                    {/* <p>{productData?.description}</p> */}
                                 </div>
                                 {/* <div className="original_price">
                                     {" "}
