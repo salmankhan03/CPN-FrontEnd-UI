@@ -168,6 +168,10 @@ function ProductDetails() {
             </td>
         ));
     };
+    const truncateString = (str, maxLength) => {
+        if (str?.length <= maxLength) return str;
+        return str.substr(0, maxLength) + "...";
+    };
     const renderContent = () => {
         switch (selectedTab) {
             case 'description':
@@ -185,20 +189,21 @@ function ProductDetails() {
     const addtoCart = (product) => {
         // notifySuccess('added to the cart!');
         const existingCartItem = cartItems.find(item => item.id === product.id);
+        let message = truncateString(product?.name, 60)
         if (existingCartItem) {
             const updatedCartItems = cartItems.map(item => {
                 if (item.id === product.id) {
                     return {
                         ...item,
                         purchaseQty: quantity,//item.purchaseQty +
-                        totalPrice: quantity * JSON.parse(product.price) //(item.purchaseQty + quantity) 
+                        totalPrice: quantity * JSON.parse(product?.sell_price) //(item.purchaseQty + quantity) 
                     };
                 } else {
                     return item;
                 }
             });
             dispatch(updateCartItems(updatedCartItems));
-            notifySuccess(`${product.name} already added in the cart!`);
+            notifySuccess(`${message} already added in the cart!`);
                         // dispatch(updateCartItems(updatedCartItems));
         } else {
             let cartObj = {
@@ -206,13 +211,14 @@ function ProductDetails() {
                 name: product.name,
                 image: product.images,
                 description: product.description,
-                price: product.price,
+                price: product.sell_price,
                 sku: product.sku,
                 purchaseQty: quantity,
-                totalPrice: quantity * JSON.parse(product.price),
+                totalPrice: quantity * JSON.parse(product.sell_price),
                 is_tax_apply:product?.is_tax_apply
             };
-            notifySuccess(`${product.name} added to the cart!`);
+            notifySuccess(`${message} added to the cart!`);
+            // {truncateString(productItem?.name, 80)}
             dispatch(addtoCartItems(cartObj));
         }
     }
@@ -318,7 +324,8 @@ function ProductDetails() {
                                     ₹ {(parseFloat(productData.price) + 30).toFixed(2)}
                                 </div> */}
                                 <div className="product_price mt-3">
-                                    ₹ {productData?.price}
+                                    ₹ {productData?.sell_price}
+                                    <span className="ml-2">{productData?.price}</span>
                                 </div>
                                 {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
