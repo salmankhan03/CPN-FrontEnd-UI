@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 import logo from "../../assets/images/logo.png"
 import { useSelector } from 'react-redux';
-
+import './HeaderComponents.css'; 
 
 
 function Header() {
   const cartItems = useSelector(state => state.CartReducer.cartItems);
     return (
-        <div className="main_nav_container">
+        <div className="custom-header">
             <div className="ml-2 mr-2">
             <div className="row">
               <div className="col-lg-12 text-right">
@@ -28,32 +28,8 @@ function Header() {
                       <a href="#">
                         shop <i className="fa fa-angle-down"></i>
                       </a>
-  
-                      <div className="mega-menu">
-                        {/* <div className="mega-menu-wrap">
-                          {departments &&
-                            departments.map((item, index) => {
-                              return (
-                                <div className="mega-menu-content" key={index}>
-                                  <h5>{item.departmentName}</h5>
-                                  <ul className="stander">
-                                    {item.categories.split(",").map((i, idx) => {
-                                      return (
-                                        <li key={idx}>
-                                          <a
-                                            href={`/fashion-cube/shops/${item.departmentName}/${i}`}
-                                          >
-                                            {i}
-                                          </a>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                </div>
-                              );
-                            })}
-                        </div> */}
-                      </div>
+
+
                     </li>
   
                     <li>

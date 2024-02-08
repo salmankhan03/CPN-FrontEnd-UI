@@ -58,7 +58,7 @@ function TopNavBar() {
 
     };
     return (
-        <div className={`top_nav`}>
+        <div className={`top_nav`} >
             <div className="ml-2 mr-2">
                 <Toast />
                 <div className="row">
