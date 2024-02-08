@@ -29,10 +29,15 @@ const CartPage = () => {
     const handleCouponClick = () => {
         setShowCouponInput(!showCouponInput);
     };
+    const truncateString = (str, maxLength) => {
+        if (str?.length <= maxLength) return str;
+        return str.substr(0, maxLength) + "...";
+    };
 
     const removeProduct = (index) => {
         const updatedCartItemsList = [...cartItems];
-        notifySuccess(`${updatedCartItemsList[index]?.name} successfully remove to the cart!`);
+        let message = truncateString(updatedCartItemsList[index]?.name, 60)
+        notifySuccess(`${message} successfully remove to the cart!`);
         updatedCartItemsList.splice(index, 1)
         dispatch(updateCartItems(updatedCartItemsList));
     }
