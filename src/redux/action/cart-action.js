@@ -61,3 +61,27 @@ export const addCoupon = (data) => {
         }
     }
 }
+export const setSelectedProvince = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "SET_PROVINCE",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+export const cartOrderTotal = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "SET_ORDER_TOTAL",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

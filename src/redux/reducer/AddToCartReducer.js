@@ -1,12 +1,14 @@
 const initialState = {
     cartItems: [],
     cartSubTotal: null,
+    orderTotal:null,
     coupon: {},
+    province: null,
     cartTotalTax: {
         "gst": 0,
         "hst": 0,
         "pst": 0
-    }
+    },
 }
 
 export const CartReducer = (state = initialState, action) => {
@@ -37,6 +39,17 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 cartTotalTax: action.payload
             }
+        case "SET_PROVINCE":
+            return {
+                ...state,
+                province: action.payload
+            }
+        case "SET_ORDER_TOTAL":
+            return {
+                ...state,
+                orderTotal: action.payload
+            }
+
         default:
             return state
     }
