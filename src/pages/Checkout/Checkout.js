@@ -802,7 +802,7 @@ const CheckoutPage = () => {
 
                     </div>
 
-                    <div>
+                    <div style={{ border: '1px solid #ccc',}}>
                         <div style={{ backgroundColor: 'lightgray' }}>
                             <div
                                 className=''
@@ -818,8 +818,8 @@ const CheckoutPage = () => {
 
                             </div>
                         </div>
-                        <Collapse in={open}>
-                            <div className='' id="example-collapse-text" style={{ borderLeft: '1px solid', borderRight: '1px solid', borderBottom: '1px solid' }}>
+                        <Collapse in={open} >
+                            <div className='' id="example-collapse-text" >
                                 <div className="container">
                                     {cartItems.map((item, index) => (
                                         <div className="row p-2 mt-3">
