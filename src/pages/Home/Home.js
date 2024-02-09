@@ -73,8 +73,8 @@ function HomeScreen() {
                 : filteredPrice,
         }
         console.log("FILterData", data)
-            // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
-        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !==  0 ) {
+        // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
+        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
             getfilterWiseProduct(data)
             setProductsListData([])
         } else {
@@ -88,7 +88,7 @@ function HomeScreen() {
             page: page,
             limit: defaultLimit,
         }).then((resp) => {
-            setLoading(false)
+            // setLoading(false)
             console.log(resp)
             if (resp?.status_code === 200) {
                 console.log(resp.list.data)
@@ -98,7 +98,7 @@ function HomeScreen() {
                 setBrandData(resp?.list?.data)
             }
         }).catch((error) => {
-            setLoading(false)
+            // setLoading(false)
             console.log(error)
         })
 
@@ -109,7 +109,7 @@ function HomeScreen() {
             page: page,
             limit: defaultLimit,
         }).then((resp) => {
-            setLoading(false)
+            // setLoading(false)
             console.log(resp)
             if (resp?.status_code === 200) {
                 dispatch(setCategoryList([
@@ -118,21 +118,25 @@ function HomeScreen() {
                 setCategoriesData(resp?.tree?.data)
             }
         }).catch((error) => {
-            setLoading(false)
+            // setLoading(false)
             console.log(error)
         })
     }
-    function getfilterWiseProduct(data) {
+    async function getfilterWiseProduct(data) {
         setLoading(true)
-        ProductServices.getfilterWiseProducts(data).then((resp) => {
-            setLoading(false)
+        await ProductServices.getfilterWiseProducts(data).then((resp) => {
             if (resp?.status_code === 200) {
                 console.log(resp)
                 // dispatch(setProductList({
                 //     ...resp?.list?.data
                 // }))
                 setProductsListData(resp?.list)
+                setTimeout(() => {
+                    setLoading(false)
+                  }, 1000);
             }
+            // setLoading(false)
+
         }).catch((error) => {
             setLoading(false)
             console.log(error)
@@ -140,22 +144,24 @@ function HomeScreen() {
 
 
     }
-    function getProductsList(limit) {
+    async function getProductsList(limit) {
         console.log(limit)
-        ProductServices.getAllProducts({
+        await ProductServices.getAllProducts({
             page: page,
             limit: limit ? limit : defaultLimit,
             category: category,
             title: searchText,
             price: sortedField,
         }).then((resp) => {
-            setLoading(false)
             if (resp?.status_code === 200) {
                 dispatch(setProductList({
                     ...resp?.list?.data
                 }))
                 setProductsListData(resp?.list?.data)
                 setTotalPages(resp?.list?.last_page)
+                setTimeout(() => {
+                    setLoading(false)
+                  }, 1000); 
             }
         }).catch((error) => {
             setLoading(false)
@@ -164,16 +170,15 @@ function HomeScreen() {
     }
     function getPriceFilter() {
         ProductServices.getMaximumPrice().then((resp) => {
-            setLoading(false)
+            // setLoading(false)
             if (resp?.status_code === 200) {
                 const roundedMaxPrice = Math.ceil(parseFloat(resp?.max_price))
                 setMaxPrice(roundedMaxPrice)
             }
         }).catch((error) => {
-            setLoading(false)
+            // setLoading(false)
             console.log(error)
         })
-
     }
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
@@ -183,9 +188,9 @@ function HomeScreen() {
     };
 
     return (
-        <div className="" >
-            <div className='m-2'>
-                <div className="row mt-5">
+        <div className="custom-header" >
+            <div className="">
+                <div className="row mt-3" style={{}}>
                     <div className="col-md-3 sidebar_hide mt-2">
                         <div className='m-2'>
                             <LeftSideBarComponents
@@ -238,25 +243,29 @@ function HomeScreen() {
                             </div>
                         </div>
                         <div className="row m-1">
-                            {productsListData?.length > 0 ? (
-                                productsListData.map((item, index) => (
-                                    <div className="col-lg-4 col-md-4 col-sm-6 mt-3" key={index} data-aos="zoom-in">
-                                        <ProductListing productItem={item} />
-                                    </div>
-                                ))
+                            {loading ? (
+                                <div>
+                                    <Loading skNumber={15} />
+                                </div>
                             ) : (
-                                loading ? (
-                                    <div>
-                                        <Loading skNumber={15} />
-                                    </div>
-                                ) : <NotFound title="Sorry, There are no Products right now." />
+                                productsListData?.length > 0 ? (
+                                    <>
+                                        {productsListData.map((item, index) => (
+                                            <div className="col-lg-4 col-md-4 col-sm-6 mt-3" key={index} data-aos="zoom-in">
+                                                <ProductListing productItem={item} />
+                                            </div>
+
+                                        ))}
+                                        <div className='row text-center'>
+                                            <CustomPagination totalItems={totalPages} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} />
+                                        </div>
+                                    </>
+                                ) : (
+                                    <NotFound title="Sorry, There are no Products right now." />
+                                )
                             )}
                         </div>
-                        <div className='row text-center'>
-                            <CustomPagination totalItems={totalPages} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} />
-                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
