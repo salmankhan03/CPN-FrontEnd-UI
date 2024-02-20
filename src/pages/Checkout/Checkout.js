@@ -1041,7 +1041,7 @@ const CheckoutPage = () => {
                                         <div className="row p-2 mt-3">
                                             <div className="col-md-3">
                                                 <div className="">
-                                                    <ImageComponent src={item?.image[0]?.name} alt="Product Image" classAtribute="cart-products" />
+                                                    <ImageComponent src={item?.image[0]?.name}  width={true} alt="Product Image" classAtribute="cart-products" />
                                                 </div>
                                             </div>
                                             <div className="col-md-7">

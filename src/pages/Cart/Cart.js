@@ -147,7 +147,7 @@ const CartPage = () => {
                                                         <i className="fa fa-trash" onClick={() => removeProduct(index)}></i>
                                                     </div>
                                                     <div className='col-12 col-sm-3'>
-                                                        <ImageComponent src={item?.image[0]?.name} alt="Product Image" classAtribute="cart-products" />
+                                                        <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="cart-products" />
                                                     </div>
                                                     <div className='col-12 col-sm-8'>
                                                         <h4 className='product-name mr-3'>{item.name}</h4>
