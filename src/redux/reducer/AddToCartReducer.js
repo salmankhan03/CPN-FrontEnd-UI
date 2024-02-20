@@ -24,6 +24,11 @@ export const CartReducer = (state = initialState, action) => {
                 ...state,
                 cartItems: action.payload
             }
+        case "REMOVE_ALL_CARTS_ITEMS":
+            return {
+                ...state,
+                cartItems: action.payload
+            }
         case "UPDATE_CART_SUBTOTAL":
             return {
                 ...state,

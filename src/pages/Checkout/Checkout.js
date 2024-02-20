@@ -7,7 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import OrderServices from '../../services/orderService';
 import { ProvinceTax } from '../../helpers/TaxTable'
 import LoginScreen from '../Login/Login';
-import { addCoupon, cartOrderTotal, setSelectedProvince, updateCartItems, updateCartSubTotal, updateCartTotalTax } from '../../redux/action/cart-action';
+import {
+    addCoupon,
+    cartOrderTotal, removeAllCartItems,
+    setSelectedProvince,
+    updateCartItems,
+    updateCartSubTotal,
+    updateCartTotalTax
+} from '../../redux/action/cart-action';
 import { Collapse, Button } from 'react-bootstrap';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { notifyError, notifySuccess , Toast} from '../../components/ToastComponents/ToastComponents';
@@ -113,11 +120,19 @@ const CheckoutPage = () => {
 
     // const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
+        let formattedValue = value;
+        if (field === 'phone') {
+            formattedValue = value.slice(0, 10);
+        }
+
+        if (field === 'zip') {
+            formattedValue = value.slice(0, 6);
+        }
 
         // console.log('field-----------------------', field, value)
         setFormData({
             ...formData,
-            [field]: value,
+            [field]: formattedValue,
         });
         // console.log(formData,)
         if (setFormErrors === "billingform Error") {
@@ -291,6 +306,10 @@ const CheckoutPage = () => {
                 };
                 submitobj.product_data.push(products);
             }
+
+            dispatch(removeAllCartItems([]));
+            dispatch(addCoupon({ }));
+            dispatch(removeAllCartItems([]));
 
             orderGenrate(submitobj)
 

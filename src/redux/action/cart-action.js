@@ -23,6 +23,19 @@ export const updateCartItems = (data) => {
         }
     }
 }
+
+export const removeAllCartItems = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "REMOVE_ALL_CARTS_ITEMS",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
 export const updateCartTotalTax = (data) => {
     return async (dispatch) => {
         try {
