@@ -865,7 +865,7 @@ const CheckoutPage = () => {
                         <div className="d-flex justify-content-between mt-2">
                             <div className="mr-auto">Subtotal</div>
                             <div>
-                                <span >{subtotal?.toFixed(2)}</span>
+                                <span >${subtotal?.toFixed(2)}</span>
                             </div>
                         </div>
                         <div className="d-flex justify-content-between mt-2">
@@ -879,33 +879,33 @@ const CheckoutPage = () => {
                             {parseFloat(cartTotalTax?.gst) !== 0 &&
                                 <div className="d-flex justify-content-between mt-2">
                                     <div className="mr-auto">GST {`(${province?.gst}%)`}</div>
-                                    <div className='ml-5'>{cartTotalTax?.gst}</div>
+                                    <div className='ml-5'>${cartTotalTax?.gst}</div>
                                 </div>
                             }
                             {parseFloat(cartTotalTax?.pst) !== 0 &&
                                 <div className="d-flex justify-content-between mt-2">
                                     <div className="mr-auto">PST {`(${province?.pst}%)`}</div>
-                                    <div className='ml-5'>{cartTotalTax?.pst}</div>
+                                    <div className='ml-5'>${cartTotalTax?.pst}</div>
                                 </div>
                             }
                             {parseFloat(cartTotalTax?.hst) !== 0 &&
                                 <div className="d-flex justify-content-between mt-2s">
                                     <div className="mr-auto">HST {`(${province?.hst}%)`}</div>
-                                    <div className='ml-5'>{cartTotalTax?.hst}</div>
+                                    <div className='ml-5'>${cartTotalTax?.hst}</div>
                                 </div>
                             }
                         </>
                         {couponDiscount > 0 &&
                             <div className="d-flex justify-content-between mt-2">
                                 <div>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`}</div>
-                                <div>- {couponDiscount}</div>
+                                <div>- ${couponDiscount}</div>
                                 {/* <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p> */}
                             </div>
                         }
                         <hr></hr>
                         <div className="d-flex justify-content-between m2 mb-2">
                             <div className='h4'>Order Total</div>
-                            <div className='h4'>{subTotalWithCoupon?.toFixed(2)}</div>
+                            <div className='h4'>${subTotalWithCoupon?.toFixed(2)}</div>
                         </div>
                     
 
@@ -1048,7 +1048,7 @@ const CheckoutPage = () => {
                                                 </div>
                                             </div>
                                             <div className="col-md-2">
-                                                <div className=""> ₹ {item?.totalPrice}</div>
+                                                <div className=""> ${item?.totalPrice}</div>
                                             </div>
                                         </div>
                                     ))}

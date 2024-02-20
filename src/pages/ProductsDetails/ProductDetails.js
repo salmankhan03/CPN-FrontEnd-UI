@@ -324,8 +324,8 @@ function ProductDetails() {
                                     ₹ {(parseFloat(productData.price) + 30).toFixed(2)}
                                 </div> */}
                                 <div className="product_price mt-3">
-                                    ₹ {productData?.sell_price}
-                                    <span className="ml-2">{productData?.price}</span>
+                                    ${productData?.sell_price}
+                                    <span className="ml-2">${productData?.price}</span>
                                 </div>
                                 {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />

@@ -154,7 +154,7 @@ const CartPage = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle'>{item.price}</td>
+                                            <td className='align-middle'>${item.price}</td>
                                             <td>
                                                 <div className="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                                                     <div className="quantity_selector">
@@ -176,7 +176,7 @@ const CartPage = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle text-right'>{item?.totalPrice}</td>
+                                            <td className='align-middle text-right'>${item?.totalPrice}</td>
                                         </tr>
                                     )
                                 })}
@@ -236,7 +236,7 @@ const CartPage = () => {
                             <h3 className='tex'>Order Summary</h3>
                         </div>
                         <div className="text-right mt-5">
-                            <p className='mt-1'>Subtotal: <span className='ml-5'>{subtotal}</span></p>
+                            <p className='mt-1'>Subtotal: <span className='ml-5'>${subtotal}</span></p>
                             {/* {couponDiscount > 0 && <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
                             <p className='mt-1'>
                                 Coupon code:{' '}
@@ -262,7 +262,7 @@ const CartPage = () => {
                                 </div>
                             )} */}
 
-                            <p>Grandtotal: <span className='ml-5'>{subTotalWithCoupon}</span></p>
+                            <p>Grandtotal: <span className='ml-5'>${subTotalWithCoupon}</span></p>
 
                         </div>
                         <div className='row'>

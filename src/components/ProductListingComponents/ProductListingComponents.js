@@ -47,8 +47,8 @@ function ProductListing(props) {
                             <div>{truncateString(productItem?.name, 80)}</div>
                         </h6>
                         <div className="product_price">
-                            ₹ {productItem?.sell_price ? productItem?.sell_price : productItem.price}
-                            <span> ₹ {(parseFloat(productItem.price)).toFixed(2)}</span>
+                            $ {productItem?.sell_price ? productItem?.sell_price : productItem.price}
+                            <span> $ {(parseFloat(productItem.price)).toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
