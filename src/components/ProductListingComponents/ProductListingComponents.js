@@ -2,18 +2,45 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import RatingComponents from "../RatingComponents/RatingComponents";
 import ImageComponent from "../ImageComponents/ImageComponents";
+import {notifySuccess} from "../ToastComponents/ToastComponents";
+import {addtoCartItems} from "../../redux/action/cart-action";
+import {useDispatch, useSelector} from "react-redux";
 
 
 
 
 function ProductListing(props) {
-    
+    const cartItems = useSelector(state => state.CartReducer.cartItems);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { productItem } = props;
     const truncateString = (str, maxLength) => {
         if (str?.length <= maxLength) return str;
         return str.substr(0, maxLength) + "...";
     };
+
+    const addToCart = (event, productItem ) => {
+        event.stopPropagation();
+        const existingCartItem = cartItems.find(item => item.id === productItem.id);
+        let message = truncateString(productItem?.name, 60)
+        if (existingCartItem) {
+            notifySuccess(`${message} already added in the cart!`);
+        } else {
+            let cartObj = {
+                id: productItem.id,
+                name: productItem.name,
+                image: productItem.images,
+                description: productItem.description,
+                price: productItem.sell_price,
+                sku: productItem.sku,
+                purchaseQty: 1,
+                totalPrice: 1 * JSON.parse(productItem.sell_price),
+                is_tax_apply:productItem?.is_tax_apply
+            };
+            notifySuccess(`${message} added to the cart!`);
+            dispatch(addtoCartItems(cartObj));
+        }
+    }
 
     return (
 
@@ -46,9 +73,14 @@ function ProductListing(props) {
                         <h6 className="product_name">
                             <div>{truncateString(productItem?.name, 80)}</div>
                         </h6>
-                        <div className="product_price">
-                            $ {productItem?.sell_price ? productItem?.sell_price : productItem.price}
-                            <span> $ {(parseFloat(productItem.price)).toFixed(2)}</span>
+                        <div style={{display: "flex", justifyContent: 'space-between', alignItems: 'center'}}>
+                            <div className="product_price">
+                                $ {productItem?.sell_price ? productItem?.sell_price : productItem.price}
+                                <span> $ {(parseFloat(productItem.price)).toFixed(2)}</span>
+                            </div>
+                            <div className="checkout">
+                                <i style={{fontSize: 20}} onClick={(event) => addToCart(event, productItem)} className="fas fa-shopping-bag"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
