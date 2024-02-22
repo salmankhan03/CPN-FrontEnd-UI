@@ -29,7 +29,7 @@ function HomeScreen() {
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
-    const [selectedSortingOption, setSelectedSortingOption] = useState();
+    const [selectedSortingOption, setSelectedSortingOption] = useState("high");
     const [maxPrice, setMaxPrice] = useState()
 
 
@@ -41,10 +41,9 @@ function HomeScreen() {
 
 
     useEffect(() => {
-        console.log(selectedOption)
         getProductsList(selectedOption)
-
-    }, [selectedOption])
+     
+    }, [selectedOption,selectedSortingOption])
 
 
 
@@ -72,7 +71,6 @@ function HomeScreen() {
                 ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
                 : filteredPrice,
         }
-        console.log("FILterData", data)
         // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
         if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
             getfilterWiseProduct(data)
@@ -149,9 +147,7 @@ function HomeScreen() {
         await ProductServices.getAllProducts({
             page: page,
             limit: limit ? limit : defaultLimit,
-            category: category,
-            title: searchText,
-            price: sortedField,
+            price: selectedSortingOption,
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 dispatch(setProductList({
@@ -233,12 +229,12 @@ function HomeScreen() {
                                     onChange={handleSortingChange}
                                     className='select-dropdown'
                                 >
-                                    <option value="default-sorting">Default sorting</option>
-                                    <option value="sort-by-popularity">Sort by popularity</option>
-                                    <option value="sort-by-average-rating">Sort by average rating</option>
-                                    <option value="sort-by-latest">Sort by latest</option>
-                                    <option value="sort-by-low-to-high">Sort by price: low to high</option>
-                                    <option value="sort-by-high-to-low">Sort by price: high to low</option>
+                                    {/* <option value="default-sorting">Default sorting</option> */}
+                                    <option value="low">Sort by price: low to high</option>
+                                    <option value="high">Sort by price: high to low</option>
+                                    {/* <option value="date-added-asc">Sort by Date Added (Asc)</option>
+                                    <option value="date-added-desc">Sort by Date Added (Desc)</option> */}
+                                    {/* <option value="sort-by-latest">Sort by latest</option> */}
                                 </select>
                             </div>
                         </div>

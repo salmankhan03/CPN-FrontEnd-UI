@@ -1,17 +1,20 @@
 import requests from "./api";
 
 const ProductServices = {
-  getAllProducts: async ({ page, limit, category, title, price }) => {
-    const searchCategory = category !== null ? category : "";
-    const searchTitle = title !== null ? title : "";
-    const searchPrice = price !== null ? price : "";
-      let body ={
-        category:searchCategory,
-        title:searchTitle,
-        price:searchPrice,
-      }
+  getAllProducts: async ({ page, limit,  price }) => {
+    let obj = {};
+    if(price){
+      obj.sort = { price: price === "low" ? "asc" : "desc" };
+    }
+
+      // let body ={
+      //   // category:searchCategory,
+      //   // title:searchTitle,
+      //   price:searchPrice,
+      // }
+      // console.log("OBJ",obj)
     return requests.post(
-      `/product/list?page=${page}&pageSize=${limit}`,body
+      `/product/list?page=${page}&pageSize=${limit}`,obj
     );
   },
   getMaximumPrice: async () => {
