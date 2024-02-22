@@ -213,7 +213,7 @@ const LoginScreen = ({ onLogin }) => {
               </div>
               <div className='mt-3'>
                 <p>No account? No problem. Create an account later to keep track of your orders.</p>
-                <p className='text-primary' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+                <p className='text-primary pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
               </div>
             </div>
           </div>
@@ -264,11 +264,11 @@ const LoginScreen = ({ onLogin }) => {
                         <div className='mt-4 mb-4'>
                           <hr />
                         </div>
-                        <div className="form-outline mb-2">
-                          <p>Forgot Password</p>
+                        <div className="form-outline mb-2 ">
+                          <p className='pointer-on-hover'>Forgot Password</p>
                         </div>
                         <div className="form-outline mb-4">
-                          <p onClick={LoginSignupFormShowHide}>Create account</p>
+                          <p className='pointer-on-hover'  onClick={LoginSignupFormShowHide}>Create account</p>
                         </div>
                       </div>
                     </div>
@@ -369,7 +369,7 @@ const LoginScreen = ({ onLogin }) => {
                         <div className='mt-4 mb-4'>
                           <hr />
                         </div>
-                        <div className="form-outline mb-2" onClick={LoginSignupFormShowHide}>
+                        <div className="form-outline mb-2 pointer-on-hover" onClick={LoginSignupFormShowHide}>
                           Already have an account? Login
                         </div>
                       </div>

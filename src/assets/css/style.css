@@ -2849,3 +2849,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px #f2f2f2 inset !important;
 }
+
+.pointer-on-hover {
+  cursor: pointer;
+}
