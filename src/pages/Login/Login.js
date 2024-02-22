@@ -63,7 +63,7 @@ const LoginScreen = ({ onLogin }) => {
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.email.trim() || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(registerFormData.email) === false) {
+    if (!formData.email.trim() || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email) === false) {
       errors.email = 'Email is required';
     }
     if (!formData.password.trim()) {
@@ -75,11 +75,12 @@ const LoginScreen = ({ onLogin }) => {
   };
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("handle Submit")
+
     if (validateForm()) {
       try {
         AuthServices.customerLogin(formData).then((resp) => {
           if (resp?.status_code === 200) {
+            notifySuccess(`Login Success`);
             const cookieTimeOut = 1000;
 
             console.log(resp)
@@ -92,9 +93,10 @@ const LoginScreen = ({ onLogin }) => {
             Cookies.set('userToken', JSON.stringify(resp?.token), {
               expires: cookieTimeOut,
             });
+            setTimeout(()=>{
             onLogin();
             navigate('/checkout', { replace: true });
-
+          },1000)
           }
         }).catch((error) => {
           // setLoading(false)
@@ -124,7 +126,7 @@ const LoginScreen = ({ onLogin }) => {
     if (!registerFormData.phone.trim()) {
       errors.phone = 'Phone Number is required';
     }
-    if (!registerFormData.email.trim() || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(registerFormData.email) === false) {
+    if (!registerFormData.email.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerFormData.email) === false) {
       errors.email = 'Email is required';
     }
     if (!registerFormData.password.trim()) {
@@ -146,15 +148,18 @@ const LoginScreen = ({ onLogin }) => {
 
         AuthServices.customerSignUp(registerFormData).then((resp) => {
           if (resp?.status_code === 200) {
+            notifySuccess(`You have Success fully sign Up`);
             console.log(resp)
             dispatch(setUserData({
               ...resp?.data
             }))
+            setTimeout(()=>{
             navigate(`/`, {
               state: {
                 order_id: resp.order_id
               }
             })
+          },1000)
           }
         }).catch((error) => {
           // setLoading(false)
@@ -201,9 +206,10 @@ const LoginScreen = ({ onLogin }) => {
   return (
     <div className="container">
       <div className='m-3 mt-5'>
-        <Toast />
 
         <div className='row' style={{ backgroundColor: '' }}>
+        <Toast />
+
           <div className='col-md-6'>
             <div>
               <h2>Secure Checkout</h2>
