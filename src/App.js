@@ -20,17 +20,17 @@ import { useSelector } from 'react-redux';
 function App() {
   const AuthData = useSelector(state => state.AuthReducer.userData);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData)
-  console.log(GuestData)
-  console.log(AuthData)
+  // console.log(GuestData)
+  // console.log(AuthData)
 
   const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
-  console.log(isLoggedIn)
-  const loginStatusUpdate = () =>{
+  // console.log(isLoggedIn)
+  function loginStatusUpdate() {
     console.log("call")
   }
     useEffect(()=>{
-      console.log(AuthData)
-      console.log(GuestData)
+      // console.log(AuthData)
+      // console.log(GuestData)
       if(AuthData || GuestData){
         setLoggedIn(true)
       }

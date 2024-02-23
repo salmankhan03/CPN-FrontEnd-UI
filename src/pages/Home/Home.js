@@ -93,9 +93,9 @@ function HomeScreen() {
             limit: defaultLimit,
         }).then((resp) => {
             // setLoading(false)
-            console.log(resp)
+            // console.log(resp)
             if (resp?.status_code === 200) {
-                console.log(resp.list.data)
+                // console.log(resp.list.data)
                 dispatch(setBrandList([
                     ...resp?.list?.data
                 ]))
@@ -114,7 +114,7 @@ function HomeScreen() {
             limit: defaultLimit,
         }).then((resp) => {
             // setLoading(false)
-            console.log(resp)
+            // console.log(resp)
             if (resp?.status_code === 200) {
                 dispatch(setCategoryList([
                     ...resp?.tree?.data
@@ -130,7 +130,7 @@ function HomeScreen() {
         setLoading(true)
         await ProductServices.getfilterWiseProducts(data).then((resp) => {
             if (resp?.status_code === 200) {
-                console.log(resp)
+                // console.log(resp)
                 // dispatch(setProductList({
                 //     ...resp?.list?.data
                 // }))
@@ -152,7 +152,7 @@ function HomeScreen() {
 
     }
     async function getProductsList(limit) {
-        console.log(limit)
+        // console.log(limit)
         await ProductServices.getAllProducts({
             page: currentPage ? currentPage : page,
             limit: limit ? limit : defaultLimit,

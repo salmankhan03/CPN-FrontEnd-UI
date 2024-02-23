@@ -9,7 +9,6 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
   const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const handleDataChange = (event,) => {
     const dataType = event.target.dataset.datatype; // Access the 'datatypes' attribute
-    console.log("types ==>", dataType)
     if (dataType === "Category") {
       const categoryId = parseInt(event?.target?.value, 10);
       const updatedCategories = event.target.checked
