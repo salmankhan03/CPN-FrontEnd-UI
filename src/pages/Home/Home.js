@@ -16,8 +16,9 @@ function HomeScreen() {
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
-    const [productDisplayLimit, setProductDisplayLimit] = useState(12)
-    const [totalPages, setTotalPages] = useState(12)
+    const [productDisplayLimit, setProductDisplayLimit] = useState()
+    const [totalPages, setTotalPages] = useState()
+    const [totalItems, setTotalItems] = useState()
     const [category, setCategory] = useState("")
     const [searchText, setSearchText] = useState("")
     const [sortedField, setSortedField] = useState("")
@@ -43,7 +44,7 @@ function HomeScreen() {
     useEffect(() => {
         getProductsList(selectedOption)
      
-    }, [selectedOption])
+    }, [selectedOption,currentPage])
 
 
 
@@ -134,6 +135,9 @@ function HomeScreen() {
                 //     ...resp?.list?.data
                 // }))
                 setProductsListData(resp?.list)
+                setTotalItems(resp?.list?.length)
+                setProductDisplayLimit(resp?.list?.length)
+                setCurrentPage(1)
                 setTimeout(() => {
                     setLoading(false)
                   }, 1000);
@@ -150,15 +154,17 @@ function HomeScreen() {
     async function getProductsList(limit) {
         console.log(limit)
         await ProductServices.getAllProducts({
-            page: page,
+            page: currentPage ? currentPage : page,
             limit: limit ? limit : defaultLimit,
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 dispatch(setProductList({
                     ...resp?.list?.data
                 }))
+                setProductDisplayLimit(resp?.list?.per_page)
                 setProductsListData(resp?.list?.data)
                 setTotalPages(resp?.list?.last_page)
+                setTotalItems(resp?.list?.total)
                 setTimeout(() => {
                     setLoading(false)
                   }, 1000); 
@@ -182,6 +188,7 @@ function HomeScreen() {
     }
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
+        setCurrentPage(1)
     };
     const handleSortingChange = (e) => {
         setSelectedSortingOption(e.target.value);
@@ -218,7 +225,7 @@ function HomeScreen() {
                                             value={selectedOption}
                                             onChange={handleChange}
                                             className='select-dropdown'
-                                        >
+                                        ><option defaultValue={20} >20</option>
                                             <option value="12">12</option>
                                             <option value="24">24</option>
                                             <option value="36">36</option>
@@ -257,7 +264,7 @@ function HomeScreen() {
 
                                         ))}
                                         <div className='row text-center'>
-                                            <CustomPagination totalItems={totalPages} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} />
+                                            <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit}  onPageChange={handlePageChange} currentPages={currentPage}/>
                                         </div>
                                     </>
                                 ) : (
