@@ -29,7 +29,7 @@ function HomeScreen() {
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
-    const [selectedSortingOption, setSelectedSortingOption] = useState("high");
+    const [selectedSortingOption, setSelectedSortingOption] = useState();
     const [maxPrice, setMaxPrice] = useState()
 
 
@@ -43,7 +43,7 @@ function HomeScreen() {
     useEffect(() => {
         getProductsList(selectedOption)
      
-    }, [selectedOption,selectedSortingOption])
+    }, [selectedOption])
 
 
 
@@ -63,6 +63,10 @@ function HomeScreen() {
     useEffect(() => {
         const getselectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
         const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
+        let obj = {};
+        if(selectedSortingOption){
+            obj.sort = { price: selectedSortingOption === "low" ? "asc" : "desc" };
+        }
         let data = {
             "category": selectedCategories,
             "brands": selectedBrandNames,
@@ -70,6 +74,7 @@ function HomeScreen() {
             "price": filteredPrice[1] === null || filteredPrice[1] === undefined
                 ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
                 : filteredPrice,
+                ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
         }
         // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
         if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
@@ -80,7 +85,7 @@ function HomeScreen() {
             getProductsList()
         }
 
-    }, [selectedCategories, selectedBrands, filteredPrice])
+    }, [selectedCategories, selectedBrands, filteredPrice,selectedSortingOption])
     function getBrandList() {
         CategoryServices.getAllBrand({
             page: page,
@@ -147,7 +152,6 @@ function HomeScreen() {
         await ProductServices.getAllProducts({
             page: page,
             limit: limit ? limit : defaultLimit,
-            price: selectedSortingOption,
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 dispatch(setProductList({
