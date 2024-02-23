@@ -143,8 +143,9 @@ const LoginScreen = ({ onLogin }) => {
     if (validateSignUpForm()) {
       try {
         console.log("FINAL", registerFormData)
-        registerFormData.date_of_birth = new Date(registerFormData.date_of_birth).toISOString()
-        console.log("After ISO", registerFormData)
+        // registerFormData.date_of_birth = new Date(registerFormData.date_of_birth).toISOString()
+        // registerFormData.date_of_birth = "1998-02-25"
+        // console.log("After ISO", registerFormData)
 
         AuthServices.customerSignUp(registerFormData).then((resp) => {
           if (resp?.status_code === 200) {
