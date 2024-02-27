@@ -60,24 +60,24 @@ const CheckoutPage = () => {
         street_address: '',
         city: '',
         state: '',
-        zip: '',
-        phone: '',
+        zipcode: '',
+        contact_no: '',
         email: '',
     });
     const [shippingFormData, setShippingFormData] = useState({
-        first_name: '',
-        last_name: '',
+        first_name: AuthData ? AuthData.first_name :'',
+        last_name: AuthData ? AuthData?.last_name:'',
         country: 'CA',
-        street_address: '',
-        city: '',
-        state: '',
-        zip: '',
-        phone: '',
-        email: '',
+        street_address: AuthData ? AuthData?.street_address:'',
+        city: AuthData ? AuthData?.city:'',
+        state: AuthData ? AuthData?.state:'',
+        zipcode:  AuthData ? AuthData?.zipcode:'',
+        contact_no: AuthData ? AuthData?.contact_no: '',
+        email: AuthData ? AuthData?.email:'',
     });
 
     useEffect(() => {
-        // console.log(cartItems)
+        // console.log("AuthData",AuthData)
         if (cartItems.length === 0) {
             navigate('/');
         }
@@ -86,7 +86,7 @@ const CheckoutPage = () => {
                 ...prevData,
                 first_name: AuthData?.first_name,
                 last_name: AuthData?.last_name,
-                phone: AuthData?.contact_no,
+                contact_no: AuthData?.contact_no,
                 email: AuthData?.email,
             }))
         }
@@ -121,11 +121,11 @@ const CheckoutPage = () => {
     // const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
         let formattedValue = value;
-        if (field === 'phone') {
+        if (field === 'contact_no') {
             formattedValue = value.slice(0, 10);
         }
 
-        if (field === 'zip') {
+        if (field === 'zipcode') {
             formattedValue = value.slice(0, 6);
         }
 
@@ -187,12 +187,12 @@ const CheckoutPage = () => {
             errors.state = 'State is required';
         }
 
-        if (formData.zip?.trim() === '' || formData?.zip === null) {
-            errors.zip = 'ZIP Code is required';
+        if (formData.zipcode?.trim() === '' || formData?.zipcode === null) {
+            errors.zipcode = 'ZIP Code is required';
         }
 
-        if (formData.phone?.trim() === '' || formData?.phone === null) {
-            errors.phone = 'Phone number is required';
+        if (formData.contact_no?.trim() === '' || formData?.contact_no === null) {
+            errors.contact_no = 'Phone number is required';
         }
 
         if (formData.email?.trim() === '' || formData?.email === null) {
@@ -659,15 +659,15 @@ const CheckoutPage = () => {
                                 <div className="form-group col-md-6">
                                     <InputComponent
                                         type="text"
-                                        id="phone"
+                                        id="contact_no"
                                         label="Phone *"
-                                        customClass={`form-control gray-bg ${shippingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                        value={shippingFormData?.phone}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'phone', e.target.value, "shippingform Error")}
+                                        customClass={`form-control gray-bg ${shippingFormErrors.contact_no ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.contact_no}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'contact_no', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
                                     />
-                                    {shippingFormErrors.phone && <div className="validation-error">{shippingFormErrors.phone}</div>}
+                                    {shippingFormErrors.contact_no && <div className="validation-error">{shippingFormErrors.contact_no}</div>}
                                 </div>
                                 <div className="form-group col-md-6">
                                     <InputComponent
@@ -725,15 +725,15 @@ const CheckoutPage = () => {
                                 <div className="form-group col-md-3">
                                     <InputComponent
                                         type="text"
-                                        id="zip"
+                                        id="zipcode"
                                         label="Postal Code *"
-                                        customClass={`form-control gray-bg ${shippingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                        value={shippingFormData?.zip}
-                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zip', e.target.value, "shippingform Error")}
+                                        customClass={`form-control gray-bg ${shippingFormErrors.zipcode ? 'validation-error-border' : ''}`}
+                                        value={shippingFormData?.zipcode}
+                                        onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zipcode', e.target.value, "shippingform Error")}
                                         placeholder=""
                                         required
                                     />
-                                    {shippingFormErrors.zip && <div className="validation-error">{shippingFormErrors.zip}</div>}
+                                    {shippingFormErrors.zipcode && <div className="validation-error">{shippingFormErrors.zipcode}</div>}
                                 </div>
                             </div>
 
@@ -785,16 +785,16 @@ const CheckoutPage = () => {
                                     <div className="form-group col-md-6">
                                         <InputComponent
                                             type="text"
-                                            id="phone"
+                                            id="contact_no"
                                             label="Phone *"
-                                            customClass={`form-control gray-bg ${billingFormErrors.phone ? 'validation-error-border' : ''}`}
-                                            value={billingFormData?.phone}
-                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'phone', e.target.value, "billingform Error")}
+                                            customClass={`form-control gray-bg ${billingFormErrors.contact_no ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.contact_no}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
                                             placeholder=""
                                             required
                                             isdisabled={isChecked}
                                         />
-                                        {billingFormErrors.phone && <div className="validation-error">{billingFormErrors.phone}</div>}
+                                        {billingFormErrors.contact_no && <div className="validation-error">{billingFormErrors.contact_no}</div>}
                                     </div>
                                     <div className="form-group col-md-6">
                                         <InputComponent
@@ -856,16 +856,16 @@ const CheckoutPage = () => {
                                     <div className="form-group col-md-3">
                                         <InputComponent
                                             type="text"
-                                            id="zip"
+                                            id="zipcode"
                                             label="Postal Code *"
-                                            customClass={`form-control gray-bg ${billingFormErrors.zip ? 'validation-error-border' : ''}`}
-                                            value={billingFormData?.zip}
-                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zip', e.target.value, "billingform Error")}
+                                            customClass={`form-control gray-bg ${billingFormErrors.zipcode ? 'validation-error-border' : ''}`}
+                                            value={billingFormData?.zipcode}
+                                            onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zipcode', e.target.value, "billingform Error")}
                                             placeholder=""
                                             required
                                             isdisabled={isChecked}
                                         />
-                                        {billingFormErrors.zip && <div className="validation-error">{billingFormErrors.zip}</div>}
+                                        {billingFormErrors.zipcode && <div className="validation-error">{billingFormErrors.zipcode}</div>}
                                     </div>
 
                                 </div>
