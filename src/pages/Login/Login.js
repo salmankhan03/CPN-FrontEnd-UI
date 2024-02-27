@@ -26,7 +26,7 @@ const LoginScreen = ({ onLogin }) => {
     first_name: '',
     last_name: '',
     date_of_birth: '',
-    phone: '',
+    contact_no: '',
     email: '',
     password: '',
     id: null
@@ -35,7 +35,7 @@ const LoginScreen = ({ onLogin }) => {
     first_name: '',
     last_name: '',
     date_of_birth: '',
-    phone: '',
+    contact_no: '',
     email: '',
     password: '',
 
@@ -48,7 +48,7 @@ const LoginScreen = ({ onLogin }) => {
   const handleChange = (fieldName, value, type) => {
     if (type === "signupForm") {
       let formattedValue = value;
-     if (fieldName === 'phone') {
+     if (fieldName === 'contact_no') {
         formattedValue = value.slice(0, 10);
       }
       // if (fieldName === 'date_of_birth') {
@@ -123,8 +123,8 @@ const LoginScreen = ({ onLogin }) => {
     if (!registerFormData.date_of_birth.trim()) {
       errors.date_of_birth = 'Date of Birth is required';
     }
-    if (!registerFormData.phone.trim()) {
-      errors.phone = 'Phone Number is required';
+    if (!registerFormData.contact_no.trim()) {
+      errors.contact_no = 'Phone Number is required';
     }
     if (!registerFormData.email.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(registerFormData.email) === false) {
       errors.email = 'Email is required';
@@ -331,14 +331,14 @@ const LoginScreen = ({ onLogin }) => {
                           <label className="form-label" htmlFor="registerLastName">Phone Number</label>
                           <InputComponent
                             type="number"
-                            id="phone"
-                            customClass={`form-control gray-bg ${registerFormDataErrors.phone ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                            value={registerFormData?.phone}
-                            onChange={(e) => handleChange('phone', e.target.value, 'signupForm')}
+                            id="contact_no"
+                            customClass={`form-control gray-bg ${registerFormDataErrors.contact_no ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                            value={registerFormData?.contact_no}
+                            onChange={(e) => handleChange('contact_no', e.target.value, 'signupForm')}
                             placeholder=""
                             // required={true}
                           />
-                          {registerFormDataErrors.phone && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.phone}</div>}
+                          {registerFormDataErrors.contact_no && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.contact_no}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerLastName">Email</label>
