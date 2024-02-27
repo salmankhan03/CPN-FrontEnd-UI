@@ -40,7 +40,7 @@ function TopNavBar() {
                       });
                     dispatch(setUserData({}))
                     dispatch(setGuestUser({}))
-                    notifySuccess(`log Out Suceefully`);
+                    notifySuccess(`logOut Suceefully`);
                     navigate(`/`)
 
                 }
