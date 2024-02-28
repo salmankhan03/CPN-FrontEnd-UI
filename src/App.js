@@ -16,6 +16,9 @@ import SignUp from './pages/SignUP/SignUp';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
 import ShopScreen from './pages/Shop/Shop';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import TermsAndCondition from './pages/Terms/Terms';
+import Disclaimer from './pages/Disclimer/Disclaimer';
 
 
 function App() {
@@ -57,6 +60,10 @@ function App() {
             path="/thankyou"
             element={<PrivateRoute element={<ThankYouScreen />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
+          <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
+          <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
+          <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
+
           </Routes>
       </Router>
     </div>
