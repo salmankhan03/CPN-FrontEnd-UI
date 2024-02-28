@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import SignUp from './pages/SignUP/SignUp';
 import PrivateRoute from './PrivateRoute';
 import { useSelector } from 'react-redux';
+import ShopScreen from './pages/Shop/Shop';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<WithNavbar component={HomeScreen} />} />
+          <Route path="/Shop" element={<WithNavbar component={ShopScreen} />} />
           <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
           <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} />
           <Route path="/signup" element={<SignUp />} />

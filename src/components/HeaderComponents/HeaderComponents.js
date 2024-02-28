@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
-import logo from "../../assets/images/logo.png"
+// import logo from "../../assets/images/logo.png"
+import logo from "../../assets/images/logo/logo_cpn.svg"
 import { useSelector } from 'react-redux';
 import './HeaderComponents.css'; 
 
@@ -10,26 +11,21 @@ function Header() {
   const cartItems = useSelector(state => state.CartReducer.cartItems);
     return (
         <div className="custom-header">
-            <div className="ml-2 mr-2">
+            <div className="ml-2 mr-2" style={{}}>
             <div className="row">
               <div className="col-lg-12 text-right">
                 <div className="logo_container">
-                  <Link to="/">
-                    {/* Fashion<span>Cube</span> */}
-                    <ImageComponent src={logo} alt="LOGO" />
+                  <Link to="/">      
+                    <img width={200} height={100} src={logo} alt="404" />
                   </Link>
                 </div>
                 <nav className="navbar">
                   <ul className="navbar_menu">
                     <li>
-                      <Link to="#">home</Link>
+                      <Link to="/">home</Link>
                     </li>
-                    <li className="mega-drop-down">
-                      <a href="#">
-                        shop <i className="fa fa-angle-down"></i>
-                      </a>
-
-
+                    <li className="">
+                      <Link to="/Shop">shop</Link>            
                     </li>
   
                     <li>
