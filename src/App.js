@@ -14,14 +14,17 @@ import LoginScreen from './pages/Login/Login';
 import React, { useEffect, useState } from "react";
 import SignUp from './pages/SignUP/SignUp';
 import PrivateRoute from './PrivateRoute';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ShopScreen from './pages/Shop/Shop';
 import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 import TermsAndCondition from './pages/Terms/Terms';
 import Disclaimer from './pages/Disclimer/Disclaimer';
+import AuthServices from './services/AuthServices';
+import { setDefaultTemplateList } from './redux/action/template-action';
 
 
 function App() {
+  const dispatch = useDispatch();
   const AuthData = useSelector(state => state.AuthReducer.userData);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData)
   // console.log(GuestData)
@@ -29,17 +32,38 @@ function App() {
 
   const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
   // console.log(isLoggedIn)
+  useEffect(() => {
+    getStaticPageList()
+  }, [])
+
+  async function getStaticPageList() {
+    await AuthServices.getStaticTemplates({
+      page: 1,
+      limit: 100,
+    }).then((resp) => {
+      if (resp?.status_code === 200) {
+        dispatch(setDefaultTemplateList([
+          ...resp?.list?.data
+        ]))
+
+
+      }
+    }).catch((error) => {
+
+      console.log(error)
+    })
+  }
   function loginStatusUpdate() {
     console.log("call")
   }
-    useEffect(()=>{
-      // console.log(AuthData)
-      // console.log(GuestData)
-      if(AuthData || GuestData){
-        setLoggedIn(true)
-      }
+  useEffect(() => {
+    // console.log(AuthData)
+    // console.log(GuestData)
+    if (AuthData || GuestData) {
+      setLoggedIn(true)
+    }
 
-    },[GuestData, AuthData])
+  }, [GuestData, AuthData])
 
   return (
     <div className='pagebox'>
@@ -64,7 +88,7 @@ function App() {
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
 
-          </Routes>
+        </Routes>
       </Router>
     </div>
   );

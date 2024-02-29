@@ -1,11 +1,20 @@
 
 import React, { useEffect, useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
+import { useSelector } from 'react-redux';
 const Disclaimer = () => {
+    const templateList = useSelector(state => state.TemplateReducer.templateList);
+    const [content, setContent]= useState()
+    useEffect(()=>{
+        let data= templateList?.find((x)=>x?.name === "DISCLAIMER")
+        setContent(data?.template)
+    },[templateList])
     return (
         <div className='custom-header'>
             <div className='container'>
-                <div className='row '>
+            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent(content) }} />
+
+                {/* <div className='row '>
                     <div className='text-center font-weight-bold'>
                         <h3>DISCLAIMER</h3>
                     </div>
@@ -24,7 +33,7 @@ const Disclaimer = () => {
                     <p className='mt-2'>
                         The Information and Products on This Site May Contain Statements That Have Not Been Evaluated by Health Canada. These Products Are Not Intended to Diagnose, Treat, Cure, or Prevent Any Disease.
                     </p>            
-                </div>
+                </div> */}
             </div>
             <div className='mt-2'>
                 <FooterComponents></FooterComponents>

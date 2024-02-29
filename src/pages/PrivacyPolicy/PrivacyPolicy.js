@@ -1,11 +1,19 @@
 
 import React, { useEffect, useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
+import { useSelector } from 'react-redux';
 const PrivacyPolicy = () => {
+    const templateList = useSelector(state => state.TemplateReducer.templateList);
+    const [privacyPolicyData, setPrivacyPolicyData]= useState()
+    useEffect(()=>{
+        let data= templateList?.find((x)=>x?.name === "Privacy policy")
+       setPrivacyPolicyData(data?.template)
+    },[templateList])
     return (
         <div className='custom-header'>
             <div className='container'>
-                <div className='row '>
+            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent(privacyPolicyData) }} />
+                {/* <div className='row '>
                     <div className='text-center font-weight-bold'>
                         <h3>PRIVACY POLICY</h3>
                     </div>
@@ -56,7 +64,7 @@ const PrivacyPolicy = () => {
                     <p className='font-weight-bold'>CONTACT US</p>
                     <p>If you have any questions about this Privacy Statement or the practices or activities associated with our Site, or if you’d like to have access to or correct your personal information in our database(s) or remove yourself from our database(s), please contact us at 200-3071 No 5 Rd Richmond, BC V6X 2T4, Canada</p>
 
-                </div>
+                </div> */}
             </div>
             <div className='mt-2'>
                 <FooterComponents></FooterComponents>

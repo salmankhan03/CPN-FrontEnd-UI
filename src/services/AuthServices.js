@@ -12,6 +12,9 @@ const AuthServices = {
     customerLogout: async () => {
         return requests.get(`/customer/logout`, );
     },
+    getStaticTemplates:async (params) =>{
+        return requests.get(`/template/list?page=${params?.page}&pageSize=${params?.limit}`, );
+    }
 
 
 };
