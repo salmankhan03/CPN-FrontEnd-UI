@@ -27,6 +27,12 @@ function Header() {
                     <li className="">
                       <Link to="/Shop">shop</Link>            
                     </li>
+                    <li className="">
+                      <Link to="/about-us">ABOUT US</Link>            
+                    </li>
+                    <li className="">
+                      <Link to="/faq">FAQ</Link>            
+                    </li>
   
                     <li>
                       <a href="#">contact</a>

@@ -21,6 +21,8 @@ import TermsAndCondition from './pages/Terms/Terms';
 import Disclaimer from './pages/Disclimer/Disclaimer';
 import AuthServices from './services/AuthServices';
 import { setDefaultTemplateList } from './redux/action/template-action';
+import AboutUs from './pages/AboutUs/AboutUs';
+import Faq from './pages/Faq/Faq';
 
 
 function App() {
@@ -84,6 +86,8 @@ function App() {
             path="/thankyou"
             element={<PrivateRoute element={<ThankYouScreen />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
+          <Route path="/about-us" element={<WithNavbar component={AboutUs} />} />
+          <Route path="/faq" element={<WithNavbar component={Faq} />} />
           <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
