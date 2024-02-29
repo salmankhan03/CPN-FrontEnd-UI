@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function FooterComponents() {
     return (
-        <div className='row p-2' style={{border:'1px solid'}}>
+        <div className='row p-2 footers' >
             <div className='col-12 col-md-9 col-lg-9'>
                 <div className='mt-2'>
                     Copyright © 2024 Canadian Pinnacle Nutritech . All rights reserved.
@@ -18,16 +18,16 @@ function FooterComponents() {
             <div className='col-12 col-md-3 col-lg-3'>
                 <div className='d-flex'>
                     <div className='m-1 mt-2'>
-                    <Link to="/privacy-policy"> 
+                    <Link to="/privacy-policy" style={{color:'#bbb'}}> 
                         Privacy Policy
                     </Link>
                     </div>
                     <div className='m-1 mt-2'>
-                    <Link to="/terms-conditions">
+                    <Link to="/terms-conditions" style={{color:'#bbb'}}>
                          Terms & Conditions
                     </Link> </div>
-                    <div className='m-1 mt-2'>
-                    <Link to="/disclaimer">
+                    <div className='m-1 mt-2' >
+                    <Link to="/disclaimer" style={{color:'#bbb'}}>
                      Disclaimer
                     </Link></div>
                 </div>
