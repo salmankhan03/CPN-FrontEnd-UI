@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -10,12 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
 import { addtoCartItems } from '../../redux/action/cart-action';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
+import { Card, Container, Row, Col } from 'react-bootstrap';
 
 
 function HomeScreen() {
     const [selectedItem, setSelectedItem] = useState(null);
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
+    const scrollContainerRef = useRef(null);
+
 
     const products = [
         {
@@ -403,6 +406,7 @@ function HomeScreen() {
             "images": []
         },
     ]
+    // Cards
 
     const Weekly = [
         { id: 1, name: "All" },
@@ -457,6 +461,12 @@ function HomeScreen() {
             dispatch(addtoCartItems(cartObj));
         }
     }
+
+    const handleScroll = (scrollOffset) => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollLeft += scrollOffset;
+        }
+    };
 
 
     return (
@@ -524,136 +534,162 @@ function HomeScreen() {
                             ))}
                         </div>
                     </div>
-                    {/* <div className='mt-5' style={{ overflowX: 'hidden', overflowY: 'hidden' }}>
-                        <div className="d-flex flex-wrap">
-                            {products.map((product, index) => (
-                                <div key={index} className="m-2 mt-3 product-box" style={{ maxWidth: 'calc(25% - 16px)' }}>
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">{product.name}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                    </div> */}
-                    <div className='row mt-5'>
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>New Products</h3>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
-                                </div>
-                            </div>
-                            <div className='mt-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {products.slice(0, 3).map((product, index) => (
-                                    <div className='m-5' >
-                                        <div className='row' key={index} style={{ height: 150 }}>
-                                            <div className='col-12 col-md-5 col-lg-5'>
-                                                <img src={product.images[0]?.name} alt={`Slide ${index + 1}`} className="slider-image" />
-                                            </div>
-                                            <div className='col-12 col-md-7 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='row mt-3'>
-                                                    <div className='col-12 col-md-7 col-lg-7'>
-                                                        ${product?.price}
-                                                    </div>
-                                                    <div className='col-12 col-md-5 col-lg-5'>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
-                                                    </div>
+                    <div className='mt-3'>
+                        <div className="horizontal-product-display" onMouseMove={(e) => handleScroll(e.nativeEvent.deltaY)}>
+                            <div ref={scrollContainerRef} className="product-list">
+                                {products.map((product, index) => (
+                                    <div key={index} className="product-card">
+                                        <img src={product.images[0]?.name} alt={product.name} className="product-image" />
+                                        <div className="product-details">
+                                            <h3 className="product-title">{product.name}</h3>
+                                            <p className="product-price">${product.price}</p>
+                                            <div className='d-flex mt-3 justify-content-between'>
+                                                <div className=''>
+                                                    ${product?.price}
+                                                </div>
+                                                <div className=''>
+                                                    <span className='circle'>
+                                                        <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <hr className='' />
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>Products On Sale</h3>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                        </div>
+                        <div className='row mt-5 mb-5'>
+                            <div className='col-12 col-md-4 col-lg-4'>
+                                <div className='d-flex align-items-center'>
+                                    <div className='mr-auto'>
+                                        <h3 className='bold' style={{ display: 'inline' }}>New Products</h3>
+                                        <span className='ml-3 pointer-on-hover'>View All</span>
+                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='mt-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {products.slice(3, 6).map((product, index) => (
-                                    <div className='m-5' >
-                                        <div className='row' key={index} style={{ height: 150 }}>
-                                            <div className='col-12 col-md-5 col-lg-5'>
-                                                <img src={product.images[0]?.name} alt={`Slide ${index + 1}`} className="slider-image" />
-                                            </div>
-                                            <div className='col-12 col-md-7 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='row mt-3'>
-                                                    <div className='col-12 col-md-7 col-lg-7'>
-                                                        ${product?.price}
+                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                    {products.slice(0, 3).map((product, index) => (
+                                        <div className='m-5' >
+                                            <div className='row' key={index} style={{ maxHeight: 450 }}>
+                                                <div className='col-12 col-md-4 col-lg-5'>
+                                                    <div className="product_image">
+                                                        {product.images[0].name ? (
+                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                            <p>Image not available</p>
+                                                        )}
                                                     </div>
-                                                    <div className='col-12 col-md-5 col-lg-5'>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
+                                                </div>
+                                                <div className='col-12 col-md-8 col-lg-7'>
+                                                    <div>{product?.brand}</div>
+                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                    <div className='d-flex mt-3 justify-content-between'>
+                                                        <div className=''>
+                                                            ${product?.price}
+                                                        </div>
+                                                        <div className=''>
+                                                            <span className='circle'>
+                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr className='' />
                                         </div>
-                                        <hr className='' />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>Top Rated Products</h3>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                    ))}
                                 </div>
                             </div>
-                            <div className='mt-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {products.slice(6, 9).map((product, index) => (
-                                    <div className='m-5' >
-                                        <div className='row' key={index} style={{ height: 150 }}>
-                                            <div className='col-12 col-md-5 col-lg-5'>
-                                                <img src={product.images[0]?.name} alt={`Slide ${index + 1}`} className="slider-image" />
-                                            </div>
-                                            <div className='col-12 col-md-7 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='row mt-3'>
-                                                    <div className='col-12 col-md-7 col-lg-7'>
-                                                        ${product?.price}
-                                                    </div>
-                                                    <div className='col-12 col-md-5 col-lg-5'>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
+
+                            <div className='col-12 col-md-4 col-lg-4'>
+                                <div className='d-flex align-items-center'>
+                                    <div className='mr-auto'>
+                                        <h3 className='bold' style={{ display: 'inline' }}>Products On Sale</h3>
+                                        <span className='ml-3 pointer-on-hover'>View All</span>
+                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                    {products.slice(3, 6).map((product, index) => (
+                                        <div className='m-5' >
+                                            <div className='row' key={index} style={{ maxHeight: 350 }}>
+                                                <div className='col-12 col-md-4 col-lg-5'>
+                                                    <div className="product_image">
+                                                        {product.images[0].name ? (
+                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                            <p>Image not available</p>
+                                                        )}
+                                                    </div>                                            </div>
+                                                <div className='col-12 col-md-8 col-lg-7'>
+                                                    <div>{product?.brand}</div>
+                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                    <div className='d-flex mt-3 justify-content-between'>
+                                                        <div className=''>
+                                                            ${product?.price}
+                                                        </div>
+                                                        <div className=''>
+                                                            <span className='circle'>
+                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <hr className='' />
                                         </div>
-                                        <hr className='' />
+                                    ))}
+                                </div>
+                            </div>
+                            <div className='col-12 col-md-4 col-lg-4'>
+                                <div className='d-flex align-items-center'>
+                                    <div className='mr-auto'>
+                                        <h3 className='bold' style={{ display: 'inline' }}>Top Rated Products</h3>
+                                        <span className='ml-3 pointer-on-hover'>View All</span>
+                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                     </div>
-                                ))}
+                                </div>
+                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                    {products.slice(6, 9).map((product, index) => (
+                                        <div className='m-5' >
+                                            <div className='row' key={index} style={{ maxHeight: 350 }}>
+                                                <div className='col-12 col-md-4 col-lg-5'>
+                                                    <div className="product_image">
+                                                        {product.images[0].name ? (
+                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                            <p>Image not available</p>
+                                                        )}
+                                                    </div>                                            </div>
+                                                <div className='col-12 col-md-8 col-lg-7'>
+                                                    <div>{product?.brand}</div>
+                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                    <div className='d-flex mt-3 justify-content-between'>
+                                                        <div className=''>
+                                                            ${product?.price}
+                                                        </div>
+                                                        <div className=''>
+                                                            <span className='circle'>
+                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr className='' />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
+
+
                     </div>
-
+                    <div className='mt-2'>
+                        <FooterComponents />
+                    </div>
                 </div>
-                <div className='mt-2'>
-                    <FooterComponents />
-                </div>
-            </div>
-        </div>
-    );
+            </div >
+            );
 }
 
-export default HomeScreen;
+            export default HomeScreen;
