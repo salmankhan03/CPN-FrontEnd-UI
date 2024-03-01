@@ -344,6 +344,10 @@
     height: 80px;
     width:100px;
   }
+  .product_image{
+    height: 140px;
+    margin-bottom: 20px;
+  }
 }
 
 /************

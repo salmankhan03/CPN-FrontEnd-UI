@@ -615,12 +615,12 @@ function HomeScreen() {
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
                                 <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>New Products</h3>
+                                <div className='font-weight-bold' style={{ display: 'inline', fontSize:18}}>New Products</div>
                                     <span className='ml-3 pointer-on-hover'>View All</span>
                                     <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                            <div className='mt-4 mt-sm-1  mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {products.slice(0, 3).map((product, index) => (
                                     <div className='m-5' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
@@ -662,12 +662,12 @@ function HomeScreen() {
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
                                 <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>Products On Sale</h3>
+                                <div className='font-weight-bold' style={{ display: 'inline', fontSize:18}}>Products On Sale</div>
                                     <span className='ml-3 pointer-on-hover'>View All</span>
                                     <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {products.slice(3, 6).map((product, index) => (
                                     <div className='m-5' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
@@ -707,12 +707,12 @@ function HomeScreen() {
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
                                 <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>Top Rated Products</h3>
+                                    <div className='font-weight-bold' style={{ display: 'inline', fontSize:18}}>Top Rated Products</div>
                                     <span className='ml-3 pointer-on-hover'>View All</span>
                                     <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {products.slice(6, 9).map((product, index) => (
                                     <div className='m-5' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
