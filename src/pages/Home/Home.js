@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,6 +18,7 @@ function HomeScreen() {
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
     const scrollContainerRef = useRef(null);
+    const [cardsPerRow, setCardsPerRow] = useState(3);
 
 
     const products = [
@@ -468,6 +469,26 @@ function HomeScreen() {
         }
     };
 
+    useEffect(() => {
+        const updateCardsPerRow = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth >= 1024) {
+                setCardsPerRow(3);
+            } else if (screenWidth >= 768) {
+                setCardsPerRow(2);
+            } else {
+                setCardsPerRow(1);
+            }
+        };
+
+        updateCardsPerRow();
+        window.addEventListener('resize', updateCardsPerRow);
+
+        return () => {
+            window.removeEventListener('resize', updateCardsPerRow);
+        };
+    }, []);
+
 
     return (
         <div className="custom-header">
@@ -536,9 +557,9 @@ function HomeScreen() {
                     </div>
                     <div className='mt-3'>
                         <div className="horizontal-product-display" onMouseMove={(e) => handleScroll(e.nativeEvent.deltaY)}>
-                            <div ref={scrollContainerRef} className="product-list">
+                            <div ref={scrollContainerRef} className="product-list" style={{ flexWrap: `nowrap` }}>
                                 {products.map((product, index) => (
-                                    <div key={index} className="product-card">
+                                    <div key={index} className="product-card" style={{ width: `${100 / cardsPerRow}%` }}>
                                         <img src={product.images[0]?.name} alt={product.name} className="product-image" />
                                         <div className="product-details">
                                             <h3 className="product-title">{product.name}</h3>
