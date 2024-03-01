@@ -309,7 +309,7 @@
     margin-top: 44px;
   }
   .product-item {
-    height: 345px;
+    height: 305px;
   }
   .product {
     height: 305px;
@@ -396,6 +396,7 @@
   .cart-checkout-btn{
     width: 100% !important;
   }
+  
 }
 
 /************
