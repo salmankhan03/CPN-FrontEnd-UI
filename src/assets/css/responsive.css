@@ -34,7 +34,11 @@
 2. 1440px
 ************/
 
-@media only screen and (max-width: 1540px) {
+@media only screen and (max-width: 1440px) {
+  .product_image{
+    height: 200px;
+  }
+  
 }
 
 /************
@@ -93,6 +97,9 @@
 ************/
 
 @media only screen and (max-width: 1024px) {
+  .product_image{
+    height: 200px;
+  }
 }
 
 /************
@@ -267,6 +274,9 @@
   .small-card{
     display: block;
   }
+  .product{
+    height: 400px;
+  }
 }
 /************
 10. 767px
@@ -346,7 +356,6 @@
   }
   .product_image{
     height: 140px;
-    margin-bottom: 20px;
   }
 }
 
@@ -359,12 +368,12 @@
     right: -100%;
     width: 100%;
   }
-  .product-item {
+  /* .product-item {
     height: 420px;
-  }
-  .product {
+  } */
+  /* .product {
     height: 380px;
-  }
+  } */
   .blog_item {
     height: calc((100vw - 30px) / 1.37);
   }

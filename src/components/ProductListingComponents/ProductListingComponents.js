@@ -44,8 +44,8 @@ function ProductListing(props) {
 
     return (
 
-
-        <div className="product-item men m-md-4 mt-5 prductsListBorder">
+// m-md-4
+        <div className="product-item men m-md-2 mt-5 prductsListBorder">
         
                 <div
                     className="product discount product_filter"
@@ -69,7 +69,7 @@ function ProductListing(props) {
                             <ImageComponent src="https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp" alt={"products Image"} />
                         </div>
                     )}
-                    <div className="product_info">
+                    <div className="product_info ml-3 mr-3">
                         <h6 className="product_name">
                             <div>{truncateString(productItem?.name, 80)}</div>
                         </h6>

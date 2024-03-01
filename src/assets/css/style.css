@@ -1124,6 +1124,7 @@ section {
   display: flex;
   justify-content: center;
   background-color: #fff;
+  padding: 20px;
 }
 
 .product_image img {
@@ -2999,7 +3000,7 @@ input:-webkit-autofill:active {
 
 @media (max-width: 991px) {
   .product-item {
-    width: calc(50% - 20px);
+    /* width: calc(50% - 20px); */
   }
 }
 
