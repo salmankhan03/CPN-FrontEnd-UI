@@ -620,7 +620,7 @@ function HomeScreen() {
                                     <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-                            <div className='mt-4 mt-sm-1  mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {products.slice(0, 3).map((product, index) => (
                                     <div className='m-5' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
