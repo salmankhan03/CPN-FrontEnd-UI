@@ -340,6 +340,10 @@
   .custom-margin {
     margin: 0 !important;
   }
+  .logoCustomHeightWidth{
+    height: 80px;
+    width:100px;
+  }
 }
 
 /************

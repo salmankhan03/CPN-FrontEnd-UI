@@ -16,7 +16,7 @@ function Header() {
               <div className="col-lg-12 text-right">
                 <div className="logo_container">
                   <Link to="/">      
-                    <img width={200} height={100} src={logo} alt="404" />
+                    <img className='logoCustomHeightWidth' width={200} height={100} src={logo} alt="404" />
                   </Link>
                 </div>
                 <nav className="navbar">
