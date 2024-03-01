@@ -22,7 +22,7 @@ const CustomPagination = ({ totalItems, itemsPerPage, onPageChange, currentPages
             buttons.push(
                 <div
                     key={i}
-                    className={`circle m-1 ${i === currentPages ? 'active-page' : ''}`}
+                    className={`circle d-flex align-items-center m-1 ${i === currentPages ? 'active-page' : ''}`}
                     onClick={() => handlePageChange(i)}
                 >
                     {i}
