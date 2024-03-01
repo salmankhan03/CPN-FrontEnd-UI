@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,14 +11,20 @@ import { notifySuccess } from "../../components/ToastComponents/ToastComponents"
 import { addtoCartItems } from '../../redux/action/cart-action';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { Card, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 function HomeScreen() {
     const [selectedItem, setSelectedItem] = useState(null);
+    const navigate = useNavigate();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
+    const [scrollLeft, setScrollLeft] = useState(0);
     const scrollContainerRef = useRef(null);
+
     const [cardsPerRow, setCardsPerRow] = useState(3);
+    const cardWidth = 250; // Width of each product card
+
 
 
     const products = [
@@ -409,7 +415,7 @@ function HomeScreen() {
     ]
     // Cards
 
-    const Weekly = [
+    const weeklyData = [
         { id: 1, name: "All" },
         { id: 2, name: "Health & First Aids" },
         { id: 3, name: "Home & Pet" },
@@ -472,7 +478,10 @@ function HomeScreen() {
     useEffect(() => {
         const updateCardsPerRow = () => {
             const screenWidth = window.innerWidth;
-            if (screenWidth >= 1024) {
+            if (screenWidth >= 1441) {
+                setCardsPerRow(4);
+            }
+            else if (screenWidth >= 1024) {
                 setCardsPerRow(3);
             } else if (screenWidth >= 768) {
                 setCardsPerRow(2);
@@ -489,7 +498,25 @@ function HomeScreen() {
         };
     }, []);
 
+    const handleScrollLeft = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({
+                left: -100 / cardsPerRow - 1, 
+                behavior: 'smooth'
+            });
+       }
+    };
 
+    const handleScrollRight = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({
+                left: 100 / cardsPerRow - 1,
+                behavior: 'smooth'
+            });
+        }
+    };
+    console.log(100 / cardsPerRow - 1)
+    console.log("cardsPerRow",cardsPerRow)
     return (
         <div className="custom-header">
             <div className=''>
@@ -516,27 +543,25 @@ function HomeScreen() {
                         <img src={banner3} alt={"siteBanner"} className="img-fluid" />
                     </div>
                 </div>
-                <div className='mt-5'>
-                    <div className='row'>
-                        <div className='col-md-6'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto'>
-                                    <h3 className='bold' style={{ display: 'inline' }}>Weekly Featured Products</h3>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                <div className="product-list-container mt-5">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="d-flex align-items-center">
+                                <div className="mr-auto">
+                                    <h3 className="bold" style={{ display: 'inline' }}>Weekly Featured Products</h3>
+                                    <span className="ml-3 pointer-on-hover">View All</span>
+                                    <span className="ml-3 pointer-on-hover">
+                                        <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div className='col-md-6'>
+                        <div className="col-md-6">
                             <div className="text-right">
-                                <span className='circle'>
-                                    <i
-                                        className="fa fa-chevron-right"
-                                        aria-hidden="true"
-                                        style={{ color: 'black', lineHeight: '30px', fontSize: 10 }}
-                                    ></i>
+                                <span className="circle" onClick={handleScrollRight}>
+                                    <i className="fa fa-chevron-right" aria-hidden="true" style={{ color: 'black', lineHeight: '30px', fontSize: 10 }}></i>
                                 </span>
-                                <span className='circle ml-2'>
+                                <span className="circle ml-2" onClick={handleScrollLeft}>
                                     <i className="fa fa-chevron-left" style={{ lineHeight: '30px', fontSize: 10 }} aria-hidden="true"></i>
                                 </span>
                             </div>
@@ -544,7 +569,7 @@ function HomeScreen() {
                     </div>
                     <div className="mt-2" style={{ overflowX: 'auto' }}>
                         <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
-                            {Weekly.map((data) => (
+                            {weeklyData.map((data) => (
                                 <div
                                     key={data.id}
                                     className={`customBtn pointer-on-hover m-3 ${selectedItem === data.id ? 'activeBtn' : ''}`}
@@ -555,162 +580,185 @@ function HomeScreen() {
                             ))}
                         </div>
                     </div>
-                    <div className='mt-3'>
-                        <div className="horizontal-product-display" onMouseMove={(e) => handleScroll(e.nativeEvent.deltaY)}>
-                            <div ref={scrollContainerRef} className="product-list" style={{ flexWrap: `nowrap` }}>
-                                {products.map((product, index) => (
-                                    <div key={index} className="product-card" style={{ width: `${100 / cardsPerRow}%` }}>
-                                        <img src={product.images[0]?.name} alt={product.name} className="product-image" />
-                                        <div className="product-details">
-                                            <h3 className="product-title">{product.name}</h3>
-                                            <p className="product-price">${product.price}</p>
-                                            <div className='d-flex mt-3 justify-content-between'>
-                                                <div className=''>
-                                                    ${product?.price}
+                    <div className="mt-3 horizontal-product-display" ref={scrollContainerRef}>
+                        <div className="product-list" style={{ flexWrap: 'nowrap' }}>
+                            {products.map((product, index) => (
+                                <div key={index} className="product-card p-4"
+                                    onClick={() => navigate(`/products-details/${product.id}`, { state: { id: product.id } })}
+                                    style={{ width: `${100 / cardsPerRow - 1}% ` }}>
+                                    <div className="product_image">
+                                        {product.images[0]?.name ? (
+                                            <ImageComponent src={product.images[0]?.name} alt="products Image" />
+                                        ) : (
+                                            <p>Image not available</p>
+                                        )}
+                                    </div>
+                                    <div className="product-details">
+                                        <p>{product?.brand}</p>
+                                        <h3 className="product-title">{truncateString(product?.name, 30)}</h3>
+                                        <div className="d-flex mt-3 justify-content-between">
+                                            <div>${product?.price}</div>
+                                            <div>
+                                                <span className="circle" onClick={(event) => addToCart(event, product)}>
+                                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className='mt-5'>
+                    <div className='row mt-5 mb-5'>
+                        <div className='col-12 col-md-4 col-lg-4'>
+                            <div className='d-flex align-items-center'>
+                                <div className='mr-auto'>
+                                    <h3 className='bold' style={{ display: 'inline' }}>New Products</h3>
+                                    <span className='ml-3 pointer-on-hover'>View All</span>
+                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                {products.slice(0, 3).map((product, index) => (
+                                    <div className='m-5' onClick={() =>
+                                        navigate(`/products-details/${product.id}`, {
+                                            state: {
+                                                id: product.id
+                                            }
+                                        })
+                                    }  >
+                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
+                                            <div className='col-12 col-md-4 col-lg-5'>
+                                                <div className="product_image">
+                                                    {product.images[0].name ? (
+                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                        <p>Image not available</p>
+                                                    )}
                                                 </div>
-                                                <div className=''>
-                                                    <span className='circle'>
-                                                        <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                    </span>
+                                            </div>
+                                            <div className='col-12 col-md-8 col-lg-7'>
+                                                <div>{product?.brand}</div>
+                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                <div className='d-flex mt-3 justify-content-between'>
+                                                    <div className=''>
+                                                        ${product?.price}
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='circle'>
+                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr className='' />
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        </div>
-                        <div className='row mt-5 mb-5'>
-                            <div className='col-12 col-md-4 col-lg-4'>
-                                <div className='d-flex align-items-center'>
-                                    <div className='mr-auto'>
-                                        <h3 className='bold' style={{ display: 'inline' }}>New Products</h3>
-                                        <span className='ml-3 pointer-on-hover'>View All</span>
-                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                    {products.slice(0, 3).map((product, index) => (
-                                        <div className='m-5' >
-                                            <div className='row' key={index} style={{ maxHeight: 450 }}>
-                                                <div className='col-12 col-md-4 col-lg-5'>
-                                                    <div className="product_image">
-                                                        {product.images[0].name ? (
-                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
-                                                            <p>Image not available</p>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className='col-12 col-md-8 col-lg-7'>
-                                                    <div>{product?.brand}</div>
-                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                    <div className='d-flex mt-3 justify-content-between'>
-                                                        <div className=''>
-                                                            ${product?.price}
-                                                        </div>
-                                                        <div className=''>
-                                                            <span className='circle'>
-                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr className='' />
-                                        </div>
-                                    ))}
+                        <div className='col-12 col-md-4 col-lg-4'>
+                            <div className='d-flex align-items-center'>
+                                <div className='mr-auto'>
+                                    <h3 className='bold' style={{ display: 'inline' }}>Products On Sale</h3>
+                                    <span className='ml-3 pointer-on-hover'>View All</span>
+                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
                                 </div>
                             </div>
-
-                            <div className='col-12 col-md-4 col-lg-4'>
-                                <div className='d-flex align-items-center'>
-                                    <div className='mr-auto'>
-                                        <h3 className='bold' style={{ display: 'inline' }}>Products On Sale</h3>
-                                        <span className='ml-3 pointer-on-hover'>View All</span>
-                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                    {products.slice(3, 6).map((product, index) => (
-                                        <div className='m-5' >
-                                            <div className='row' key={index} style={{ maxHeight: 350 }}>
-                                                <div className='col-12 col-md-4 col-lg-5'>
-                                                    <div className="product_image">
-                                                        {product.images[0].name ? (
-                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
-                                                            <p>Image not available</p>
-                                                        )}
-                                                    </div>                                            </div>
-                                                <div className='col-12 col-md-8 col-lg-7'>
-                                                    <div>{product?.brand}</div>
-                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                    <div className='d-flex mt-3 justify-content-between'>
-                                                        <div className=''>
-                                                            ${product?.price}
-                                                        </div>
-                                                        <div className=''>
-                                                            <span className='circle'>
-                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
+                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                {products.slice(3, 6).map((product, index) => (
+                                    <div className='m-5' onClick={() =>
+                                        navigate(`/products-details/${product.id}`, {
+                                            state: {
+                                                id: product.id
+                                            }
+                                        })
+                                    } >
+                                        <div className='row' key={index} style={{ maxHeight: 350 }}>
+                                            <div className='col-12 col-md-4 col-lg-5'>
+                                                <div className="product_image">
+                                                    {product.images[0].name ? (
+                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                        <p>Image not available</p>
+                                                    )}
+                                                </div>                                            </div>
+                                            <div className='col-12 col-md-8 col-lg-7'>
+                                                <div>{product?.brand}</div>
+                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                <div className='d-flex mt-3 justify-content-between'>
+                                                    <div className=''>
+                                                        ${product?.price}
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='circle'>
+                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <hr className='' />
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className='col-12 col-md-4 col-lg-4'>
-                                <div className='d-flex align-items-center'>
-                                    <div className='mr-auto'>
-                                        <h3 className='bold' style={{ display: 'inline' }}>Top Rated Products</h3>
-                                        <span className='ml-3 pointer-on-hover'>View All</span>
-                                        <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                        <hr className='' />
                                     </div>
-                                </div>
-                                <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                    {products.slice(6, 9).map((product, index) => (
-                                        <div className='m-5' >
-                                            <div className='row' key={index} style={{ maxHeight: 350 }}>
-                                                <div className='col-12 col-md-4 col-lg-5'>
-                                                    <div className="product_image">
-                                                        {product.images[0].name ? (
-                                                            <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
-                                                            <p>Image not available</p>
-                                                        )}
-                                                    </div>                                            </div>
-                                                <div className='col-12 col-md-8 col-lg-7'>
-                                                    <div>{product?.brand}</div>
-                                                    <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                    <div className='d-flex mt-3 justify-content-between'>
-                                                        <div className=''>
-                                                            ${product?.price}
-                                                        </div>
-                                                        <div className=''>
-                                                            <span className='circle'>
-                                                                <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr className='' />
-                                        </div>
-                                    ))}
-                                </div>
+                                ))}
                             </div>
                         </div>
+                        <div className='col-12 col-md-4 col-lg-4'>
+                            <div className='d-flex align-items-center'>
+                                <div className='mr-auto'>
+                                    <h3 className='bold' style={{ display: 'inline' }}>Top Rated Products</h3>
+                                    <span className='ml-3 pointer-on-hover'>View All</span>
+                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div className='mt-4' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
+                                {products.slice(6, 9).map((product, index) => (
+                                    <div className='m-5' onClick={() =>
+                                        navigate(`/products-details/${product.id}`, {
+                                            state: {
+                                                id: product.id
+                                            }
+                                        })
+                                    } >
+                                        <div className='row' key={index} style={{ maxHeight: 350 }}>
+                                            <div className='col-12 col-md-4 col-lg-5'>
+                                                <div className="product_image">
+                                                    {product.images[0].name ? (
+                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                        <p>Image not available</p>
+                                                    )}
+                                                </div>                                            </div>
+                                            <div className='col-12 col-md-8 col-lg-7'>
+                                                <div>{product?.brand}</div>
+                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
+                                                <div className='d-flex mt-3 justify-content-between'>
+                                                    <div className=''>
+                                                        ${product?.price}
+                                                    </div>
+                                                    <div className=''>
+                                                        <span className='circle'>
+                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr className='' />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
 
 
-                    </div>
-                    <div className='mt-2'>
-                        <FooterComponents />
-                    </div>
                 </div>
-            </div >
-            );
+                <div className='mt-2'>
+                    <FooterComponents />
+                </div>
+            </div>
+        </div >
+    );
 }
 
-            export default HomeScreen;
+export default HomeScreen;
