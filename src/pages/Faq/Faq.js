@@ -39,10 +39,45 @@ const Faq = () => {
             answer: 'The US Food and Drugs Administration is a Federal department in United States, in charge of protecting the public health. In relation to natural health products, FDA is responsible in ensuring the safety, efficacy, and security of all natural products meets the FDA quality standards.'
         },
         {
-            id: 3,
+            id: 5,
             question: 'Should I let my doctor know that I will be using any supplements?',
             answer: 'It is recommended that you should let your health care practitioners know you are taking supplements or ask for their advice before taking it.'
         },
+        {
+            id: 6,
+            question: 'Should I be taking my supplements on a full or empty stomach?',
+            answer: 'Please refer to the Recommended Dose section on each product’s label for direction of use.'
+        },
+        {
+            id: 7,
+            question: 'When will I start to feel the benefits of this dietary supplement?',
+            answer: 'As each product’s beneficial effects differ, please refer to the Duration of Use section on each product’s label for more information.'
+        },
+        {
+            id: 8,
+            question: 'How should I store CPN’s Products?',
+            answer: 'All CPN products are best kept in cool dry areas, between 20-25°C, away from direct sunlight.'
+        },
+        {
+            id: 9,
+            question: 'If I am vegetarian or vegan, can I take CPN products?',
+            answer: 'Depending on which CPN product you want to purchase, please consult the ingredient list as there may be traces of animal by-product.'
+        },
+        {
+            id: 10,
+            question: 'Can I take more than the recommended dosage of certain supplement?',
+            answer: 'We would not recommend on taking more than the recommended dose printed on each product label. Please read and follow the directions on the label to ensure you are taking the correct amount of a natural health product.'
+        },
+        {
+            id: 11,
+            question: 'Can I take your supplement after the expiration date has passed?',
+            answer: 'Our products follow strict procedures according to Health Canada regulations to assure product integrity, purity and accuracy of contents up to its expiration date. CPN cannot guarantee potency and quality after the expiration date has passed.'
+        },
+        {
+            id: 12,
+            question: 'Are there other avenues we can purchase CPN products?',
+            answer: 'Currently we only offer online web order.'
+        }
         // Add more FAQ items as needed
     ];
 
