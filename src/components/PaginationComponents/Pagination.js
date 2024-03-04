@@ -22,7 +22,7 @@ const CustomPagination = ({ totalItems, itemsPerPage, onPageChange, currentPages
             buttons.push(
                 <div
                     key={i}
-                    className={`circle d-flex align-items-center m-1 ${i === currentPages ? 'active-page' : ''}`}
+                    className={`circle d-flex align-items-center ml-2 ${i === currentPages ? 'active-page' : ''}`}
                     onClick={() => handlePageChange(i)}
                 >
                     {i}
@@ -37,14 +37,14 @@ const CustomPagination = ({ totalItems, itemsPerPage, onPageChange, currentPages
             <div>
                 <span>Page {currentPages} of {totalPages}</span>
             </div>
-            <div className='d-flex justify-content-center text-center'>
-                <div className={`circle m-1 ${currentPages === 1 ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage - 1)} >
-                    <i className={`fa fa-angle-left`} />
-                </div>
+            <div className='d-flex justify-content-center text-center mt-2'>
+                <span className={`circle ${currentPages === 1 ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage - 1)}>
+                    <i className="fa fa-angle-left" aria-hidden="true" style={{ color: 'black', lineHeight: '30px', fontSize: 10 }}></i>
+                </span>
                 {renderPaginationButtons()}
-                <div className={`circle m-1  ${currentPages === totalPages ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
-                    <i className={`fa fa-angle-right`} />
-                </div>
+                <span className={`circle ml-2  ${currentPages === totalPages ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
+                    <i className="fa fa-angle-right" style={{ lineHeight: '30px', fontSize: 10 }} aria-hidden="true"></i>
+                </span>
             </div>
         </div>
     );
