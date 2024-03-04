@@ -28,7 +28,12 @@ const ProductServices = {
   getfilterWiseProducts:  async (body) => {
     return requests.post("/product/filter", body);
   },
-
+  getWeeklyProducts:  async ({page, limit, category}) => {
+    return requests.get(`/product/featured-list?category_id=${category}`)
+  },
+  getDashboardProductslist:  async () => {
+    return requests.get(`/product/dashboard-list`)
+  },
   addProduct: async (body) => {
     return requests.post("/product/save", body);
   },
