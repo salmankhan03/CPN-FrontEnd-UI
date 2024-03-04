@@ -10,8 +10,10 @@ import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
 import CustomPagination from '../../components/PaginationComponents/Pagination';
 import { setBrandList } from '../../redux/action/brand-action';
+import { useLocation } from 'react-router-dom';
 
 function ShopScreen() {
+    const location = useLocation();
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
@@ -59,6 +61,15 @@ function ShopScreen() {
         getCategoryList()
         getBrandList()
         getPriceFilter()
+        if(location?.state?.selectedCategory){
+            setTimeout(() => {
+                setSelectedCategories(prevSelectedCategories => [
+                    ...prevSelectedCategories,
+                    location?.state?.selectedCategory
+                  ]);
+            }, 2500);
+            
+        }
 
     }, [])
     useEffect(() => {
