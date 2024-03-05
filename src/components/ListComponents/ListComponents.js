@@ -27,11 +27,11 @@ const ListComponents = ({ data, selectedData, handleDataChange,datatypes }) => {
               data-datatype={datatypes} 
               onChange={handleDataChange}
             />
-            <span className='pl-2'>{category?.name}</span>
+            <span className='pl-2 sidebar-filter-section-List'>{category?.name}</span>
           </label>
           {category?.children?.length > 0 && (
             <span>
-              <i className={`fa fa-angle-${isExpanded ? 'down' : 'right'}`}></i>
+              <i className={`fa fa-angle-${isExpanded ? 'down' : 'right'} secondaryColor`}></i>
             </span>
           )}
         </div>

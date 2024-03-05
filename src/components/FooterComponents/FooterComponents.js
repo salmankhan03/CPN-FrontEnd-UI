@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 
 function FooterComponents() {
     return (
+        <div className="custom-header PrimaryBGColor">
+        
         <div className='row p-2 footers' >
-            <div className='col-12 col-md-9 col-lg-9'>
+            <div className='col-12 col-md-8 col-lg-9'>
                 <div className='mt-2'>
                     Copyright © 2024 Canadian Pinnacle Nutritech . All rights reserved.
                 </div>
@@ -15,7 +17,7 @@ function FooterComponents() {
                     advice from your physician or other health care professional.
                 </div>
             </div>
-            <div className='col-12 col-md-3 col-lg-3'>
+            <div className='col-12 col-md-4 col-lg-3'>
                 <div className='d-flex'>
                     <div className='m-1 mt-2'>
                     <Link to="/privacy-policy" style={{color:'#bbb'}}> 
@@ -32,6 +34,7 @@ function FooterComponents() {
                     </Link></div>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

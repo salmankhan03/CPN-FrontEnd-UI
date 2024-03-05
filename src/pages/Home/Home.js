@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCategoryList } from '../../redux/action/category-action';
 import CategoryServices from '../../services/categoryService';
 import ProductServices from '../../services/ProductServices';
+import Header from '../../components/HeaderComponents/HeaderComponents';
 
 
 function HomeScreen() {
@@ -117,7 +118,7 @@ function HomeScreen() {
                 setCustomProductsData(resp?.list)
             }
         }).catch((error) => {
-            
+
             console.log(error)
         })
 
@@ -178,46 +179,47 @@ function HomeScreen() {
             });
         }
     };
-    function gotoShopScreen(data){
+    function gotoShopScreen(data) {
         navigate(`/Shop`, { state: { selectedCategory: data } })
     }
     return (
-        <div className="custom-header">
-            <div className=''>
-                <div className="row mt-5" style={{}}>
-                    <div className="col-md-9" style={{}}>
-                        <Slider {...settings} style={{ height: '90%' }}>
-                            {banners.map((banner, index) => (
-                                <div key={index}>
-                                    <img src={banner.src} alt={`Slide ${index + 1}`} className="slider-image" />
-                                </div>
-                            ))}
-                        </Slider>
-                    </div>
-                    <div className="col-md-3 sidebar_hide">
-                        <img src={banner3} alt={"siteBanner"} className="img-fluid" />
-                    </div>
+        <div className="">
+
+            <div className="row" style={{ width: '100%' }}>
+                <div className="col-md-9" style={{}}>
+                    <Slider {...settings} style={{ height: '90%' }}>
+                        {banners.map((banner, index) => (
+                            <div key={index}>
+                                <ImageComponent src={banner.src} alt={`Slide ${index + 1}`} classAtribute="slider-image" />
+                            </div>
+                        ))}
+                    </Slider>
                 </div>
+                <div className="col-md-3 sidebar_hide">
+                    <img src={banner3} alt={"siteBanner"} className="img-fluid" />
+                </div>
+            </div>
+            <div className='custom-container'>
                 <div className="product-list-container mt-5">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6 col-lg-6">
                             <div className="d-flex align-items-center">
-                            <div className="mr-auto" onClick={() => gotoShopScreen(selectedCategories)}>
-                                    <h3 className="bold pointer-on-hover" style={{ display: 'inline' }}>Weekly Featured Products</h3>
-                                    <span className="ml-3 pointer-on-hover">View All</span>
+                                <div className="mr-auto" onClick={() => gotoShopScreen(selectedCategories)}>
+                                    <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
+                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
                                     <span className="ml-3 pointer-on-hover">
-                                        <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
-                            <div className="text-right">
+                        <div className="col-12 col-md-6 col-lg-6">
+                            <div className="text-md-right">
                                 <span className="circle" onClick={handleScrollRight}>
-                                    <i className="fa fa-chevron-right" aria-hidden="true" style={{ color: 'black', lineHeight: '30px', fontSize: 10 }}></i>
+                                    <i className="fa fa-chevron-right blackColor fontSize10" aria-hidden="true" style={{ lineHeight: '30px' }}></i>
                                 </span>
                                 <span className="circle ml-2" onClick={handleScrollLeft}>
-                                    <i className="fa fa-chevron-left" style={{ lineHeight: '30px', fontSize: 10 }} aria-hidden="true"></i>
+                                    <i className="fa fa-chevron-left blackColor fontSize10" style={{ lineHeight: '30px', }} aria-hidden="true"></i>
                                 </span>
                             </div>
                         </div>
@@ -227,7 +229,7 @@ function HomeScreen() {
                             {categoriesData?.map((data) => (
                                 <div
                                     key={data.id}
-                                    className={`customBtn pointer-on-hover m-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
+                                    className={`customBtn pointer-on-hover mt-3 mb-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
                                     onClick={() => handleItemClick(data.id)}
                                 >
                                     {data.name}
@@ -237,23 +239,24 @@ function HomeScreen() {
                     </div>
                     <div className="mt-3 horizontal-product-display" ref={scrollContainerRef}>
                         {weeklyProductsList?.length > 0 ? (
-                            <div className="product-list" style={{ flexWrap: 'nowrap' }}>
+                            //style={{ flexWrap: 'nowrap' }}
+                            <div className="product-list" >
                                 {weeklyProductsList?.map((product, index) => (
                                     <div key={index} className="product-card p-4"
                                         onClick={() => navigate(`/products-details/${product.id}`, { state: { id: product.id } })}
-                                        style={{ width: `${100 / cardsPerRow- 2}% `,margin:'1%' }}>
+                                        style={{ width: `${100 / cardsPerRow - 2}% `, margin: '1%' }}>
                                         <div className="product_image">
                                             {product.images[0]?.name ? (
                                                 <ImageComponent src={product.images[0]?.name} alt="products Image" />
                                             ) : (
-                                                <p>Image not available</p>
+                                                <p className='inter-medium-fonts'>Image not available</p>
                                             )}
                                         </div>
                                         <div className="product-details">
-                                            <p>{product?.brand}</p>
-                                            <h3 className="product-title">{truncateString(product?.name, 30)}</h3>
-                                            <div className="d-flex mt-3 justify-content-between">
-                                                <div>${product?.price}</div>
+                                            <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, 30)}</h3>
+                                            <div className="d-flex mt-2 justify-content-between">
+                                                <div className='priceLabel'>${product?.price}</div>
                                                 <div>
                                                     <span className="circle" onClick={(event) => addToCart(event, product)}>
                                                         <i className="fas fa-shopping-bag mt-2"></i>
@@ -266,7 +269,7 @@ function HomeScreen() {
                             </div>
                         ) : (
                             <div className='d-flex justify-content-center'>
-                                <div className='text-center'>No products available</div>
+                                <h4 className='text-center inter-medium-fonts'>No products available</h4>
                             </div>
                         )}
                     </div>
@@ -275,15 +278,17 @@ function HomeScreen() {
                     <div className='row mt-5 mb-5'>
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() =>  navigate(`/Shop`)}>
-                                    <div className='font-weight-bold pointer-on-hover' style={{ display: 'inline', fontSize: 18 }}>New Products</div>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                    <h5 className="bold pointer-on-hover title d-inline">New Products</h5>
+                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
+                                    <span className="ml-3 pointer-on-hover">
+                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.newProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-5' onClick={() =>
+                                    <div className='m-3' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
@@ -291,7 +296,7 @@ function HomeScreen() {
                                         })
                                     }  >
                                         <div className='row' key={index} style={{ maxHeight: 450 }}>
-                                            <div className='col-12 col-md-4 col-lg-5'>
+                                            <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
                                                     {product.images[0].name ? (
                                                         <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
@@ -299,16 +304,14 @@ function HomeScreen() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className='col-12 col-md-8 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='d-flex mt-3 justify-content-between'>
-                                                    <div className=''>
-                                                        ${product?.price}
-                                                    </div>
-                                                    <div className=''>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                            <div className='col-12 col-md-12 col-lg-7'>
+                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
+                                                <div className="d-flex mt-2 justify-content-between">
+                                                    <div className='priceLabel'>${product?.price}</div>
+                                                    <div>
+                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                            <i className="fas fa-shopping-bag mt-2"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -322,39 +325,39 @@ function HomeScreen() {
 
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() =>  navigate(`/Shop`)}>
-                                    <div className='font-weight-bold pointer-on-hover' style={{ display: 'inline', fontSize: 18 }}>Products On Sale</div>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                    <h5 className="bold pointer-on-hover title d-inline">Products On Sale</h5>
+                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
+                                    <span className="ml-3 pointer-on-hover">
+                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.productsOnSale?.slice(0, 3).map((product, index) => (
-                                    <div className='m-5' onClick={() =>
+                                    <div className='m-3' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
                                             }
                                         })
                                     } >
-                                        <div className='row' key={index} style={{ maxHeight: 350 }}>
-                                            <div className='col-12 col-md-4 col-lg-5'>
+                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
+                                            <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
                                                     {product.images[0].name ? (
                                                         <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                            <div className='col-12 col-md-8 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='d-flex mt-3 justify-content-between'>
-                                                    <div className=''>
-                                                        ${product?.price}
-                                                    </div>
-                                                    <div className=''>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                            <div className='col-12 col-md-12 col-lg-7'>
+                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
+                                                <div className="d-flex mt-2 justify-content-between">
+                                                    <div className='priceLabel'>${product?.price}</div>
+                                                    <div>
+                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                            <i className="fas fa-shopping-bag mt-2"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -367,39 +370,40 @@ function HomeScreen() {
                         </div>
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() =>  navigate(`/Shop`)}>
-                                    <div className='font-weight-bold pointer-on-hover' style={{ display: 'inline', fontSize: 18 }}>Top Rated Products</div>
-                                    <span className='ml-3 pointer-on-hover'>View All</span>
-                                    <span className='ml-3 pointer-on-hover'><i className="fa fa-chevron-right" aria-hidden="true"></i></span>
+                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                    <h5 className="bold pointer-on-hover title d-inline">Top Rated Products</h5>
+                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
+                                    <span className="ml-3 pointer-on-hover">
+                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                                    </span>
+
                                 </div>
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.topRatedProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-5' onClick={() =>
+                                    <div className='m-3' onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
                                             }
                                         })
                                     } >
-                                        <div className='row' key={index} style={{ maxHeight: 350 }}>
-                                            <div className='col-12 col-md-4 col-lg-5'>
+                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
+                                            <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
                                                     {product.images[0].name ? (
                                                         <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                            <div className='col-12 col-md-8 col-lg-7'>
-                                                <div>{product?.brand}</div>
-                                                <div className='mt-3'>{truncateString(product?.name, 50)}</div>
-                                                <div className='d-flex mt-3 justify-content-between'>
-                                                    <div className=''>
-                                                        ${product?.price}
-                                                    </div>
-                                                    <div className=''>
-                                                        <span className='circle'>
-                                                            <i onClick={(event) => addToCart(event, product)} className="fas fa-shopping-bag mt-2"></i>
+                                            <div className='col-12 col-md-12 col-lg-7'>
+                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
+                                                <div className="d-flex mt-2 justify-content-between">
+                                                    <div className='priceLabel'>${product?.price}</div>
+                                                    <div>
+                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                            <i className="fas fa-shopping-bag mt-2"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -414,10 +418,12 @@ function HomeScreen() {
 
 
                 </div>
-                <div className='mt-2'>
-                    <FooterComponents />
-                </div>
             </div>
+            <div>
+                <FooterComponents />
+                {/* <Header/> */}
+            </div>
+
         </div >
     );
 }

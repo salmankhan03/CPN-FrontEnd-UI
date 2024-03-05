@@ -41,10 +41,114 @@ COLOR PALETTE
 
 
 ******************************/
+/***********
+0. Colors
+***********/
+:root {
+  --primary-color: #6e0000;
+  --secondary-color: #26658c;
+  --black-color: #000000;
+  --White-color: #fff;
+  --brand-color: #747c80;
+  --price-color:#46a69c;
+  --Products-title-color:#2e3133;
+  --button-blue-color:#4abfd9
+}
 
 /***********
 1. Fonts
 ***********/
+@font-face {
+  font-family: 'InterNormal';
+  src: url('../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter-ExtraBold';
+  src: url('../fonts/Inter/static/Inter-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter-Light';
+  src: url('../fonts/Inter/static/Inter-Light.ttf') format('truetype');
+}
+
+.fontSize10 {
+  font-size: 10;
+}
+
+.inter-medium-fonts {
+  font-family: "Inter-Medium";
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #2e3133;
+  font-family: "Inter-ExtraBold";
+  font-weight: bold;
+}
+.sidebar-filter-section{
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  margin-bottom: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.025rem;
+  font-family: "Inter-Light";
+}
+.sidebar-filter-section-List{
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Inter-Medium";
+  color: var(--secondary-color);
+}
+
+
+
+
+h5 {
+  font-size: 1.5rem !important;
+  line-height: 2rem;
+
+}
+
+h5.title {
+  font-weight: bold;
+  letter-spacing: -0.03rem;
+}
+
+.read-more {
+  display: inline-block;
+  position: relative;
+  font-size: 1rem !important;
+  line-height: 1.5rem;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
+.secondaryColor {
+  color: var(--secondary-color) !important
+}
+.titleColor{
+  color: var(--Products-title-color)
+}
+.button-blue-color{
+  background: var(--button-blue-color);
+}
+
+.custom-auto-height {
+  height: auto !important;
+}
 
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,900");
 
@@ -55,6 +159,31 @@ COLOR PALETTE
 * {
   margin: 0;
   padding: 0;
+}
+
+.PrimaryBGColor {
+  background-color: var(--primary-color);
+}
+.priceLabelColor{
+  color: var(--price-color) !important;
+}
+.blackColor {
+  color: var(--black-color);
+}
+
+.brandLabel {
+  color: var(--brand-color);
+  font-size: 0.875rem;
+  line-height: 1rem;
+}
+.priceLabel{
+  position: relative;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: bold;
+    color: var(--price-color);
+    display: inline-block;
+
 }
 
 body {
@@ -632,7 +761,7 @@ section {
 
 .navbar_menu li a {
   display: block;
-  color: #1e1e27;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
@@ -880,7 +1009,7 @@ section {
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  left: 15px;
+  /* left: 15px; */
 }
 
 .logo_container a {
@@ -939,7 +1068,7 @@ section {
   align-items: center;
   width: auto;
   height: 40px;
-  background: #fe4c50;
+  background: var(--button-blue-color);
   border-radius: 3px;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -949,7 +1078,7 @@ section {
 }
 
 .red_button:hover {
-  background: #fe7c7f !important;
+  background: #41a8bf !important;
 }
 
 .red_button a {
@@ -1085,7 +1214,7 @@ section {
 }
 
 .product-item {
-  height: 400px;
+  height: 450px;
   cursor: pointer;
 }
 
@@ -2823,6 +2952,18 @@ h2 {
 .imageHeight {
   height: 250px;
 }
+.card-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #dce3e6;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2e3133;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
 
 /* pagination */
 .circle {
@@ -2836,6 +2977,12 @@ h2 {
   color: #2e3133;
   font-size: 0.875rem;
   cursor: pointer;
+}
+.circle:hover {
+  background-color:var(--secondary-color) 
+}
+.circle:hover .fa-shopping-bag {
+  color: var(--White-color); 
 }
 
 .active-page {
@@ -2902,13 +3049,13 @@ input:-webkit-autofill:active {
 }
 
 .activeBtn {
-  background-color: #26658c !important;
-  color: #fff !important;
+  background-color: var(--secondary-color) !important;
+  color: var(--White-color) !important;
 }
 
 .customBtn {
   padding: 0 1.5rem;
-  color: #26658c ;
+  color: var(--secondary-color);
   font-size: 1rem;
   line-height: 2.5rem;
   border-radius: 1rem;
@@ -2927,13 +3074,16 @@ input:-webkit-autofill:active {
 
 .product-list {
   display: flex;
-  padding-bottom: 20px; /* Add padding to avoid horizontal scrollbar when scrolling */
+  padding-bottom: 20px;
+  /* Add padding to avoid horizontal scrollbar when scrolling */
 }
 
 .product-card {
   flex: 0 0 auto;
-  width: 350px; /* Set width of each card */
-  margin-right: 15px; /* Adjust spacing between cards */
+  width: 350px;
+  /* Set width of each card */
+  margin-right: 15px;
+  /* Adjust spacing between cards */
   border: 1px solid #ccc;
   border-radius: 8px;
 }
@@ -2951,6 +3101,7 @@ input:-webkit-autofill:active {
 .product-title {
   margin: 0;
   font-size: 18px;
+  height: 100px;
 }
 
 .product-price {
@@ -2970,8 +3121,10 @@ input:-webkit-autofill:active {
 
 .product-list .product-item {
   margin-bottom: 40px;
-  background-color: #fff; /* Example background color */
-  border: 1px solid #ccc; /* Example border */
+  background-color: #fff;
+  /* Example background color */
+  border: 1px solid #ccc;
+  /* Example border */
   border-radius: 10px;
   padding: 20px;
 }
@@ -2982,7 +3135,7 @@ input:-webkit-autofill:active {
 }
 
 .product-title {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   font-size: 18px;
 }
 
@@ -3009,7 +3162,8 @@ input:-webkit-autofill:active {
     width: 100%;
   }
 }
-.footers{
+
+.footers {
   background-color: #6e0000;
   color: #bbb;
 
@@ -3039,12 +3193,12 @@ input:-webkit-autofill:active {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  
+
 }
 
 .faq-question h4 {
   margin: 0;
-  color:#aa0000
+  color: #aa0000
 }
 
 .faq-icon {
@@ -3052,11 +3206,44 @@ input:-webkit-autofill:active {
 }
 
 .faq-icon-color {
-  color:#aa0000
+  color: #aa0000
 }
 
 .faq-answer {
   padding: 10px 0;
 }
 
-/*  */
+.custom-container {
+  padding-left: 25px;
+  padding-right: 25px;
+  width: 100%;
+}
+
+
+/* Scroll Bar  */
+/* Style the scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  /* Width of the scrollbar */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Color of the track */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Color of the scrollbar handle */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* Color of the scrollbar handle on hover */
+}
+
+
+/* Scroll Bar  */

@@ -11,6 +11,7 @@ import { setProductDetails } from '../../redux/action/action';
 import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
 import ReactImageMagnify from 'react-image-magnify';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
+import FooterComponents from "../../components/FooterComponents/FooterComponents";
 // import Slider from "react-slick";
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
@@ -29,6 +30,8 @@ function ProductDetails() {
     const [selectedImage, setSelectedImage] = useState();
     const [selectedTab, setSelectedTab] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
+    const [tag, setTag] = useState([]);
+
     const [startIndex, setStartIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
     console.log(categoryList)
@@ -96,6 +99,9 @@ function ProductDetails() {
                 }))
                 // setLoading(false)
                 setProductData(resp?.data)
+
+                const tagsArray = resp?.data?.tags?.split(',');
+                setTag(tagsArray ? tagsArray :[]); 
                 if (resp?.data?.images.length > 0) {
                     setSelectedImage(resp?.data?.images[0]?.name)
                     // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
@@ -204,7 +210,7 @@ function ProductDetails() {
             });
             dispatch(updateCartItems(updatedCartItems));
             notifySuccess(`${message} already added in the cart!`);
-                        // dispatch(updateCartItems(updatedCartItems));
+            // dispatch(updateCartItems(updatedCartItems));
         } else {
             let cartObj = {
                 id: product.id,
@@ -215,7 +221,7 @@ function ProductDetails() {
                 sku: product.sku,
                 purchaseQty: quantity,
                 totalPrice: quantity * JSON.parse(product.sell_price),
-                is_tax_apply:product?.is_tax_apply
+                is_tax_apply: product?.is_tax_apply
             };
             notifySuccess(`${message} added to the cart!`);
             // {truncateString(productItem?.name, 80)}
@@ -223,172 +229,170 @@ function ProductDetails() {
         }
     }
     return (
-        <div className="container single_product_container">
-            {productData && (
-                <div>
-                    <div className="row">
-                        <Toast />
+        <>
+            <div className="container single_product_container mb-2">
+                {productData && (
+                    <div>
+                        <div className="row">
+                            <Toast />
 
-                        <div className="col">
-                            <div className="breadcrumbs d-flex flex-row align-items-center">
-                                <ul>
-                                    <li>
-                                        <a href="/">Home</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            {productData?.id}
-                                        </a>
-                                    </li>
-                                    {/* <li className="active">
-                                        <a href="#">
-                                            <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                            {productData.id}
-                                        </a>
-                                    </li> */}
-                                </ul>
+                            <div className="col">
+                                <div className="breadcrumbs d-flex flex-row align-items-center">
+                                    <ul>
+                                        <li>
+                                            <a href="/">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
+                                                {productData?.id}
+                                            </a>
+                                        </li>                        
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="row ">
-                        <div className="col-lg-5">
-                            <div className="single_product_pics">
-                                <div className="row">
-                                    <div className="col-lg-12 image_col order-lg-2 order-1">                                      
-                                        <div className="fluid__image-container">
-                                            <ReactImageMagnify {...{
-                                                smallImage: {
-                                                    alt: 'Wristwatch by Ted Baker London',
-                                                    isFluidWidth: true,
-                                                    src: selectedImage,
-                                                },
-                                                largeImage: {
-                                                    src: selectedImage,
-                                                    width: 1200,
-                                                    height: 1800
-                                                },
-                                                enlargedImageContainerClassName: 'custom-enlarged-container',
+                        <div className="row ">
+                            <div className="col-lg-5">
+                                <div className="single_product_pics">
+                                    <div className="row">
+                                        <div className="col-lg-12 image_col order-lg-2 order-1">
+                                            <div className="fluid__image-container">
+                                                <ReactImageMagnify {...{
+                                                    smallImage: {
+                                                        alt: 'Wristwatch by Ted Baker London',
+                                                        isFluidWidth: true,
+                                                        src: selectedImage,
+                                                    },
+                                                    largeImage: {
+                                                        src: selectedImage,
+                                                        width: 1200,
+                                                        height: 1800
+                                                    },
+                                                    enlargedImageContainerClassName: 'custom-enlarged-container',
 
-                                            }} />
-                                        </div>
-                                        <div className="single_product_thumbnails">
-                                            <div className="thumbnail-container" >
-                                                {productData?.images.length > 0 ? (
-                                                    <div className="row">
-                                                        <div className="col-lg-1 col-2">
-                                                            <button className="prev-button prev-next-button" onClick={handlePrev} disabled={startIndex === 0}>
-                                                                <i class="fa fa-angle-double-left p-2"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div className="col-lg-10 col-8">
-                                                            <div className="thumbnails-container overflow-x-hidden">
-                                                                <ul className="productsSlider-ul">
-                                                                    {productData?.images &&
-                                                                        productData?.images?.slice(startIndex, startIndex + 4).map((item, index) => (
-                                                                            <li
-                                                                                key={index}
-                                                                                onMouseEnter={() => handleThumbnailHover(item?.name)}
-                                                                                onClick={() => handleThumbnailClick(item?.name)}
-                                                                                className="m-2"
-                                                                            >
-                                                                                <ImageComponent src={item?.name} alt={`Product Image ${index}`} />
-                                                                            </li>
-                                                                        ))}
-                                                                </ul>
+                                                }} />
+                                            </div>
+                                            <div className="single_product_thumbnails">
+                                                <div className="thumbnail-container" >
+                                                    {productData?.images.length > 0 ? (
+                                                        <div className="row">
+                                                            <div className="col-lg-1 col-2">
+                                                                <button className="prev-button prev-next-button" onClick={handlePrev} disabled={startIndex === 0}>
+                                                                    <i class="fa fa-angle-double-left p-2"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div className="col-lg-10 col-8">
+                                                                <div className="thumbnails-container overflow-x-hidden">
+                                                                    <ul className="productsSlider-ul">
+                                                                        {productData?.images &&
+                                                                            productData?.images?.slice(startIndex, startIndex + 4).map((item, index) => (
+                                                                                <li
+                                                                                    key={index}
+                                                                                    onMouseEnter={() => handleThumbnailHover(item?.name)}
+                                                                                    onClick={() => handleThumbnailClick(item?.name)}
+                                                                                    className="m-2"
+                                                                                >
+                                                                                    <ImageComponent src={item?.name} alt={`Product Image ${index}`} />
+                                                                                </li>
+                                                                            ))}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div className="col-lg-1 col-2">
+
+                                                                <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData?.variants?.length - 4}>
+                                                                    <i class="fa fa-angle-double-right p-2"></i>
+                                                                </button>
                                                             </div>
                                                         </div>
-                                                        <div className="col-lg-1 col-2">
-
-                                                            <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData?.variants?.length - 4}>
-                                                                <i class="fa fa-angle-double-right p-2"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ) : null}
+                                                    ) : null}
+                                                </div>
                                             </div>
-                                        </div>                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-7">
-                            <div className="product_details mt-3">
-                                <div className="product_details_title">
-                                    <h2>{productData?.name}</h2>
-                                    {/* <p>{productData?.description}</p> */}
-                                </div>
-                                {/* <div className="original_price">
-                                    {" "}
-                                    ₹ {(parseFloat(productData.price) + 30).toFixed(2)}
-                                </div> */}
-                                <div className="product_price mt-3">
-                                    ${productData?.sell_price}
-                                    <span className="ml-2">${productData?.price}</span>
-                                </div>
-                                {/* <div className="product_rating mt-3">
+                            <div className="col-lg-7">
+                                <div className="product_details mt-3">
+                                    <div className="product_details_title">
+                                    <h3 className="product-title titleColor custom-auto-height">{productData?.name}</h3>
+
+                                    </div>                            
+                                    <div className="product_price priceLabelColor mt-3">
+                                        ${productData?.sell_price}
+                                        <span className="ml-2">${productData?.price}</span>
+                                    </div>
+                                    {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
                                 </div> */}
-                                <div className="mt-3">Quantity:</div>
-                                <div className="quantity d-flex  flex-sm-row align-items-sm-center">
-                                    <div className="quantity_selector">
-                                        <span
-                                            className={
-                                                productData?.quantity > 1 ? "minus" : "minus disabled"
-                                            }
-                                            onClick={() => handleDecrement()}
-                                        >
-                                            <i className="fa fa-minus" aria-hidden="true"></i>
-                                        </span>
-                                        <span id="quantity_value">{quantity}</span>
-                                        <span
-                                            className="plus"
-                                            onClick={() => handleIncrement()}
-                                        >
-                                            <i className="fa fa-plus" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
+                                    <div className="mt-3">Quantity:</div>
+                                    <div className="quantity d-flex  flex-sm-row align-items-sm-center">
+                                        <div className="quantity_selector">
+                                            <span
+                                                className={
+                                                    productData?.quantity > 1 ? "minus" : "minus disabled"
+                                                }
+                                                onClick={() => handleDecrement()}
+                                            >
+                                                <i className="fa fa-minus" aria-hidden="true"></i>
+                                            </span>
+                                            <span id="quantity_value">{quantity}</span>
+                                            <span
+                                                className="plus"
+                                                onClick={() => handleIncrement()}
+                                            >
+                                                <i className="fa fa-plus" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
 
-                                    <div className="red_button product-add_to_cart_button" onClick={() => addtoCart(productData)}>
-                                        {/* <div className=""> */}
-                                        add to cart
-                                        {/* </div> */}
+                                        <div className="red_button product-add_to_cart_button ml-2  " onClick={() => addtoCart(productData)}>
+                                            {/* <div className=""> */}
+                                            add to cart
+                                            {/* </div> */}
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="mt-3">
-                                    SKU: <span className="ml-2">{productData?.sku}</span>
-                                </div>
-                                <div className="mt-3">
-                                    Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
-                                </div>
-                                <div className="product-tags-container mt-3">
-                                    Tags:
-                                    {/* <ProductTags tags={productData?.tags} /> */}
-                                </div>
-                                <div className="mt-3">
-                                    Brand: <span className="ml-2">{productData?.brand}</span>
+                                    <div className="mt-3 brandLabel">
+                                        SKU: <span className="ml-2">{productData?.sku}</span>
+                                    </div>
+                                    <div className="mt-3 brandLabel">
+                                        Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
+                                    </div>
+                                    {tag?.length > 0 &&
+                                        <div className="product-tags-container mt-3 brandLabel">
+                                            Tags:
+                                            <ProductTags tags={tag} />
+                                        </div>
+                                    }
+                                    <div className="mt-3 brandLabel">
+                                        Brand: <span className="ml-2">{productData?.brand}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="row mt-5" >
-                        <table className="product-details-table mt-2">
-                            <tbody>
-                                <tr>{renderTabs()}</tr>
-                                <tr className="tableBody-border" >
-                                    <td colSpan="4" className="content">
-                                        {renderContent()}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div className="row mt-5" >
+                            <table className="product-details-table mt-2">
+                                <tbody>
+                                    <tr>{renderTabs()}</tr>
+                                    <tr className="tableBody-border" >
+                                        <td colSpan="4" className="content">
+                                            {renderContent()}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                        {/* <div className="content">{renderContent()}</div> */}
+                            {/* <div className="content">{renderContent()}</div> */}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+            <div>
+                <FooterComponents />
+                {/* <Header/> */}
+            </div>
+        </>
     );
 }
 

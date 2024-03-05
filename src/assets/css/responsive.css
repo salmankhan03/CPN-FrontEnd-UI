@@ -26,6 +26,14 @@
 13. 400px
 
 ******************************/
+@media only screen and (min-width: 2300px) {
+  .customPadding{
+    padding-left: 50px;
+    padding-right: 50px;
+
+  }
+}
+
 
 @media only screen and (max-width: 1600px) {
 }
@@ -95,6 +103,11 @@
 /************
 5. 1024px
 ************/
+@media (min-width: 1023px) and (max-width: 1079px) {
+  .product-title{
+    height: 120px;
+  }
+}
 
 @media only screen and (max-width: 1024px) {
   .product_image{
@@ -258,6 +271,9 @@
 ************/
 
 @media only screen and (max-width: 880px) {
+  .sidebar_hide {
+    display: none !important;
+}
 }
 
 /************
@@ -275,7 +291,7 @@
     display: block;
   }
   .product{
-    height: 400px;
+    height: 450px;
   }
 }
 /************
@@ -620,6 +636,10 @@
 ************/
 
 @media only screen and (max-width: 400px) {
+  .logo_container{
+    display: none;
+
+  }
 }
 
 /* React Image Magnify */
@@ -632,4 +652,5 @@
     flex: 0 0 30%;
     margin: 20px 0 20px 20px;
   }
+ 
 }
