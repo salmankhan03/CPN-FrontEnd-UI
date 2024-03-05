@@ -791,6 +791,10 @@ const CheckoutPage = () => {
         });
     };
 
+    const orderTotal = selectedShippingOption
+        ? (parseFloat(subTotalWithCoupon.toFixed(2)) + parseFloat(selectedShippingOption.basePrice)).toFixed(2)
+        : subTotalWithCoupon.toFixed(2);
+
     return (
         <div className="container mt-5">
             <div>
@@ -1244,10 +1248,17 @@ const CheckoutPage = () => {
                                 {/* <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p> */}
                             </div>
                         }
+
+                        {selectedShippingOption &&
+                        <div className="d-flex justify-content-between mt-2">
+                            <div>Shipping charge (${selectedShippingOption.serviceName})</div>
+                            <div> ${selectedShippingOption.basePrice}</div>
+                           </div>
+                        }
                         <hr></hr>
                         <div className="d-flex justify-content-between m2 mb-2">
                             <div className='h4'>Order Total</div>
-                            <div className='h4'>${subTotalWithCoupon?.toFixed(2)}</div>
+                            <div className='h4'>${orderTotal}</div>
                         </div>
                     
 
