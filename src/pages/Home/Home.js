@@ -186,7 +186,7 @@ function HomeScreen() {
         <div className="">
 
             <div className="row" style={{ width: '100%' }}>
-                <div className="col-md-9" style={{}}>
+                <div className="col-md-12 col-lg-9" style={{}}>
                     <Slider {...settings} style={{ height: '90%' }}>
                         {banners.map((banner, index) => (
                             <div key={index}>
@@ -195,7 +195,7 @@ function HomeScreen() {
                         ))}
                     </Slider>
                 </div>
-                <div className="col-md-3 sidebar_hide">
+                <div className="col-md-12 col-lg-3 sidebar_hide">
                     <img src={banner3} alt={"siteBanner"} className="img-fluid" />
                 </div>
             </div>
