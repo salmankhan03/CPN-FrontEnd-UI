@@ -10,9 +10,11 @@ const TermsAndCondition = () => {
         setContent(data?.template)
     },[templateList])
     return (
-        <div className='custom-header'>
-            <div className='container'>
-                <div dangerouslySetInnerHTML={{ __html: decodeURIComponent(content) }} />
+        <div className=''>
+            <div className='custom-container'>
+                <div className='container mt-5'>
+                    <div dangerouslySetInnerHTML={{ __html: decodeURIComponent(content) }} />
+                </div>
             </div>
             <div className='mt-2'>
                 <FooterComponents></FooterComponents>
