@@ -124,11 +124,12 @@ const CartPage = () => {
                 <div className='row'>
                     <div className='col-md-8 col-xs-12'>
                         <div className="text-center">
-                            <h3 className='tex'>Your Cart  ({cartItems.length} items)</h3>
+                        <h5 className="bold pointer-on-hover title d-inline">Your Cart  ({cartItems.length} items)</h5>
                         </div>
                         <table className="table mt-5 cart_table_hide">
                             <thead>
                                 <tr className=''>
+                                {/* className={`tab tab-title  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`} */}
                                     <th scope="col" className="col-sm-6 custom-no-border">Item</th>
                                     <th scope="col" className="col-sm-2 custom-no-border">Price</th>
                                     <th scope="col" className="col-sm-2 custom-no-border">Quantity</th>
@@ -233,10 +234,10 @@ const CartPage = () => {
                     </div>
                     <div className='col-md-4 col-xs-12 mt-md-0 mt-5'>
                         <div className="text-center">
-                            <h3 className='tex'>Order Summary</h3>
+                        <h5 className="bold pointer-on-hover title d-inline">Order Summary</h5>
                         </div>
                         <div className="text-right mt-5">
-                            <p className='mt-1'>Subtotal: <span className='ml-5'>${subtotal}</span></p>
+                            <div className="mr-auto tab-title font-weight-normal">Subtotal: <span className='ml-5'>${subtotal}</span></div>
                             {/* {couponDiscount > 0 && <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p>}
                             <p className='mt-1'>
                                 Coupon code:{' '}
@@ -262,14 +263,17 @@ const CartPage = () => {
                                 </div>
                             )} */}
 
-                            <p>Grandtotal: <span className='ml-5'>${subTotalWithCoupon}</span></p>
+                            <div className="mr-auto tab-title font-weight-normal mt-2">Grandtotal:  <span className='ml-5'>${subTotalWithCoupon}</span></div>
 
                         </div>
                         <div className='row'>
                             <div className='text-right'>
                                 {checkCouponCode?.is_coupon_code_valid === false && <h6 style={{color: 'red'}}>{checkCouponCode.message}</h6>}
                                 {/*<h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>*/}
-                                <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
+                                {/* <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button> */}
+                                <div className="red_button product-add_to_cart_button mt-3" onClick={gotoCheckout}>
+                                    Proceed to CheckoutProceed to Checkout
+                                </div>
                             </div>
                         </div>
                     </div>
