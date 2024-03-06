@@ -2,14 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useSelector } from 'react-redux';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import Slider1 from "../../assets/images/banner_faq.jpg"
 import Slider2 from "../../assets/images/banner_faq.jpg"
 import Slider3 from "../../assets/images/banner_faq.jpg"
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import About from "../../assets/images/aboutUs.jpg"
+import SliderComponents from '../../components/SliderComponents/SliderComponents';
 
 
 const Faq = () => {
@@ -101,17 +100,11 @@ const Faq = () => {
         }
     };
     return (
-        <div className='custom-header'>
-            <div className=''>
-                <div className='mb-5 '>
-                    <Slider {...settings}>
-                        {banners.map((banner, index) => (
-                            <div key={index}>
-                                <img src={banner.src} alt={`Slide ${index + 1}`} className="slider-image" />
-                            </div>
-                        ))}
-                    </Slider>
-                </div>
+        <div className=''>
+             <div className='mb-5 '>        
+                <SliderComponents banners={banners} />
+            </div>
+            <div className='custom-container'>
                 <div className='mt-3'>
                     <div className='row'>
                         <div className='text-center mt-2'>READ OUR</div>

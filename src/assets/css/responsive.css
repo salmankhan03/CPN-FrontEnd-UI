@@ -293,6 +293,9 @@
   .product{
     height: 450px;
   }
+  /* .carousel-item img{
+    max-height: 185px !important;
+  } */
 }
 /************
 10. 767px
@@ -412,6 +415,9 @@
   .cart-checkout-btn{
     width: 100% !important;
   }
+  /* .carousel-item img{
+    max-height: 140px !important;
+  } */
   
 }
 
@@ -629,6 +635,9 @@
     margin-top: 5px;
     margin-bottom: 30px;
   }
+  .carousel-item img{
+    max-height: 100px !important;
+  }
 }
 
 /************
@@ -640,6 +649,9 @@
     display: none;
 
   }
+  /* .carousel-item img{
+    max-height: 78px !important;
+  } */
 }
 
 /* React Image Magnify */

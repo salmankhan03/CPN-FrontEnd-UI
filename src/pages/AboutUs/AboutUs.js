@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useSelector } from 'react-redux';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import Slider1 from "../../assets/images/banner_aboutus.jpg"
 import Slider2 from "../../assets/images/banner_aboutus.jpg"
-import Slider3 from "../../assets/images/banner_aboutus.jpg"
+// import Slider3 from "../../assets/images/banner/banner3.jpg"
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
+import SliderComponents from '../../components/SliderComponents/SliderComponents';
 import About from "../../assets/images/aboutUs.jpg"
 import icon1 from "../../assets/images/icon_1.png"
 import icon2 from "../../assets/images/icon_2.png"
@@ -16,42 +15,25 @@ import icon3 from "../../assets/images/icon_3.png"
 import icon4 from "../../assets/images/icon_4.png"
 
 
-
 const AboutUs = () => {
     const banners = [
         { id: 1, src: Slider1, alt: 'Banner 1' },
         { id: 2, src: Slider2, alt: 'Banner 3' },
-        { id: 3, src: Slider3, alt: 'Banner 3' },
+        // { id: 3, src: Slider3, alt: 'Banner 3' },
     ];
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2500,
-        className: 'slider-container'
-    };
     return (
-        <div className='custom-header'>
-            <div className=''>
-                <div className='mb-5 '>
-                    <Slider {...settings}>
-                        {banners.map((banner, index) => (
-                            <div key={index}>
-                                <img src={banner.src} alt={`Slide ${index + 1}`} className="slider-image" />
-                            </div>
-                        ))}
-                    </Slider>
-                </div>
+        <div className=''>
+
+            <div className='mb-5 '>        
+                <SliderComponents banners={banners} />
+            </div>
+            <div className='custom-container'>
                 <div className='mt-3'>
                     <div className='row'>
                         <div className='text-center mt-2'>DISCOVER</div>
                         <div className='text-center mt-3'><h4>CANADIAN PINNACLE NUTRITECH</h4></div>
                     </div>
                     <div className='row mt-5'>
-                       
                         <div className='col-12 col-md-6 col-lg-6 '>
                             <div className='container'>
                                 <div className='product_image'>

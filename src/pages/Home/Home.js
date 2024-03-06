@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import banner1 from "../../assets/images/banner/banner1.jpg";
 import banner2 from "../../assets/images/banner/banner2.jpg";
 import banner3 from "../../assets/images/banner/banner3.jpg";
@@ -16,6 +13,7 @@ import { setCategoryList } from '../../redux/action/category-action';
 import CategoryServices from '../../services/categoryService';
 import ProductServices from '../../services/ProductServices';
 import Header from '../../components/HeaderComponents/HeaderComponents';
+import SliderComponents from '../../components/SliderComponents/SliderComponents';
 
 
 function HomeScreen() {
@@ -184,19 +182,15 @@ function HomeScreen() {
     }
     return (
         <div className="">
-
-            <div className="row" style={{ width: '100%' }}>
-                <div className="col-md-12 col-lg-9" style={{}}>
-                    <Slider {...settings} style={{ height: '90%' }}>
-                        {banners.map((banner, index) => (
-                            <div key={index}>
-                                <ImageComponent src={banner.src} alt={`Slide ${index + 1}`} classAtribute="slider-image" />
-                            </div>
-                        ))}
-                    </Slider>
+            <div className="row" style={{ margin: 0 }}>
+                <div className="col-md-12 col-lg-9" style={{ overflowX: 'auto', padding: 0 }}>
+                    <SliderComponents banners={banners} />
                 </div>
-                <div className="col-md-12 col-lg-3 sidebar_hide">
-                    <img src={banner3} alt={"siteBanner"} className="img-fluid" />
+                <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
+                    <div className='m-2'>
+                        <ImageComponent src={banner3} alt={`Slide`} classAtribute="slider-image d-block w-100" />
+                    </div>
+                    {/* <img src={banner3} alt={"siteBanner"} className="img-   fluid" style={{ width: '100%' }} /> */}
                 </div>
             </div>
             <div className='custom-container'>
@@ -397,7 +391,7 @@ function HomeScreen() {
                                                     )}
                                                 </div>                                            </div>
                                             <div className='col-12 col-md-12 col-lg-7'>
-                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
                                                 <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
                                                 <div className="d-flex mt-2 justify-content-between">
                                                     <div className='priceLabel'>${product?.price}</div>

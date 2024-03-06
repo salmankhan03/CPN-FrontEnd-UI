@@ -3247,3 +3247,24 @@ input:-webkit-autofill:active {
 
 
 /* Scroll Bar  */
+/* Carousel */
+/* .carousel {
+  height: 500px;
+} */
+/* .carousel-item img {
+  object-fit: fill !important;
+  height: 100%;
+  max-height: 300px !important;
+} */
+.carousel-control-prev-icon
+ {
+  background-image: url('../images/icons_prev.png') !important;
+  /* Replace '%23FF0000' with the desired color code */
+}
+.carousel-control-next-icon{
+  background-image: url('../images/icons_next.png') !important;
+}
+.carousel-indicators [data-bs-target]{
+  background-color:#000000 !important
+}
+/* Carousel */
