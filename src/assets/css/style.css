@@ -71,6 +71,11 @@ COLOR PALETTE
 }
 
 @font-face {
+  font-family: 'Inter-Regular';
+  src: url('../fonts/Inter/static/Inter-Regular.ttf') format('truetype');
+}
+
+@font-face {
   font-family: 'Inter-Medium';
   src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
 }
@@ -112,8 +117,14 @@ h6 {
   font-family: "Inter-Medium";
   color: var(--secondary-color);
 }
+.tab-title{
+  font-family: "Inter-Regular";
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    font-weight: 600;
+  /* color: */
 
-
+}
 
 
 h5 {
