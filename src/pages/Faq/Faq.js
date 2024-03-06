@@ -107,8 +107,12 @@ const Faq = () => {
             <div className='custom-container'>
                 <div className='mt-3'>
                     <div className='row'>
-                        <div className='text-center mt-2'>READ OUR</div>
-                        <div className='text-center mt-3'><h4>FREQUENTLY ASKED QUESTIONS</h4></div>
+                        <div className='text-center mt-2'>
+                            <h3 className='titles titleColor'>READ OUR</h3>
+                        </div>
+                        <div className='text-center mt-3'>
+                            <h5 className='titleColor tab-title'>FREQUENTLY ASKED QUESTIONS</h5>
+                        </div>
                     </div>
                     <div className='mt-5'>
                         <div className="container">
@@ -117,7 +121,7 @@ const Faq = () => {
                                     <>
                                         <div key={item.id} className="faq-item ">
                                             <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
-                                                <h4>{item.question}</h4>
+                                                <div className='tab-title font-weight-bold'>{item.question}</div>
                                                 <span className={`faq-icon`}>
                                                     {/*<span className={`faq-icon ${expandedId === item.id ? 'open' : ''}`}> */}
                                                     <i className={expandedId === item.id ? 'fas fa-minus faq-icon-color' : 'fas fa-plus faq-icon-color'} ></i>
@@ -127,7 +131,7 @@ const Faq = () => {
                                             </div>
                                             {expandedId === item.id && (
                                                 <div className="faq-answer pt-4 pb-2">
-                                                    <p>{item.answer}</p>
+                                                    <p className='tab-title font-weight-normal'>{item.answer}</p>
                                                 </div>
                                             )}
                                         </div>

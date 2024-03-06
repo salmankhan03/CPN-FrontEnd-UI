@@ -30,8 +30,11 @@ const AboutUs = () => {
             <div className='custom-container'>
                 <div className='mt-3'>
                     <div className='row'>
-                        <div className='text-center mt-2'>DISCOVER</div>
-                        <div className='text-center mt-3'><h4>CANADIAN PINNACLE NUTRITECH</h4></div>
+                        <div className='text-center mt-2'>
+                            <h3 className='titles titleColor'>DISCOVER</h3>
+                        </div>
+                        <div className='text-center mt-3'>
+                        <h5 className='titleColor tab-title'>CANADIAN PINNACLE NUTRITECH</h5></div>
                     </div>
                     <div className='row mt-5'>
                         <div className='col-12 col-md-6 col-lg-6 '>
@@ -44,9 +47,9 @@ const AboutUs = () => {
                         <div className='col-12 col-md-6 col-lg-6 order-md-first'>
                             <div className='container'>
                                 <div>
-                                    <p>At Canadian Pinnacle Nutritech (CPN) we recognize that a healthy body contributes directly to the individual’s overall happiness and success. Our mission is to improve the health of individuals and elevate their quality of life by offering top quality, natural nutritional supplements.</p>
-                                    <p>Based in British Columbia, Canada, CPN is a health and wellness company dedicated in presenting only the finest products to support the healthy lifestyle you want to achieve. All our products are 100% manufactured in a Canadian pharmaceutically-grade facility, and all our ingredients are certified and approved by Health Canada. We utilize the best formulas in offering highly effective and nutritional supplements to assist your individual health goals.</p>
-                                    <p>We advocate natural, wholesome, and healthy lifestyles – our products are designed in assisting you to pursue the better you. From specific formulas in targeting certain needs to improving your overall bodily health, CPN ensures that you will only receive the best and safest natural health solutions.</p>
+                                    <p className='tab-title font-weight-normal'>At Canadian Pinnacle Nutritech (CPN) we recognize that a healthy body contributes directly to the individual’s overall happiness and success. Our mission is to improve the health of individuals and elevate their quality of life by offering top quality, natural nutritional supplements.</p>
+                                    <p className='tab-title font-weight-normal'>Based in British Columbia, Canada, CPN is a health and wellness company dedicated in presenting only the finest products to support the healthy lifestyle you want to achieve. All our products are 100% manufactured in a Canadian pharmaceutically-grade facility, and all our ingredients are certified and approved by Health Canada. We utilize the best formulas in offering highly effective and nutritional supplements to assist your individual health goals.</p>
+                                    <p className='tab-title font-weight-normal'>We advocate natural, wholesome, and healthy lifestyles – our products are designed in assisting you to pursue the better you. From specific formulas in targeting certain needs to improving your overall bodily health, CPN ensures that you will only receive the best and safest natural health solutions.</p>
                                 </div>
                             </div>
                         </div>
@@ -63,10 +66,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon1} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                    Canadian Made
+                                   <h4 className='sidebar-filter-section'>Canadian Made</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                    <p>CPN supplement are 100% formulated, made and packaged in Canada, according to the standards of Health Canada</p>
+                                <p className='tab-title font-weight-normal'>CPN supplement are 100% formulated, made and packaged in Canada, according to the standards of Health Canada</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -74,10 +77,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon2} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                    GMP Standard
+                                <h4 className='sidebar-filter-section'>GMP Standard</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                    <p>All products are manufactured in a controlled and consistently monitored environment to ensure each product meets their quality standard</p>
+                                <p className='tab-title font-weight-normal'>All products are manufactured in a controlled and consistently monitored environment to ensure each product meets their quality standard</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -85,10 +88,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon3} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                    Health Canada
+                                <h4 className='sidebar-filter-section'>Health Canada</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                    <p>CPN products have been approved by Health Canada as natural health products, ensuring all products are safe, effective and of high quality</p>
+                                <p className='tab-title font-weight-normal'>CPN products have been approved by Health Canada as natural health products, ensuring all products are safe, effective and of high quality</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -96,10 +99,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon4} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                    FDA Compliance
+                                    <h4 className='sidebar-filter-section'>FDA Compliance</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                    <p>Our manufacturing facility meets the GMP standards and has been approved by the US FDA as an acceptable manufacturing facility</p>
+                                <p className='tab-title font-weight-normal'>Our manufacturing facility meets the GMP standards and has been approved by the US FDA as an acceptable manufacturing facility</p>
                                 </div>
                             </div>
                         </div>

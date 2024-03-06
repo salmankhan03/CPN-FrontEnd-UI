@@ -137,6 +137,13 @@ h5.title {
   font-weight: bold;
   letter-spacing: -0.03rem;
 }
+h3.titles{
+    font-size: 2.25rem;
+    line-height: 3rem;
+    font-weight: 500;
+    letter-spacing: -0.025rem;
+    font-family: "Inter-Regular", sans-serif;
+}
 
 .read-more {
   display: inline-block;
