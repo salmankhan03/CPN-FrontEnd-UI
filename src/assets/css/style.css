@@ -2807,7 +2807,7 @@ h2 {
 }
 
 .checkout-button {
-  background-color: #007bff;
+  background-color: #41a8bf;
   color: #fff;
   padding: 10px;
   border: none;
@@ -2817,7 +2817,7 @@ h2 {
 }
 
 .checkout-button:hover {
-  background-color: #0056b3;
+  background-color: #26658c;
 }
 
 .product-name {
