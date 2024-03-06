@@ -270,11 +270,8 @@ const CartPage = () => {
                             <div className='text-right'>
                                 {checkCouponCode?.is_coupon_code_valid === false && <h6 style={{color: 'red'}}>{checkCouponCode.message}</h6>}
                                 {/*<h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>*/}
-                                {/* <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button> */}
-                                <div className="red_button product-add_to_cart_button mt-3" onClick={gotoCheckout}>
-                                    Proceed to CheckoutProceed to Checkout
+                                <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
