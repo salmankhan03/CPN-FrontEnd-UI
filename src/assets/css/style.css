@@ -2693,7 +2693,8 @@ ul.stander li a {
 }
 
 .tab.active {
-  background-color: #eee;
+  /* background-color: #eee; */
+  color: var(--secondary-color);
 }
 
 .content {

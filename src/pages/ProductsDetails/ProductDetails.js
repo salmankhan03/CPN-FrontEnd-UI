@@ -167,7 +167,7 @@ function ProductDetails() {
         return tabNames.map((tabName) => (
             <td
                 key={tabName}
-                className={`tab ${selectedTab === tabName ? 'active' : ''}`}
+                className={`tab sidebar-filter-section  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`}
                 onClick={() => handleTabClick(tabName)}
             >
                 {tabName.charAt(0).toUpperCase() + tabName.slice(1)}
