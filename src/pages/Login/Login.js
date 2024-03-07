@@ -12,7 +12,7 @@ const LoginScreen = ({ onLogin }) => {
   const dispatch = useDispatch();
   const [loginFormShowHide, setLoginFormShowHide] = useState(true)
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
-  const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId )
+  const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -40,20 +40,21 @@ const LoginScreen = ({ onLogin }) => {
     password: '',
 
   });
-  useEffect(()=>{
-    if(AuthData || GuestData){
+  useEffect(() => {
+    if (AuthData || GuestData) {
       window.history.back();
-    }  },[])
+    }
+  }, [])
 
   const handleChange = (fieldName, value, type) => {
     if (type === "signupForm") {
       let formattedValue = value;
-     if (fieldName === 'contact_no') {
+      if (fieldName === 'contact_no') {
         formattedValue = value.slice(0, 10);
       }
       // if (fieldName === 'date_of_birth') {
       //   formattedValue = new Date(value).toISOString();
-        
+
       // }
       setRegisterFormData({ ...registerFormData, [fieldName]: formattedValue });
     } else {
@@ -62,9 +63,13 @@ const LoginScreen = ({ onLogin }) => {
   };
 
   const validateForm = () => {
+    console.log("formData",formData )
     const errors = {};
-    if (!formData.email.trim() || /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(formData.email) === false) {
-      errors.email = 'Email is required';
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    // Check if email matches the pattern
+    if (!emailPattern.test(formData.email)) {
+        errors.email = 'Email is required';         
     }
     if (!formData.password.trim()) {
       errors.password = 'Password is required';
@@ -93,10 +98,10 @@ const LoginScreen = ({ onLogin }) => {
             Cookies.set('userToken', JSON.stringify(resp?.token), {
               expires: cookieTimeOut,
             });
-            setTimeout(()=>{
-            onLogin();
-            navigate('/checkout', { replace: true });
-          },1000)
+            setTimeout(() => {
+              onLogin();
+              navigate('/checkout', { replace: true });
+            }, 1000)
           }
         }).catch((error) => {
           // setLoading(false)
@@ -154,13 +159,13 @@ const LoginScreen = ({ onLogin }) => {
             dispatch(setUserData({
               ...resp?.data
             }))
-            setTimeout(()=>{
-            navigate(`/`, {
-              state: {
-                order_id: resp.order_id
-              }
-            })
-          },1000)
+            setTimeout(() => {
+              navigate(`/`, {
+                state: {
+                  order_id: resp.order_id
+                }
+              })
+            }, 1000)
           }
         }).catch((error) => {
           // setLoading(false)
@@ -196,12 +201,12 @@ const LoginScreen = ({ onLogin }) => {
     console.log("Dispatch Successfully")
     navigate('/checkout');
 
-    
+
   };
   function generateGuestUserId() {
     const uniqueId = 'guest_' + Math.random().toString(36).substr(2, 9);
     return uniqueId;
-}
+  }
 
 
   return (
@@ -209,18 +214,18 @@ const LoginScreen = ({ onLogin }) => {
       <div className='m-3 mt-5'>
 
         <div className='row' style={{ backgroundColor: '' }}>
-        <Toast />
+          <Toast />
 
           <div className='col-md-6'>
             <div>
-              <h2>Secure Checkout</h2>
+              <h5 className="bold pointer-on-hover title d-inline">Secure Checkout</h5>
               <div className='mt-5 d-flex align-items-center'>
                 <span className='mr-2'><i className="fa fa-shopping-cart"></i></span>
-                <h5 className='mb-0'>Guest Checkout</h5>
+                <h5 className='mb-0 bold pointer-on-hover title d-inline'>Guest Checkout</h5>
               </div>
               <div className='mt-3'>
                 <p>No account? No problem. Create an account later to keep track of your orders.</p>
-                <p className='text-primary pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+                <p className='read-more pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
               </div>
             </div>
           </div>
@@ -229,7 +234,7 @@ const LoginScreen = ({ onLogin }) => {
             <div className='ml-5 mr-5'>
               {loginFormShowHide ? (
                 <>
-                  <h2>Login</h2>
+                  <h5 className="bold pointer-on-hover title d-inline">Login</h5>
                   <form onSubmit={handleLoginSubmit}>
                     <div className="form-row mt-3 ">
                       <div className="form-group col-md-12">
@@ -243,9 +248,9 @@ const LoginScreen = ({ onLogin }) => {
                             value={formData?.email}
                             onChange={(e) => handleChange('email', e.target.value, 'loginForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
-                          {formDataErrors?.email && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{formDataErrors?.email}</div>}
+                          {formDataErrors?.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{formDataErrors?.email}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerName">Password</label>
@@ -257,25 +262,28 @@ const LoginScreen = ({ onLogin }) => {
                             value={formData?.password}
                             onChange={(e) => handleChange('password', e.target.value, 'loginForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
 
-                          {formDataErrors?.password && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{formDataErrors?.password}</div>}
+                          {formDataErrors?.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{formDataErrors?.password}</div>}
                         </div>
 
                         <div className="form-group">
-                          <button className="btn btn-primary btn-block" type="submit">
+                          {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Login</span>
-                          </button>
+                          </button> */}
+                          <div className="red_button product-add_to_cart_button mt-3" onClick={handleLoginSubmit}>
+                            Login
+                          </div>
                         </div>
                         <div className='mt-4 mb-4'>
                           <hr />
                         </div>
                         <div className="form-outline mb-2 ">
-                          <p className='pointer-on-hover'>Forgot Password</p>
+                          <p className='read-more pointer-on-hover'>Forgot Password</p>
                         </div>
                         <div className="form-outline mb-4">
-                          <p className='pointer-on-hover'  onClick={LoginSignupFormShowHide}>Create account</p>
+                          <p className='read-more pointer-on-hover' onClick={LoginSignupFormShowHide}>Create account</p>
                         </div>
                       </div>
                     </div>
@@ -298,9 +306,9 @@ const LoginScreen = ({ onLogin }) => {
                             value={registerFormData?.first_name}
                             onChange={(e) => handleChange('first_name', e.target.value, 'signupForm')}
                             placeholder=""
-                            // required
+                          // required
                           />
-                          {registerFormDataErrors.first_name && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.first_name}</div>}
+                          {registerFormDataErrors.first_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.first_name}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerLastName">Last Name</label>
@@ -311,9 +319,9 @@ const LoginScreen = ({ onLogin }) => {
                             value={registerFormData?.last_name}
                             onChange={(e) => handleChange('last_name', e.target.value, 'signupForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
-                          {registerFormDataErrors.last_name && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.last_name}</div>}
+                          {registerFormDataErrors.last_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.last_name}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerLastName">Date of Birth</label>
@@ -325,7 +333,7 @@ const LoginScreen = ({ onLogin }) => {
                             onChange={(e) => handleChange('date_of_birth', e.target.value, 'signupForm')}
                             placeholder=""
                           />
-                          {registerFormDataErrors.date_of_birth && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.date_of_birth}</div>}
+                          {registerFormDataErrors.date_of_birth && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.date_of_birth}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerLastName">Phone Number</label>
@@ -336,9 +344,9 @@ const LoginScreen = ({ onLogin }) => {
                             value={registerFormData?.contact_no}
                             onChange={(e) => handleChange('contact_no', e.target.value, 'signupForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
-                          {registerFormDataErrors.contact_no && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.contact_no}</div>}
+                          {registerFormDataErrors.contact_no && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.contact_no}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerLastName">Email</label>
@@ -349,9 +357,9 @@ const LoginScreen = ({ onLogin }) => {
                             value={registerFormData?.email}
                             onChange={(e) => handleChange('email', e.target.value, 'signupForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
-                          {registerFormDataErrors.email && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.email}</div>}
+                          {registerFormDataErrors.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.email}</div>}
                         </div>
                         <div className="form-outline mb-4">
                           <label className="form-label" htmlFor="registerName">Password</label>
@@ -363,20 +371,23 @@ const LoginScreen = ({ onLogin }) => {
                             value={registerFormData?.password}
                             onChange={(e) => handleChange('password', e.target.value, 'signupForm')}
                             placeholder=""
-                            // required={true}
+                          // required={true}
                           />
-                          {registerFormDataErrors.password && <div style={{width: '100%', fontSize: '.875em', color: 'red'}}>{registerFormDataErrors.password}</div>}
+                          {registerFormDataErrors.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.password}</div>}
                         </div>
 
                         <div className="form-group">
-                          <button className="btn btn-primary btn-block" type="submit">
+                          {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Sign Up</span>
-                          </button>
+                          </button> */}
+                          <div className="red_button product-add_to_cart_button mt-3" onClick={handleSignUpSubmit}>
+                          Sign Up
+                          </div>
                         </div>
                         <div className='mt-4 mb-4'>
                           <hr />
                         </div>
-                        <div className="form-outline mb-2 pointer-on-hover" onClick={LoginSignupFormShowHide}>
+                        <div className="form-outline mb-2 pointer-on-hover read-more" onClick={LoginSignupFormShowHide}>
                           Already have an account? Login
                         </div>
                       </div>
