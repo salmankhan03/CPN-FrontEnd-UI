@@ -163,6 +163,12 @@ h3.titles{
 .button-blue-color{
   background: var(--button-blue-color);
 }
+.trashIconColor{
+  color: var(--Products-title-color) !important;
+}
+.trashIconColor:hover{
+  color: var(--secondary-color) !important
+}
 
 .custom-auto-height {
   height: auto !important;
@@ -3287,3 +3293,4 @@ input:-webkit-autofill:active {
   background-color:#000000 !important
 }
 /* Carousel */
+

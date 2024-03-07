@@ -130,10 +130,10 @@ const CartPage = () => {
                             <thead>
                                 <tr className=''>
                                 {/* className={`tab tab-title  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`} */}
-                                    <th scope="col" className="col-sm-6 custom-no-border">Item</th>
-                                    <th scope="col" className="col-sm-2 custom-no-border">Price</th>
-                                    <th scope="col" className="col-sm-2 custom-no-border">Quantity</th>
-                                    <th scope="col" className="col-sm-2 text-right custom-no-border">Total</th>
+                                    <th scope="col" className="col-sm-6 custom-no-border tab-title secondaryColor">Item</th>
+                                    <th scope="col" className="col-sm-2 custom-no-border tab-title secondaryColor">Price</th>
+                                    <th scope="col" className="col-sm-2 custom-no-border tab-title secondaryColor">Quantity</th>
+                                    <th scope="col" className="col-sm-2 text-right custom-no-border tab-title secondaryColor">Total</th>
                                 </tr>
                             </thead>
 
@@ -145,17 +145,17 @@ const CartPage = () => {
                                             <td>
                                                 <div className='row align-items-center'>
                                                     <div className='col-12 col-sm-1'>
-                                                        <i className="fa fa-trash" onClick={() => removeProduct(index)}></i>
+                                                        <i className="fa fa-trash trashIconColor" onClick={() => removeProduct(index)}></i>
                                                     </div>
                                                     <div className='col-12 col-sm-3'>
                                                         <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="cart-products" />
                                                     </div>
                                                     <div className='col-12 col-sm-8'>
-                                                        <h4 className='product-name mr-3'>{item.name}</h4>
+                                                        <h4 className='product-name mr-3 titleColor'>{item.name}</h4>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle'>${item.price}</td>
+                                            <td className='align-middle priceLabelColor'>${item.price}</td>
                                             <td>
                                                 <div className="quantity d-flex flex-column flex-sm-row align-items-sm-center">
                                                     <div className="quantity_selector">
@@ -177,7 +177,7 @@ const CartPage = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle text-right'>${item?.totalPrice}</td>
+                                            <td className='align-middle text-right priceLabelColor'>${item?.totalPrice}</td>
                                         </tr>
                                     )
                                 })}
