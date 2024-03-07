@@ -74,7 +74,8 @@ function App() {
           <Route path="/" element={<WithNavbar component={HomeScreen} />} />
           <Route path="/Shop" element={<WithNavbar component={ShopScreen} />} />
           <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
-          <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} />
+          {/* <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} /> */}
+          <Route path="/login" element={<WithNavbar component={LoginScreen} />} />
           <Route path="/signup" element={<SignUp />} />
 
           <Route path="/cart" element={<WithNavbar component={CartPage} />} />

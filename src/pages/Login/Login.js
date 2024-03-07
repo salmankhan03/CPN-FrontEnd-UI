@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setGuestUser, setUserData, setUserToken } from '../../redux/action/auth-action';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import Cookies from 'js-cookie';
+import FooterComponents from '../../components/FooterComponents/FooterComponents';
 
 const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -210,9 +211,9 @@ const LoginScreen = ({ onLogin }) => {
 
 
   return (
+    <>
     <div className="container">
       <div className='m-3 mt-5'>
-
         <div className='row' style={{ backgroundColor: '' }}>
           <Toast />
 
@@ -399,7 +400,12 @@ const LoginScreen = ({ onLogin }) => {
           </div>
         </div>
       </div>
+     
     </div>
+    <div>
+        <FooterComponents/>
+      </div>
+    </>
   );
 };
 
