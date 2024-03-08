@@ -184,6 +184,8 @@ const LoginScreen = ({ onLogin }) => {
 
   const LoginSignupFormShowHide = () => {
     console.log("Call")
+    console.log("Calls")
+
     setLoginFormShowHide(!loginFormShowHide)
   };
   const guestUserCheckout = () => {
