@@ -404,7 +404,7 @@ const LoginScreen = ({ onLogin }) => {
     </div>
     <div>
         <FooterComponents/>
-      </div>
+      </div> 
     </>
   );
 };
