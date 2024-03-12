@@ -7,12 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
 import { addtoCartItems } from '../../redux/action/cart-action';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
-import { Card, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { setCategoryList } from '../../redux/action/category-action';
 import CategoryServices from '../../services/categoryService';
 import ProductServices from '../../services/ProductServices';
-import Header from '../../components/HeaderComponents/HeaderComponents';
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
 
 
@@ -27,20 +25,9 @@ function HomeScreen() {
     const [weeklyProductsList, setWeeklyProductsList] = useState()
     const [customProductsData, setCustomProductsData] = useState()
 
-    const [scrollLeft, setScrollLeft] = useState(0);
     const scrollContainerRef = useRef(null);
     const [cardsPerRow, setCardsPerRow] = useState(3);
-    const cardWidth = 250; // Width of each product card
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2500,
-        className: 'slider-container'
-    };
+
     const banners = [
         { id: 1, src: banner1, alt: 'Banner 1' },
         { id: 2, src: banner2, alt: 'Banner 3' },
@@ -73,7 +60,7 @@ function HomeScreen() {
         return () => {
             window.removeEventListener('resize', updateCardsPerRow);
         };
-    }, []);
+    },[]);
 
     // Cards
 
@@ -152,12 +139,6 @@ function HomeScreen() {
             dispatch(addtoCartItems(cartObj));
         }
     }
-
-    const handleScroll = (scrollOffset) => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft += scrollOffset;
-        }
-    };
 
 
     const handleScrollLeft = () => {
@@ -282,7 +263,7 @@ function HomeScreen() {
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.newProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' onClick={() =>
+                                    <div className='m-3' key={index} onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
@@ -329,7 +310,7 @@ function HomeScreen() {
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.productsOnSale?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' onClick={() =>
+                                    <div className='m-3' key={index} onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
@@ -375,7 +356,7 @@ function HomeScreen() {
                             </div>
                             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
                                 {customProductsData?.topRatedProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' onClick={() =>
+                                    <div className='m-3' key={index} onClick={() =>
                                         navigate(`/products-details/${product.id}`, {
                                             state: {
                                                 id: product.id
