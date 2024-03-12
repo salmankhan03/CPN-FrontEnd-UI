@@ -1,13 +1,8 @@
 
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
-import { useSelector } from 'react-redux';
-
 import Slider1 from "../../assets/images/banner_faq.jpg"
 import Slider2 from "../../assets/images/banner_faq.jpg"
-import Slider3 from "../../assets/images/banner_faq.jpg"
-import ImageComponent from '../../components/ImageComponents/ImageComponents';
-import About from "../../assets/images/aboutUs.jpg"
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
 
 
@@ -80,16 +75,6 @@ const Faq = () => {
         // Add more FAQ items as needed
     ];
 
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2500,
-        className: 'slider-container'
-    };
     const [expandedId, setExpandedId] = useState(null);
 
     const toggleExpand = (id) => {
