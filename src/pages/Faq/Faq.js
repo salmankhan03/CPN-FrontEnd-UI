@@ -118,8 +118,8 @@ const Faq = () => {
                         <div className="container">
                             <div className="faq-list">
                                 {faqData.map((item) => (
-                                    <>
-                                        <div key={item.id} className="faq-item ">
+                                    <div key={item?.id}>
+                                        <div  className="faq-item ">
                                             <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
                                                 <div className='tab-title font-weight-bold'>{item.question}</div>
                                                 <span className={`faq-icon`}>
@@ -136,7 +136,7 @@ const Faq = () => {
                                             )}
                                         </div>
                                         <hr></hr>
-                                    </>
+                                    </div>
                                 ))}
                             </div>
                         </div>
