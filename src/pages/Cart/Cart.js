@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {updateCartItems, updateCartSubTotal} from '../../redux/action/cart-action';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
+import {setUserLogInOrNot} from "../../redux/action/auth-action";
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -90,7 +91,9 @@ const CartPage = () => {
         console.log(  isLoggedIn)
         if(isLoggedIn){
             navigate('/checkout')
+            dispatch(setUserLogInOrNot(false))
         }else{
+            dispatch(setUserLogInOrNot(false))
             navigate('/login')
         }
     }

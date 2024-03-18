@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGuestUser, setUserData } from '../../redux/action/auth-action';
+import {setGuestUser, setUserData, setUserLogInOrNot} from '../../redux/action/auth-action';
 import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
 import AuthServices from '../../services/AuthServices';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 function TopNavBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
 
     const authData = useSelector(state => state?.AuthReducer?.userData);
@@ -21,7 +22,7 @@ function TopNavBar() {
         } else {
             setIsLogin(false);
         }
-    }, [authData, guestData])
+    }, [authData, guestData, location])
     const logout = () => {
         let token;
         if (Cookies.get('userToken')) {
@@ -40,6 +41,7 @@ function TopNavBar() {
                       });
                     dispatch(setUserData({}))
                     dispatch(setGuestUser({}))
+                    dispatch(setUserLogInOrNot(false))
                     notifySuccess(`logOut Suceefully`);
                     navigate(`/`)
 
@@ -57,6 +59,16 @@ function TopNavBar() {
 
 
     };
+
+    const handleLogin = () => {
+        
+        if(authData && Object.keys(authData).length > 0 || guestData && Object.keys(guestData).length > 0){
+            dispatch(setUserLogInOrNot(false))
+        } else {
+            navigate('/login')
+            dispatch(setUserLogInOrNot(true))
+        }
+    }
     return (
         <div className={`top_nav`} >
             <div className="ml-2 mr-2">
@@ -110,10 +122,11 @@ function TopNavBar() {
                                             </ul>
                                         </li> */}
                                         <li className="currency">
-                                            <a href="#">
+                                            <p  onClick={handleLogin}>
                                                 {/* {customerName} */}
+                                                {authData && Object.keys(authData).length > 0 || guestData && Object.keys(guestData).length > 0 ? (authData && Object.keys(authData).length > 0 ? `Hello, ${authData.first_name} ${authData.last_name}` : `Hello, ${guestData.guestUserId}`) : 'Hello, Sign In'}
                                                 <i className="fa fa-user" aria-hidden="true"></i>
-                                            </a>
+                                            </p>
                                             {isLogin ? (
                                                 <ul className="currency_selection">
                                                     <li>

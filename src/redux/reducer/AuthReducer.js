@@ -1,7 +1,8 @@
 const initialState = {
     userData: {},
     guestUserData: {},
-    userToken:{}
+    userToken:{},
+    userLogInOrNot: false
 }
 
 export const AuthReducer = (state = initialState, action) => {
@@ -20,6 +21,11 @@ export const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 guestUserData: action.payload
+            }
+        case "SET_USER_LOGIN_OR_NOT":
+            return {
+                ...state,
+                userLogInOrNot: action.payload
             }
         default:
             return state

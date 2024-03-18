@@ -34,3 +34,16 @@ export const setGuestUser = (data) => {
         }
     }
 }
+
+export const setUserLogInOrNot = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch({
+                type: "SET_USER_LOGIN_OR_NOT",
+                payload: data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
