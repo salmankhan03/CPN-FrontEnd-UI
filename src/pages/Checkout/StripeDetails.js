@@ -81,6 +81,7 @@ const inputStyle = {
     padding: '10px',
     borderRadius: '4px',
     border: '1px solid #ccc',
+    backgroundColor:'#dee2e6',
     boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
     transition: 'box-shadow 150ms ease',
     outline: 'none',

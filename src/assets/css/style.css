@@ -3294,3 +3294,11 @@ input:-webkit-autofill:active {
 }
 /* Carousel */
 
+/* Stripe */
+
+.StripeElement{
+  background-color: #f2f2f2 ;
+  padding: 10px;
+  border: '1px solid #ccc';
+  border-radius: 10px;
+}

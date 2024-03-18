@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { getAllCountries, getStatesOfCountry } from 'country-state-city';
@@ -135,6 +135,7 @@ const CheckoutPage = () => {
                     'Accept': 'application/vnd.cpc.ship.rate-v4+xml',
                     'Authorization': 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`)
                 },
+                // changeOrigin: true,
                 body: xmlRequest
             };
 
@@ -302,39 +303,50 @@ const CheckoutPage = () => {
 
         let errors = {};
         console.log(formData)
-        if (formData?.first_name?.trim() === '' || formData?.first_name === null) {
+        const firstName = formData?.first_name?.trim();
+        const lastName = formData?.last_name?.trim();
+        const country = formData?.country?.trim();
+        const street_address = formData?.street_address?.trim();
+        const city = formData?.city?.trim();
+        const state = formData?.state?.trim();
+        const zipcode = formData?.zipcode?.trim();
+        const contact_no = formData?.contact_no?.trim();
+        const email = formData?.email?.trim();
+
+
+        if (!firstName) {
             errors.first_name = 'First name is required';
         }
 
-        if (formData.last_name?.trim() === '' || formData?.last_name === null) {
+        if (!lastName) {
             errors.last_name = 'Last name is required';
         }
 
-        if (formData.country?.trim() === '' || formData?.country === null) {
+        if (!country) {
             errors.country = 'Country is required';
         }
 
-        if (formData.street_address?.trim() === '' || formData?.street_address === null) {
+        if (!street_address) {
             errors.street_address = 'Street address is required';
         }
 
-        if (formData.city?.trim() === '' || formData?.city === null) {
+        if (!city) {
             errors.city = 'City is required';
         }
 
-        if (formData.state?.trim() === '') {
+        if (!state) {
             errors.state = 'State is required';
         }
 
-        if (formData.zipcode?.trim() === '' || formData?.zipcode === null) {
+        if (!zipcode) {
             errors.zipcode = 'ZIP Code is required';
         }
 
-        if (formData.contact_no?.trim() === '' || formData?.contact_no === null) {
+        if (!contact_no) {
             errors.contact_no = 'Phone number is required';
         }
 
-        if (formData.email?.trim() === '' || formData?.email === null) {
+        if (!email) {
             errors.email = 'Email address is required';
         } else if (!isValidEmail(formData.email)) {
             errors.email = 'Invalid email address';
@@ -391,6 +403,9 @@ const CheckoutPage = () => {
         OrderServices.generateOrders(orderData).then((resp) => {
             if (resp?.status_code === 200) {
                 orderId = resp.order_id
+                dispatch(removeAllCartItems([]));
+                dispatch(addCoupon({}));
+                dispatch(removeAllCartItems([]));
                 navigate(`/thankyou`, {
                     state: {
                         order_id: resp.order_id
@@ -403,7 +418,7 @@ const CheckoutPage = () => {
         })
     }
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         console.log("Call")
         e.preventDefault();
         let updatedBillingFormData = {};
@@ -417,44 +432,40 @@ const CheckoutPage = () => {
         if (isBillingFormValid && isShippingFormValid && validPostal === false) {
             console.log('Billing Form Data:', billingFormData);
             console.log('Shipping Form Data:', shippingFormData);
-            let submitobj = {
-                total_amount: subtotal,
-                user_id: userID ? userID : null,
-                is_guest: !userID ? 1 : 0,
-                guest_user_id: userID ? "" : GuestData.guestUserId,
-                promo_code: "Promo Code",
-                percent_discount_applied: "20",
-                shipping_address: shippingFormData,
-                billing_address: isChecked ? updatedBillingFormData : billingFormData,
-                product_data: [],
-                payment_data: {
-                    "external_payment_id": "Stripe Payment Id",
-                    "type": "Payment Method Type",
-                    "payment_gateway_name": "Stripe",
-                    "is_order_cod": "1",
-                    "is_cod_paymend_received": "0",
-                    "amount": subtotal,
-                    "status": "SUCCESS"
-                },
-            };
+            // let submitobj = {
+            //     total_amount: subtotal,
+            //     user_id: userID ? userID : null,
+            //     is_guest: !userID ? 1 : 0,
+            //     guest_user_id: userID ? "" : GuestData.guestUserId,
+            //     promo_code: "Promo Code",
+            //     percent_discount_applied: "20",
+            //     shipping_address: shippingFormData,
+            //     billing_address: isChecked ? updatedBillingFormData : billingFormData,
+            //     product_data: [],
+            //     payment_data: {
+            //         "external_payment_id": "Stripe Payment Id",
+            //         "type": "Payment Method Type",
+            //         "payment_gateway_name": "Stripe",
+            //         "is_order_cod": "1",
+            //         "is_cod_paymend_received": "0",
+            //         "amount": subtotal,
+            //         "status": "SUCCESS"
+            //     },
+            // };
 
-            for (let index = 0; index < cartItems.length; index++) {
-                let products = {
-                    product_id: cartItems[index]?.id,
-                    price: cartItems[index]?.price,
-                    quantity: cartItems[index]?.purchaseQty,
-                    use_product_original_data: 0
-                };
-                submitobj.product_data.push(products);
-            }
-
-            dispatch(removeAllCartItems([]));
-            dispatch(addCoupon({}));
-            dispatch(removeAllCartItems([]));
-
+            // for (let index = 0; index < cartItems.length; index++) {
+            //     let products = {
+            //         product_id: cartItems[index]?.id,
+            //         price: cartItems[index]?.price,
+            //         quantity: cartItems[index]?.purchaseQty,
+            //         use_product_original_data: 0
+            //     };
+            //     submitobj.product_data.push(products);
+            // }
             if (stripeDetailsRef.current) {
-                orderGenrate(submitobj)
                 await stripeDetailsRef.current.handleButtonClick(handleStripeData);
+                //  orderGenrate(submitobj)
+
             } else {
                 console.error('StripeDetails component not properly initialized');
             }
@@ -826,7 +837,7 @@ const CheckoutPage = () => {
 
 
     const handleStripeData = async (token) => {
-        if(token){
+        if (token) {
             console.log('orderId---------------------------', orderId)
             try {
                 const payload = {
@@ -835,8 +846,42 @@ const CheckoutPage = () => {
                     stripe_data: token,
                     orderId: orderId
                 }
-                const response = await axios.post('https://backend.kingsmankids.com/api/strip-charge', payload);
+                const response = await axios.post('https://backend.kingsmankids.com/api/stripe-charge', payload);
                 console.log('Response:', response.data);
+                if(response?.data?.message === "Payment processed successfully"){
+                    let submitobj = {
+                        total_amount: subtotal,
+                        user_id: userID ? userID : null,
+                        is_guest: !userID ? 1 : 0,
+                        guest_user_id: userID ? "" : GuestData.guestUserId,
+                        promo_code: "Promo Code",
+                        percent_discount_applied: "20",
+                        shipping_address: shippingFormData,
+                        billing_address: isChecked ? shippingFormData : billingFormData,
+                        product_data: [],
+                        payment_data: {
+                            "external_payment_id": "Stripe Payment Id",
+                            "type": "Payment Method Type",
+                            "payment_gateway_name": "Stripe",
+                            "is_order_cod": "1",
+                            "is_cod_paymend_received": "0",
+                            "amount": subtotal,
+                            "status": "SUCCESS"
+                        },
+                    };
+        
+                    for (let index = 0; index < cartItems.length; index++) {
+                        let products = {
+                            product_id: cartItems[index]?.id,
+                            price: cartItems[index]?.price,
+                            quantity: cartItems[index]?.purchaseQty,
+                            use_product_original_data: 0
+                        };
+                        submitobj.product_data.push(products);
+                    }
+                    orderGenrate(submitobj)
+
+                }
             } catch (error) {
                 // Handle errors
                 console.error('Error:', error);
@@ -1208,7 +1253,7 @@ const CheckoutPage = () => {
                                 <div className='' id="example-collapse-text" >
                                     <div className="container p-3">
                                         <Elements stripe={stripePromise}>
-                                            <StripeDetails ref={stripeDetailsRef} orderData={orderData}/>
+                                            <StripeDetails ref={stripeDetailsRef} orderData={orderData} />
                                         </Elements>
                                     </div>
                                 </div>
