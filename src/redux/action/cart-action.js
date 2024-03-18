@@ -98,3 +98,17 @@ export const cartOrderTotal = (data) => {
         }
     }
 }
+
+// export const getOrderId = (data) => {
+//     return async (dispatch) => {
+//         console.log('data-------------------------', data)
+//         try {
+//             dispatch({
+//                 type: "GET_ORDER_ID",
+//                 payload: data
+//             })
+//         } catch (error) {
+//             console.log(error)
+//         }
+//     }
+// }

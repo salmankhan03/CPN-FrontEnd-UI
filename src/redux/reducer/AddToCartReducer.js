@@ -9,6 +9,7 @@ const initialState = {
         "hst": 0,
         "pst": 0
     },
+    orderId: null
 }
 
 export const CartReducer = (state = initialState, action) => {
@@ -53,6 +54,11 @@ export const CartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderTotal: action.payload
+            }
+        case "GET_ORDER_ID":
+            return {
+                ...state,
+                orderId: action.payload
             }
 
         default:

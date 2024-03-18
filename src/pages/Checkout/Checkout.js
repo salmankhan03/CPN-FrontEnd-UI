@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { getAllCountries, getStatesOfCountry } from 'country-state-city';
@@ -18,6 +18,12 @@ import {
 import { Collapse, Button } from 'react-bootstrap';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { notifyError, notifySuccess, Toast } from '../../components/ToastComponents/ToastComponents';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import StripeDetails from "./StripeDetails";
+import axios from 'axios';
+
+const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
 
 const CheckoutPage = () => {
@@ -86,6 +92,12 @@ const CheckoutPage = () => {
         contact_no: AuthData ? AuthData?.contact_no : '',
         email: AuthData ? AuthData?.email : '',
     });
+
+    const stripeElement = (token, error) => {
+        console.log('token, error-----------------------', token, error)
+    }
+
+    const stripeDetailsRef = useRef();
 
     const userProperties = {
         username: 'f89d8930468d9b94',
@@ -372,11 +384,13 @@ const CheckoutPage = () => {
         }
     };
 
+    let orderId;
+
     function orderGenrate(orderData) {
         console.log(orderData)
         OrderServices.generateOrders(orderData).then((resp) => {
             if (resp?.status_code === 200) {
-
+                orderId = resp.order_id
                 navigate(`/thankyou`, {
                     state: {
                         order_id: resp.order_id
@@ -389,8 +403,7 @@ const CheckoutPage = () => {
         })
     }
 
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         console.log("Call")
         e.preventDefault();
         let updatedBillingFormData = {};
@@ -439,13 +452,27 @@ const CheckoutPage = () => {
             dispatch(addCoupon({}));
             dispatch(removeAllCartItems([]));
 
-            orderGenrate(submitobj)
+            if (stripeDetailsRef.current) {
+                orderGenrate(submitobj)
+                await stripeDetailsRef.current.handleButtonClick(handleStripeData);
+            } else {
+                console.error('StripeDetails component not properly initialized');
+            }
 
 
         } else {
             console.log('Form validation failed');
         }
     };
+
+    const orderData = {
+        address: shippingFormData.street_address ? shippingFormData.street_address : '',
+        zipcode: shippingFormData.zipcode ? shippingFormData.zipcode : '',
+        state: shippingFormData.state ? shippingFormData.state : '',
+        city: shippingFormData.city ? shippingFormData.city : '',
+        country: shippingFormData.country ? 'Canada' : '',
+        name: shippingFormData.first_name ? `${shippingFormData.first_name} ${shippingFormData.last_name}` : '',
+    }
 
     const getToFixed = (a) => {
         return a.toFixed(2);
@@ -795,6 +822,29 @@ const CheckoutPage = () => {
     const orderTotal = selectedShippingOption
         ? (parseFloat(subTotalWithCoupon.toFixed(2)) + parseFloat(selectedShippingOption.basePrice)).toFixed(2)
         : subTotalWithCoupon.toFixed(2);
+
+
+
+    const handleStripeData = async (token) => {
+        if(token){
+            console.log('orderId---------------------------', orderId)
+            try {
+                const payload = {
+                    token: token.id,
+                    orderPrice: orderTotal,
+                    stripe_data: token,
+                    orderId: orderId
+                }
+                const response = await axios.post('https://backend.kingsmankids.com/api/strip-charge', payload);
+                console.log('Response:', response.data);
+            } catch (error) {
+                // Handle errors
+                console.error('Error:', error);
+            }
+        }
+
+
+    };
 
     return (
         <div className="container mt-5">
@@ -1157,49 +1207,9 @@ const CheckoutPage = () => {
                             <Collapse in={stripeShow} >
                                 <div className='' id="example-collapse-text" >
                                     <div className="container p-3">
-                                        <div className="coupon-section">
-                                            <div className=''>
-                                                <InputComponent
-                                                    type="number"
-                                                    id="cardNumber"
-                                                    label="Card Number"
-                                                    customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
-                                                    value={cardDetail.cardNumber}
-                                                    onChange={(e) => handleInput(e, 'cardNumber')}
-                                                    placeholder="Enter your coupon code"
-                                                    required
-                                                />
-                                            </div>
-                                            <div className='row'>
-                                                <div className='col-md-6'>
-                                                    <InputComponent
-                                                        type="text"
-                                                        id="expiry"
-                                                        label="Card Number"
-                                                        customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
-                                                        value={cardDetail.expiry}
-                                                        onChange={(e) => handleInput(e, 'expiry')}
-                                                        placeholder="Enter your coupon code"
-                                                        maxLength={5}
-                                                        pattern="\d{2}/\d{2}"
-                                                        required
-                                                    />
-                                                </div>
-
-                                                <div className='col-md-6'>
-                                                    <InputComponent
-                                                        type="number"
-                                                        id="cvc"
-                                                        label="Card Number"
-                                                        customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
-                                                        value={cardDetail.cvc}
-                                                        onChange={(e) => handleInput(e, 'cvc')}
-                                                        placeholder="Enter your coupon code"
-                                                        required
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <Elements stripe={stripePromise}>
+                                            <StripeDetails ref={stripeDetailsRef} orderData={orderData}/>
+                                        </Elements>
                                     </div>
                                 </div>
                             </Collapse>
@@ -1256,7 +1266,7 @@ const CheckoutPage = () => {
 
                             {selectedShippingOption &&
                                 <div className="d-flex justify-content-between mt-2">
-                                    <div>Shipping charge (${selectedShippingOption.serviceName})</div>
+                                    <div>Shipping charge ({selectedShippingOption.serviceName})</div>
                                     <div> ${selectedShippingOption.basePrice}</div>
                                 </div>
                             }
