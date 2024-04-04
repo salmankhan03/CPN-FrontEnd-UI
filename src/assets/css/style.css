@@ -52,7 +52,8 @@ COLOR PALETTE
   --brand-color: #747c80;
   --price-color:#46a69c;
   --Products-title-color:#2e3133;
-  --button-blue-color:#4abfd9
+  --button-blue-color:#4abfd9;
+  --lightGray-color:#f3f4f6;
 }
 
 /***********
@@ -157,6 +158,10 @@ h3.titles{
 .secondaryColor {
   color: var(--secondary-color) !important
 }
+.secondaryBGColor {
+  background-color: var(--button-blue-color) !important;
+  border-color: var(--button-blue-color) !important;;
+}
 .titleColor{
   color: var(--Products-title-color)
 }
@@ -193,6 +198,9 @@ h3.titles{
 }
 .blackColor {
   color: var(--black-color);
+}
+.lightGrayBGColor{
+  background-color: var(--lightGray-color);
 }
 
 .brandLabel {
@@ -1119,6 +1127,10 @@ section {
 .shop_now_button {
   width: 140px;
   margin-top: 32px;
+}
+.red_button.disabled {
+  background-color: #ccc; /* Gray out the button */
+  cursor: not-allowed;
 }
 
 /*********************************
@@ -3301,4 +3313,16 @@ input:-webkit-autofill:active {
   padding: 10px;
   border: '1px solid #ccc';
   border-radius: 10px;
+}
+/* Variants */
+.variantsButton{
+padding: 5px;
+border: 1px solid;
+border-radius: 15px;
+min-width: 60px;
+text-align: center;
+}
+.select-dropdown:focus {
+  border-color: var(--button-blue-color); /* Change to your desired color */
+  outline: none; /* Optional: remove default outline */
 }

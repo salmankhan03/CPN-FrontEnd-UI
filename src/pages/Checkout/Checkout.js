@@ -432,39 +432,43 @@ const CheckoutPage = () => {
         if (isBillingFormValid && isShippingFormValid && validPostal === false) {
             console.log('Billing Form Data:', billingFormData);
             console.log('Shipping Form Data:', shippingFormData);
-            // let submitobj = {
-            //     total_amount: subtotal,
-            //     user_id: userID ? userID : null,
-            //     is_guest: !userID ? 1 : 0,
-            //     guest_user_id: userID ? "" : GuestData.guestUserId,
-            //     promo_code: "Promo Code",
-            //     percent_discount_applied: "20",
-            //     shipping_address: shippingFormData,
-            //     billing_address: isChecked ? updatedBillingFormData : billingFormData,
-            //     product_data: [],
-            //     payment_data: {
-            //         "external_payment_id": "Stripe Payment Id",
-            //         "type": "Payment Method Type",
-            //         "payment_gateway_name": "Stripe",
-            //         "is_order_cod": "1",
-            //         "is_cod_paymend_received": "0",
-            //         "amount": subtotal,
-            //         "status": "SUCCESS"
-            //     },
-            // };
+            let submitobj = {
+                total_amount: subtotal,
+                user_id: userID ? userID : null,
+                is_guest: !userID ? 1 : 0,
+                guest_user_id: userID ? "" : GuestData.guestUserId,
+                promo_code: "Promo Code",
+                percent_discount_applied: "20",
+                shipping_address: shippingFormData,
+                billing_address: isChecked ? updatedBillingFormData : billingFormData,
+                product_data: [],
+                payment_data: {
+                    "external_payment_id": "Stripe Payment Id",
+                    "type": "Payment Method Type",
+                    "payment_gateway_name": "Stripe",
+                    "is_order_cod": "1",
+                    "is_cod_paymend_received": "0",
+                    "amount": subtotal,
+                    "status": "SUCCESS"
+                },
+            };
 
-            // for (let index = 0; index < cartItems.length; index++) {
-            //     let products = {
-            //         product_id: cartItems[index]?.id,
-            //         price: cartItems[index]?.price,
-            //         quantity: cartItems[index]?.purchaseQty,
-            //         use_product_original_data: 0
-            //     };
-            //     submitobj.product_data.push(products);
-            // }
+            for (let index = 0; index < cartItems.length; index++) {
+                let products = {
+                    product_id: cartItems[index]?.id,
+                    price: cartItems[index]?.price,
+                    quantity: cartItems[index]?.purchaseQty,
+                    use_product_original_data: 0
+                };
+                if(cartItems[index]?.variants){
+                    products['variants'] =cartItems[index]?.variants
+                }
+                submitobj.product_data.push(products);
+            }
+            console.log("Submit Obj",submitobj)
             if (stripeDetailsRef.current) {
                 await stripeDetailsRef.current.handleButtonClick(handleStripeData);
-                //  orderGenrate(submitobj)
+                 orderGenrate(submitobj)
 
             } else {
                 console.error('StripeDetails component not properly initialized');

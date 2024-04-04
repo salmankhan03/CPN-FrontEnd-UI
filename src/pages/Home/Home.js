@@ -273,8 +273,8 @@ function HomeScreen() {
                                         <div className='row' key={index} style={{ maxHeight: 450 }}>
                                             <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
-                                                    {product.images[0].name ? (
-                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                    {product?.images[0]?.name ? (
+                                                        <ImageComponent src={product?.images[0]?.name} alt={"products Image"} />) : (
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>
@@ -320,8 +320,8 @@ function HomeScreen() {
                                         <div className='row' key={index} style={{ maxHeight: 450 }}>
                                             <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
-                                                    {product.images[0].name ? (
-                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                    {product?.images[0]?.name ? (
+                                                        <ImageComponent src={product?.images[0]?.name} alt={"products Image"} />) : (
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
@@ -366,8 +366,8 @@ function HomeScreen() {
                                         <div className='row' key={index} style={{ maxHeight: 450 }}>
                                             <div className='col-12 col-md-12 col-lg-5'>
                                                 <div className="product_image">
-                                                    {product.images[0].name ? (
-                                                        <ImageComponent src={product.images[0].name} alt={"products Image"} />) : (
+                                                    {product?.images[0]?.name ? (
+                                                        <ImageComponent src={product?.images[0]?.name} alt={"products Image"} />) : (
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>

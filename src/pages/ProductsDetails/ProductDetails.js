@@ -12,6 +12,7 @@ import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
 import ReactImageMagnify from 'react-image-magnify';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
+import AtrributeServices from "../../services/attributeServices";
 // import Slider from "react-slick";
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
@@ -31,45 +32,50 @@ function ProductDetails() {
     const [selectedTab, setSelectedTab] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
     const [tag, setTag] = useState([]);
-
+    const [productsVariants, setProductsVariants] = useState([])
+    const [attributes, setAttributes] = useState([])
+    const [selectedOption, setSelectedOption] = useState();
+    const [selectedAttributesOptions, setSelectedAttributesOptions] = useState([])
+    const [chooseVariants, setChooseVariants] = useState()
+    const [selectedProductsVarints, setSelectedProductVarints] = useState()
     const [startIndex, setStartIndex] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
-    console.log(categoryList)
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    infinite: true,
-                    dots: true,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
+  
 
     useEffect(() => {
-        // 
-        // notifyError('added to the cart!');
         if (productID) {
             getProductsDetails();
         }
     }, []);
 
+    useEffect(() => {
+        let showOptionsArray = []
+        const fetchAttributeData = async () => {
+            let updatedAtrributes = []
+            for (let index = 0; index < attributes?.length; index++) {
+                const id = attributes[index]?.id;
+                try {
+                    const data = await getAttributes(id);
+                    let newAtrributes = attributes[index]
+                    newAtrributes['option'] = data?.attribute?.option
+                    newAtrributes['variants'] = data?.attribute?.variants;
+                    const selectedOptions = productsVariants.map((obj) => obj[id]);
+                    const stringifiedArr = selectedOptions.map(element => String(element));
+                    const obj = { attributeID: id, options: stringifiedArr, selectedOptions: '' };
+                    showOptionsArray.push(obj);
+                    updatedAtrributes.push(newAtrributes)
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            setSelectedAttributesOptions(showOptionsArray);
+            const selectedVariant = productsVariants.find(variant => {
+                return Object.entries(chooseVariants).every(([key, value]) => variant[key] === value);
+            });
+            setSelectedProductVarints(selectedVariant);
+        };
 
+        fetchAttributeData();
+    }, [productsVariants])
 
     useEffect(() => {
         setCategoryName(getCategoryNameById(productData?.category_id, categoryList));
@@ -88,6 +94,17 @@ function ProductDetails() {
         }
         return null;
     };
+    async function getAttributes(id) {
+        try {
+            const resp = await AtrributeServices.getAttributeById(id);
+            console.log(resp);
+            return resp;
+        } catch (error) {
+            console.log(error);
+            throw error; // Propagate the error
+        }
+    }
+
 
     function getProductsDetails() {
         ProductServices.getProductById(productID).then((resp) => {
@@ -99,9 +116,42 @@ function ProductDetails() {
                 }))
                 // setLoading(false)
                 setProductData(resp?.data)
+                // console.log(resp?.data?.variants)
+                if (resp?.data?.variants) {
+                    let variantsData = JSON.parse(resp?.data?.variants)
+                    // console.log("variantsData", variantsData)
+                    for (let index = 0; index < variantsData.length; index++) {
+                        const numericKeyValuePairs = Object.keys(variantsData[index]).reduce((acc, key) => {
+                            if (!isNaN(key)) {
+                                acc[key] = variantsData[index][key];
+                            }
+                            return acc;
+                        }, {});
+                        // console.log("numericKeyValuePairs", numericKeyValuePairs);
+
+                        if (index === 0) {
+                            setChooseVariants(numericKeyValuePairs)
+                        }
+                        // const transformedObj = Object.keys(numericKeyValuePairs).reduce((accumulator, currentKey, index) => {
+                        //     accumulator[`id${index + 1}`] = currentKey;
+                        //     accumulator[`option${index + 1}`] = numericKeyValuePairs[currentKey];
+                        //     return accumulator;
+                        // }, {});
+                        // console.log("transformedObj", transformedObj);
+                        // variantsData[index] = { ...variantsData[index], ...transformedObj };
+                    }
+                    // console.log("Updated variantsData", variantsData)
+
+                    setProductsVariants(resp?.data?.variants ? variantsData : []);
+                    // console.log("pp", JSON.parse(variantsData[0]?.originalPrice))
+                    setAttributes(JSON.parse(resp?.data?.variants_array))
+
+
+                }
+
 
                 const tagsArray = resp?.data?.tags?.split(',');
-                setTag(tagsArray ? tagsArray :[]); 
+                setTag(tagsArray ? tagsArray : []);
                 if (resp?.data?.images.length > 0) {
                     setSelectedImage(resp?.data?.images[0]?.name)
                     // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
@@ -117,13 +167,7 @@ function ProductDetails() {
     }
 
 
-    const handleMouseEnter = () => {
-        setIsHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHovered(false);
-    };
+   
 
     const handleNext = () => {
         // const newIndex = Math.min(startIndex + 1, productData?.images?.length - 1);
@@ -189,6 +233,7 @@ function ProductDetails() {
             case 'shipping':
                 return <p>Shipping Information Goes Here</p>;
             default:
+
                 return null;
         }
     };
@@ -202,7 +247,9 @@ function ProductDetails() {
                     return {
                         ...item,
                         purchaseQty: quantity,//item.purchaseQty +
-                        totalPrice: quantity * JSON.parse(product?.sell_price) //(item.purchaseQty + quantity) 
+                        totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                        price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
+                        sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
                     };
                 } else {
                     return item;
@@ -212,22 +259,92 @@ function ProductDetails() {
             notifySuccess(`${message} already added in the cart!`);
             // dispatch(updateCartItems(updatedCartItems));
         } else {
+            // console.log(selectedProductsVarints)
             let cartObj = {
                 id: product.id,
                 name: product.name,
                 image: product.images,
                 description: product.description,
-                price: product.sell_price,
-                sku: product.sku,
+                price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
+                sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
                 purchaseQty: quantity,
-                totalPrice: quantity * JSON.parse(product.sell_price),
+                totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
                 is_tax_apply: product?.is_tax_apply
             };
+            if (selectedProductsVarints) {
+                cartObj['variants'] = selectedProductsVarints;
+            }
+            // console.log(cartObj)
             notifySuccess(`${message} added to the cart!`);
             // {truncateString(productItem?.name, 80)}
             dispatch(addtoCartItems(cartObj));
         }
     }
+    const selectVarintsProducts = (id, optionID, types) => {
+        // console.log("productsVariants", productsVariants)
+        // console.log(id)
+        // console.log("selected options", optionID)
+        // console.log("chooseVariants", chooseVariants)
+        let index = chooseVariants[id] === optionID
+        // console.log(index)
+        let updateChooseVariants = chooseVariants
+
+        if (index !== true) {
+            updateChooseVariants[id] = optionID
+        } else {
+            delete updateChooseVariants[id]
+        }
+        // console.log(chooseVariants)
+        // console.log("updateChooseVariants", updateChooseVariants)
+        if (types === "drop-down") {
+            let index = attributes.findIndex((x) => x.id === id)
+            let obj = attributes[index]?.variants?.find(item => String(item.id) === optionID)
+            // console.log(obj?.name)
+            setSelectedOption(obj?.name);
+
+        }
+
+        const getNumericKeyValuePairs = (obj) => {
+            const numericPairs = {};
+            for (const [key, value] of Object.entries(obj)) {
+                if (!isNaN(key) && !isNaN(value)) {
+                    numericPairs[key] = value;
+                }
+            }
+            return numericPairs;
+        };
+
+        const convertedDatas = productsVariants.map(obj => {
+            return Object.entries(obj).reduce((newObj, [key, value]) => {
+                // Convert every numeric value to a string
+                newObj[key] = value.toString();
+                return newObj;
+            }, {});
+        });
+        const numericKeyValuePairsArray = convertedDatas.map(getNumericKeyValuePairs);
+        const numericValueArrayStrings = numericKeyValuePairsArray.map(obj => JSON.stringify(obj));
+        const chooseOptionString = JSON.stringify(updateChooseVariants);
+        const matchingIndex = numericValueArrayStrings.indexOf(chooseOptionString);
+        // console.log(matchingIndex);
+        // console.log("productsVariants", productsVariants[matchingIndex])
+
+        setChooseVariants(updateChooseVariants)
+        setSelectedProductVarints(matchingIndex == -1 ? '' : productsVariants[matchingIndex])
+
+        // const idKey = Object.keys(data).find(key => data[key] === String(index));
+        // console.log(idKey); // This will log the key name where the value is "42", in your direct mapping example it would log "17"
+        // console.log("chooseVariants", chooseVariants);
+
+        // setChooseVariants(updateChooseVariants)
+
+        // setProductsVariantsPrice(data?.originalPrice)
+        // setProductsVariantsSellPrice(data?.sell_price)
+    };
+
+    // console.log("productsVariants", productsVariants)
+    // console.log("attributes", attributes)
+
+
     return (
         <>
             <div className="container single_product_container mb-2">
@@ -247,7 +364,7 @@ function ProductDetails() {
                                                 <i className="fa fa-angle-right" aria-hidden="true"></i>
                                                 {productData?.id}
                                             </a>
-                                        </li>                        
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -317,16 +434,91 @@ function ProductDetails() {
                             <div className="col-lg-7">
                                 <div className="product_details mt-3">
                                     <div className="product_details_title">
-                                    <h3 className="product-title titleColor custom-auto-height">{productData?.name}</h3>
+                                        <h3 className="product-title titleColor custom-auto-height">{productData?.name}</h3>
 
-                                    </div>                            
+                                    </div>
                                     <div className="product_price priceLabelColor mt-3">
-                                        ${productData?.sell_price}
-                                        <span className="ml-2">${productData?.price}</span>
+                                        ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
+                                        <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
                                     </div>
                                     {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
                                 </div> */}
+                                    {productsVariants?.length > 0 && chooseVariants ? (
+                                        <>
+                                            <div className="mt-3 ">
+                                                Stock: {selectedProductsVarints ? selectedProductsVarints?.quantity : "Out of Stock"}
+                                            </div>
+                                            {!selectedProductsVarints ? (
+                                                <div className="mt-1 validation-error">
+                                                    This Variants Not Available
+                                                </div>
+                                            ) : null}
+                                            {selectedAttributesOptions?.map((z, index) => {
+                                                // console.log("xx", z)
+                                                // console.log("productsVariants 374", productsVariants)
+                                                // console.log("selectedAttributesOptions", selectedAttributesOptions)
+                                                return (
+                                                    <React.Fragment key={index}>
+
+                                                        <div className="mt-3 ">
+                                                            {attributes[index]?.title}:
+                                                        </div>
+
+                                                        <div className="mt-2 d-flex  flex-sm-row align-items-sm-center" >
+                                                            {attributes[index]?.option !== "Radio" ? (
+
+                                                                <select
+                                                                    id="simpleDropdown"
+                                                                    defaultValue={selectedOption}
+                                                                    onChange={(event) =>
+                                                                        selectVarintsProducts(z?.attributeID, event.target.value, "drop-down")
+                                                                    }
+                                                                    className='select-dropdown'
+                                                                >
+                                                                    {attributes[index]?.variants?.map((option, k) => {
+                                                                        let ids = String(option?.id);
+                                                                        let index = z?.options?.findIndex((xy) => xy === ids)
+
+                                                                        return (
+                                                                            <React.Fragment key={option?.name}>
+                                                                                {index !== -1 ? (
+                                                                                    <option key={option?.name} value={option?.id} name={z?.options[k]}>{option?.name}</option>
+                                                                                ) : null}
+                                                                            </React.Fragment>
+                                                                        );
+                                                                    })}
+                                                                </select>
+                                                            ) : (
+                                                                <React.Fragment >
+                                                                    {attributes[index]?.variants?.map((i, l) => {
+                                                                        let ids = String(i?.id)
+                                                                        let index = z?.options?.findIndex((xy) => xy === ids)
+                                                                        const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
+                                                                        return (
+                                                                            <React.Fragment key={l}>
+                                                                                {index !== -1 ? (
+                                                                                    <div
+                                                                                        className={`ml-2 mr-2 pointer-on-hover variantsButton ${keyFound !== undefined ? "secondaryBGColor" : "lightGrayBGColor"
+                                                                                            }`}
+                                                                                        onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}//selectVarintsProducts(productsVariants[l], z?.options[l])
+                                                                                    >
+                                                                                        {i?.name}
+                                                                                    </div>
+                                                                                ) : null}
+                                                                            </React.Fragment>
+
+                                                                        )
+                                                                    })}
+                                                                </React.Fragment>
+                                                            )}
+
+                                                        </div>
+                                                    </React.Fragment>
+                                                )
+                                            })}
+                                        </>
+                                    ) : null}
                                     <div className="mt-3">Quantity:</div>
                                     <div className="quantity d-flex  flex-sm-row align-items-sm-center">
                                         <div className="quantity_selector">
@@ -347,14 +539,23 @@ function ProductDetails() {
                                             </span>
                                         </div>
 
-                                        <div className="red_button product-add_to_cart_button ml-2  " onClick={() => addtoCart(productData)}>
-                                            {/* <div className=""> */}
+                                        <div className={`red_button product-add_to_cart_button ml-2 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
+                                            onClick={() => {
+                                                if (productsVariants?.length) {
+                                                    if (selectedProductsVarints) {
+                                                        addtoCart(productData);
+                                                    }
+                                                } else {
+                                                    addtoCart(productData);
+                                                }
+                                            }}
+
+                                        >
                                             add to cart
-                                            {/* </div> */}
                                         </div>
                                     </div>
                                     <div className="mt-3 brandLabel">
-                                        SKU: <span className="ml-2">{productData?.sku}</span>
+                                        SKU: <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
                                     </div>
                                     <div className="mt-3 brandLabel">
                                         Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
