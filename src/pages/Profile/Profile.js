@@ -190,8 +190,7 @@ const Profile = () => {
                             />
                             {profileFormErrors.date_of_birth && <div className="validation-error">{profileFormErrors.date_of_birth}</div>}
                         </div>
-                    <button type="submit" onClick={setSubmit}>
-                        Login
+                    <button className="checkout-button  mt-4" onClick={setSubmit}>Edit Profile
                     </button>
                 </div>
             </div>
