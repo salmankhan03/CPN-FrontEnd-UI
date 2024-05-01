@@ -1089,7 +1089,7 @@ const CheckoutPage = () => {
                                                                 label="Phone *"
                                                                 customClass={`form-control gray-bg ${billingFormErrors.contact_no ? 'validation-error-border' : ''}`}
                                                                 value={billingFormData?.contact_no}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
+                                                                  onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
                                                                 placeholder=""
                                                                 required
                                                                 isdisabled={isChecked}

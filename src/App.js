@@ -23,6 +23,7 @@ import AuthServices from './services/AuthServices';
 import { setDefaultTemplateList } from './redux/action/template-action';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Faq from './pages/Faq/Faq';
+import Profile from './pages/Profile/Profile'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
   // console.log(AuthData)
 
   const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
+  const [isAuthUser, setAuthUser] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
   // console.log(isLoggedIn)
   useEffect(() => {
     getStaticPageList()
@@ -64,6 +66,9 @@ function App() {
     if (AuthData || GuestData) {
       setLoggedIn(true)
     }
+    if(AuthData && Object.keys(AuthData).length > 0){
+      setAuthUser(true)
+    }
 
   }, [GuestData, AuthData])
 
@@ -79,6 +84,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
 
           <Route path="/cart" element={<WithNavbar component={CartPage} />} />
+          <Route path="/profile" element={<PrivateRoute element={<WithNavbar component={Profile}/>} isAuthenticated={isAuthUser} fallbackPath="/profile" />}/>
           <Route
             path="/checkout"
             element={<PrivateRoute element={<WithNavbar component={CheckoutPage} />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}

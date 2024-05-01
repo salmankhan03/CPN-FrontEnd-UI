@@ -2,7 +2,7 @@ const initialState = {
     userData: {},
     guestUserData: {},
     userToken:{},
-    userLogInOrNot: false
+    userLogInOrNot: false,
 }
 
 export const AuthReducer = (state = initialState, action) => {

@@ -9,6 +9,10 @@ const AuthServices = {
         console.log(body)
         return requests.post(`/customer/signup`, body);
     },
+    customerProfileUpdate: async (body) => {
+        console.log(body)
+        return requests.post('/customer/update',body)
+    },
     customerLogout: async () => {
         return requests.get(`/customer/logout`, );
     },

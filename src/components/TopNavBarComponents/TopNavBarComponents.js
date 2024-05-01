@@ -69,6 +69,9 @@ function TopNavBar() {
             dispatch(setUserLogInOrNot(true))
         }
     }
+    const profile =() => {
+        navigate("/profile")
+    }
     return (
         <div className={`top_nav`} >
             <div className="ml-2 mr-2">
@@ -129,12 +132,13 @@ function TopNavBar() {
                                             </p>
                                             {isLogin ? (
                                                 <ul className="currency_selection">
+                                                    {authData && Object.keys(authData).length > 0 && <li>
+                                                        <div onClick={profile}>profile</div>
+                                                    </li>}
                                                     <li>
                                                         <div onClick={logout}>Logout</div>
                                                     </li>
-                                                    {/* <li>
-                                                    <a href="#">Spanish</a>
-                                                </li> */}
+
                                                 </ul>
                                             ) : null}
                                         </li>
