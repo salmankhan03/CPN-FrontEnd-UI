@@ -418,68 +418,6 @@ const CheckoutPage = () => {
         })
     }
 
-    const handleSubmit = async (e) => {
-        console.log("Call")
-        e.preventDefault();
-        let updatedBillingFormData = {};
-        if (isChecked) {
-            updatedBillingFormData = { ...shippingFormData };
-        }
-        const isBillingFormValid = validateForm(isChecked ? updatedBillingFormData : billingFormData, "billingform Error");
-        const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
-
-        // If both forms are valid, proceed with submission
-        if (isBillingFormValid && isShippingFormValid && validPostal === false) {
-            console.log('Billing Form Data:', billingFormData);
-            console.log('Shipping Form Data:', shippingFormData);
-            let submitobj = {
-                total_amount: subtotal,
-                user_id: userID ? userID : null,
-                is_guest: !userID ? 1 : 0,
-                guest_user_id: userID ? "" : GuestData.guestUserId,
-                promo_code: "Promo Code",
-                percent_discount_applied: "20",
-                shipping_address: shippingFormData,
-                billing_address: isChecked ? updatedBillingFormData : billingFormData,
-                product_data: [],
-                payment_data: {
-                    "external_payment_id": "Stripe Payment Id",
-                    "type": "Payment Method Type",
-                    "payment_gateway_name": "Stripe",
-                    "is_order_cod": "1",
-                    "is_cod_paymend_received": "0",
-                    "amount": subtotal,
-                    "status": "SUCCESS"
-                },
-            };
-
-            for (let index = 0; index < cartItems.length; index++) {
-                let products = {
-                    product_id: cartItems[index]?.id,
-                    price: cartItems[index]?.price,
-                    quantity: cartItems[index]?.purchaseQty,
-                    use_product_original_data: 0
-                };
-                if(cartItems[index]?.variants){
-                    products['variants'] =cartItems[index]?.variants
-                }
-                submitobj.product_data.push(products);
-            }
-            console.log("Submit Obj",submitobj)
-            if (stripeDetailsRef.current) {
-                await stripeDetailsRef.current.handleButtonClick(handleStripeData);
-                 orderGenrate(submitobj)
-
-            } else {
-                console.error('StripeDetails component not properly initialized');
-            }
-
-
-        } else {
-            console.log('Form validation failed');
-        }
-    };
-
     const orderData = {
         address: shippingFormData.street_address ? shippingFormData.street_address : '',
         zipcode: shippingFormData.zipcode ? shippingFormData.zipcode : '',
@@ -854,7 +792,9 @@ const CheckoutPage = () => {
                 console.log('Response:', response.data);
                 if(response?.data?.message === "Payment processed successfully"){
                     let submitobj = {
-                        total_amount: subtotal,
+                        total_amount: orderTotal,
+                        discountPrice: couponDiscount?.toFixed(2),
+                        shippingPrice: selectedShippingOption.basePrice,
                         user_id: userID ? userID : null,
                         is_guest: !userID ? 1 : 0,
                         guest_user_id: userID ? "" : GuestData.guestUserId,
@@ -891,8 +831,71 @@ const CheckoutPage = () => {
                 console.error('Error:', error);
             }
         }
+    };
+
+    const handleSubmit = async (e) => {
+        console.log("Call")
+
+        e.preventDefault();
+        let updatedBillingFormData = {};
+        if (isChecked) {
+            updatedBillingFormData = { ...shippingFormData };
+        }
+        const isBillingFormValid = validateForm(isChecked ? updatedBillingFormData : billingFormData, "billingform Error");
+        const isShippingFormValid = validateForm(shippingFormData, "shippingform Error");
+
+        // If both forms are valid, proceed with submission
+        if (isBillingFormValid && isShippingFormValid && validPostal === false) {
+            console.log('Billing Form Data:', billingFormData);
+            console.log('Shipping Form Data:', shippingFormData);
+            let submitobj = {
+                total_amount: orderTotal,
+                discountPrice: couponDiscount?.toFixed(2),
+                shippingPrice: selectedShippingOption.basePrice,
+                user_id: userID ? userID : null,
+                is_guest: !userID ? 1 : 0,
+                guest_user_id: userID ? "" : GuestData.guestUserId,
+                promo_code: "Promo Code",
+                percent_discount_applied: "20",
+                shipping_address: shippingFormData,
+                billing_address: isChecked ? updatedBillingFormData : billingFormData,
+                product_data: [],
+                payment_data: {
+                    "external_payment_id": "Stripe Payment Id",
+                    "type": "Payment Method Type",
+                    "payment_gateway_name": "Stripe",
+                    "is_order_cod": "1",
+                    "is_cod_paymend_received": "0",
+                    "amount": subtotal,
+                    "status": "SUCCESS"
+                },
+            };
+
+            for (let index = 0; index < cartItems.length; index++) {
+                let products = {
+                    product_id: cartItems[index]?.id,
+                    price: cartItems[index]?.price,
+                    quantity: cartItems[index]?.purchaseQty,
+                    use_product_original_data: 0
+                };
+                if(cartItems[index]?.variants){
+                    products['variants'] =cartItems[index]?.variants
+                }
+                submitobj.product_data.push(products);
+            }
+            console.log("Submit Obj",submitobj)
+            if (stripeDetailsRef.current) {
+                await stripeDetailsRef.current.handleButtonClick(handleStripeData);
+                orderGenrate(submitobj)
+
+            } else {
+                console.error('StripeDetails component not properly initialized');
+            }
 
 
+        } else {
+            console.log('Form validation failed');
+        }
     };
 
     return (
@@ -1308,7 +1311,7 @@ const CheckoutPage = () => {
                             {couponDiscount > 0 &&
                                 <div className="d-flex justify-content-between mt-2">
                                     <div>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`}</div>
-                                    <div>- ${couponDiscount}</div>
+                                    <div>- ${couponDiscount?.toFixed(2)}</div>
                                     {/* <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p> */}
                                 </div>
                             }

@@ -74,7 +74,7 @@ function ProductListing(props) {
                     <h3 className="product-title secondaryColor pt-2 " style={{}}>{truncateString(productItem?.name, 60)}</h3>
 
                     <div className="d-flex mt-2 justify-content-between">
-                        <div className='priceLabel'>${productItem?.price}</div>
+                        <div className='priceLabel'>${productItem?.sell_price}</div>
                         <div>
                             <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>
                                 <i className="fas fa-shopping-bag mt-2"></i>
