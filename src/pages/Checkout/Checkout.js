@@ -850,8 +850,8 @@ const CheckoutPage = () => {
             console.log('Shipping Form Data:', shippingFormData);
             let submitobj = {
                 total_amount: orderTotal,
-                discountPrice: couponDiscount?.toFixed(2),
-                shippingPrice: selectedShippingOption.basePrice,
+                discount_price: couponDiscount?.toFixed(2),
+                shipping_price: selectedShippingOption.basePrice,
                 user_id: userID ? userID : null,
                 is_guest: !userID ? 1 : 0,
                 guest_user_id: userID ? "" : GuestData.guestUserId,
