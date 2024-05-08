@@ -45,13 +45,13 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
         </div>
       </div>
       <div className='mt-5 m-3'>
-      <h4 className="sidebar-filter-section pointer-on-hover">Product Categories</h4>
+      <h4 className="sidebar-filter-section pointer-on-hover">Filter by Price</h4>
         <div className='mt-4'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
       <div className="mt-5 m-3">
-      <h4 className="sidebar-filter-section pointer-on-hover">Product Categories</h4>
+      <h4 className="sidebar-filter-section pointer-on-hover">Brands</h4>
         <div className='mt-4'>
           <ListComponents
             data={brandData}
