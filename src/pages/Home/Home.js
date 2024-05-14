@@ -60,7 +60,7 @@ function HomeScreen() {
         return () => {
             window.removeEventListener('resize', updateCardsPerRow);
         };
-    },[]);
+    }, []);
 
     // Cards
 
@@ -220,16 +220,17 @@ function HomeScreen() {
                                     <div key={index} className="product-card p-4"
                                         onClick={() => navigate(`/products-details/${product.id}`, { state: { id: product.id } })}
                                         style={{ width: `${100 / cardsPerRow - 2}% `, margin: '1%' }}>
-                                        <div className="product_image">
-                                            {product.images[0]?.name ? (
-                                                <ImageComponent src={product.images[0]?.name} alt="products Image" />
-                                            ) : (
-                                                <p className='inter-medium-fonts'>Image not available</p>
-                                            )}
-                                        </div>
+
                                         <div className="product-details">
                                             <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, 30)}</h3>
+                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, 70)}</h3>
+                                            <div className="product_image mb-3">
+                                                {product.images[0]?.name ? (
+                                                    <ImageComponent src={product.images[0]?.name} alt="products Image" />
+                                                ) : (
+                                                    <p className='inter-medium-fonts'>Image not available</p>
+                                                )}
+                                            </div>
                                             <div className="d-flex mt-2 justify-content-between">
                                                 <div className='priceLabel'>${product?.sell_price}</div>
                                                 <div>
@@ -279,18 +280,21 @@ function HomeScreen() {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className='col-12 col-md-12 col-lg-7'>
-                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
-                                                <div className="d-flex mt-2 justify-content-between">
-                                                    <div className='priceLabel'>${product?.sell_price}</div>
-                                                    <div>
-                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                            <i className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
+                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                                <div>
+                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 70)}</h3>
+                                                    <div className="d-flex mt-1 justify-content-between align-items-center">
+                                                        <div className='priceLabel'>${product?.sell_price}</div>
+                                                        <div>
+                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                                <i className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <hr className='' />
                                     </div>
@@ -325,7 +329,8 @@ function HomeScreen() {
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                            <div className='col-12 col-md-12 col-lg-7'>
+                                                <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                                <div>
                                                 <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
                                                 <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
                                                 <div className="d-flex mt-2 justify-content-between">
@@ -335,6 +340,7 @@ function HomeScreen() {
                                                             <i className="fas fa-shopping-bag mt-2"></i>
                                                         </span>
                                                     </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,8 +377,8 @@ function HomeScreen() {
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                            <div className='col-12 col-md-12 col-lg-7'>
-                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                                <div>                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
                                                 <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
                                                 <div className="d-flex mt-2 justify-content-between">
                                                     <div className='priceLabel'>${product?.sell_price}</div>
@@ -382,6 +388,7 @@ function HomeScreen() {
                                                         </span>
                                                     </div>
                                                 </div>
+                                            </div>
                                             </div>
                                         </div>
                                         <hr className='' />
