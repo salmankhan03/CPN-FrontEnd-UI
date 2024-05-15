@@ -112,7 +112,7 @@ interface WithNavbarProps {
 function WithNavbar({ component: Component, ...rest }: WithNavbarProps) {
   return (
     <>
-      <TopNavBar></TopNavBar>
+      {/* <TopNavBar></TopNavBar> */}
       <Header></Header>
       <Component {...rest} />
     </>
