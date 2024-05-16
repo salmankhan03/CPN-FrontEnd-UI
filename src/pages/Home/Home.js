@@ -12,6 +12,8 @@ import { setCategoryList } from '../../redux/action/category-action';
 import CategoryServices from '../../services/categoryService';
 import ProductServices from '../../services/ProductServices';
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
+import leftBanner from "../../assets/images/bannerLeft/product-banner-01.jpg"
+import rightBanner from "../../assets/images/bannerRight/product-banner-02.jpg"
 
 
 function HomeScreen() {
@@ -252,6 +254,29 @@ function HomeScreen() {
                 </div>
                 <div className='mt-5'>
                     <div className='row mt-5 mb-5'>
+                        <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
+                            <div className="banner-container">
+                                <div className="banner-content">
+                                    <h6 className='smallFonts'>SKINCARE PRODUCTS</h6>
+                                    <p className='banner-text'>Buy 1 get 2 on <span style={{fontWeight:'500'}}>selected </span><br/> products</p>
+                                </div>
+                                <img src={leftBanner} alt="Banner Left" className="img-fluid banner-img" />
+                            </div>
+                        </div>
+                        <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
+                            <div className="banner-container">
+                                <div className="banner-content">
+                                    <h6 className='smallFonts'>OUR OFFER</h6>
+                                    <p className='banner-text'>Save up to <b>70% Off</b><br/> this week </p>
+                                </div>
+                                <img src={rightBanner} alt="Banner Right" className="img-fluid banner-img" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div className='mt-5'>
+                    <div className='row mt-5 mb-5'>
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
                                 <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
@@ -329,18 +354,18 @@ function HomeScreen() {
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                                <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
                                                 <div>
-                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
-                                                <div className="d-flex mt-2 justify-content-between">
-                                                    <div className='priceLabel'>${product?.sell_price}</div>
-                                                    <div>
-                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                            <i className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
+                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
+                                                    <div className="d-flex mt-2 justify-content-between">
+                                                        <div className='priceLabel'>${product?.sell_price}</div>
+                                                        <div>
+                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                                <i className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -377,18 +402,18 @@ function HomeScreen() {
                                                         <p>Image not available</p>
                                                     )}
                                                 </div>                                            </div>
-                                                <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
                                                 <div>                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
-                                                <div className="d-flex mt-2 justify-content-between">
-                                                    <div className='priceLabel'>${product?.sell_price}</div>
-                                                    <div>
-                                                        <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                            <i className="fas fa-shopping-bag mt-2"></i>
-                                                        </span>
+                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
+                                                    <div className="d-flex mt-2 justify-content-between">
+                                                        <div className='priceLabel'>${product?.sell_price}</div>
+                                                        <div>
+                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                                <i className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
                                             </div>
                                         </div>
                                         <hr className='' />

@@ -3326,3 +3326,39 @@ text-align: center;
   border-color: var(--button-blue-color); /* Change to your desired color */
   outline: none; /* Optional: remove default outline */
 }
+/* Banner */
+.banner-container {
+  display: flex;
+  align-items: center; /* Vertically center items */
+  justify-content: center; /* Horizontally center items */
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  text-align: left;
+  z-index: 1; /* Ensure content is above the image */
+  color: #fff; /* Example text color */
+}
+
+.banner-content h5, .banner-content h2 {
+  margin: 0;
+}
+.banner-text{
+  color: #fff;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 30px;
+  letter-spacing: -1.5px;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
+}
+
