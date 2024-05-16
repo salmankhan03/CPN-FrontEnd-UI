@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.cb2d8c13.css",
-    "main.js": "/static/js/main.6a675f6b.js",
+    "main.css": "/static/css/main.735e2ea4.css",
+    "main.js": "/static/js/main.8b71118f.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/Inter-ExtraBold.ttf": "/static/media/Inter-ExtraBold.4164cfba15dbca5f37aa.ttf",
     "static/media/Inter-Medium.ttf": "/static/media/Inter-Medium.3f7acfe50aad7ad68548.ttf",
@@ -13,14 +13,16 @@
     "static/media/banner_faq.jpg": "/static/media/banner_faq.80912ab730d58bd56410.jpg",
     "static/media/no-result.ec22e94c.svg": "/static/media/no-result.ec22e94c.ec22e94cb810f5bd2f888f1a5a292e90.svg",
     "static/media/banner1.jpg": "/static/media/banner1.a29b7f1c35a5b5ad8919.jpg",
+    "static/media/product-banner-02.jpg": "/static/media/product-banner-02.4b8210334097e3a3098f.jpg",
+    "static/media/product-banner-01.jpg": "/static/media/product-banner-01.fa08d07e095913a632d4.jpg",
     "static/media/aboutUs.jpg": "/static/media/aboutUs.3d5f14f65b79bf9f5f57.jpg",
     "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/index.html",
-    "main.cb2d8c13.css.map": "/static/css/main.cb2d8c13.css.map",
-    "main.6a675f6b.js.map": "/static/js/main.6a675f6b.js.map"
+    "main.735e2ea4.css.map": "/static/css/main.735e2ea4.css.map",
+    "main.8b71118f.js.map": "/static/js/main.8b71118f.js.map"
   },
   "entrypoints": [
-    "static/css/main.cb2d8c13.css",
-    "static/js/main.6a675f6b.js"
+    "static/css/main.735e2ea4.css",
+    "static/js/main.8b71118f.js"
   ]
 }
