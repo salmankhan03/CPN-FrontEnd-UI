@@ -191,6 +191,9 @@ header {
     font-size:14px;
     color: #ababab;
   }
+  .displyHide{
+    display: none;
+  }
 }
 /* Responsive styles */
 @media (max-width: 991px) {

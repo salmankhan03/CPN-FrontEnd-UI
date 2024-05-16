@@ -78,7 +78,7 @@ const NavManu = styled.ul`
       color: #fff;
     }
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     display: ${(props) => (props.isToggleOpen ? "flex" : "none")};
     flex-direction: column;
     align-items: flex-start;
@@ -214,7 +214,7 @@ function Header() {
           </div>
 
           <nav className="header-content-top bottomHeaderBG">
-            <div className="left-content hide-div">
+            <div className="left-content hide-div displyHide">
               <div className="dropdown">
                 <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
                   <span><i class="fa fa-bars" aria-hidden="true"></i></span>
@@ -262,7 +262,7 @@ function Header() {
 
             </div>
 
-            <div className="right-content hide-div">
+            <div className="right-content hide-div displyHide">
               <span className=''>Contact Number: (00) 0000-0000</span>
             </div>
           </nav>
