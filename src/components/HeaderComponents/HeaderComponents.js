@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 // import logo from "../../assets/images/logo.png"
@@ -42,13 +42,15 @@ const StyledHeader = styled.header`
       display: block;
     }
     ul{
-      padding-left:0px !important
+      padding-left:0px !important;
+      
     }
   }
 `;
 const NavManu = styled.ul`
   list-style: none;
   display: flex;
+  margin-bottom:0px;
 
   li {
     &:hover {
@@ -66,14 +68,14 @@ const NavManu = styled.ul`
   }
   .nav-menu-list {
     text-decoration: none;
-    color: #fff;
+    color: #b8c3dc;
     display: block;
     padding: 10px 10px;
     font-size: 18px;
   }
   .nav-menu-list {
     &:hover {
-      color: #000000;
+      color: #fff;
     }
   }
   @media screen and (max-width: 768px) {
@@ -94,12 +96,23 @@ const NavManu = styled.ul`
 
 function Header() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const cartItems = useSelector(state => state.CartReducer.cartItems);
   const [isOpen, setIsOpen] = useState(false);
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -112,13 +125,22 @@ function Header() {
   return (
 
     <header className='PrimaryBGColor'>
-      <div className="header-content-top hide-div">
+      {/* <div className="header-content-top "> */}
+      <div className={`header-content-top  hide-div ${scrollPosition > 0 ? 'top-header-hide-show' : ''}`}>
+
         <div className="left-content">
-          <span className='topBarFonts'><i className="fas fa-phone-square-alt"></i> (00)0000-0000</span>
-          <span className='ml-3 ml-md-2 topBarFonts'> |<i className="fa fa-map-marker ml-3 ml-md-2" aria-hidden="true"></i>  Store Location</span>
+          <span className='topBarFonts'>
+            {/* <i className="fas fa-phone-square-alt"></i>  */}
+            (00)0000-0000
+          </span>
+          <span className='topBarFonts ml-2'>|</span>
+          <span className='ml-3 ml-md-2 topBarFonts'>
+            {/* <i className="fa fa-map-marker ml-3 ml-md-2" aria-hidden="true"></i>   */}
+            Store Location
+          </span>
         </div>
         <div className="middle-content">
-          <strong className="topBarFonts">we are open with limited hours and staff.</strong>
+          <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
         </div>
         <div className="right-content">
           <div className="language-dropdown ml-3 ml-md-2">
@@ -133,17 +155,18 @@ function Header() {
       </div>
       <div className="">
         <header className='PrimaryBGColor'>
-          <div className="header-content-top">
+          <div className="header-content-top pt-4 pb-4">
             <div className="left-content">
               {/* <strong className="logo"> */}
               <Link to="/">
-                <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                {/* <ImageComponent src={logo} alt={"logo"} classAtribute="logo" /> */}
+                CANADIAN PINNACLE NUTRITECH
               </Link>
               {/* </strong> */}
             </div>
-
+            {/* style={{display:'block'}} */}
             <div className="middle-content hide-div">
-              <div className='parent-container' style={{ border: '1px solid #ccc', borderRadius: 20, }}>
+              <div className='parent-container ml-5 mr-5' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
                 <div className="d-flex align-items-center">
                   <div className="dropdown dropdown-right-border">
                     <div onClick={toggleDropdown} className="dropdown-toggle text-black">
@@ -158,7 +181,8 @@ function Header() {
                     )}
                   </div>
                   <div className="search-container ml-3">
-                    <input type="text" placeholder="Search for items..." className="search-input" />
+                    <input type="text" placeholder="Search for items..." className="search-input" style={{ width: '300px' }} />
+                    {/* Adjust the width as needed */}
                     <div className="search-icon">
                       <i className="fas fa-search"></i>
                     </div>
@@ -166,8 +190,11 @@ function Header() {
                 </div>
               </div>
             </div>
-            <div className="menuToggleBtn mobileMenu" onClick={handleToggleOpen} > <i class="fa fa-bars" aria-hidden="true"></i></div>
-            <div className='mobileMenu'><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div>
+
+            <div className="menuToggleBtn mobileMenu" onClick={handleToggleOpen} > 
+              <i class="fa fa-bars" aria-hidden="true" style={{color:'#000'}}></i>
+            </div>
+            {/* <div className='mobileMenu'><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div> */}
 
             <div className="right-content hide-div">
               <div className="icons-container">
@@ -186,7 +213,7 @@ function Header() {
             </div>
           </div>
 
-          <nav className="header-content-top ">
+          <nav className="header-content-top bottomHeaderBG">
             <div className="left-content hide-div">
               <div className="dropdown">
                 <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
@@ -204,14 +231,8 @@ function Header() {
               </div>
             </div>
 
-            <div className="middle-content">
-              {/* <ul className="horizontal-links">
-                <li><Link to="/">Home</Link></li>
-                <li><Link to="/products">Products</Link></li>
-                <li><Link to="/services">Services</Link></li>
-                <li><Link to="/about">About Us</Link></li>
-              </ul> */}
-              <NavManu isToggleOpen={isToggleOpen}>
+            <div className="middle-content" >
+              <NavManu isToggleOpen={isToggleOpen} >
                 <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                   <Link to={"/"} className="nav-menu-list" onClick={handleToggleOpen}>
                     Home
@@ -242,7 +263,7 @@ function Header() {
             </div>
 
             <div className="right-content hide-div">
-              <span>Contact Number: (00) 0000-0000</span>
+              <span className=''>Contact Number: (00) 0000-0000</span>
             </div>
           </nav>
         </header>

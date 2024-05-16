@@ -36,9 +36,12 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #545bc4;
+  background-color: #FFF;
   color: #fff;
   padding: 10px 20px;
+}
+.bottomHeaderBG{
+  background-color: #415da1 !important;
 }
 
 .left-content,
@@ -156,7 +159,22 @@ header {
 }
 .mobileMenu{
   display: none;
+} 
+.topBarFonts{
+  /* font-size: smaller; */
+  font-size:14px;
+  color: #ababab;
 }
+.topBarFonts:hover{
+  color: #000;
+}
+.topBarCenterText{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.78;
+  color: #696969;
+}
+
 @media screen and (max-width: 768px) {
   .dropdown {
     display: none; /* Hide dropdown on smaller screens */
@@ -169,26 +187,17 @@ header {
     max-width: 200px;
   }
   .topBarFonts{
-    font-size: smaller;
+    /* font-size: smaller; */
+    font-size:14px;
+    color: #ababab;
   }
 }
 /* Responsive styles */
 @media (max-width: 991px) {
-  /* Styles for smaller screens */
-  /* .container .open-search {
-    margin: 0;
-    position: static;
-    text-align: right;
-  } */
-
-  /* .container .search {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 70px;
-    width: 100%;
-    z-index: 999;
-  } */
+  .logo{
+    max-width: 200px;
+  }
+  
 }
 
 @media (max-width: 767px) {

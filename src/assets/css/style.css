@@ -3361,4 +3361,8 @@ text-align: center;
   height: auto; /* Maintain aspect ratio */
   object-fit: cover;
 }
+.top-header-hide-show{
+  display: none;
+
+}
 
