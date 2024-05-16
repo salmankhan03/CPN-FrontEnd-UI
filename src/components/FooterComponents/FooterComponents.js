@@ -5,7 +5,7 @@ import ImageComponent from '../ImageComponents/ImageComponents';
 
 function FooterComponents() {
     return (
-        <footer class="custom-header PrimaryBGColor">
+        <footer class="custom-header" style={{backgroundColor:'#415da1'}}>
             <div class="container-fluid pt-3 pb-3">
                 <div class="row no-gutters m-4">
                     <div class="col-lg-3 col-md-6 text-center">
