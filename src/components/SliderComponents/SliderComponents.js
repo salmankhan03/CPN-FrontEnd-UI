@@ -13,7 +13,7 @@ const SliderComponents = ({banners}) => {
         <Carousel fade activeIndex={index} onSelect={handleSelect}>
             {banners.map((banner, index) => (
                 <Carousel.Item key={index} interval={1500}>
-                    <ImageComponent src={banner.src} alt={`Slide ${index + 1}`} classAtribute="slider-image d-block w-100" />
+                    <ImageComponent src={banner?.src} alt={`Slide ${index + 1}`} classAtribute="slider-image d-block w-100" />
                 </Carousel.Item>
             ))}
         </Carousel>

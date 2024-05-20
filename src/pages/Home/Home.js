@@ -14,6 +14,7 @@ import ProductServices from '../../services/ProductServices';
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
 import leftBanner from "../../assets/images/bannerLeft/product-banner-01.jpg"
 import rightBanner from "../../assets/images/bannerRight/product-banner-02.jpg"
+import BannersServices from '../../services/BannersServices';
 
 
 function HomeScreen() {
@@ -26,16 +27,19 @@ function HomeScreen() {
     const [categoriesData, setCategoriesData] = useState();
     const [weeklyProductsList, setWeeklyProductsList] = useState()
     const [customProductsData, setCustomProductsData] = useState()
+    const [slider, setSlider] = useState([])
+    const [banner, setBanner] = useState([])
 
     const scrollContainerRef = useRef(null);
     const [cardsPerRow, setCardsPerRow] = useState(3);
 
-    const banners = [
-        { id: 1, src: banner1, alt: 'Banner 1' },
-        { id: 2, src: banner2, alt: 'Banner 3' },
-        { id: 3, src: banner3, alt: 'Banner 3' },
-    ];
+    const leftBanners = banner && banner.filter(item => item.side === "LEFT");
+    const rightBanners = banner && banner.filter(item => item.side === "RIGHT");
+
+
     useEffect(() => {
+        getSlider()
+        getBanners()
         getCategoryList()
         getCategoryWiseWeeklyProducts()
         getCustomProductsList()
@@ -66,7 +70,23 @@ function HomeScreen() {
 
     // Cards
 
+    function getSlider() {
+        BannersServices.getSliders().then((resp) => {
+            console.log("Sliders", resp?.list)
+            const transformedData = resp?.list.map(item => ({
+                id: item.id,
+                src: item.image
+            }));
+            setSlider(transformedData)
 
+        })
+    }
+    function getBanners() {
+        BannersServices.getBanners().then((resp) => {
+            setBanner(resp?.list)
+            console.log("Banners", resp)
+        })
+    }
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
@@ -166,15 +186,16 @@ function HomeScreen() {
     return (
         <div className="">
             <div className="row" style={{ margin: 0 }}>
-                <div className="col-md-12 col-lg-9" style={{ overflowX: 'auto', padding: 0 }}>
-                    <SliderComponents banners={banners} />
+                <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
+                    {slider?.length > 0 ? (
+                        <SliderComponents banners={slider} />
+                    ) : null}
                 </div>
-                <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
+                {/* <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
                     <div className='m-2'>
                         <ImageComponent src={banner3} alt={`Slide`} classAtribute="slider-image d-block w-100" />
                     </div>
-                    {/* <img src={banner3} alt={"siteBanner"} className="img-   fluid" style={{ width: '100%' }} /> */}
-                </div>
+                </div> */}
             </div>
             <div className='custom-container'>
                 <div className="product-list-container mt-5">
@@ -258,18 +279,32 @@ function HomeScreen() {
                             <div className="banner-container">
                                 <div className="banner-content">
                                     <h6 className='smallFonts'>SKINCARE PRODUCTS</h6>
-                                    <p className='banner-text'>Buy 1 get 2 on <span style={{fontWeight:'500'}}>selected </span><br/> products</p>
+                                    <p className='banner-text'>Buy 1 get 2 on <span style={{ fontWeight: '500' }}>selected </span><br /> products</p>
                                 </div>
-                                <img src={leftBanner} alt="Banner Left" className="img-fluid banner-img" />
+                                {leftBanners.map((leftBanner, index) => (
+                                    <img
+                                        key={index}
+                                        src={leftBanner.link}
+                                        alt={`Banner Left ${index}`}
+                                        className="img-fluid banner-img"
+                                    />
+                                ))}
                             </div>
                         </div>
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
                             <div className="banner-container">
                                 <div className="banner-content">
                                     <h6 className='smallFonts'>OUR OFFER</h6>
-                                    <p className='banner-text'>Save up to <b>70% Off</b><br/> this week </p>
+                                    <p className='banner-text'>Save up to <b>70% Off</b><br /> this week </p>
                                 </div>
-                                <img src={rightBanner} alt="Banner Right" className="img-fluid banner-img" />
+                                {rightBanners.map((rightBanner, index) => (
+                                    <img
+                                        key={index}
+                                        src={rightBanner.link}
+                                        alt={`Banner Right ${index}`}
+                                        className="img-fluid banner-img"
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
