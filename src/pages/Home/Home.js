@@ -35,8 +35,6 @@ function HomeScreen() {
 
     const leftBanners = banner && banner.filter(item => item.side === "LEFT");
     const rightBanners = banner && banner.filter(item => item.side === "RIGHT");
-
-
     useEffect(() => {
         getSlider()
         getBanners()
@@ -72,7 +70,6 @@ function HomeScreen() {
 
     function getSlider() {
         BannersServices.getSliders().then((resp) => {
-            console.log("Sliders", resp?.list)
             const transformedData = resp?.list.map(item => ({
                 id: item.id,
                 src: item.image
@@ -84,7 +81,6 @@ function HomeScreen() {
     function getBanners() {
         BannersServices.getBanners().then((resp) => {
             setBanner(resp?.list)
-            console.log("Banners", resp)
         })
     }
     function getCategoryList() {
