@@ -177,7 +177,7 @@ function HomeScreen() {
         }
     };
     function gotoShopScreen(data) {
-        navigate(`/Shop`, { state: { selectedCategory: data } })
+        navigate(`/Shop`, { state: { sorting: data } })
     }
     return (
         <div className="">
@@ -198,7 +198,7 @@ function HomeScreen() {
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-6">
                             <div className="d-flex align-items-center">
-                                <div className="mr-auto" onClick={() => gotoShopScreen(selectedCategories)}>
+                                <div className="mr-auto" onClick={() => gotoShopScreen("weekly_featured_products")}>
                                     <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
                                     <span className="ml-3 pointer-on-hover read-more">View All</span>
                                     <span className="ml-3 pointer-on-hover">
@@ -310,7 +310,7 @@ function HomeScreen() {
                     <div className='row mt-5 mb-5'>
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                <div className='mr-auto' onClick={() => gotoShopScreen("new_products")}>
                                     <h5 className="bold pointer-on-hover title d-inline">New Products</h5>
                                     <span className="ml-3 pointer-on-hover read-more">View All</span>
                                     <span className="ml-3 pointer-on-hover">
@@ -360,7 +360,7 @@ function HomeScreen() {
 
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                <div className='mr-auto' onClick={() => gotoShopScreen("products_on_sale")}>
                                     <h5 className="bold pointer-on-hover title d-inline">Products On Sale</h5>
                                     <span className="ml-3 pointer-on-hover read-more">View All</span>
                                     <span className="ml-3 pointer-on-hover">
@@ -407,7 +407,7 @@ function HomeScreen() {
                         </div>
                         <div className='col-12 col-md-4 col-lg-4'>
                             <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => navigate(`/Shop`)}>
+                                <div className='mr-auto' onClick={() => gotoShopScreen("top_rated_products")}>
                                     <h5 className="bold pointer-on-hover title d-inline">Top Rated Products</h5>
                                     <span className="ml-3 pointer-on-hover read-more">View All</span>
                                     <span className="ml-3 pointer-on-hover">

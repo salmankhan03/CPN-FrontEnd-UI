@@ -33,7 +33,7 @@ function ShopScreen() {
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
-    const [selectedSortingOption, setSelectedSortingOption] = useState();
+    const [selectedSortingOption, setSelectedSortingOption] = useState(location?.state?.sorting);
     const [maxPrice, setMaxPrice] = useState()
 
 
@@ -69,7 +69,9 @@ function ShopScreen() {
                     location?.state?.selectedCategory
                 ]);
             }, 2500);
-
+        }
+        if (location?.state?.sorting) {
+            setSelectedSortingOption(location?.state?.sorting)
         }
 
     }, [])
@@ -77,9 +79,32 @@ function ShopScreen() {
         const getselectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
         const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
         let obj = {};
-        if (selectedSortingOption) {
-            obj.sort = { price: selectedSortingOption === "low" ? "asc" : "desc" };
+        switch (selectedSortingOption) {
+            case "low":
+                obj.sort = { price: "asc" };
+                break;
+            case "high":
+                obj.sort = { price: "desc" };
+                break;
+            case "weekly_featured_products":
+                obj.sort = { "is_featured_updated_at": "DESC" };
+                break;
+            case "new_products":
+                obj.sort = { "created_at": "DESC" };
+                break;
+            case "products_on_sale":
+                obj.sort = { "sell_price_updated_at": "DESC" };
+                break;
+            case "top_rated_products":
+                obj.sort = { "ratings_updated_at": "DESC" };
+                break;
+            case "most_viewed_products":
+                obj.sort = { "visitors_counter": "DESC" };
+                break;
+            default:
+                // Handle default case if needed
         }
+        
         let data = {
             "category": selectedCategories,
             "brands": selectedBrandNames,
@@ -89,6 +114,7 @@ function ShopScreen() {
                 : filteredPrice,
             ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
         }
+        console.log("DATA", data)
         // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
         if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
             getfilterWiseProduct(data)
@@ -203,9 +229,9 @@ function ShopScreen() {
         setCurrentPage(1)
     };
     const handleSortingChange = (e) => {
-        setSelectedSortingOption(e.target.value);
+        setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
     };
-
+console.log(selectedSortingOption)
     return (
         <div className="" >
             <div className="custom-container">
@@ -248,16 +274,17 @@ function ShopScreen() {
                             <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
                                 <select
                                     id="sortingDropdown"
-                                    value={selectedSortingOption}
+                                    defaultValue={selectedSortingOption}
                                     onChange={handleSortingChange}
                                     className='select-dropdown'
                                 >
-                                    {/* <option value="default-sorting">Default sorting</option> */}
                                     <option value="low">Sort by price: low to high</option>
                                     <option value="high">Sort by price: high to low</option>
-                                    {/* <option value="date-added-asc">Sort by Date Added (Asc)</option>
-                                    <option value="date-added-desc">Sort by Date Added (Desc)</option> */}
-                                    {/* <option value="sort-by-latest">Sort by latest</option> */}
+                                    <option value="weekly_featured_products">Weekly Featured Products</option>
+                                    <option value="new_products">New Products</option>
+                                    <option value="products_on_sale">Products On Sale</option>
+                                    <option value="top_rated_products">Top Rated Products</option>
+                                    <option value="most_viewed_products">Most Viewed Products</option>
                                 </select>
                             </div>
                         </div>
