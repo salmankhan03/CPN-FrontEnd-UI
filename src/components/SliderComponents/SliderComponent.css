@@ -1,0 +1,33 @@
+.custom-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.custom-caption.text-left {
+    text-align: left;
+    transform: translateX(-50%);
+}
+
+.custom-caption.text-center {
+    text-align: center;
+}
+
+.custom-caption.text-right {
+    text-align: right;
+    transform: translateX(-50%);
+}
+
+.custom-caption h3,
+.custom-caption p,
+.custom-caption .btn {
+    margin: 0 auto;
+}
+
+/* @media only screen and (max-width: 768px) {
+    .carousel-caption{
+        
+    }      
+
+} */

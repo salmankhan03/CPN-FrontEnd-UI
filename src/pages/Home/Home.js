@@ -72,7 +72,12 @@ function HomeScreen() {
         BannersServices.getSliders().then((resp) => {
             const transformedData = resp?.list.map(item => ({
                 id: item.id,
-                src: item.image
+                src: item?.image,
+                content: item?.content,
+                heading: item?.heading,
+                button_label: item?.button_label,
+                button_url: item?.button_url,
+                position: item?.content_position
             }));
             setSlider(transformedData)
 
@@ -273,34 +278,46 @@ function HomeScreen() {
                     <div className='row mt-5 mb-5'>
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
                             <div className="banner-container">
-                                <div className="banner-content">
-                                    <h6 className='smallFonts'>SKINCARE PRODUCTS</h6>
-                                    <p className='banner-text'>Buy 1 get 2 on <span style={{ fontWeight: '500' }}>selected </span><br /> products</p>
-                                </div>
                                 {leftBanners.map((leftBanner, index) => (
-                                    <img
-                                        key={index}
-                                        src={leftBanner.link}
-                                        alt={`Banner Left ${index}`}
-                                        className="img-fluid banner-img"
-                                    />
+                                    <React.Fragment>
+                                        
+                                          <div className={`banner-container `}>
+                                            <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                                <h6 className='smallFonts'>{leftBanner?.heading}</h6>
+                                                <p className='banner-text'>{leftBanner?.content}</p>
+                                            </div>
+                                            <img
+                                                key={index}
+                                                src={leftBanner.link}
+                                                alt={`Banner Right ${index}`}
+                                                className="img-fluid banner-img"
+                                            />
+                                        </div>
+                                    </React.Fragment>
                                 ))}
                             </div>
                         </div>
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
                             <div className="banner-container">
-                                <div className="banner-content">
-                                    <h6 className='smallFonts'>OUR OFFER</h6>
-                                    <p className='banner-text'>Save up to <b>70% Off</b><br /> this week </p>
-                                </div>
-                                {rightBanners.map((rightBanner, index) => (
-                                    <img
-                                        key={index}
-                                        src={rightBanner.link}
-                                        alt={`Banner Right ${index}`}
-                                        className="img-fluid banner-img"
-                                    />
-                                ))}
+                                {rightBanners.map((rightBanner, index) =>{
+                                    console.log("right ",rightBanner)
+                                    return (
+                                    <React.Fragment>
+                                        <div className={`banner-container `}>
+                                            <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                                <h6 className='smallFonts'>{rightBanner?.heading}</h6>
+                                                <p className='banner-text'>{rightBanner?.content}</p>
+                                            </div>
+                                            <img
+                                                key={index}
+                                                src={rightBanner.link}
+                                                alt={`Banner Right ${index}`}
+                                                className="img-fluid banner-img"
+                                            />
+                                        </div>
+                                    </React.Fragment>
+
+                                )})}
                             </div>
                         </div>
                     </div>
