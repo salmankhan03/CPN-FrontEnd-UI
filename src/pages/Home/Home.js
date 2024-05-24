@@ -281,7 +281,7 @@ function HomeScreen() {
                                 {leftBanners.map((leftBanner, index) => (
                                     <React.Fragment>
                                         
-                                          <div className={`banner-container `}>
+                                          <div className={`banner-container w-100`}>
                                             <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
                                                 <h6 className='smallFonts'>{leftBanner?.heading}</h6>
                                                 <p className='banner-text'>{leftBanner?.content}</p>
@@ -303,7 +303,7 @@ function HomeScreen() {
                                     console.log("right ",rightBanner)
                                     return (
                                     <React.Fragment>
-                                        <div className={`banner-container `}>
+                                        <div className={`banner-container w-100`}>
                                             <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
                                                 <h6 className='smallFonts'>{rightBanner?.heading}</h6>
                                                 <p className='banner-text'>{rightBanner?.content}</p>
