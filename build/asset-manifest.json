@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.735e2ea4.css",
-    "main.js": "/static/js/main.1cd40b4f.js",
+    "main.css": "/static/css/main.bb7ba0ce.css",
+    "main.js": "/static/js/main.5e587e24.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/Inter-ExtraBold.ttf": "/static/media/Inter-ExtraBold.4164cfba15dbca5f37aa.ttf",
     "static/media/Inter-Medium.ttf": "/static/media/Inter-Medium.3f7acfe50aad7ad68548.ttf",
@@ -18,11 +18,11 @@
     "static/media/aboutUs.jpg": "/static/media/aboutUs.3d5f14f65b79bf9f5f57.jpg",
     "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/index.html",
-    "main.735e2ea4.css.map": "/static/css/main.735e2ea4.css.map",
-    "main.1cd40b4f.js.map": "/static/js/main.1cd40b4f.js.map"
+    "main.bb7ba0ce.css.map": "/static/css/main.bb7ba0ce.css.map",
+    "main.5e587e24.js.map": "/static/js/main.5e587e24.js.map"
   },
   "entrypoints": [
-    "static/css/main.735e2ea4.css",
-    "static/js/main.1cd40b4f.js"
+    "static/css/main.bb7ba0ce.css",
+    "static/js/main.5e587e24.js"
   ]
 }
