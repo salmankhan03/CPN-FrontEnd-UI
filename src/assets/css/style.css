@@ -861,8 +861,8 @@ section {
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: -9px;
-  left: 22px;
+  top: 15px;
+  right: 65px;
   width: 20px;
   height: 20px;
   border-radius: 50%;

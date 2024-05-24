@@ -300,7 +300,7 @@ function HomeScreen() {
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
                             <div className="banner-container">
                                 {rightBanners.map((rightBanner, index) =>{
-                                    console.log("right ",rightBanner)
+                                    
                                     return (
                                     <React.Fragment>
                                         <div className={`banner-container w-100`}>

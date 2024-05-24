@@ -27,6 +27,7 @@ import Profile from './pages/Profile/Profile'
 import NotFoundPage from './pages/NotFound/NotFound';
 
 
+
 function App() {
   const dispatch = useDispatch();
   const AuthData = useSelector(state => state.AuthReducer.userData);
@@ -99,9 +100,7 @@ function App() {
           <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
-          <Route path="*" element={<WithNavbar component={NotFoundPage} />} /> {/* Catch-all route for 404 page */}
-
-
+          <Route path="*" element={<WithNavbar component={NotFoundPage} />} /> 
         </Routes>
       </Router>
     </div>
