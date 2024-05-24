@@ -25,8 +25,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Faq from './pages/Faq/Faq';
 import Profile from './pages/Profile/Profile'
 import NotFoundPage from './pages/NotFound/NotFound';
-import BrandPage from './pages/BrandPage/BrandPage';
-import CategoryPage from './pages/CategoryPage/CategoryPage';
+
 
 
 function App() {
@@ -101,8 +100,6 @@ function App() {
           <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
-          <Route path="/category/:categoryId" element={<WithNavbar component={CategoryPage} />} /> 
-          <Route path="/brand/:brandId" element={<WithNavbar component={BrandPage} />} /> 
           <Route path="*" element={<WithNavbar component={NotFoundPage} />} /> 
         </Routes>
       </Router>

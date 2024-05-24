@@ -10,11 +10,19 @@ import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
 import CustomPagination from '../../components/PaginationComponents/Pagination';
 import { setBrandList } from '../../redux/action/brand-action';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
+import { useParams } from 'react-router-dom';
 
 function ShopScreen() {
+    // const { type, id } = useParams();
     const location = useLocation();
+    const [searchParams] = useSearchParams();
+    const name = searchParams.get('name');
+    const id = searchParams.get('id');
+    console.log("params", name, id)
+
+
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
@@ -76,6 +84,19 @@ function ShopScreen() {
 
     }, [])
     useEffect(() => {
+        if (name === "category") {
+            setSelectedCategories(prevSelectedCategories => [
+                ...prevSelectedCategories,
+                JSON.parse(id)
+            ]);
+        } else if (name === "brand") {
+            setSelectedBrands(prevSelectedBrands => [
+                ...prevSelectedBrands,
+                JSON.parse(id)
+            ]);
+        }
+    }, [name, id])
+    useEffect(() => {
         const getselectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
         const selectedBrandNames = getselectedBrands?.map(brand => brand.name);
         let obj = {};
@@ -102,29 +123,31 @@ function ShopScreen() {
                 obj.sort = { "visitors_counter": "DESC" };
                 break;
             default:
-                // Handle default case if needed
+            // Handle default case if needed
         }
-        
+        console.log("selectedCategories",selectedCategories)
+        const uniqueArray = [...new Set(selectedCategories)];
+
         let data = {
-            "category": selectedCategories,
+            "category": uniqueArray,
             "brands": selectedBrandNames,
-            // "price": filteredPrice[1] === null || filteredPrice[1] === undefined ? [0, JSON.parse(maxPrice)] :filteredPrice ,
-            "price": filteredPrice[1] === null || filteredPrice[1] === undefined
+                "price": filteredPrice[1] === null || filteredPrice[1] === undefined
                 ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
                 : filteredPrice,
             ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
         }
+       
         console.log("DATA", data)
         // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
-        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
-            getfilterWiseProduct(data)
-            setProductsListData([])
-        } else {
-            setProductsListData([])
-            getProductsList()
-        }
+            if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
+                getfilterWiseProduct(data)
+                setProductsListData([])
+            } else {
+                setProductsListData([])
+                getProductsList()
+            }
 
-    }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption])
+    }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption,])
     function getBrandList() {
         CategoryServices.getAllBrand({
             page: page,
@@ -231,7 +254,7 @@ function ShopScreen() {
     const handleSortingChange = (e) => {
         setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
     };
-console.log(selectedSortingOption)
+    console.log(selectedSortingOption)
     return (
         <div className="" >
             <div className="custom-container">
