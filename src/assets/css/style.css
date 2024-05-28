@@ -3117,7 +3117,7 @@ input:-webkit-autofill:active {
 
 .product-card {
   flex: 0 0 auto;
-  width: 350px;
+  width: 300px;
   /* Set width of each card */
   margin-right: 15px;
   /* Adjust spacing between cards */
@@ -3380,8 +3380,8 @@ text-align: center;
   object-fit: cover;
 }
 
-.top-header-hide-show {
+/* .top-header-hide-show {
   display: none;
-}
+} */
 
 

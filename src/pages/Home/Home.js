@@ -15,9 +15,43 @@ import SliderComponents from '../../components/SliderComponents/SliderComponents
 import leftBanner from "../../assets/images/bannerLeft/product-banner-01.jpg"
 import rightBanner from "../../assets/images/bannerRight/product-banner-02.jpg"
 import BannersServices from '../../services/BannersServices';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import "../../assets/css/slick.css"
 
+const useSlidesToShow = () => {
+    const [slidesToShow, setSlidesToShow] = useState(1);
+
+    const updateSlidesToShow = () => {
+        const width = window.innerWidth;
+        if(width >= 1440){
+            setSlidesToShow(4);
+        }
+        else if (width >= 992) {
+            setSlidesToShow(3);
+        } else if (width >= 768) {
+            setSlidesToShow(2);
+        } else if (width >= 576) {
+            setSlidesToShow(1);
+        } else {
+            setSlidesToShow(1);
+        }
+    };
+
+    useEffect(() => {
+        updateSlidesToShow(); // Set initial value
+        window.addEventListener('resize', updateSlidesToShow);
+        return () => {
+            window.removeEventListener('resize', updateSlidesToShow);
+        };
+    }, []);
+
+    return slidesToShow;
+};
 
 function HomeScreen() {
+
     const [selectedCategories, setSelectedCategories] = useState(null);
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
@@ -25,16 +59,54 @@ function HomeScreen() {
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const dispatch = useDispatch();
     const [categoriesData, setCategoriesData] = useState();
-    const [weeklyProductsList, setWeeklyProductsList] = useState()
+    const [weeklyProductsList, setWeeklyProductsList] = useState([])
     const [customProductsData, setCustomProductsData] = useState()
     const [slider, setSlider] = useState([])
     const [banner, setBanner] = useState([])
-
     const scrollContainerRef = useRef(null);
     const [cardsPerRow, setCardsPerRow] = useState(3);
 
     const leftBanners = banner && banner.filter(item => item.side === "LEFT");
     const rightBanners = banner && banner.filter(item => item.side === "RIGHT");
+    const slidesToShow = Math.min(weeklyProductsList?.length, useSlidesToShow());
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: slidesToShow,
+        slidesToScroll: 1,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: slidesToShow,
+                    slidesToScroll: 1,
+                    arrows: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: Math.min(weeklyProductsList?.length, 2),
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+        ],
+    };
+
+
+
+
     useEffect(() => {
         getSlider()
         getBanners()
@@ -88,6 +160,19 @@ function HomeScreen() {
             setBanner(resp?.list)
         })
     }
+    const addViewAllCategory = (data) => {
+        return [
+            {
+                id: 0,
+                name: "View All",
+                description: "ALL types of Sports equipments",
+                status: "show",
+                children: [],
+                category_image: []
+            },
+            ...data
+        ];
+    };
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
@@ -99,7 +184,10 @@ function HomeScreen() {
                 dispatch(setCategoryList([
                     ...resp?.tree?.data
                 ]))
-                setCategoriesData(resp?.tree?.data)
+                const categories = Array.isArray(resp?.tree?.data) ? resp.tree.data : [];
+                const updatedCategories = addViewAllCategory(categories);
+                setCategoriesData(updatedCategories);
+
             }
         }).catch((error) => {
             // setLoading(false)
@@ -164,26 +252,12 @@ function HomeScreen() {
     }
 
 
-    const handleScrollLeft = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({
-                left: -100 / cardsPerRow - 1,
-                behavior: 'smooth'
-            });
-        }
-    };
 
-    const handleScrollRight = () => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollBy({
-                left: 100 / cardsPerRow - 1,
-                behavior: 'smooth'
-            });
-        }
-    };
     function gotoShopScreen(data) {
         navigate(`/Shop`, { state: { sorting: data } })
     }
+
+
     return (
         <div className="">
             <div className="row" style={{ margin: 0 }}>
@@ -201,7 +275,7 @@ function HomeScreen() {
             <div className='custom-container'>
                 <div className="product-list-container mt-5">
                     <div className="row">
-                        <div className="col-12 col-md-6 col-lg-6">
+                        <div className="col-12 col-md-12 col-lg-12">
                             <div className="d-flex align-items-center">
                                 <div className="mr-auto" onClick={() => gotoShopScreen("weekly_featured_products")}>
                                     <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
@@ -212,8 +286,8 @@ function HomeScreen() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 col-md-6 col-lg-6">
-                            <div className="text-md-right">
+                        {/* <div className="col-12 col-md-6 col-lg-6">
+                           <div className="text-md-right">
                                 <span className="circle" onClick={handleScrollRight}>
                                     <i className="fa fa-chevron-right blackColor fontSize10" aria-hidden="true" style={{ lineHeight: '30px' }}></i>
                                 </span>
@@ -221,7 +295,7 @@ function HomeScreen() {
                                     <i className="fa fa-chevron-left blackColor fontSize10" style={{ lineHeight: '30px', }} aria-hidden="true"></i>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="mt-2" style={{ overflowX: 'auto' }}>
                         <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
@@ -236,36 +310,38 @@ function HomeScreen() {
                             ))}
                         </div>
                     </div>
-                    <div className="mt-3 horizontal-product-display" ref={scrollContainerRef}>
+                    <div className="mt-3">
                         {weeklyProductsList?.length > 0 ? (
-                            //style={{ flexWrap: 'nowrap' }}
-                            <div className="product-list" >
-                                {weeklyProductsList?.map((product, index) => (
-                                    <div key={index} className="product-card p-4"
-                                        onClick={() => navigate(`/products-details/${product.id}`, { state: { id: product.id } })}
-                                        style={{ width: `${100 / cardsPerRow - 2}% `, margin: '1%' }}>
-
-                                        <div className="product-details">
-                                            <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, 70)}</h3>
-                                            <div className="product_image mb-3">
-                                                {product.images[0]?.name ? (
-                                                    <ImageComponent src={product.images[0]?.name} alt="products Image" />
-                                                ) : (
-                                                    <p className='inter-medium-fonts'>Image not available</p>
-                                                )}
-                                            </div>
-                                            <div className="d-flex mt-2 justify-content-between">
-                                                <div className='priceLabel'>${product?.sell_price}</div>
-                                                <div>
-                                                    <span className="circle" onClick={(event) => addToCart(event, product)}>
-                                                        <i className="fas fa-shopping-bag mt-2"></i>
-                                                    </span>
+                            <div className="" >
+                                <Slider {...settings}>
+                                    {weeklyProductsList.map((category, index) => {
+                                        // console.log("category",category)
+                                        return (
+                                            <div key={index} className=""
+                                                onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                                                <div className="product-details category-item product-card p-4 m-2">
+                                                    <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
+                                                    <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
+                                                    <div className="product_image mb-3">
+                                                        {category?.images[0]?.name ? (
+                                                            <ImageComponent src={category?.images[0]?.name} alt="products Image" />
+                                                        ) : (
+                                                            <p className='inter-medium-fonts'>Image not available</p>
+                                                        )}
+                                                    </div>
+                                                    <div className="d-flex mt-2 justify-content-between">
+                                                        <div className='priceLabel'>${category?.sell_price}</div>
+                                                        <div>
+                                                            <span className="circle" onClick={(event) => addToCart(event, category)}>
+                                                                <i className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                ))}
+                                        )
+                                    })}
+                                </Slider>
                             </div>
                         ) : (
                             <div className='d-flex justify-content-center'>
@@ -279,9 +355,8 @@ function HomeScreen() {
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
                             <div className="banner-container">
                                 {leftBanners.map((leftBanner, index) => (
-                                    <React.Fragment>
-                                        
-                                          <div className={`banner-container w-100`}>
+                                    <React.Fragment key={index}>
+                                        <div className={`banner-container w-100`}>
                                             <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
                                                 <h6 className='smallFonts'>{leftBanner?.heading}</h6>
                                                 <p className='banner-text'>{leftBanner?.content}</p>
@@ -299,25 +374,26 @@ function HomeScreen() {
                         </div>
                         <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
                             <div className="banner-container">
-                                {rightBanners.map((rightBanner, index) =>{
-                                    
-                                    return (
-                                    <React.Fragment>
-                                        <div className={`banner-container w-100`}>
-                                            <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
-                                                <h6 className='smallFonts'>{rightBanner?.heading}</h6>
-                                                <p className='banner-text'>{rightBanner?.content}</p>
-                                            </div>
-                                            <img
-                                                key={index}
-                                                src={rightBanner.link}
-                                                alt={`Banner Right ${index}`}
-                                                className="img-fluid banner-img"
-                                            />
-                                        </div>
-                                    </React.Fragment>
+                                {rightBanners.map((rightBanner, index) => {
 
-                                )})}
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <div className={`banner-container w-100`}>
+                                                <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                                    <h6 className='smallFonts'>{rightBanner?.heading}</h6>
+                                                    <p className='banner-text'>{rightBanner?.content}</p>
+                                                </div>
+                                                <img
+                                                    key={index}
+                                                    src={rightBanner.link}
+                                                    alt={`Banner Right ${index}`}
+                                                    className="img-fluid banner-img"
+                                                />
+                                            </div>
+                                        </React.Fragment>
+
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
