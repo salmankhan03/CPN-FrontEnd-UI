@@ -39,6 +39,7 @@ header {
   background-color: #FFF;
   color: #fff;
   padding: 10px 20px;
+  transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 .bottomHeaderBG{
   background-color: #415da1 !important;
@@ -174,6 +175,10 @@ header {
   line-height: 1.78;
   color: #696969;
 }
+.top-header-hide-show {
+  display: none;
+}
+
 
 @media screen and (max-width: 768px) {
   .dropdown {
@@ -202,6 +207,12 @@ header {
   }
   
 }
+@media (min-width: 769px) {
+  .displaynone{
+    display: none !important;
+  }
+  
+}
 
 @media (max-width: 767px) {
   .hide-div {
@@ -212,5 +223,11 @@ header {
   }
   .logo{
     max-width: 200px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .mobileMenu{
+    display: block;
   }
 }
