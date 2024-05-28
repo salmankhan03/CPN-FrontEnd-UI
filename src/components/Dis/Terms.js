@@ -11,7 +11,7 @@ const TermsAndCondition = () => {
                     </div>
                 </div>
                 <div className='mt-3'>
-                    <p class="font-weight-bold" >TERMS OF USE</p>
+                    <p className="font-weight-bold" >TERMS OF USE</p>
                     <p>
                         Canadian Pinnacle Nutritech Inc. works hard to ensure that you have great places to research sports nutrition products and the lifestyles related to them. Canadian Pinnacle Nutritech Inc. is proud of its online efforts and is committed to maintaining the highest standards possible. This Terms of Use document allows our valued customers to feel comfortable knowing that Canadian Pinnacle Nutritech Inc. recognizes and supports the rights of responsible users.
                     </p>

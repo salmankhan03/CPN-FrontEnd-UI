@@ -19,7 +19,7 @@ function RatingComponents({ rating,showReviewCount }) {
          {renderRatingStars(rating)}
          {showReviewCount ?(
          <span className="pl-3"> 
-         <i class="fa fa-angle-down" aria-hidden="true"></i> 78
+         <i className="fa fa-angle-down" aria-hidden="true"></i> 78
      </span>):null} 
       </div>
     );

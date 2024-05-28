@@ -397,7 +397,7 @@ function ProductDetails() {
                                                         <div className="row">
                                                             <div className="col-lg-1 col-2">
                                                                 <button className="prev-button prev-next-button" onClick={handlePrev} disabled={startIndex === 0}>
-                                                                    <i class="fa fa-angle-double-left p-2"></i>
+                                                                    <i className="fa fa-angle-double-left p-2"></i>
                                                                 </button>
                                                             </div>
                                                             <div className="col-lg-10 col-8">
@@ -420,7 +420,7 @@ function ProductDetails() {
                                                             <div className="col-lg-1 col-2">
 
                                                                 <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData?.variants?.length - 4}>
-                                                                    <i class="fa fa-angle-double-right p-2"></i>
+                                                                    <i className="fa fa-angle-double-right p-2"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
