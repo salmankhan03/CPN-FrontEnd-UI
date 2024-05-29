@@ -401,50 +401,45 @@ function HomeScreen() {
                             </div>
                         </div>
                         <div className="mt-3">
-                          
-                               { weekly_featured_products_loader ? (
-                                    <div className='d-flex justify-content-center'>
-                                        <Loading loading={weekly_featured_products_loader} />
-                                    </div>
-                                ) : (
-                                    weeklyProductsList?.length > 0 ? (
-                                        <div className="" >
-                                            <Slider {...settings}>
-                                                {weeklyProductsList.map((category, index) => {
-                                                    return (
-                                                        <div key={index} className=""
-                                                            onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
-                                                            <div className="product-details category-item product-card p-4 m-2">
-                                                                <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
-                                                                <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
-                                                                <div className="product_image mb-3">
-                                                                    {category?.images[0]?.name ? (
-                                                                        <ImageComponent src={category?.images[0]?.name} alt="products Image" />
-                                                                    ) : (
-                                                                        <p className='inter-medium-fonts'>Image not available</p>
-                                                                    )}
-                                                                </div>
-                                                                <div className="d-flex mt-2 justify-content-between">
-                                                                    <div className='priceLabel'>${category?.sell_price}</div>
-                                                                    <div>
-                                                                        <span className="circle" onClick={(event) => addToCart(event, category)}>
-                                                                            <i className="fas fa-shopping-bag mt-2"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
+
+                            {weekly_featured_products_loader ? (
+                                <div className='d-flex justify-content-center'>
+                                    <Loading loading={weekly_featured_products_loader} />
+                                </div>
+                            ) : (
+                                weeklyProductsList?.length > 0 ? (
+                                    <div className="" >
+                                        <Slider {...settings}>
+                                            {weeklyProductsList.map((category, index) => (
+                                                <div key={index} className="product-slide" onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                                                    <div className="product-details category-item product-card p-4 m-2">
+                                                        <p className="brandLabel inter-medium-fonts">{category?.brand}</p>
+                                                        <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
+                                                        <div className="product_image mb-3">
+                                                            {category?.images[0]?.name ? (
+                                                                <ImageComponent src={category?.images[0]?.name} alt="products Image" />
+                                                            ) : (
+                                                                <p className="inter-medium-fonts">Image not available</p>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex mt-2 justify-content-between">
+                                                            <div className="priceLabel">${category?.sell_price}</div>
+                                                            <div>
+                                                                <span className="circle" onClick={(event) => addToCart(event, category)}>
+                                                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                    )
-                                                })}
-                                            </Slider>
-                                        </div>
-                                    ) : (
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </Slider>
+                                    </div>
+                                ) : (
                                     <div className='d-flex justify-content-center'>
                                         <h4 className='text-center inter-medium-fonts'>No products available</h4>
                                     </div>
                                 )
-
-
                             )}
                         </div>
                     </div>
@@ -468,7 +463,7 @@ function HomeScreen() {
                                     <Banner banners={rightBanners} />
                                 )}
                             </div>
-                        </div>            
+                        </div>
                     </div>
                     <div className='mt-5'>
                         <div className='row mt-5 mb-5'>
