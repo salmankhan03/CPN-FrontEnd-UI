@@ -1,13 +1,13 @@
-  import React, { useState, useEffect } from 'react';
-  import { Link } from "react-router-dom";
-  import ImageComponent from '../ImageComponents/ImageComponents';
-  // import logo from "../../assets/images/logo.png"
-  import logo from "../../assets/images/logo/logo_top.png"
-  import { useSelector } from 'react-redux';
-  import './HeaderComponents.css';
-  import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
+import ImageComponent from '../ImageComponents/ImageComponents';
+// import logo from "../../assets/images/logo.png"
+import logo from "../../assets/images/logo/logo_top.png"
+import { useSelector } from 'react-redux';
+import './HeaderComponents.css';
+import styled from "styled-components";
 
-  const StyledHeader = styled.header`
+const StyledHeader = styled.header`
     background-color: #fff  ;
     width: 100%;
     padding: 10px 12px 8px 12px;
@@ -47,7 +47,7 @@
       }
     }
   `;
-  const NavManu = styled.ul`
+const NavManu = styled.ul`
     list-style: none;
     display: flex;
     margin-bottom:0px;
@@ -93,60 +93,58 @@
     }
   `;
 
-  function Header() {
-    const [isToggleOpen, setIsToggleOpen] = useState(false);
-    const [isEllipsisToggleOpen, setIsEllipsisToggleOpen] = useState(false);
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const cartItems = useSelector(state => state.CartReducer.cartItems);
-    const [isOpen, setIsOpen] = useState(false);
-    const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
+function Header() {
+  const [isToggleOpen, setIsToggleOpen] = useState(false);
+  const [isEllipsisToggleOpen, setIsEllipsisToggleOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const cartItems = useSelector(state => state.CartReducer.cartItems);
+  const [isOpen, setIsOpen] = useState(false);
+  const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
 
-    useEffect(() => {
-      const handleScroll = () => {
-        setScrollPosition(window.scrollY);
-      };
-
-      window.addEventListener('scroll', handleScroll);
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }, []);
-    const toggleDropdown = () => {
-      setIsOpen(!isOpen);
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
     };
-    const toggleBrowseCategoryDropdown = () => {
-      setBrowseCategoryIsOpen(!browseCategoryIsOpen);
-    };
-    const handleToggleOpen = () => {
-      setIsToggleOpen(!isToggleOpen);
-      setIsEllipsisToggleOpen(false);
 
-    };
-    const handleEllipsisToggleOpen = () => {
-      setIsToggleOpen(false);
-      setIsEllipsisToggleOpen(!isEllipsisToggleOpen);
-    };
-    return (
+    window.addEventListener('scroll', handleScroll);
 
-      <header className=''>
-        {/* <div className="header-content-top "> */}
-        <div className={`header-content-top  hide-div ${scrollPosition > 0 ? 'top-header-hide-show' : ''}`}>
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const toggleBrowseCategoryDropdown = () => {
+    setBrowseCategoryIsOpen(!browseCategoryIsOpen);
+  };
+  const handleToggleOpen = () => {
+    setIsToggleOpen(!isToggleOpen);
+    setIsEllipsisToggleOpen(false);
 
-          <div className="left-content">
-            {/* <span className='topBarFonts'>
-              (00)0000-0000
-            </span>
-            <span className='topBarFonts ml-2'>|</span>
-            <span className='ml-3 ml-md-2 topBarFonts'>
-              Store Location
-            </span> */}
-          </div>
-          <div className="middle-content">
-            <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
-          </div>
-          <div className="right-content">
-            {/* <div className="language-dropdown ml-3 ml-md-2">
+  };
+  const handleEllipsisToggleOpen = () => {
+    setIsToggleOpen(false);
+    setIsEllipsisToggleOpen(!isEllipsisToggleOpen);
+  };
+  return (
+    <div>
+      <div className={`header-content-top  hide-div `}>
+
+        <div className="left-content">
+          {/* <span className='topBarFonts'>
+            (00)0000-0000
+          </span>
+          <span className='topBarFonts ml-2'>|</span>
+          <span className='ml-3 ml-md-2 topBarFonts'>
+            Store Location
+          </span> */}
+        </div>
+        <div className="middle-content">
+          <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
+        </div>
+        <div className="right-content">
+          {/* <div className="language-dropdown ml-3 ml-md-2">
               <select className='cutom-dropdown topBarFonts'>
                 <option className="custom-option" value="en">English</option>
                 <option className="custom-option" value="es">Spanish</option>
@@ -154,10 +152,12 @@
               </select>
             </div>
             <span className='ml-3 ml-md-1'> |<span className='ml-2 ml-md-2 topBarFonts'>Login / Sign Up</span></span> */}
-          </div>
         </div>
-        <div className="">
-          <header className='PrimaryBGColor'>
+      </div>
+      <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
+        {/* <div className="header-content-top "> */}
+        <div className="PrimaryBGColor">
+          {/* <header className='PrimaryBGColor'> */}
             {/* <div className="header-content-top pt-4 pb-4">
               <div className="left-content">
                 <Link to="/">
@@ -326,12 +326,13 @@
                 </div>
               </div>
             </nav>
-          </header>
+          {/* </header> */}
 
         </div>
 
       </header>
-    );
-  }
+    </div>
+  );
+}
 
-  export default Header;
+export default Header;
