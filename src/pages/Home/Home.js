@@ -1,7 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import banner1 from "../../assets/images/banner/banner1.jpg";
-import banner2 from "../../assets/images/banner/banner2.jpg";
-import banner3 from "../../assets/images/banner/banner3.jpg";
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
@@ -12,20 +9,23 @@ import { setCategoryList } from '../../redux/action/category-action';
 import CategoryServices from '../../services/categoryService';
 import ProductServices from '../../services/ProductServices';
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
-import leftBanner from "../../assets/images/bannerLeft/product-banner-01.jpg"
-import rightBanner from "../../assets/images/bannerRight/product-banner-02.jpg"
 import BannersServices from '../../services/BannersServices';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import "../../assets/css/slick.css"
+import Loading from '../../components/LoadingComponents/LoadingComponents';
+import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
 
     const updateSlidesToShow = () => {
         const width = window.innerWidth;
-        if(width >= 1440){
+        if (width >= 1680) {
+            setSlidesToShow(5);
+        }
+        else if (width >= 1440) {
             setSlidesToShow(4);
         }
         else if (width >= 992) {
@@ -63,8 +63,14 @@ function HomeScreen() {
     const [customProductsData, setCustomProductsData] = useState()
     const [slider, setSlider] = useState([])
     const [banner, setBanner] = useState([])
-    const scrollContainerRef = useRef(null);
-    const [cardsPerRow, setCardsPerRow] = useState(3);
+    const [weekly_featured_products_loader, setWeekly_featured_products_loader] = useState(false)
+    const [custom_products_loader, setCustom_products_loader] = useState(false)
+    const [slider_loader, setSlider_loader] = useState(false)
+    const [banner_loader, setBanner_loader] = useState(false)
+    const [loading, setLoading] = useState(true);
+
+
+
 
     const leftBanners = banner && banner.filter(item => item.side === "LEFT");
     const rightBanners = banner && banner.filter(item => item.side === "RIGHT");
@@ -103,40 +109,27 @@ function HomeScreen() {
             },
         ],
     };
-
-
-
-
     useEffect(() => {
-        getSlider()
-        getBanners()
-        getCategoryList()
-        getCategoryWiseWeeklyProducts()
-        getCustomProductsList()
-        // getBrandList()
-        // getPriceFilter()
-
-        const updateCardsPerRow = () => {
-            const screenWidth = window.innerWidth;
-            if (screenWidth >= 1441) {
-                setCardsPerRow(4);
-            }
-            else if (screenWidth >= 1024) {
-                setCardsPerRow(3);
-            } else if (screenWidth >= 768) {
-                setCardsPerRow(2);
-            } else {
-                setCardsPerRow(1);
-            }
-        };
-
-        updateCardsPerRow();
-        window.addEventListener('resize', updateCardsPerRow);
-
-        return () => {
-            window.removeEventListener('resize', updateCardsPerRow);
-        };
+        fetchData();
     }, []);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            await Promise.all([
+                getSlider(),
+                getBanners(),
+                getCategoryList(),
+                getCategoryWiseWeeklyProducts(),
+                getCustomProductsList()
+            ]);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     // Cards
 
@@ -158,6 +151,7 @@ function HomeScreen() {
     function getBanners() {
         BannersServices.getBanners().then((resp) => {
             setBanner(resp?.list)
+
         })
     }
     const addViewAllCategory = (data) => {
@@ -195,6 +189,7 @@ function HomeScreen() {
         })
     }
     function getCategoryWiseWeeklyProducts(data) {
+        setWeekly_featured_products_loader(true)
         ProductServices.getWeeklyProducts({
             page: page,
             limit: defaultLimit,
@@ -202,16 +197,19 @@ function HomeScreen() {
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 setWeeklyProductsList(resp?.list)
+                setWeekly_featured_products_loader(false)
             }
         }).catch((error) => {
             console.log(error)
         })
     }
     async function getCustomProductsList() {
+        setCustom_products_loader(true)
         await ProductServices.getDashboardProductslist().then((resp) => {
             if (resp?.status_code === 200) {
                 console.log(resp)
                 setCustomProductsData(resp?.list)
+                setCustom_products_loader(false)
             }
         }).catch((error) => {
 
@@ -257,36 +255,111 @@ function HomeScreen() {
         navigate(`/Shop`, { state: { sorting: data } })
     }
 
+    const ProductSection = ({ title, products, category, truncateLength, loader }) => {
+        // if (loader) {
+        //     return (
+        //         <div className=''>
+        //             <Loading loading={loader} />
+        //         </div>
+        //     );
+        // }
+        console.log("loa", loader)
+        return (
+            <div className='col-12 col-md-4 col-lg-4'>
+                <div className='d-flex align-items-center'>
+                    <div className='mr-auto' onClick={() => gotoShopScreen(category)}>
+                        <div className="bold pointer-on-hover title d-inline" style={{ fontWeight: 'bold', fontSize: 'larger' }}>
+                            {title}
+                        </div>
+                        <span className="ml-3 pointer-on-hover read-more">View All</span>
+                        <span className="ml-3 pointer-on-hover">
+                            <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15, minHeight: 200 }}>
+                    {loader ? (
+                        <div className='d-flex justify-content-center'>
+                            <Loading loading={true} />
+                            {/* <div>HELLO </div> */}
+                        </div>
+                    ) : (
+                        products?.slice(0, 3).map((product, index) => (
+                            <div className='m-3' key={index} onClick={() =>
+                                navigate(`/products-details/${product.id}`, {
+                                    state: {
+                                        id: product.id
+                                    }
+                                })
+                            }>
+                                <div className='row' style={{ maxHeight: 450 }}>
+                                    <div className='col-12 col-md-12 col-lg-5'>
+                                        <div className="product_image">
+                                            {product.images[0]?.name ? (
+                                                <ImageComponent src={product.images[0]?.name} alt={"products Image"} />
+                                            ) : (
+                                                <p>Image not available</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+                                        <div className='text-left w-100'>
+                                            <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
+                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, truncateLength)}</h3>
+                                            <div className="d-flex mt-1 justify-content-between align-items-center w-100">
+                                                <div className='priceLabel'>${product?.sell_price}</div>
+                                                <div>
+                                                    <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+                                                        <i className="fas fa-shopping-bag mt-2"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {index < products.length - 1 && <hr />}
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    if (loading) {
+        return <SpinnerLoading loading={loading}/>
+    }
 
     return (
         <div className="">
-            <div className="row" style={{ margin: 0 }}>
-                <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
-                    {slider?.length > 0 ? (
-                        <SliderComponents banners={slider} />
-                    ) : null}
-                </div>
-                {/* <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
+            <React.Fragment>
+                <div className="row" style={{ margin: 0 }}>
+                    <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
+                        {slider?.length > 0 ? (
+                            <SliderComponents banners={slider} />
+                        ) : null}
+                    </div>
+                    {/* <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
                     <div className='m-2'>
                         <ImageComponent src={banner3} alt={`Slide`} classAtribute="slider-image d-block w-100" />
                     </div>
                 </div> */}
-            </div>
-            <div className='custom-container'>
-                <div className="product-list-container mt-5">
-                    <div className="row">
-                        <div className="col-12 col-md-12 col-lg-12">
-                            <div className="d-flex align-items-center">
-                                <div className="mr-auto" onClick={() => gotoShopScreen("weekly_featured_products")}>
-                                    <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
-                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
-                                    <span className="ml-3 pointer-on-hover">
-                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                                    </span>
+                </div>
+                <div className='custom-container'>
+                    <div className="product-list-container mt-5">
+                        <div className="row">
+                            <div className="col-12 col-md-12 col-lg-12">
+                                <div className="d-flex align-items-center">
+                                    <div className="mr-auto" onClick={() => gotoShopScreen("weekly_featured_products")}>
+                                        <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
+                                        <span className="ml-3 pointer-on-hover read-more">View All</span>
+                                        <span className="ml-3 pointer-on-hover">
+                                            <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {/* <div className="col-12 col-md-6 col-lg-6">
+                            {/* <div className="col-12 col-md-6 col-lg-6">
                            <div className="text-md-right">
                                 <span className="circle" onClick={handleScrollRight}>
                                     <i className="fa fa-chevron-right blackColor fontSize10" aria-hidden="true" style={{ lineHeight: '30px' }}></i>
@@ -296,265 +369,150 @@ function HomeScreen() {
                                 </span>
                             </div>
                         </div> */}
-                    </div>
-                    <div className="mt-2" style={{ overflowX: 'auto' }}>
-                        <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
-                            {categoriesData?.map((data) => (
-                                <div
-                                    key={data.id}
-                                    className={`customBtn pointer-on-hover mt-3 mb-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
-                                    onClick={() => handleItemClick(data.id)}
-                                >
-                                    {data.name}
-                                </div>
-                            ))}
                         </div>
-                    </div>
-                    <div className="mt-3">
-                        {weeklyProductsList?.length > 0 ? (
-                            <div className="" >
-                                <Slider {...settings}>
-                                    {weeklyProductsList.map((category, index) => {
-                                        // console.log("category",category)
-                                        return (
-                                            <div key={index} className=""
-                                                onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
-                                                <div className="product-details category-item product-card p-4 m-2">
-                                                    <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
-                                                    <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
-                                                    <div className="product_image mb-3">
-                                                        {category?.images[0]?.name ? (
-                                                            <ImageComponent src={category?.images[0]?.name} alt="products Image" />
-                                                        ) : (
-                                                            <p className='inter-medium-fonts'>Image not available</p>
-                                                        )}
-                                                    </div>
-                                                    <div className="d-flex mt-2 justify-content-between">
-                                                        <div className='priceLabel'>${category?.sell_price}</div>
-                                                        <div>
-                                                            <span className="circle" onClick={(event) => addToCart(event, category)}>
-                                                                <i className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    })}
-                                </Slider>
-                            </div>
-                        ) : (
-                            <div className='d-flex justify-content-center'>
-                                <h4 className='text-center inter-medium-fonts'>No products available</h4>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className='mt-5'>
-                    <div className='row mt-5 mb-5'>
-                        <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
-                            <div className="banner-container">
-                                {leftBanners.map((leftBanner, index) => (
-                                    <React.Fragment key={index}>
-                                        <div className={`banner-container w-100`}>
-                                            <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
-                                                <h6 className='smallFonts'>{leftBanner?.heading}</h6>
-                                                <p className='banner-text'>{leftBanner?.content}</p>
-                                            </div>
-                                            <img
-                                                key={index}
-                                                src={leftBanner.link}
-                                                alt={`Banner Right ${index}`}
-                                                className="img-fluid banner-img"
-                                            />
-                                        </div>
-                                    </React.Fragment>
+                        <div className="mt-2" style={{ overflowX: 'auto' }}>
+                            <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
+                                {categoriesData?.map((data) => (
+                                    <div
+                                        key={data.id}
+                                        className={`customBtn pointer-on-hover mt-3 mb-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
+                                        onClick={() => handleItemClick(data.id)}
+                                    >
+                                        {data.name}
+                                    </div>
                                 ))}
                             </div>
                         </div>
-                        <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
-                            <div className="banner-container">
-                                {rightBanners.map((rightBanner, index) => {
+                        <div className="mt-3">
+                            {weeklyProductsList?.length > 0 ? (
+                                <div className="" >
+                                    <Slider {...settings}>
+                                        {weeklyProductsList.map((category, index) => {
+                                            return (
+                                                <div key={index} className=""
+                                                    onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                                                    <div className="product-details category-item product-card p-4 m-2">
+                                                        <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
+                                                        <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
+                                                        <div className="product_image mb-3">
+                                                            {category?.images[0]?.name ? (
+                                                                <ImageComponent src={category?.images[0]?.name} alt="products Image" />
+                                                            ) : (
+                                                                <p className='inter-medium-fonts'>Image not available</p>
+                                                            )}
+                                                        </div>
+                                                        <div className="d-flex mt-2 justify-content-between">
+                                                            <div className='priceLabel'>${category?.sell_price}</div>
+                                                            <div>
+                                                                <span className="circle" onClick={(event) => addToCart(event, category)}>
+                                                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </Slider>
+                                </div>
+                            ) : (
+                                weekly_featured_products_loader ? (
+                                    <div className='d-flex justify-content-center'>
+                                        <Loading loading={weekly_featured_products_loader} />
+                                    </div>
+                                ) : (
+                                    <div className='d-flex justify-content-center'>
+                                        <h4 className='text-center inter-medium-fonts'>No products available</h4>
+                                    </div>
+                                )
 
-                                    return (
+
+                            )}
+                        </div>
+                    </div>
+                    <div className='mt-5'>
+                        <div className='row mt-5 mb-5'>
+                            <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
+                                <div className="banner-container">
+                                    {leftBanners.map((leftBanner, index) => (
                                         <React.Fragment key={index}>
                                             <div className={`banner-container w-100`}>
-                                                <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
-                                                    <h6 className='smallFonts'>{rightBanner?.heading}</h6>
-                                                    <p className='banner-text'>{rightBanner?.content}</p>
+                                                <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                                    <h6 className='smallFonts'>{leftBanner?.heading}</h6>
+                                                    <p className='banner-text'>{leftBanner?.content}</p>
                                                 </div>
                                                 <img
                                                     key={index}
-                                                    src={rightBanner.link}
+                                                    src={leftBanner.link}
                                                     alt={`Banner Right ${index}`}
                                                     className="img-fluid banner-img"
                                                 />
                                             </div>
                                         </React.Fragment>
-
-                                    )
-                                })}
+                                    ))}
+                                </div>
                             </div>
+                            <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
+                                <div className="banner-container">
+                                    {rightBanners.map((rightBanner, index) => {
+
+                                        return (
+                                            <React.Fragment key={index}>
+                                                <div className={`banner-container w-100`}>
+                                                    <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                                        <h6 className='smallFonts'>{rightBanner?.heading}</h6>
+                                                        <p className='banner-text'>{rightBanner?.content}</p>
+                                                    </div>
+                                                    <img
+                                                        key={index}
+                                                        src={rightBanner.link}
+                                                        alt={`Banner Right ${index}`}
+                                                        className="img-fluid banner-img"
+                                                    />
+                                                </div>
+                                            </React.Fragment>
+
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className='mt-5'>
+                        <div className='row mt-5 mb-5'>
+                            <ProductSection
+                                title="New Products"
+                                products={[]}
+                                category="new_products"
+                                truncateLength={70}
+                                loader={true}
+
+                            />
+                            <ProductSection
+                                title="Products On Sale"
+                                products={[]}
+                                // products={customProductsData?.productsOnSale?.slice(0, 3)}
+                                category="products_on_sale"
+                                truncateLength={50}
+                                loader={true}
+                            />
+                            <ProductSection
+                                title="Top Rated Products"
+                                products={[]}
+                                // products={customProductsData?.topRatedProducts?.slice(0, 3)}
+                                category="top_rated_products"
+                                truncateLength={50}
+                                loader={true}
+
+                            />
                         </div>
                     </div>
-
                 </div>
-                <div className='mt-5'>
-                    <div className='row mt-5 mb-5'>
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => gotoShopScreen("new_products")}>
-                                    <h5 className="bold pointer-on-hover title d-inline">New Products</h5>
-                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
-                                    <span className="ml-3 pointer-on-hover">
-                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {customProductsData?.newProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' key={index} onClick={() =>
-                                        navigate(`/products-details/${product.id}`, {
-                                            state: {
-                                                id: product.id
-                                            }
-                                        })
-                                    }  >
-                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
-                                            <div className='col-12 col-md-12 col-lg-5'>
-                                                <div className="product_image">
-                                                    {product.images[0]?.name ? (
-                                                        <ImageComponent src={product.images[0]?.name} alt={"products Image"} />) : (
-                                                        <p>Image not available</p>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
-                                                <div>
-                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 70)}</h3>
-                                                    <div className="d-flex mt-1 justify-content-between align-items-center">
-                                                        <div className='priceLabel'>${product?.sell_price}</div>
-                                                        <div>
-                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                                <i className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <hr className='' />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => gotoShopScreen("products_on_sale")}>
-                                    <h5 className="bold pointer-on-hover title d-inline">Products On Sale</h5>
-                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
-                                    <span className="ml-3 pointer-on-hover">
-                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {customProductsData?.productsOnSale?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' key={index} onClick={() =>
-                                        navigate(`/products-details/${product.id}`, {
-                                            state: {
-                                                id: product.id
-                                            }
-                                        })
-                                    } >
-                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
-                                            <div className='col-12 col-md-12 col-lg-5'>
-                                                <div className="product_image">
-                                                    {product.images[0]?.name ? (
-                                                        <ImageComponent src={product.images[0]?.name} alt={"products Image"} />) : (
-                                                        <p>Image not available</p>
-                                                    )}
-                                                </div>                                            </div>
-                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
-                                                <div>
-                                                    <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
-                                                    <div className="d-flex mt-2 justify-content-between">
-                                                        <div className='priceLabel'>${product?.sell_price}</div>
-                                                        <div>
-                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                                <i className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr className='' />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className='col-12 col-md-4 col-lg-4'>
-                            <div className='d-flex align-items-center'>
-                                <div className='mr-auto' onClick={() => gotoShopScreen("top_rated_products")}>
-                                    <h5 className="bold pointer-on-hover title d-inline">Top Rated Products</h5>
-                                    <span className="ml-3 pointer-on-hover read-more">View All</span>
-                                    <span className="ml-3 pointer-on-hover">
-                                        <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                                    </span>
-
-                                </div>
-                            </div>
-                            <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15 }}>
-                                {customProductsData?.topRatedProducts?.slice(0, 3).map((product, index) => (
-                                    <div className='m-3' key={index} onClick={() =>
-                                        navigate(`/products-details/${product.id}`, {
-                                            state: {
-                                                id: product.id
-                                            }
-                                        })
-                                    } >
-                                        <div className='row' key={index} style={{ maxHeight: 450 }}>
-                                            <div className='col-12 col-md-12 col-lg-5'>
-                                                <div className="product_image">
-                                                    {product.images[0]?.name ? (
-                                                        <ImageComponent src={product.images[0]?.name} alt={"products Image"} />) : (
-                                                        <p>Image not available</p>
-                                                    )}
-                                                </div>                                            </div>
-                                            <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
-                                                <div>                                                <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                                    <h3 className="product-title secondaryColor">{truncateString(product?.name, 50)}</h3>
-                                                    <div className="d-flex mt-2 justify-content-between">
-                                                        <div className='priceLabel'>${product?.sell_price}</div>
-                                                        <div>
-                                                            <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                                <i className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr className='' />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-
+                <div>
+                    <FooterComponents />
                 </div>
-            </div>
-            <div>
-                <FooterComponents />
-                {/* <Header/> */}
-            </div>
-
+            </React.Fragment>
         </div >
     );
 }

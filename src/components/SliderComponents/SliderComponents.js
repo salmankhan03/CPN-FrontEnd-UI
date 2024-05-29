@@ -11,7 +11,7 @@ const SliderComponents = ({ banners }) => {
 
     return (
         <Carousel fade activeIndex={index} onSelect={handleSelect}>
-            {banners.map((banner, idx) => (
+            {banners?.map((banner, idx) => (
                 <Carousel.Item key={idx} interval={1500}>
                     <ImageComponent src={banner?.src} alt={`Slide ${idx + 1}`} classAtribute="slider-image d-block w-100" />
                     <Carousel.Caption className={`custom-caption ${banner?.position === "LEFT" ? 'text-left' : banner?.position === "CENTER" ? 'text-center' : 'text-right'}`}>
