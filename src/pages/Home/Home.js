@@ -263,7 +263,6 @@ function HomeScreen() {
         //         </div>
         //     );
         // }
-        console.log("loa", loader)
         return (
             <div className='col-12 col-md-4 col-lg-4'>
                 <div className='d-flex align-items-center'>
@@ -280,8 +279,7 @@ function HomeScreen() {
                 <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15, minHeight: 200 }}>
                     {loader ? (
                         <div className='d-flex justify-content-center'>
-                            <Loading loading={true} />
-                            {/* <div>HELLO </div> */}
+                            <Loading loading={loader} />
                         </div>
                     ) : (
                         products?.slice(0, 3).map((product, index) => (
@@ -483,27 +481,25 @@ function HomeScreen() {
                         <div className='row mt-5 mb-5'>
                             <ProductSection
                                 title="New Products"
-                                products={[]}
+                                products={customProductsData?.newProducts?.slice(0, 3)}
                                 category="new_products"
                                 truncateLength={70}
-                                loader={true}
+                                loader={custom_products_loader}
 
                             />
                             <ProductSection
                                 title="Products On Sale"
-                                products={[]}
-                                // products={customProductsData?.productsOnSale?.slice(0, 3)}
+                                products={customProductsData?.productsOnSale?.slice(0, 3)}
                                 category="products_on_sale"
                                 truncateLength={50}
-                                loader={true}
+                                loader={custom_products_loader}
                             />
                             <ProductSection
-                                title="Top Rated Products"
-                                products={[]}
-                                // products={customProductsData?.topRatedProducts?.slice(0, 3)}
+                                title="Top Rated Products"                                
+                                products={customProductsData?.topRatedProducts?.slice(0, 3)}
                                 category="top_rated_products"
                                 truncateLength={50}
-                                loader={true}
+                                loader={custom_products_loader}
 
                             />
                         </div>
