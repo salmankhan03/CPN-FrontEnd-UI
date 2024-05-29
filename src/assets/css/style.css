@@ -3342,6 +3342,7 @@ text-align: center;
   text-align: left;
   z-index: 1;
   color: #fff;
+  width: 95%;
 }
 
 .text-left .banner-content {

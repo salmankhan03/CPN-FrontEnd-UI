@@ -68,10 +68,6 @@ function HomeScreen() {
     const [slider_loader, setSlider_loader] = useState(false)
     const [banner_loader, setBanner_loader] = useState(false)
     const [loading, setLoading] = useState(true);
-
-
-
-
     const leftBanners = banner && banner.filter(item => item.side === "LEFT");
     const rightBanners = banner && banner.filter(item => item.side === "RIGHT");
     const slidesToShow = Math.min(weeklyProductsList?.length, useSlidesToShow());
@@ -134,6 +130,7 @@ function HomeScreen() {
     // Cards
 
     function getSlider() {
+        setSlider_loader(true)
         BannersServices.getSliders().then((resp) => {
             const transformedData = resp?.list.map(item => ({
                 id: item.id,
@@ -145,13 +142,18 @@ function HomeScreen() {
                 position: item?.content_position
             }));
             setSlider(transformedData)
-
+            setTimeout(() => {
+                setSlider_loader(false)
+            }, 2000)
         })
     }
     function getBanners() {
+        setBanner_loader(true)
         BannersServices.getBanners().then((resp) => {
             setBanner(resp?.list)
-
+            setTimeout(() => {
+                setBanner_loader(false)
+            }, 2000)
         })
     }
     const addViewAllCategory = (data) => {
@@ -197,7 +199,9 @@ function HomeScreen() {
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 setWeeklyProductsList(resp?.list)
-                setWeekly_featured_products_loader(false)
+                setTimeout(() => {
+                    setWeekly_featured_products_loader(false)
+                }, 2000)
             }
         }).catch((error) => {
             console.log(error)
@@ -209,7 +213,9 @@ function HomeScreen() {
             if (resp?.status_code === 200) {
                 console.log(resp)
                 setCustomProductsData(resp?.list)
-                setCustom_products_loader(false)
+                setTimeout(() => {
+                    setCustom_products_loader(false)
+                }, 2000)
             }
         }).catch((error) => {
 
@@ -324,8 +330,29 @@ function HomeScreen() {
         );
     };
 
+    const Banner = ({ banners }) => {
+        return (
+            <div className="banner-container">
+                {banners.map((banner, index) => (
+                    <React.Fragment key={index}>
+                        <div className="banner-item w-100">
+                            <div className={`banner-content ${banner?.content_position === 'LEFT' ? 'text-left' : banner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
+                                <h6 className="smallFonts">{banner.heading}</h6>
+                                <p className="banner-text">{banner.content}</p>
+                            </div>
+                            <img
+                                src={banner.link}
+                                alt={`Banner ${index}`}
+                                className="img-fluid banner-img"
+                            />
+                        </div>
+                    </React.Fragment>
+                ))}
+            </div>
+        );
+    }
     if (loading) {
-        return <SpinnerLoading loading={loading}/>
+        return <SpinnerLoading loading={loading} />
     }
 
     return (
@@ -333,15 +360,16 @@ function HomeScreen() {
             <React.Fragment>
                 <div className="row" style={{ margin: 0 }}>
                     <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
-                        {slider?.length > 0 ? (
+                        {slider_loader ? (
+                            <div className='d-flex justify-content-center'>
+                                <Loading loading={slider_loader} />
+                            </div>
+                        ) : (
+                            slider?.length > 0 &&
                             <SliderComponents banners={slider} />
-                        ) : null}
+
+                        )}
                     </div>
-                    {/* <div className="col-md-12 col-lg-3 sidebar_hide" style={{ padding: 0 }}>
-                    <div className='m-2'>
-                        <ImageComponent src={banner3} alt={`Slide`} classAtribute="slider-image d-block w-100" />
-                    </div>
-                </div> */}
                 </div>
                 <div className='custom-container'>
                     <div className="product-list-container mt-5">
@@ -357,16 +385,7 @@ function HomeScreen() {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="col-12 col-md-6 col-lg-6">
-                           <div className="text-md-right">
-                                <span className="circle" onClick={handleScrollRight}>
-                                    <i className="fa fa-chevron-right blackColor fontSize10" aria-hidden="true" style={{ lineHeight: '30px' }}></i>
-                                </span>
-                                <span className="circle ml-2" onClick={handleScrollLeft}>
-                                    <i className="fa fa-chevron-left blackColor fontSize10" style={{ lineHeight: '30px', }} aria-hidden="true"></i>
-                                </span>
-                            </div>
-                        </div> */}
+
                         </div>
                         <div className="mt-2" style={{ overflowX: 'auto' }}>
                             <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
@@ -382,43 +401,44 @@ function HomeScreen() {
                             </div>
                         </div>
                         <div className="mt-3">
-                            {weeklyProductsList?.length > 0 ? (
-                                <div className="" >
-                                    <Slider {...settings}>
-                                        {weeklyProductsList.map((category, index) => {
-                                            return (
-                                                <div key={index} className=""
-                                                    onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
-                                                    <div className="product-details category-item product-card p-4 m-2">
-                                                        <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
-                                                        <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
-                                                        <div className="product_image mb-3">
-                                                            {category?.images[0]?.name ? (
-                                                                <ImageComponent src={category?.images[0]?.name} alt="products Image" />
-                                                            ) : (
-                                                                <p className='inter-medium-fonts'>Image not available</p>
-                                                            )}
-                                                        </div>
-                                                        <div className="d-flex mt-2 justify-content-between">
-                                                            <div className='priceLabel'>${category?.sell_price}</div>
-                                                            <div>
-                                                                <span className="circle" onClick={(event) => addToCart(event, category)}>
-                                                                    <i className="fas fa-shopping-bag mt-2"></i>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
-                                    </Slider>
-                                </div>
-                            ) : (
-                                weekly_featured_products_loader ? (
+                          
+                               { weekly_featured_products_loader ? (
                                     <div className='d-flex justify-content-center'>
                                         <Loading loading={weekly_featured_products_loader} />
                                     </div>
                                 ) : (
+                                    weeklyProductsList?.length > 0 ? (
+                                        <div className="" >
+                                            <Slider {...settings}>
+                                                {weeklyProductsList.map((category, index) => {
+                                                    return (
+                                                        <div key={index} className=""
+                                                            onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                                                            <div className="product-details category-item product-card p-4 m-2">
+                                                                <p className='brandLabel inter-medium-fonts'>{category?.brand}</p>
+                                                                <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
+                                                                <div className="product_image mb-3">
+                                                                    {category?.images[0]?.name ? (
+                                                                        <ImageComponent src={category?.images[0]?.name} alt="products Image" />
+                                                                    ) : (
+                                                                        <p className='inter-medium-fonts'>Image not available</p>
+                                                                    )}
+                                                                </div>
+                                                                <div className="d-flex mt-2 justify-content-between">
+                                                                    <div className='priceLabel'>${category?.sell_price}</div>
+                                                                    <div>
+                                                                        <span className="circle" onClick={(event) => addToCart(event, category)}>
+                                                                            <i className="fas fa-shopping-bag mt-2"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </Slider>
+                                        </div>
+                                    ) : (
                                     <div className='d-flex justify-content-center'>
                                         <h4 className='text-center inter-medium-fonts'>No products available</h4>
                                     </div>
@@ -430,52 +450,25 @@ function HomeScreen() {
                     </div>
                     <div className='mt-5'>
                         <div className='row mt-5 mb-5'>
-                            <div className='col-12 col-md-6 col-lg-6 col-xl-6'>
-                                <div className="banner-container">
-                                    {leftBanners.map((leftBanner, index) => (
-                                        <React.Fragment key={index}>
-                                            <div className={`banner-container w-100`}>
-                                                <div className={`banner-content ${leftBanner?.content_position === 'LEFT' ? 'text-left' : leftBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
-                                                    <h6 className='smallFonts'>{leftBanner?.heading}</h6>
-                                                    <p className='banner-text'>{leftBanner?.content}</p>
-                                                </div>
-                                                <img
-                                                    key={index}
-                                                    src={leftBanner.link}
-                                                    alt={`Banner Right ${index}`}
-                                                    className="img-fluid banner-img"
-                                                />
-                                            </div>
-                                        </React.Fragment>
-                                    ))}
-                                </div>
+                            <div className='col-12 col-md-6'>
+                                {banner_loader ? (
+                                    <div className='d-flex justify-content-center'>
+                                        <Loading loading={banner_loader} />
+                                    </div>
+                                ) : (
+                                    <Banner banners={leftBanners} />
+                                )}
                             </div>
-                            <div className='col-12 col-md-6 col-lg-6 col-xl-6  bannerTopMargin'>
-                                <div className="banner-container">
-                                    {rightBanners.map((rightBanner, index) => {
-
-                                        return (
-                                            <React.Fragment key={index}>
-                                                <div className={`banner-container w-100`}>
-                                                    <div className={`banner-content ${rightBanner?.content_position === 'LEFT' ? 'text-left' : rightBanner?.content_position === 'CENTER' ? 'text-center' : 'text-right'}`}>
-                                                        <h6 className='smallFonts'>{rightBanner?.heading}</h6>
-                                                        <p className='banner-text'>{rightBanner?.content}</p>
-                                                    </div>
-                                                    <img
-                                                        key={index}
-                                                        src={rightBanner.link}
-                                                        alt={`Banner Right ${index}`}
-                                                        className="img-fluid banner-img"
-                                                    />
-                                                </div>
-                                            </React.Fragment>
-
-                                        )
-                                    })}
-                                </div>
+                            <div className='col-12 col-md-6 bannerTopMargin'>
+                                {banner_loader ? (
+                                    <div className='d-flex justify-content-center'>
+                                        <Loading loading={banner_loader} />
+                                    </div>
+                                ) : (
+                                    <Banner banners={rightBanners} />
+                                )}
                             </div>
-                        </div>
-
+                        </div>            
                     </div>
                     <div className='mt-5'>
                         <div className='row mt-5 mb-5'>
@@ -495,7 +488,7 @@ function HomeScreen() {
                                 loader={custom_products_loader}
                             />
                             <ProductSection
-                                title="Top Rated Products"                                
+                                title="Top Rated Products"
                                 products={customProductsData?.topRatedProducts?.slice(0, 3)}
                                 category="top_rated_products"
                                 truncateLength={50}
