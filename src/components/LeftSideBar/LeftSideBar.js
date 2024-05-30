@@ -5,7 +5,8 @@ import PriceFilter from '../PriceFilterComponents/PriceFilterComponents';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
-function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice}) {
+import Loading from '../LoadingComponents/LoadingComponents';
+function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice, categoryLoader }) {
   const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const handleDataChange = (event,) => {
     const dataType = event.target.dataset.datatype; // Access the 'datatypes' attribute
@@ -34,24 +35,30 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
   return (
     <div >
       <div className="m-3">
-       <h4 className="sidebar-filter-section pointer-on-hover">Product Categories</h4>
+        <h4 className="sidebar-filter-section pointer-on-hover">Product Categories</h4>
         <div className='mt-4'>
-          <ListComponents
-            data={categoriesData}
-            selectedData={selectedCategories}
-            handleDataChange={handleDataChange}
-            datatypes="Category"
-          />
+          {categoryLoader ? (
+            <div className='d-flex justify-content-center '>
+              <Loading loading={categoryLoader} />
+            </div>
+          ) : (
+            <ListComponents
+              data={categoriesData}
+              selectedData={selectedCategories}
+              handleDataChange={handleDataChange}
+              datatypes="Category"
+            />
+          )}
         </div>
       </div>
       <div className='mt-5 m-3'>
-      <h4 className="sidebar-filter-section pointer-on-hover">Filter by Price</h4>
+        <h4 className="sidebar-filter-section pointer-on-hover">Filter by Price</h4>
         <div className='mt-4'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
       <div className="mt-5 m-3">
-      <h4 className="sidebar-filter-section pointer-on-hover">Brands</h4>
+        <h4 className="sidebar-filter-section pointer-on-hover">Brands</h4>
         <div className='mt-4'>
           <ListComponents
             data={brandData}

@@ -5,7 +5,7 @@ import ProductServices from '../../services/ProductServices';
 import { setProductList } from '../../redux/action/action';
 import { useDispatch } from 'react-redux';
 import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
-import Loading from '../../components/LoadingComponents/LoadingComponents';
+import Loadings from '../../components/LoadingComponents/LoadingComponents';
 import CategoryServices from '../../services/categoryService';
 import { setCategoryList } from '../../redux/action/category-action';
 import CustomPagination from '../../components/PaginationComponents/Pagination';
@@ -13,6 +13,7 @@ import { setBrandList } from '../../redux/action/brand-action';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useParams } from 'react-router-dom';
+import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 
 function ShopScreen() {
     // const { type, id } = useParams();
@@ -25,6 +26,7 @@ function ShopScreen() {
 
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true)
+    const [loader, setLoader] = useState(true)
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
     const [productDisplayLimit, setProductDisplayLimit] = useState()
@@ -34,7 +36,11 @@ function ShopScreen() {
     const [searchText, setSearchText] = useState("")
     const [sortedField, setSortedField] = useState("")
     const [productsListData, setProductsListData] = useState();
+    const [products_List_loader, setProducts_List_loader] = useState(true);
+
     const [categoriesData, setCategoriesData] = useState();
+    const [categories_Loader, setCategories_Loader] = useState(true);
+
     const [brandData, setBrandData] = useState();
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
@@ -65,10 +71,7 @@ function ShopScreen() {
         { id: 7, name: 'outofstock' }
     ]);
     useEffect(() => {
-        getProductsList()
-        getCategoryList()
-        getBrandList()
-        getPriceFilter()
+        fetchData()
         if (location?.state?.selectedCategory) {
             setTimeout(() => {
                 setSelectedCategories(prevSelectedCategories => [
@@ -124,7 +127,7 @@ function ShopScreen() {
             default:
             // Handle default case if needed
         }
-        console.log("selectedCategories",selectedCategories)
+        console.log("selectedCategories", selectedCategories)
         const uniqueArray = [...new Set(selectedCategories)];
 
         console.log('ommmmmmmmmmmmmmmmmmmmm---------------', maxPrice)
@@ -140,15 +143,31 @@ function ShopScreen() {
 
         console.log("DATA", data)
         // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
-            if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
-                getfilterWiseProduct(data)
-                setProductsListData([])
-            } else {
-                setProductsListData([])
-                getProductsList()
-            }
+        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
+            getfilterWiseProduct(data)
+            setProductsListData([])
+        } else {
+            setProductsListData([])
+            getProductsList()
+        }
 
     }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption, brandData])
+    const fetchData = async () => {
+        try {
+            await Promise.all([
+                getProductsList(),
+                getCategoryList(),
+                getBrandList(),
+                getPriceFilter(),
+            ]);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoader(false)
+        } finally {
+            setLoader(false)
+
+        }
+    };
     function getBrandList() {
         CategoryServices.getAllBrand({
             page: page,
@@ -182,22 +201,24 @@ function ShopScreen() {
                     ...resp?.tree?.data
                 ]))
                 setCategoriesData(resp?.tree?.data)
+                const timers = setTimeout(() => {
+                    setCategories_Loader(false)
+                }, 1000);
+                return () => clearTimeout(timers);
             }
         }).catch((error) => {
             // setLoading(false)
+            setCategories_Loader(false)
             console.log(error)
         })
     }
     async function getfilterWiseProduct(data) {
-        setLoading(true)
+        setProducts_List_loader(true)
 
         console.log('data-----------------------------', data)
         await ProductServices.getfilterWiseProducts(data).then((resp) => {
             if (resp?.status_code === 200) {
-                // console.log(resp)
-                // dispatch(setProductList({
-                //     ...resp?.list?.data
-                // }))
+
                 console.log('resp?.list-------------------------', resp?.list)
                 setProductsListData(resp?.list)
                 setTotalItems(resp?.list?.length)
@@ -205,12 +226,14 @@ function ShopScreen() {
                 setCurrentPage(1)
                 setTimeout(() => {
                     setLoading(false)
+                    setProducts_List_loader(false)
                 }, 1000);
             }
             // setLoading(false)
 
         }).catch((error) => {
             setLoading(false)
+            setProducts_List_loader(false)
             console.log(error)
         })
 
@@ -230,9 +253,10 @@ function ShopScreen() {
                 setProductsListData(resp?.list?.data)
                 setTotalPages(resp?.list?.last_page)
                 setTotalItems(resp?.list?.total)
-                setTimeout(() => {
+                const timers = setTimeout(() => {
                     setLoading(false)
                 }, 1000);
+                return () => clearTimeout(timers);
             }
         }).catch((error) => {
             setLoading(false)
@@ -259,6 +283,9 @@ function ShopScreen() {
         setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
     };
     console.log(selectedSortingOption)
+    if (loader) {
+        return <SpinnerLoading loading={loader} />
+    }
     return (
         <div className="" >
             <div className="custom-container">
@@ -276,68 +303,78 @@ function ShopScreen() {
                                 filteredPrice={filteredPrice}
                                 setFilteredPrice={setFilteredPrice}
                                 maximumPrice={maxPrice}
+                                categoryLoader={categories_Loader}
+                                
                             />
                         </div>
                     </div>
                     <div className="col-md-12 col-lg-9 mt-2">
-                        <div className="row mb-5">
-                            <div className="col-md-6 col-xs-4 mt-1">
-                                <div className='d-flex align-items-center'>
-                                    <p className='mt-3'>Showing all {productsListData?.length} results</p>
-                                    <span className='ml-2'>
-                                        <select
-                                            id="simpleDropdown"
-                                            value={selectedOption}
-                                            onChange={handleChange}
-                                            className='select-dropdown'
-                                        ><option defaultValue={20} >20</option>
-                                            <option value="12">12</option>
-                                            <option value="24">24</option>
-                                            <option value="36">36</option>
-                                        </select>
-                                    </span>
-                                </div>
+                        {products_List_loader ? (
+                            <div className='d-flex justify-content-center mt-5'>
+                                <Loadings loading={products_List_loader} />
                             </div>
-                            <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
-                                <select
-                                    id="sortingDropdown"
-                                    defaultValue={selectedSortingOption}
-                                    onChange={handleSortingChange}
-                                    className='select-dropdown'
-                                >
-                                    <option value="low">Sort by price: low to high</option>
-                                    <option value="high">Sort by price: high to low</option>
-                                    <option value="weekly_featured_products">Weekly Featured Products</option>
-                                    <option value="new_products">New Products</option>
-                                    <option value="products_on_sale">Products On Sale</option>
-                                    <option value="top_rated_products">Top Rated Products</option>
-                                    <option value="most_viewed_products">Most Viewed Products</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div className="row m-1">
-                            {loading ? (
-                                <div>
-                                    <Loading skNumber={15} />
-                                </div>
-                            ) : (
-                                productsListData?.length > 0 ? (
-                                    <>
-                                        {productsListData.map((item, index) => (
-                                            <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
-                                                <ProductListing productItem={item} />
-                                            </div>
-
-                                        ))}
-                                        <div className='row text-center'>
-                                            <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} />
+                        ) : (
+                            <React.Fragment>
+                                <div className="row mb-5">
+                                    <div className="col-md-6 col-xs-4 mt-1">
+                                        <div className='d-flex align-items-center'>
+                                            <p className='mt-3'>Showing all {productsListData?.length} results</p>
+                                            <span className='ml-2'>
+                                                <select
+                                                    id="simpleDropdown"
+                                                    value={selectedOption}
+                                                    onChange={handleChange}
+                                                    className='select-dropdown'
+                                                ><option defaultValue={20} >20</option>
+                                                    <option value="12">12</option>
+                                                    <option value="24">24</option>
+                                                    <option value="36">36</option>
+                                                </select>
+                                            </span>
                                         </div>
-                                    </>
-                                ) : (
-                                    <NotFound title="Sorry, There are no Products right now." />
-                                )
-                            )}
-                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
+                                        <select
+                                            id="sortingDropdown"
+                                            defaultValue={selectedSortingOption}
+                                            onChange={handleSortingChange}
+                                            className='select-dropdown'
+                                        >
+                                            <option value="low">Sort by price: low to high</option>
+                                            <option value="high">Sort by price: high to low</option>
+                                            <option value="weekly_featured_products">Weekly Featured Products</option>
+                                            <option value="new_products">New Products</option>
+                                            <option value="products_on_sale">Products On Sale</option>
+                                            <option value="top_rated_products">Top Rated Products</option>
+                                            <option value="most_viewed_products">Most Viewed Products</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="row m-1">
+                                    {loading ? (
+                                        <div>
+                                            <Loadings skNumber={15} />
+                                        </div>
+                                    ) : (
+                                        productsListData?.length > 0 ? (
+                                            <>
+                                                {productsListData.map((item, index) => (
+                                                    <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
+                                                        <ProductListing productItem={item} />
+                                                    </div>
+
+                                                ))}
+                                                <div className='row text-center'>
+                                                    <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} />
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <NotFound title="Sorry, There are no Products right now." />
+                                        )
+                                    )}
+                                </div>
+                            </React.Fragment>
+                        )}
                     </div>
                 </div>
             </div>
