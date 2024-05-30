@@ -7,26 +7,35 @@ import {updateCartItems, updateCartSubTotal} from '../../redux/action/cart-actio
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import {setUserLogInOrNot} from "../../redux/action/auth-action";
+import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 
 const CartPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const AuthData = useSelector(state => state.AuthReducer.userData);
     const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId )
-    const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id || !!GuestData)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
-    const dispatch = useDispatch();
     const totalItems = cartItems?.length;
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
-
+    const [loading, setLoading] = useState(true);
+    const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id || !!GuestData)
     const [showCouponInput, setShowCouponInput] = useState(false);
     const [couponCode, setCouponCode] = useState('');
     const [checkCouponCode, setCheckCouponCode] = useState(null)
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
     const [couponDiscount, setCouponDiscount] = useState(0)
+    useEffect(()=>{
+        setLoading(true)
+        const timers = setTimeout(() => {
+            setLoading(false)
+        }, 500)
+        return () => clearTimeout(timers);
+    },[])
+    
     const handleNavigation = () => {
         navigate(`/`)
     };
-
     const handleCouponClick = () => {
         setShowCouponInput(!showCouponInput);
     };
@@ -114,6 +123,9 @@ const CartPage = () => {
 
     }, [checkCouponCode, subtotal])
 
+    if (loading) {
+        return <SpinnerLoading loading={loading} />
+    }
     return (
         <div className="container mt-5">
             <Toast />

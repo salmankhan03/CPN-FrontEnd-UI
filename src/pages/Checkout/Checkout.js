@@ -22,6 +22,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import StripeDetails from "./StripeDetails";
 import axios from 'axios';
+import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
@@ -39,6 +40,7 @@ const CheckoutPage = () => {
 
     const CouponDetails = useSelector(state => state.CartReducer.coupon)
     const AuthData = useSelector(state => state.AuthReducer.userData);
+    const [loading, setLoading] = useState(true);
     const [userID, setUserID] = useState(AuthData ? AuthData.id : '');
     const GuestData = useSelector(state => state.AuthReducer.guestUserData)
     const [isChecked, setIsChecked] = useState(true);
@@ -66,10 +68,7 @@ const CheckoutPage = () => {
         expiry: '',
         cvc: ''
     });
-
-
     const [open, setOpen] = useState(false);
-
     const [billingFormData, setBillingFormData] = useState({
         first_name: '',
         last_name: '',
@@ -218,6 +217,7 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         // console.log("AuthData",AuthData)
+        setLoading(true)
         if (cartItems.length === 0) {
             navigate('/');
         }
@@ -229,13 +229,24 @@ const CheckoutPage = () => {
                 contact_no: AuthData?.contact_no,
                 email: AuthData?.email,
             }))
+            const timers = setTimeout(() => {
+                setLoading(false)
+            }, 500)
+            return () => clearTimeout(timers);
+
         }
         if (isProvinceSelected?.provinceName) {
             setShippingFormData({
                 ...shippingFormData,
                 ['state']: isProvinceSelected?.provinceName,
             })
+            const timers = setTimeout(() => {
+                setLoading(false)
+            }, 500)
+            return () => clearTimeout(timers);
+
         }
+
     }, [])
     const truncateString = (str, maxLength) => {
         if (str?.length <= maxLength) return str;
@@ -851,7 +862,7 @@ const CheckoutPage = () => {
             let submitobj = {
                 total_amount: orderTotal,
                 discount_price: couponDiscount?.toFixed(2),
-                shipping_price: selectedShippingOption.basePrice,
+                shipping_price: selectedShippingOption?.basePrice,
                 user_id: userID ? userID : null,
                 is_guest: !userID ? 1 : 0,
                 guest_user_id: userID ? "" : GuestData.guestUserId,
@@ -897,7 +908,9 @@ const CheckoutPage = () => {
             console.log('Form validation failed');
         }
     };
-
+    if (loading) {
+        return <SpinnerLoading loading={loading} />
+    }
     return (
         <div className="container mt-5">
             <div>
