@@ -1,17 +1,27 @@
 
-import React, {useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import Slider1 from "../../assets/images/banner_faq.jpg"
 import Slider2 from "../../assets/images/banner_faq.jpg"
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
+import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
+import Loading from '../../components/LoadingComponents/LoadingComponents';
 
 
 const Faq = () => {
-    const banners = [
+    const [loading, setLoading] = useState(false)
+    const [banner_loader, setBanner_loader] = useState(false)
+    const [expandedId, setExpandedId] = useState(null);
+    const [faqBanners, setFaqBanners] = useState(null);
+    const [faqData, setData] = useState([])
+    const [faqData_Loader, setFaqData_Loader] = useState(false)
+
+    let banners = [
         { id: 1, src: Slider1, alt: 'Banner 1' },
         { id: 2, src: Slider2, alt: 'Banner 3' },
     ];
-    const faqData = [
+
+    let data = [
         {
             id: 1,
             question: 'How do I know if CPN products are safe? How are natural health products regulated in Canada?',
@@ -74,8 +84,22 @@ const Faq = () => {
         }
         // Add more FAQ items as needed
     ];
+    useEffect(() => {
+        setLoading(true)
+        setBanner_loader(true)
+        setFaqData_Loader(true)
+        const timer = setTimeout(() => {
+            setLoading(false)
+        }, 2000);
+        const timers = setTimeout(() => {
+            setFaqBanners(banners);
+            setBanner_loader(false)
+            setData(data)
+            setFaqData_Loader(false);
+        }, 2500)
+        return () => clearTimeout(timer, timers);
 
-    const [expandedId, setExpandedId] = useState(null);
+    }, []);
 
     const toggleExpand = (id) => {
         if (expandedId === id) {
@@ -84,10 +108,19 @@ const Faq = () => {
             setExpandedId(id);
         }
     };
+    if (loading) {
+        return <SpinnerLoading loading={loading} />
+    }
     return (
         <div className=''>
-             <div className='mb-5 '>        
-                <SliderComponents banners={banners} />
+            <div className='mb-5 '>
+                {banner_loader ? (
+                    <div className='d-flex justify-content-center'>
+                        <Loading loading={banner_loader} />
+                    </div>
+                ) : (
+                    <SliderComponents banners={faqBanners} />
+                )}
             </div>
             <div className='custom-container'>
                 <div className='mt-3'>
@@ -102,35 +135,38 @@ const Faq = () => {
                     <div className='mt-5'>
                         <div className="container">
                             <div className="faq-list">
-                                {faqData.map((item) => (
-                                    <div key={item?.id}>
-                                        <div  className="faq-item ">
-                                            <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
-                                                <div className='tab-title font-weight-bold'>{item.question}</div>
-                                                <span className={`faq-icon`}>
-                                                    {/*<span className={`faq-icon ${expandedId === item.id ? 'open' : ''}`}> */}
-                                                    <i className={expandedId === item.id ? 'fas fa-minus faq-icon-color' : 'fas fa-plus faq-icon-color'} ></i>
-                                                    {/* <i className="fas fa-minus"></i> */}
-
-                                                </span>
-                                            </div>
-                                            {expandedId === item.id && (
-                                                <div className="faq-answer pt-4 pb-2">
-                                                    <p className='tab-title font-weight-normal'>{item.answer}</p>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <hr></hr>
+                                {faqData_Loader ? (
+                                    <div className='d-flex justify-content-center'>
+                                        <Loading loading={faqData_Loader} />
                                     </div>
-                                ))}
+                                ) : (
+
+                                    faqData.map((item) => (
+                                        <div key={item?.id}>
+                                            <div className="faq-item ">
+                                                <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
+                                                    <div className='tab-title font-weight-bold'>{item.question}</div>
+                                                    <span className={`faq-icon`}>
+                                                        {/*<span className={`faq-icon ${expandedId === item.id ? 'open' : ''}`}> */}
+                                                        <i className={expandedId === item.id ? 'fas fa-minus faq-icon-color' : 'fas fa-plus faq-icon-color'} ></i>
+                                                        {/* <i className="fas fa-minus"></i> */}
+
+                                                    </span>
+                                                </div>
+                                                {expandedId === item.id && (
+                                                    <div className="faq-answer pt-4 pb-2">
+                                                        <p className='tab-title font-weight-normal'>{item.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <hr></hr>
+                                        </div>
+                                    ))
+                                )}
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
-
             </div>
             <div className='mt-2'>
                 <FooterComponents></FooterComponents>
