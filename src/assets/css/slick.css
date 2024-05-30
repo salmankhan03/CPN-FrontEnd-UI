@@ -109,13 +109,13 @@ h2 {
     background-color: #0056b3;
 }
 
-.slick-prev {
+.weekly-featured .slick-prev {
     top: -110px;
     left: auto;
     right: 35px !important;
     z-index: 10;
 }
-.slick-next{
+.weekly-featured .slick-next{
     top: -110px;
     right: 0px !important;
 

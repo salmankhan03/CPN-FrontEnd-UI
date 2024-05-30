@@ -411,7 +411,7 @@ function HomeScreen() {
                                 </div>
                             ) : (
                                 weeklyProductsList?.length > 0 ? (
-                                    <div className="" >
+                                    <div className="weekly-featured" >
                                         <Slider {...settings}>
                                             {weeklyProductsList.map((category, index) => (
                                                 <div key={index} className="product-slide" onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
