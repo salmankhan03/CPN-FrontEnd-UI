@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { json, useLocation } from "react-router-dom";
 import ProductTags from "../../components/ProductTagsComponents/ProductTagsComponents";
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
@@ -9,10 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 // import ReactImageZoom from 'react-image-zoom';
 import { setProductDetails } from '../../redux/action/action';
 import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action"
+import Slider from 'react-slick';
 import ReactImageMagnify from 'react-image-magnify';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import AtrributeServices from "../../services/attributeServices";
+import { Tabs, Tab, Row, Col, Container  } from 'react-bootstrap';
+
 // import Slider from "react-slick";
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
@@ -39,7 +44,8 @@ function ProductDetails() {
     const [chooseVariants, setChooseVariants] = useState()
     const [selectedProductsVarints, setSelectedProductVarints] = useState()
     const [startIndex, setStartIndex] = useState(0);
-  
+    const [slideDirection, setSlideDirection] = useState('none');
+
 
     useEffect(() => {
         if (productID) {
@@ -198,6 +204,7 @@ function ProductDetails() {
     };
 
     const handleThumbnailClick = (imagePath) => {
+        setSlideDirection(selectedImage < imagePath ? 'right' : 'left');
         // Handle click event if needed
         setSelectedImage(imagePath);
     };
@@ -344,6 +351,89 @@ function ProductDetails() {
     // console.log("productsVariants", productsVariants)
     // console.log("attributes", attributes)
 
+    const numImages = productData?.images.length || 0;
+    const slidesToShow = numImages >= 3 ? 3 : numImages;
+
+    const settings = {
+        dots: false,
+        arrows: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: slidesToShow,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: Math.min(3, numImages),
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: Math.min(2, numImages),
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: Math.min(1, numImages),
+                },
+            },
+        ],
+    };
+
+    useEffect(() => {
+        const img = document.querySelector('.fluid__image-container img');
+        if (img) {
+            img.style.maxHeight = '-webkit-fill-available';
+        }
+    }, [selectedImage]);
+
+    const renderSlider = () => {
+        if (numImages === 0) {
+        } else if (numImages === 1) {
+            const image = productData.images[0];
+            return (
+                <div className="thumbnail" onClick={() => handleThumbnailClick(image.name)} onMouseEnter={() => setSelectedImage(image.name)}>
+                    <div className={`thumbnail-image ${selectedImage === image.name ? 'selected' : ''}`}>
+                        <img src={image.name} alt={`Product Image 0`} className="product-image" />
+                    </div>
+                </div>
+            );
+        } else if (numImages === 2) {
+            const image = productData.images[0];
+            return (
+                <div style={{display:'flex'}}>
+                    {productData.images.map((item, index) => (
+                        <div className="thumbnail" onClick={() => handleThumbnailClick(item.name)} onMouseEnter={() => setSelectedImage(item.name)}>
+                            <div className={`thumbnail-image ${selectedImage === item.name ? 'selected' : ''}`}>
+                                <img src={item.name} alt={`Product Image 0`} className="product-image" />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        } else {
+            return (
+                <Slider {...settings}>
+                    {productData.images.map((item, index) => (
+                        <div key={index} className="thumbnail">
+                            <div
+                                onClick={() => handleThumbnailClick(item.name)}
+                                onMouseEnter={() => setSelectedImage(item.name)}
+                                className={`thumbnail-image ${selectedImage === item.name ? 'selected' : ''}`}
+                            >
+                                <img src={item.name} alt={`Product Image ${index}`} className="product-image" />
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
+            );
+        }
+    };
+
+
 
     return (
         <>
@@ -360,9 +450,15 @@ function ProductDetails() {
                                             <a href="/">Home</a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href={`/shop?name=brand&id=${productData.brand_id}`}>
                                                 <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                                {productData?.id}
+                                                {productData?.brand}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href={`/products-details/${productData?.id}`}>
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
+                                                {productData?.name}
                                             </a>
                                         </li>
                                     </ul>
@@ -381,6 +477,12 @@ function ProductDetails() {
                                                         alt: 'Wristwatch by Ted Baker London',
                                                         isFluidWidth: true,
                                                         src: selectedImage,
+                                                        style: {
+                                                            width: '100%', // Set the desired width
+                                                            height: 'auto',
+                                                            display: 'block',
+                                                            pointerEvents: 'none',
+                                                        }
                                                     },
                                                     largeImage: {
                                                         src: selectedImage,
@@ -388,51 +490,21 @@ function ProductDetails() {
                                                         height: 1800
                                                     },
                                                     enlargedImageContainerClassName: 'custom-enlarged-container',
-
                                                 }} />
                                             </div>
-                                            <div className="single_product_thumbnails">
-                                                <div className="thumbnail-container" >
-                                                    {productData?.images.length > 0 ? (
-                                                        <div className="row">
-                                                            <div className="col-lg-1 col-2">
-                                                                <button className="prev-button prev-next-button" onClick={handlePrev} disabled={startIndex === 0}>
-                                                                    <i className="fa fa-angle-double-left p-2"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div className="col-lg-10 col-8">
-                                                                <div className="thumbnails-container overflow-x-hidden">
-                                                                    <ul className="productsSlider-ul">
-                                                                        {productData?.images &&
-                                                                            productData?.images?.slice(startIndex, startIndex + 4).map((item, index) => (
-                                                                                <li
-                                                                                    key={index}
-                                                                                    onMouseEnter={() => handleThumbnailHover(item?.name)}
-                                                                                    onClick={() => handleThumbnailClick(item?.name)}
-                                                                                    className="m-2"
-                                                                                >
-                                                                                    <ImageComponent src={item?.name} alt={`Product Image ${index}`} />
-                                                                                </li>
-                                                                            ))}
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div className="col-lg-1 col-2">
 
-                                                                <button className="next-button prev-next-button" onClick={handleNext} disabled={startIndex >= productData?.variants?.length - 4}>
-                                                                    <i className="fa fa-angle-double-right p-2"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    ) : null}
+                                            <div className="single_product_thumbnail">
+                                                <div className="thumbnail-container" >
+                                                    {renderSlider()}
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-7">
-                                <div className="product_details mt-3">
+                            <div className="col-lg-7 mt-4">
+                                <div className="product_details mt-4">
                                     <div className="product_details_title">
                                         <h3 className="product-title titleColor custom-auto-height">{productData?.name}</h3>
 
@@ -572,19 +644,37 @@ function ProductDetails() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row mt-5" >
-                            <table className="product-details-table mt-2">
-                                <tbody>
-                                    <tr>{renderTabs()}</tr>
-                                    <tr className="tableBody-border" >
-                                        <td colSpan="4" className="content">
-                                            {renderContent()}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div className="row mt-5 product-detail" >
+                            <Container className="mt-4">
+                                <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
+                                    <Tab eventKey="description" title="Description">
+                                        <div className="tab-content-custom">
+                                            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description  ) }} />;
+                                        </div>
+                                    </Tab>
+                                    <Tab eventKey="reviews" title="Reviews (0)">
+                                        <div className="tab-content-custom">
+                                            <p>No reviews yet.</p>
+                                        </div>
+                                    </Tab>
+                                    <Tab eventKey="Shipping" title="Shipping">
+                                        <div className="tab-content-custom">
+                                            <p>For any enquiries, please contact us.</p>
+                                        </div>
+                                    </Tab>
+                                </Tabs>
+                            </Container>
 
-                            {/* <div className="content">{renderContent()}</div> */}
+                            {/*<table className="product-details-table mt-2">*/}
+                            {/*    <tbody>*/}
+                            {/*        <tr>{renderTabs()}</tr>*/}
+                            {/*        <tr className="tableBody-border" >*/}
+                            {/*            <td colSpan="4" className="content">*/}
+                            {/*                {renderContent()}*/}
+                            {/*            </td>*/}
+                            {/*        </tr>*/}
+                            {/*    </tbody>*/}
+                            {/*</table>*/}
                         </div>
                     </div>
                 )}
