@@ -142,18 +142,20 @@ function HomeScreen() {
                 position: item?.content_position
             }));
             setSlider(transformedData)
-            setTimeout(() => {
+            const timers = setTimeout(() => {
                 setSlider_loader(false)
-            }, 2000)
+            }, 500)
+            return () => clearTimeout(timers);
         })
     }
     function getBanners() {
         setBanner_loader(true)
         BannersServices.getBanners().then((resp) => {
             setBanner(resp?.list)
-            setTimeout(() => {
+            const timers =  setTimeout(() => {
                 setBanner_loader(false)
-            }, 2000)
+            }, 500)
+            return () => clearTimeout(timers);
         })
     }
     const addViewAllCategory = (data) => {
@@ -183,7 +185,6 @@ function HomeScreen() {
                 const categories = Array.isArray(resp?.tree?.data) ? resp.tree.data : [];
                 const updatedCategories = addViewAllCategory(categories);
                 setCategoriesData(updatedCategories);
-
             }
         }).catch((error) => {
             // setLoading(false)
@@ -199,9 +200,10 @@ function HomeScreen() {
         }).then((resp) => {
             if (resp?.status_code === 200) {
                 setWeeklyProductsList(resp?.list)
-                setTimeout(() => {
+                const timers = setTimeout(() => {
                     setWeekly_featured_products_loader(false)
-                }, 2000)
+                }, 500)
+                return () => clearTimeout(timers);
             }
         }).catch((error) => {
             console.log(error)
@@ -213,9 +215,10 @@ function HomeScreen() {
             if (resp?.status_code === 200) {
                 console.log(resp)
                 setCustomProductsData(resp?.list)
-                setTimeout(() => {
+                const timers = setTimeout(() => {
                     setCustom_products_loader(false)
-                }, 2000)
+                }, 500)
+                return () => clearTimeout(timers);
             }
         }).catch((error) => {
 
