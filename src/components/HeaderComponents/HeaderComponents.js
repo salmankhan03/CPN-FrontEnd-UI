@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 // import logo from "../../assets/images/logo.png"
 import logo from "../../assets/images/logo/logo_top.png"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './HeaderComponents.css';
 import styled from "styled-components";
+import Cookies from 'js-cookie';
+import AuthServices from '../../services/AuthServices';
+import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action/auth-action';
+import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -93,15 +97,40 @@ const NavManu = styled.ul`
     }
   `;
 
+  const useWindowWidth = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+  
+    useEffect(() => {
+      const handleResize = () => setWidth(window.innerWidth);
+  
+      window.addEventListener('resize', handleResize);
+      
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
+  
+    return width;
+  };
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
+  const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
+  const width = useWindowWidth();
+
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const [isEllipsisToggleOpen, setIsEllipsisToggleOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const cartItems = useSelector(state => state.CartReducer.cartItems);
   const [isOpen, setIsOpen] = useState(false);
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
 
   useEffect(() => {
+    console.log("user Login or not", AuthData, GuestData)
+    console.log("width", width)
+
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
@@ -112,9 +141,29 @@ function Header() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+  const handleOutsideClick = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+  const handleNavigation = (url) => {
+    console.log("url",url)
+    setIsToggleOpen(false);
+    setIsEllipsisToggleOpen(false);
+    navigate(`/${url}`);
+
+  }
   const toggleBrowseCategoryDropdown = () => {
     setBrowseCategoryIsOpen(!browseCategoryIsOpen);
   };
@@ -127,110 +176,63 @@ function Header() {
     setIsToggleOpen(false);
     setIsEllipsisToggleOpen(!isEllipsisToggleOpen);
   };
+  const logout = () => {
+    setIsOpen(false)
+    let token;
+    if (Cookies.get('userToken')) {
+      token = JSON.parse(Cookies.get('userToken'));
+    }
+
+    console.log("token ==>", token)
+    if (token) {
+      const cookieTimeOut = 1000;
+
+      AuthServices.customerLogout().then((resp) => {
+        console.log("resp customerLogout", resp)
+        if (resp?.status_code === 200) {
+          Cookies.set('userToken', JSON.stringify(""), {
+            expires: cookieTimeOut,
+          });
+          dispatch(setUserData({}))
+          dispatch(setGuestUser({}))
+          dispatch(setUserLogInOrNot(false))
+          notifySuccess(`logOut Suceefully`);
+          navigate(`/`)
+
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    } else {
+      dispatch(setUserData({}))
+      dispatch(setGuestUser({}))
+      notifySuccess(`Guest User logOut Suceefully`);
+      navigate(`/`)
+    }
+  };
+  const mobileDropdown = () => {
+    setIsEllipsisToggleOpen(false)
+    setIsOpen(true)
+  }
+
   return (
-    <div>
-      <div className={`header-content-top  hide-div `}>
-
-        <div className="left-content">
-          {/* <span className='topBarFonts'>
-            (00)0000-0000
-          </span>
-          <span className='topBarFonts ml-2'>|</span>
-          <span className='ml-3 ml-md-2 topBarFonts'>
-            Store Location
-          </span> */}
+    <>
+      <div>
+        <div className={`header-content-top  hide-div `}>
+          <div className="left-content"></div>
+          <div className="middle-content">
+            <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
+          </div>
+          <div className="right-content"></div>
         </div>
-        <div className="middle-content">
-          <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
-        </div>
-        <div className="right-content">
-          {/* <div className="language-dropdown ml-3 ml-md-2">
-              <select className='cutom-dropdown topBarFonts'>
-                <option className="custom-option" value="en">English</option>
-                <option className="custom-option" value="es">Spanish</option>
-                <option className="custom-option" value="fr">French</option>
-              </select>
-            </div>
-            <span className='ml-3 ml-md-1'> |<span className='ml-2 ml-md-2 topBarFonts'>Login / Sign Up</span></span> */}
-        </div>
-      </div>
-      <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
-        {/* <div className="header-content-top "> */}
-        <div className="PrimaryBGColor">
-          {/* <header className='PrimaryBGColor'> */}
-            {/* <div className="header-content-top pt-4 pb-4">
-              <div className="left-content">
-                <Link to="/">
-                  CANADIAN PINNACLE NUTRITECH
-                </Link>
-              </div>
-              <div className="middle-content hide-div">
-                <div className='parent-container ml-5 mr-5' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
-                  <div className="d-flex align-items-center">
-                    <div className="dropdown dropdown-right-border">
-                      <div onClick={toggleDropdown} className="dropdown-toggle text-black">
-                        <span className=''>Browse Categories</span>
-                      </div>
-                      {isOpen && (
-                        <div className="dropdown-content">
-                          <Link to="/">Link 1</Link>
-                          <Link to="/">Link 2</Link>
-                          <Link to="/">Link 3</Link>
-                        </div>
-                      )}
-                    </div>
-                    <div className="search-container ml-3">
-                      <input type="text" placeholder="Search for items..." className="search-input" style={{ width: '300px' }} />
-                      <div className="search-icon">
-                        <i className="fas fa-search"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="menuToggleBtn mobileMenu" onClick={handleToggleOpen} >
-                <i className="fa fa-bars" aria-hidden="true" style={{ color: '#000' }}></i>
-              </div>
-
-              <div className="right-content hide-div">
-                <div className="icons-container">
-                  <div className="icon">
-                    <i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>
-                    {cartItems.length !== undefined && cartItems.length > 0 && (
-                      <span id="checkout_items" className="checkout_items">
-                        {cartItems.length}
-                      </span>
-                    )}
-                  </div>
-                  <div className="icon">
-                    <i className="fa fa-user fa-lg" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
+        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
+          <div className="PrimaryBGColor">
             <nav className="header-content-top bottomHeaderBG">
-              {/* hide-div displyHide */}
-              <div className="left-content ">
-                {/* <div className="dropdown">
-                  <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
-                    <span><i className="fa fa-bars" aria-hidden="true"></i></span>
-                    <span className='ml-2'>Browse Categories</span>
-                  </div>
-                  {browseCategoryIsOpen && (
-                    <div className="dropdown-content">
-                      <Link to="/">Link 1</Link>
-                      <Link to="/">Link 2</Link>
-                      <Link to="/">Link 3</Link>
-                    </div>
-                  )}
-                </div> */}
+              <div className="left-content">
                 <Link to="/">
                   <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
                 </Link>
               </div>
-
               <div className="middle-content" >
                 <NavManu isToggleOpen={isToggleOpen} >
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
@@ -261,7 +263,6 @@ function Header() {
                 </NavManu>
 
               </div>
-              {/* hide-div displyHide */}
               <div className="right-content ">
                 <div className="icons-container">
                   <div className="hide-div displyHide">
@@ -272,7 +273,7 @@ function Header() {
                       </div>
                     </div>
                   </div>
-                  <div className="icon hide-div displyHide">
+                  <div className="icon hide-div displyHide" onClick={() => handleNavigation('cart')}>
                     <i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
@@ -280,8 +281,19 @@ function Header() {
                       </span>
                     )}
                   </div>
-                  <div className="icon hide-div displyHide">
+                  {/* onMouseLeave={() => setIsOpen(false)} */}
+                  <div className="icon hide-div displyHide" onMouseEnter={() => setIsOpen(true)} ref={dropdownRef}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
+                    {isOpen && (
+                      <div className="dropdown-content">
+                        {AuthData === undefined && GuestData === undefined ? (
+                          <Link to="/login">Login/Signup</Link>
+                        ) : (
+                          <div onClick={logout}>logout</div>
+                        )}
+                        <Link to="/my-account">My Account</Link>
+                      </div>
+                    )}
                   </div>
                   <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen} >
                     <i className="fa fa-bars" aria-hidden="true" style={{ color: '#000' }}></i>
@@ -304,7 +316,9 @@ function Header() {
                       <div className="row mt-2">
                         <div className="col text-right">
                           <div className="d-inline-flex align-items-center">
-                            <div className="position-relative mx-2">
+                       
+                            <React.Fragment>
+                            <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
                               <i className="fas fa-cart-arrow-down fa-lg text-black"></i>
                               {cartItems.length !== undefined && cartItems.length > 0 && (
                                 <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-10px', right: '-10px' }}>
@@ -312,26 +326,44 @@ function Header() {
                                 </span>
                               )}
                             </div>
-                            <div className="mx-2">
+                            <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
                               <i className="fa fa-user fa-lg text-black" aria-hidden="true"></i>
                             </div>
+                            </React.Fragment>
+                           
                           </div>
                         </div>
                       </div>
+                
 
 
                     </div>
+                    
                   }
+                 {isOpen && width <= 768 ? (
+                      <div className="dropdown-content" ref={dropdownRef}>
+                        {AuthData === undefined && GuestData === undefined ? (
+                          <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
+                        ) : (
+                          <div className='text-black pt-2' onClick={logout}>logout</div>
+                        )}
+                        <div className='text-black pt-2' onClick={() => handleNavigation('#')}>My Account</div>
+                      </div>
+                    ):null}
 
                 </div>
               </div>
             </nav>
-          {/* </header> */}
+            {/* </header> */}
 
-        </div>
+          </div>
 
-      </header>
-    </div>
+        </header>
+
+
+      </div>
+      <Toast />
+    </>
   );
 }
 

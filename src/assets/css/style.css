@@ -3557,7 +3557,14 @@ text-align: center;
 
 
 /* IMAGE GALLERY */
-
-.slick-list{ margin-left: 0px !important; }
-
+.slick-list{
+   margin-left: 0px !important; 
+  }
 /* IMAGE GALLERY */
+
+/*Toast Css  */
+.Toastify__toast-container--top-right {
+  top: 10rem !important;
+}
+
+/*Toast Css  */
