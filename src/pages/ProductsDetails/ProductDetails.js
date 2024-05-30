@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { json, useLocation } from "react-router-dom";
 import ProductTags from "../../components/ProductTagsComponents/ProductTagsComponents";
 import RatingComponents from "../../components/RatingComponents/RatingComponents";
@@ -16,7 +16,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import AtrributeServices from "../../services/attributeServices";
-import { Tabs, Tab, Row, Col, Container  } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
+import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 
 // import Slider from "react-slick";
 // import 'slick-carousel/slick/slick.css';
@@ -29,6 +30,7 @@ function ProductDetails() {
     const location = useLocation();
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const categoryList = useSelector(state => state.CategoryReducer.categoryListData);
+    const [loading, setLoading] = useState(true);
     const [categoryName, setCategoryName] = useState()
     const [productData, setProductData] = useState()
     const [productID, setProductID] = useState(location?.state?.id)
@@ -48,10 +50,27 @@ function ProductDetails() {
 
 
     useEffect(() => {
+        setLoading(true);
+        window.scrollTo(0, 0);
         if (productID) {
-            getProductsDetails();
+            fetchData();
         }
     }, []);
+    const fetchData = async () => {
+        try {
+            await Promise.all([
+                getProductsDetails()
+            ]);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        } finally {
+            const timers = setTimeout(() => {
+                setLoading(false);
+            }, 500)
+            return () => clearTimeout(timers);
+        }
+    };
 
     useEffect(() => {
         let showOptionsArray = []
@@ -114,18 +133,14 @@ function ProductDetails() {
 
     function getProductsDetails() {
         ProductServices.getProductById(productID).then((resp) => {
-
             if (resp?.status_code === 200) {
                 // console.log("res",resp.data)
                 dispatch(setProductDetails({
                     ...resp.data
                 }))
-                // setLoading(false)
                 setProductData(resp?.data)
-                // console.log(resp?.data?.variants)
                 if (resp?.data?.variants) {
                     let variantsData = JSON.parse(resp?.data?.variants)
-                    // console.log("variantsData", variantsData)
                     for (let index = 0; index < variantsData.length; index++) {
                         const numericKeyValuePairs = Object.keys(variantsData[index]).reduce((acc, key) => {
                             if (!isNaN(key)) {
@@ -133,29 +148,14 @@ function ProductDetails() {
                             }
                             return acc;
                         }, {});
-                        // console.log("numericKeyValuePairs", numericKeyValuePairs);
 
                         if (index === 0) {
                             setChooseVariants(numericKeyValuePairs)
                         }
-                        // const transformedObj = Object.keys(numericKeyValuePairs).reduce((accumulator, currentKey, index) => {
-                        //     accumulator[`id${index + 1}`] = currentKey;
-                        //     accumulator[`option${index + 1}`] = numericKeyValuePairs[currentKey];
-                        //     return accumulator;
-                        // }, {});
-                        // console.log("transformedObj", transformedObj);
-                        // variantsData[index] = { ...variantsData[index], ...transformedObj };
                     }
-                    // console.log("Updated variantsData", variantsData)
-
                     setProductsVariants(resp?.data?.variants ? variantsData : []);
-                    // console.log("pp", JSON.parse(variantsData[0]?.originalPrice))
                     setAttributes(JSON.parse(resp?.data?.variants_array))
-
-
                 }
-
-
                 const tagsArray = resp?.data?.tags?.split(',');
                 setTag(tagsArray ? tagsArray : []);
                 if (resp?.data?.images.length > 0) {
@@ -173,7 +173,7 @@ function ProductDetails() {
     }
 
 
-   
+
 
     const handleNext = () => {
         // const newIndex = Math.min(startIndex + 1, productData?.images?.length - 1);
@@ -232,7 +232,7 @@ function ProductDetails() {
     const renderContent = () => {
         switch (selectedTab) {
             case 'description':
-                return <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description  ) }} />;
+                return <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
             case 'review':
                 return <p>Product Reviews Go Here</p>;
             case 'enquiry':
@@ -404,7 +404,7 @@ function ProductDetails() {
         } else if (numImages === 2) {
             const image = productData.images[0];
             return (
-                <div style={{display:'flex'}}>
+                <div style={{ display: 'flex' }}>
                     {productData.images.map((item, index) => (
                         <div className="thumbnail" onClick={() => handleThumbnailClick(item.name)} onMouseEnter={() => setSelectedImage(item.name)}>
                             <div className={`thumbnail-image ${selectedImage === item.name ? 'selected' : ''}`}>
@@ -433,8 +433,9 @@ function ProductDetails() {
         }
     };
 
-
-
+    if (loading) {
+        return <SpinnerLoading loading={loading} />
+    }
     return (
         <>
             <div className="container single_product_container mb-2">
@@ -649,7 +650,7 @@ function ProductDetails() {
                                 <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
                                     <Tab eventKey="description" title="Description">
                                         <div className="tab-content-custom">
-                                            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description  ) }} />;
+                                            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
                                         </div>
                                     </Tab>
                                     <Tab eventKey="reviews" title="Reviews (0)">
@@ -681,7 +682,6 @@ function ProductDetails() {
             </div>
             <div>
                 <FooterComponents />
-                {/* <Header/> */}
             </div>
         </>
     );
