@@ -773,8 +773,8 @@ const CheckoutPage = () => {
     };
 
     const orderTotal = selectedShippingOption
-        ? (parseFloat(subTotalWithCoupon.toFixed(2)) + parseFloat(selectedShippingOption.basePrice)).toFixed(2)
-        : subTotalWithCoupon.toFixed(2);
+        ? (parseFloat(subTotalWithCoupon?.toFixed(2)) + parseFloat(selectedShippingOption.basePrice))?.toFixed(2)
+        : subTotalWithCoupon?.toFixed(2);
 
 
 
