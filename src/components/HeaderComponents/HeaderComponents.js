@@ -125,38 +125,49 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const navMenuRef = useRef(null);
+  const ellipsisRef = useRef(null)
 
   useEffect(() => {
-    console.log("user Login or not", AuthData, GuestData)
-    console.log("width", width)
-
+    console.log("user Login or not", AuthData, GuestData);
+    console.log("width", width);
+  
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
-
+  
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+  
+    const handleNavManuOutsideClick = (event) => {
+      if (navMenuRef.current && !navMenuRef.current.contains(event.target)) {
+        setIsToggleOpen(false);
+      }
+    };
+    
+    const handleEllipsisOutsideClick = (event) => {
+      if (ellipsisRef.current && !ellipsisRef.current.contains(event.target)) {
+        setIsEllipsisToggleOpen(false);
+      }
+    };
+  
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handleNavManuOutsideClick);
+    document.addEventListener('mousedown', handleEllipsisOutsideClick);
 
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-  useEffect(() => {
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('mousedown', handleNavManuOutsideClick);
     };
   }, []);
-  const handleOutsideClick = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
-
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  
+ 
   const handleNavigation = (url) => {
     console.log("url",url)
     setIsToggleOpen(false);
@@ -164,9 +175,7 @@ function Header() {
     navigate(`/${url}`);
 
   }
-  const toggleBrowseCategoryDropdown = () => {
-    setBrowseCategoryIsOpen(!browseCategoryIsOpen);
-  };
+
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);
     setIsEllipsisToggleOpen(false);
@@ -234,7 +243,7 @@ function Header() {
                 </Link>
               </div>
               <div className="middle-content" >
-                <NavManu isToggleOpen={isToggleOpen} >
+                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/"} className="nav-menu-list" onClick={handleToggleOpen}>
                       Home
@@ -302,7 +311,7 @@ function Header() {
                     <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#000' }}></i>
                   </div>
                   {isEllipsisToggleOpen &&
-                    <div className='p-2 ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }}>
+                    <div className='p-2 ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }} ref={ellipsisRef}>
                       <div className='row p-2'>
                         <div className='text-center'>
                           <div className="search-container" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
