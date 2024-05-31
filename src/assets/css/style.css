@@ -3583,7 +3583,7 @@ text-align: center;
     right: 4px !important;
 }
 
-.recentProduct .slick-prev:before, .slick-next:before{
+.recentProduct .slick-prev:before, .recentProduct .slick-next:before{
     font-size: 45px;
 }
 

@@ -94,7 +94,7 @@ function ProductDetails() {
     useEffect(() => {
         setLoading(true);
         window.scrollTo(0, 0);
-        if (productID) {
+        if (productId) {
             fetchData();
         }
     }, []);
@@ -180,7 +180,7 @@ function ProductDetails() {
 
 
     function getProductsDetails() {
-        ProductServices.getProductById(productID).then((resp) => {
+        ProductServices.getProductById(productId).then((resp) => {
             if (resp?.status_code === 200) {
                 // console.log("res",resp.data)
                 dispatch(setProductDetails({
@@ -483,6 +483,7 @@ function ProductDetails() {
 
     function getRelatedProducts() {
         setRelatedProductLoader(true)
+        console.log('productId-------------------', productId)
         ProductServices.getRelatedProduct({productId}).then((resp) => {
             if (resp?.status_code === 200) {
                 setRelatedProduct(resp?.data.relatedProducts)
@@ -553,6 +554,8 @@ function ProductDetails() {
             dispatch(addtoCartItems(cartObj));
         }
     }
+
+    console.log('loading---------------------', loading)
 
 
 
