@@ -56,6 +56,9 @@ const ProductServices = {
   deleteManyProducts: async (body) => {
     return requests.post("/product/multiple_delete", body);
   },
+  getRelatedProduct:  async ({productId}) => {
+    return requests.get(`/product/${productId}/data`)
+  },
 };
 
 export default ProductServices;

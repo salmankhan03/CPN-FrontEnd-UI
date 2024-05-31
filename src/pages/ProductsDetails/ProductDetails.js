@@ -16,14 +16,47 @@ import "slick-carousel/slick/slick-theme.css";
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import AtrributeServices from "../../services/attributeServices";
-import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col, Container  } from 'react-bootstrap';
+import Loading from "../../components/LoadingComponents/LoadingComponents";
+import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 
 // import Slider from "react-slick";
 // import 'slick-carousel/slick/slick.css';
 // import 'slick-carousel/slick/slick-theme.css';
 
+const useSlidesToShow = () => {
+    const [slidesToShow, setSlidesToShow] = useState(1);
 
+    const updateSlidesToShow = () => {
+        const width = window.innerWidth;
+        if (width >= 1680) {
+            setSlidesToShow(5);
+        }
+        else if (width >= 1440) {
+            setSlidesToShow(4);
+        }
+        else if (width >= 992) {
+            setSlidesToShow(3);
+        } else if (width >= 768) {
+            setSlidesToShow(2);
+        } else if (width >= 576) {
+            setSlidesToShow(1);
+        } else {
+            setSlidesToShow(1);
+        }
+    };
+
+    useEffect(() => {
+        updateSlidesToShow(); // Set initial value
+        window.addEventListener('resize', updateSlidesToShow);
+        return () => {
+            window.removeEventListener('resize', updateSlidesToShow);
+        };
+    }, []);
+
+    return slidesToShow;
+};
 
 function ProductDetails() {
     const dispatch = useDispatch();
@@ -47,6 +80,15 @@ function ProductDetails() {
     const [selectedProductsVarints, setSelectedProductVarints] = useState()
     const [startIndex, setStartIndex] = useState(0);
     const [slideDirection, setSlideDirection] = useState('none');
+    const [relatedProduct, setRelatedProduct] = useState()
+    const [relatedProductLoader, setRelatedProductLoader] = useState(false)
+    const navigate = useNavigate();
+
+    const relatedProductSlidesToShow = Math.min(relatedProduct?.length, useSlidesToShow());
+
+    const pathURL = window.location.pathname
+    const splitURL = pathURL.split('/')
+    const productId = splitURL[splitURL.length-1];
 
 
     useEffect(() => {
@@ -54,6 +96,12 @@ function ProductDetails() {
         window.scrollTo(0, 0);
         if (productID) {
             fetchData();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (productID) {
+            getRelatedProducts()
         }
     }, []);
     const fetchData = async () => {
@@ -433,6 +481,81 @@ function ProductDetails() {
         }
     };
 
+    function getRelatedProducts() {
+        setRelatedProductLoader(true)
+        ProductServices.getRelatedProduct({productId}).then((resp) => {
+            if (resp?.status_code === 200) {
+                setRelatedProduct(resp?.data.relatedProducts)
+                const timers = setTimeout(() => {
+                    setRelatedProductLoader(false)
+                }, 500)
+                return () => clearTimeout(timers);
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const relatedSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: relatedProductSlidesToShow,
+        slidesToScroll: 1,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: relatedProductSlidesToShow,
+                    slidesToScroll: 1,
+                    arrows: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: Math.min(relatedProductSlidesToShow?.length, 2),
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+        ],
+    };
+
+    const relatedAddToCart = (event, productItem) => {
+        event.stopPropagation();
+        const existingCartItem = cartItems.find(item => item.id === productItem.id);
+        let message = truncateString(productItem?.name, 60)
+        if (existingCartItem) {
+            notifySuccess(`${message} already added in the cart!`);
+        } else {
+            let cartObj = {
+                id: productItem.id,
+                name: productItem.name,
+                image: productItem.images,
+                description: productItem.description,
+                price: productItem.sell_price,
+                sku: productItem.sku,
+                purchaseQty: 1,
+                totalPrice: 1 * JSON.parse(productItem.sell_price),
+                is_tax_apply: productItem?.is_tax_apply
+            };
+            notifySuccess(`${message} added to the cart!`);
+            dispatch(addtoCartItems(cartObj));
+        }
+    }
+
+
+
     if (loading) {
         return <SpinnerLoading loading={loading} />
     }
@@ -665,20 +788,66 @@ function ProductDetails() {
                                     </Tab>
                                 </Tabs>
                             </Container>
-
-                            {/*<table className="product-details-table mt-2">*/}
-                            {/*    <tbody>*/}
-                            {/*        <tr>{renderTabs()}</tr>*/}
-                            {/*        <tr className="tableBody-border" >*/}
-                            {/*            <td colSpan="4" className="content">*/}
-                            {/*                {renderContent()}*/}
-                            {/*            </td>*/}
-                            {/*        </tr>*/}
-                            {/*    </tbody>*/}
-                            {/*</table>*/}
                         </div>
                     </div>
                 )}
+
+                <div className="product-list-container mt-5">
+                    <div className="row">
+                        <div className="col-12 col-md-12 col-lg-12">
+                            <div className="d-flex align-items-center">
+                                <div className="mr-auto">
+                                    <h5 className="bold pointer-on-hover title d-inline">Related products</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div className="mt-3 recentProduct">
+
+                        {relatedProductLoader ? (
+                            <div className='d-flex justify-content-center'>
+                                <Loading loading={relatedProductLoader} />
+                            </div>
+                        ) : (
+                            relatedProduct?.length > 0 ? (
+                                <div className="" >
+                                    <Slider {...relatedSettings}>
+                                        {relatedProduct.map((item, index) => (
+                                            <div key={index} className=" product-slide">
+                                                <div className="product-details category-item product-card p-4 m-2">
+
+                                                    <div className="product_image mb-3">
+                                                        {item?.images[0]?.name ? (
+                                                            <ImageComponent src={item?.images[0]?.name} alt="products Image" />
+                                                        ) : (
+                                                            <p className="inter-medium-fonts">Image not available</p>
+                                                        )}
+                                                    </div>
+                                                    <p className="brandLabel inter-medium-fonts">{item?.brand}</p>
+                                                    <h3 className="product-title secondaryColor">{truncateString(item?.name, 70)}</h3>
+                                                    <div className="d-flex mt-2 justify-content-between">
+                                                        <div className="priceLabel">${item?.sell_price}</div>
+                                                        <div>
+                                                                <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
+                                                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </Slider>
+                                </div>
+                            ) : (
+                                <div className='d-flex justify-content-center'>
+                                    <h4 className='text-center inter-medium-fonts'>No products available</h4>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
             </div>
             <div>
                 <FooterComponents />

@@ -3450,8 +3450,7 @@ ul li {
 
 
 .custom-tabs {
-  border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
+  border: 1px solid #dee2e6;
 }
 /* Scroll Bar  */
 /* Carousel */
@@ -3558,9 +3557,40 @@ text-align: center;
 
 /* IMAGE GALLERY */
 .slick-list{
-   margin-left: 0px !important; 
+   margin-left: 0px !important;
   }
 /* IMAGE GALLERY */
+
+/* RECENT PRODUCT */
+
+.recentProduct .product-title{
+    height: 70px;
+    text-align: initial;
+}
+
+.recentProduct .brandLabel{
+    text-align: initial;
+}
+
+.recentProduct .slick-next{
+    top: 50% !important;
+    right: -25px !important;
+}
+
+.recentProduct .slick-prev{
+    top: 50% !important;
+    left: -49px !important;
+    right: 4px !important;
+}
+
+.recentProduct .slick-prev:before, .slick-next:before{
+    font-size: 45px;
+}
+
+.recentProduct .product-card{
+    border: none;
+}
+/* RECENT PRODUCT */
 
 /*Toast Css  */
 .Toastify__toast-container--top-right {
