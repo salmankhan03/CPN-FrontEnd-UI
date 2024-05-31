@@ -23,7 +23,7 @@ const ProductServices = {
 
   getProductById: async (id) => {
     console.log("id",id)
-    return requests.get(`/product/${id}/data`);
+    return requests.get(`/product/${id}/data?reltedProducts=10`);
   },
   getfilterWiseProducts:  async (body) => {
     return requests.post("/product/filter", body);
@@ -55,9 +55,6 @@ const ProductServices = {
   },
   deleteManyProducts: async (body) => {
     return requests.post("/product/multiple_delete", body);
-  },
-  getRelatedProduct:  async ({productId}) => {
-    return requests.get(`/product/${productId}/data`)
   },
 };
 

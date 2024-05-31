@@ -21,9 +21,6 @@ import Loading from "../../components/LoadingComponents/LoadingComponents";
 import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 
-// import Slider from "react-slick";
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
@@ -48,7 +45,7 @@ const useSlidesToShow = () => {
     };
 
     useEffect(() => {
-        updateSlidesToShow(); // Set initial value
+        updateSlidesToShow(); 
         window.addEventListener('resize', updateSlidesToShow);
         return () => {
             window.removeEventListener('resize', updateSlidesToShow);
@@ -89,7 +86,40 @@ function ProductDetails() {
     const pathURL = window.location.pathname
     const splitURL = pathURL.split('/')
     const productId = splitURL[splitURL.length-1];
-
+    const relatedSettings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: relatedProductSlidesToShow,
+        slidesToScroll: 1,
+        arrows: true,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: relatedProductSlidesToShow,
+                    slidesToScroll: 1,
+                    arrows: true,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: Math.min(relatedProductSlidesToShow?.length, 2),
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                },
+            },
+        ],
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -99,11 +129,7 @@ function ProductDetails() {
         }
     }, []);
 
-    useEffect(() => {
-        if (productID) {
-            getRelatedProducts()
-        }
-    }, []);
+    
     const fetchData = async () => {
         try {
             await Promise.all([
@@ -174,19 +200,22 @@ function ProductDetails() {
             return resp;
         } catch (error) {
             console.log(error);
-            throw error; // Propagate the error
+            throw error; 
         }
     }
 
 
     function getProductsDetails() {
+        setRelatedProductLoader(true)
+
         ProductServices.getProductById(productId).then((resp) => {
             if (resp?.status_code === 200) {
-                // console.log("res",resp.data)
                 dispatch(setProductDetails({
                     ...resp.data
                 }))
                 setProductData(resp?.data)
+                setRelatedProduct(resp?.data.relatedProducts)
+                
                 if (resp?.data?.variants) {
                     let variantsData = JSON.parse(resp?.data?.variants)
                     for (let index = 0; index < variantsData.length; index++) {
@@ -213,30 +242,15 @@ function ProductDetails() {
                 } else {
                     setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
                 }
+                const timers = setTimeout(() => {
+                    setRelatedProductLoader(false)
+                }, 500)
+                return () => clearTimeout(timers);
             }
         }).catch((error) => {
-            // setLoading(false)
             console.log(error)
         })
     }
-
-
-
-
-    const handleNext = () => {
-        // const newIndex = Math.min(startIndex + 1, productData?.images?.length - 1);
-        const newIndex = (startIndex + 1) % productData?.images?.length;
-        setStartIndex(newIndex);
-
-        // setStartIndex(newIndex);
-    };
-
-    const handlePrev = () => {
-        // const newIndex = Math.max(startIndex - 1, 0);
-        const newIndex = (startIndex - 1 + productData?.images?.length) % productData?.images?.length;
-
-        setStartIndex(newIndex);
-    };
 
     const handleIncrement = () => {
         setQuantity(quantity + 1);
@@ -247,53 +261,21 @@ function ProductDetails() {
             setQuantity(quantity - 1);
         }
     };
-    const handleThumbnailHover = (imagePath) => {
-        setSelectedImage(imagePath);
-    };
-
     const handleThumbnailClick = (imagePath) => {
         setSlideDirection(selectedImage < imagePath ? 'right' : 'left');
-        // Handle click event if needed
         setSelectedImage(imagePath);
     };
-
 
     const handleTabClick = (tab) => {
         setSelectedTab(tab);
     };
 
-    const renderTabs = () => {
-        return tabNames.map((tabName) => (
-            <td
-                key={tabName}
-                className={`tab tab-title  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`}
-                onClick={() => handleTabClick(tabName)}
-            >
-                {tabName.charAt(0).toUpperCase() + tabName.slice(1)}
-            </td>
-        ));
-    };
     const truncateString = (str, maxLength) => {
         if (str?.length <= maxLength) return str;
         return str.substr(0, maxLength) + "...";
     };
-    const renderContent = () => {
-        switch (selectedTab) {
-            case 'description':
-                return <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
-            case 'review':
-                return <p>Product Reviews Go Here</p>;
-            case 'enquiry':
-                return <p>Enquiry Form Goes Here</p>;
-            case 'shipping':
-                return <p>Shipping Information Goes Here</p>;
-            default:
-
-                return null;
-        }
-    };
+  
     const addtoCart = (product) => {
-        // notifySuccess('added to the cart!');
         const existingCartItem = cartItems.find(item => item.id === product.id);
         let message = truncateString(product?.name, 60)
         if (existingCartItem) {
@@ -301,7 +283,7 @@ function ProductDetails() {
                 if (item.id === product.id) {
                     return {
                         ...item,
-                        purchaseQty: quantity,//item.purchaseQty +
+                        purchaseQty: quantity,
                         totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
                         price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
                         sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
@@ -312,9 +294,7 @@ function ProductDetails() {
             });
             dispatch(updateCartItems(updatedCartItems));
             notifySuccess(`${message} already added in the cart!`);
-            // dispatch(updateCartItems(updatedCartItems));
         } else {
-            // console.log(selectedProductsVarints)
             let cartObj = {
                 id: product.id,
                 name: product.name,
@@ -329,34 +309,24 @@ function ProductDetails() {
             if (selectedProductsVarints) {
                 cartObj['variants'] = selectedProductsVarints;
             }
-            // console.log(cartObj)
             notifySuccess(`${message} added to the cart!`);
-            // {truncateString(productItem?.name, 80)}
             dispatch(addtoCartItems(cartObj));
         }
     }
     const selectVarintsProducts = (id, optionID, types) => {
-        // console.log("productsVariants", productsVariants)
-        // console.log(id)
-        // console.log("selected options", optionID)
-        // console.log("chooseVariants", chooseVariants)
+       
         let index = chooseVariants[id] === optionID
-        // console.log(index)
         let updateChooseVariants = chooseVariants
-
         if (index !== true) {
             updateChooseVariants[id] = optionID
         } else {
             delete updateChooseVariants[id]
         }
-        // console.log(chooseVariants)
-        // console.log("updateChooseVariants", updateChooseVariants)
+
         if (types === "drop-down") {
             let index = attributes.findIndex((x) => x.id === id)
             let obj = attributes[index]?.variants?.find(item => String(item.id) === optionID)
-            // console.log(obj?.name)
             setSelectedOption(obj?.name);
-
         }
 
         const getNumericKeyValuePairs = (obj) => {
@@ -371,7 +341,6 @@ function ProductDetails() {
 
         const convertedDatas = productsVariants.map(obj => {
             return Object.entries(obj).reduce((newObj, [key, value]) => {
-                // Convert every numeric value to a string
                 newObj[key] = value.toString();
                 return newObj;
             }, {});
@@ -380,28 +349,12 @@ function ProductDetails() {
         const numericValueArrayStrings = numericKeyValuePairsArray.map(obj => JSON.stringify(obj));
         const chooseOptionString = JSON.stringify(updateChooseVariants);
         const matchingIndex = numericValueArrayStrings.indexOf(chooseOptionString);
-        // console.log(matchingIndex);
-        // console.log("productsVariants", productsVariants[matchingIndex])
-
         setChooseVariants(updateChooseVariants)
         setSelectedProductVarints(matchingIndex == -1 ? '' : productsVariants[matchingIndex])
-
-        // const idKey = Object.keys(data).find(key => data[key] === String(index));
-        // console.log(idKey); // This will log the key name where the value is "42", in your direct mapping example it would log "17"
-        // console.log("chooseVariants", chooseVariants);
-
-        // setChooseVariants(updateChooseVariants)
-
-        // setProductsVariantsPrice(data?.originalPrice)
-        // setProductsVariantsSellPrice(data?.sell_price)
     };
-
-    // console.log("productsVariants", productsVariants)
-    // console.log("attributes", attributes)
 
     const numImages = productData?.images.length || 0;
     const slidesToShow = numImages >= 3 ? 3 : numImages;
-
     const settings = {
         dots: false,
         arrows: true,
@@ -481,56 +434,8 @@ function ProductDetails() {
         }
     };
 
-    function getRelatedProducts() {
-        setRelatedProductLoader(true)
-        console.log('productId-------------------', productId)
-        ProductServices.getRelatedProduct({productId}).then((resp) => {
-            if (resp?.status_code === 200) {
-                setRelatedProduct(resp?.data.relatedProducts)
-                const timers = setTimeout(() => {
-                    setRelatedProductLoader(false)
-                }, 500)
-                return () => clearTimeout(timers);
-            }
-        }).catch((error) => {
-            console.log(error)
-        })
-    }
 
-    const relatedSettings = {
-        dots: false,
-        infinite: false,
-        speed: 500,
-        slidesToShow: relatedProductSlidesToShow,
-        slidesToScroll: 1,
-        arrows: true,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: relatedProductSlidesToShow,
-                    slidesToScroll: 1,
-                    arrows: true,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: Math.min(relatedProductSlidesToShow?.length, 2),
-                    slidesToScroll: 1,
-                    arrows: false,
-                },
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    arrows: false,
-                },
-            },
-        ],
-    };
+  
 
     const relatedAddToCart = (event, productItem) => {
         event.stopPropagation();
@@ -554,11 +459,6 @@ function ProductDetails() {
             dispatch(addtoCartItems(cartObj));
         }
     }
-
-    console.log('loading---------------------', loading)
-
-
-
     if (loading) {
         return <SpinnerLoading loading={loading} />
     }
@@ -649,7 +549,7 @@ function ProductDetails() {
                                                 Stock: {selectedProductsVarints ? selectedProductsVarints?.quantity : "Out of Stock"}
                                             </div>
                                             {!selectedProductsVarints ? (
-                                                <div className="mt-1 validation-error">
+                                                <div className="mt-1 validation-error text-left">
                                                     This Variants Not Available
                                                 </div>
                                             ) : null}
