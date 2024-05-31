@@ -130,6 +130,8 @@ function ProductDetails() {
     }, []);
     useEffect(() => {
         if (location.state?.id) {
+            setLoading(true)
+            window.scrollTo(0, 0);
             getProductsDetails(location.state?.id)
         }
     }, [location.state]);
@@ -249,7 +251,9 @@ function ProductDetails() {
                     setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
                 }
                 const timers = setTimeout(() => {
+                    setLoading(false)
                     setRelatedProductLoader(false)
+                    
                 }, 500)
                 return () => clearTimeout(timers);
             }
@@ -478,7 +482,7 @@ function ProductDetails() {
     }
     return (
         <>
-            <div className="container single_product_container mb-2">
+            <div className="container single_product_container border-bottom-0 mb-2">
                 {productData && (
                     <div>
                         <div className="row">
