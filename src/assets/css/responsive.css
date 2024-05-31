@@ -497,6 +497,9 @@
     right: -100%;
     width: 100%;
   }
+  .breadcrumbs{
+    height: 120px;
+  }
 
   /* .product-item {
     height: 420px;

@@ -571,7 +571,7 @@ function ProductDetails() {
                             <Toast />
 
                             <div className="col">
-                                <div className="breadcrumbs d-flex flex-row align-items-center">
+                                <div className="breadcrumbs d-flex flex-row align-items-center mt-2 mb-2">
                                     <ul>
                                         <li>
                                             <a href="/">Home</a>
