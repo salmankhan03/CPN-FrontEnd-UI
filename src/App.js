@@ -37,7 +37,11 @@ function App() {
 
   const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
   const [isAuthUser, setAuthUser] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
-  // console.log(isLoggedIn)
+  if (process.env.NODE_ENV === 'production') {
+    console.log = () => {};
+    console.error = () => {}
+    console.debug = () => {}
+  }
   useEffect(() => {
     getStaticPageList()
   }, [])
