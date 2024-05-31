@@ -16,7 +16,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import AtrributeServices from "../../services/attributeServices";
-import { Tabs, Tab, Row, Col, Container  } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 import Loading from "../../components/LoadingComponents/LoadingComponents";
 import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
@@ -45,7 +45,7 @@ const useSlidesToShow = () => {
     };
 
     useEffect(() => {
-        updateSlidesToShow(); 
+        updateSlidesToShow();
         window.addEventListener('resize', updateSlidesToShow);
         return () => {
             window.removeEventListener('resize', updateSlidesToShow);
@@ -85,7 +85,7 @@ function ProductDetails() {
 
     const pathURL = window.location.pathname
     const splitURL = pathURL.split('/')
-    const productId = splitURL[splitURL.length-1];
+    const productId = splitURL[splitURL.length - 1];
     const relatedSettings = {
         dots: false,
         infinite: false,
@@ -128,12 +128,18 @@ function ProductDetails() {
             fetchData();
         }
     }, []);
+    useEffect(() => {
+        if (location.state?.id) {
+            getProductsDetails(location.state?.id)
+        }
+    }, [location.state]);
 
-    
+
+
     const fetchData = async () => {
         try {
             await Promise.all([
-                getProductsDetails()
+                getProductsDetails(productId)
             ]);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -200,22 +206,22 @@ function ProductDetails() {
             return resp;
         } catch (error) {
             console.log(error);
-            throw error; 
+            throw error;
         }
     }
 
 
-    function getProductsDetails() {
+    function getProductsDetails(id) {
         setRelatedProductLoader(true)
 
-        ProductServices.getProductById(productId).then((resp) => {
+        ProductServices.getProductById(id).then((resp) => {
             if (resp?.status_code === 200) {
                 dispatch(setProductDetails({
                     ...resp.data
                 }))
                 setProductData(resp?.data)
                 setRelatedProduct(resp?.data.relatedProducts)
-                
+
                 if (resp?.data?.variants) {
                     let variantsData = JSON.parse(resp?.data?.variants)
                     for (let index = 0; index < variantsData.length; index++) {
@@ -274,7 +280,7 @@ function ProductDetails() {
         if (str?.length <= maxLength) return str;
         return str.substr(0, maxLength) + "...";
     };
-  
+
     const addtoCart = (product) => {
         const existingCartItem = cartItems.find(item => item.id === product.id);
         let message = truncateString(product?.name, 60)
@@ -314,7 +320,7 @@ function ProductDetails() {
         }
     }
     const selectVarintsProducts = (id, optionID, types) => {
-       
+
         let index = chooseVariants[id] === optionID
         let updateChooseVariants = chooseVariants
         if (index !== true) {
@@ -435,7 +441,7 @@ function ProductDetails() {
     };
 
 
-  
+
 
     const relatedAddToCart = (event, productItem) => {
         event.stopPropagation();
@@ -458,6 +464,14 @@ function ProductDetails() {
             notifySuccess(`${message} added to the cart!`);
             dispatch(addtoCartItems(cartObj));
         }
+    }
+    const getDetails = (data) => {
+        console.log(data);
+        navigate(`/products-details/${data}`, {
+            state: {
+                id: data
+            }
+        })
     }
     if (loading) {
         return <SpinnerLoading loading={loading} />
@@ -718,7 +732,7 @@ function ProductDetails() {
                                 <div className="" >
                                     <Slider {...relatedSettings}>
                                         {relatedProduct.map((item, index) => (
-                                            <div key={index} className=" product-slide">
+                                            <div key={index} className=" product-slide" onClick={() => getDetails(item?.id)}>
                                                 <div className="product-details category-item product-card p-4 m-2">
 
                                                     <div className="product_image mb-3">
@@ -733,9 +747,9 @@ function ProductDetails() {
                                                     <div className="d-flex mt-2 justify-content-between">
                                                         <div className="priceLabel">${item?.sell_price}</div>
                                                         <div>
-                                                                <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
-                                                                    <i className="fas fa-shopping-bag mt-2"></i>
-                                                                </span>
+                                                            <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
+                                                                <i className="fas fa-shopping-bag mt-2"></i>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
