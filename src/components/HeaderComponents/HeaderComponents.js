@@ -252,7 +252,7 @@ function Header() {
               <div className="left-content">
                 <Link to="/">
                 {scrollPosition > 0 ?(
-                  <div>CANADIAN PINNACLE NUTRITECH</div>
+                  <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
                 ):(
                   <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
                 )}
