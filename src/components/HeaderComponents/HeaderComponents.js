@@ -82,6 +82,18 @@ const NavManu = styled.ul`
         color: #fff;
       }
     }
+    .fixed-heder-list {
+      text-decoration: none;
+      color: #b8c3dc;
+      display: block;
+      padding: 10px 10px;
+      font-size: 18px;
+    }
+    .fixed-heder-list{
+      &:hover {
+        color: #415da1;
+      }
+    }
     @media screen and (max-width: 1199px) {
       display: ${(props) => (props.isToggleOpen ? "flex" : "none")};
       flex-direction: column;
@@ -236,36 +248,40 @@ function Header() {
         </div>
         <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
           <div className="PrimaryBGColor">
-            <nav className="header-content-top bottomHeaderBG">
+            <nav className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : 'bottomHeaderBG'} `}>
               <div className="left-content">
                 <Link to="/">
+                {scrollPosition > 0 ?(
+                  <div>CANADIAN PINNACLE NUTRITECH</div>
+                ):(
                   <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                )}
                 </Link>
               </div>
               <div className="middle-content" >
-                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
+                <NavManu  isToggleOpen={isToggleOpen} ref={navMenuRef}>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/"} className="nav-menu-list" onClick={handleToggleOpen}>
+                    <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       Home
                     </Link>
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"#"} className="nav-menu-list" onClick={handleToggleOpen}>
+                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       About Us
                     </Link>
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/Shop"} className="nav-menu-list" onClick={handleToggleOpen}>
+                    <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       Shop
                     </Link>
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/faq"} className="nav-menu-list" onClick={handleToggleOpen}>
+                    <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       Faq
                     </Link>
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 35 }}>
-                    <Link to={'#'} className="nav-menu-list" onClick={handleToggleOpen}>
+                    <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       Contact
                     </Link>
                   </li>
@@ -291,7 +307,7 @@ function Header() {
                     )}
                   </div>
                   {/* onMouseLeave={() => setIsOpen(false)} */}
-                  <div className="icon hide-div displyHide" onMouseEnter={() => setIsOpen(true)} ref={dropdownRef}>
+                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)}  ref={dropdownRef}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
                     {isOpen && (
                       <div className="dropdown-content">
