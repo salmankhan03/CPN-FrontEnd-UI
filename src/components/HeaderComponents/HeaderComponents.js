@@ -84,14 +84,14 @@ const NavManu = styled.ul`
     }
     .fixed-heder-list {
       text-decoration: none;
-      color: #b8c3dc;
+      color: #415da1;
       display: block;
       padding: 10px 10px;
       font-size: 18px;
     }
     .fixed-heder-list{
       &:hover {
-        color: #415da1;
+        color: #b8c3dc;
       }
     }
     @media screen and (max-width: 1199px) {
