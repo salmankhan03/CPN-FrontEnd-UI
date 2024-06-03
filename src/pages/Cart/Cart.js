@@ -26,6 +26,7 @@ const CartPage = () => {
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
     const [couponDiscount, setCouponDiscount] = useState(0)
     useEffect(()=>{
+        window.scrollTo(0, 0);
         setLoading(true)
         const timers = setTimeout(() => {
             setLoading(false)

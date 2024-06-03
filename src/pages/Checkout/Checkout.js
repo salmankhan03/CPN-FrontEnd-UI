@@ -30,7 +30,6 @@ const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n
 const CheckoutPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const [islogin, setIsLogin] = useState(true)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
@@ -216,6 +215,7 @@ const CheckoutPage = () => {
     }, [shippingFormData?.zipcode]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         // console.log("AuthData",AuthData)
         setLoading(true)
         if (cartItems.length === 0) {

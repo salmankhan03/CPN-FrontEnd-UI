@@ -51,7 +51,6 @@ const useSlidesToShow = () => {
 };
 
 function HomeScreen() {
-
     const [selectedCategories, setSelectedCategories] = useState(null);
     const [page, setPage] = useState(1)
     const [defaultLimit, setDefaultLimit] = useState(20)
@@ -106,6 +105,7 @@ function HomeScreen() {
         ],
     };
     useEffect(() => {
+        window.scrollTo(0, 0);
         fetchData();
     }, []);
 

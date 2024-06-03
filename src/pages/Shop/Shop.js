@@ -77,6 +77,7 @@ function ShopScreen() {
         { id: 7, name: 'outofstock' }
     ]);
     useEffect(() => {
+        window.scrollTo(0, 0);
         fetchData()
         if (location?.state?.selectedCategory) {
             setTimeout(() => {

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 
 const PrivacyPolicy = () => {
+    window.scrollTo(0, 0);
     const [loading, setLoading] = useState(true)
     const templateList = useSelector(state => state.TemplateReducer.templateList);
     const [privacyPolicyData, setPrivacyPolicyData] = useState()

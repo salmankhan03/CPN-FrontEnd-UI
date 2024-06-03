@@ -85,6 +85,7 @@ const Faq = () => {
         // Add more FAQ items as needed
     ];
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true)
         setBanner_loader(true)
         setFaqData_Loader(true)
