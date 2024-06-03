@@ -3599,3 +3599,30 @@ text-align: center;
 }
 
 /*Toast Css  */
+/* load more button */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust margin as needed */
+}
+
+.load-more-button {
+  padding: 5px 10px !important;
+  background-color: #fe4c50 !important; /* Button color */
+  color: #fff !important; /* Text color */
+  border: none !important;
+  border-radius: 5px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease;
+}
+
+.load-more-button:hover {
+  background-color: #af5d5f; /* Hover color */
+}
+
+@media (max-width: 768px) {
+  .load-more-container {
+    margin-top: 10px;
+  }
+}
+/* load more button */
