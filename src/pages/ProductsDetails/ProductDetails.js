@@ -689,7 +689,7 @@ function ProductDetails() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row mt-5 product-detail" >
+                        <div className="row marginTopBottom product-detail" >
                             <Container className="mt-4">
                                 <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
                                     <Tab eventKey="description" title="Description">
@@ -713,7 +713,7 @@ function ProductDetails() {
                     </div>
                 )}
 
-                <div className="product-list-container mt-5">
+                <div className="product-list-container marginTopBottom">
                     <div className="row">
                         <div className="col-12 col-md-12 col-lg-12">
                             <div className="d-flex align-items-center">
