@@ -105,63 +105,9 @@ function ShopScreen() {
             ]);
         }
     }, [name, id])
-    // useEffect(() => {
-    //     const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
-    //     const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
-    //     let obj = {};
-    //     switch (selectedSortingOption) {
-    //         case "low":
-    //             obj.sort = { price: "asc" };
-    //             break;
-    //         case "high":
-    //             obj.sort = { price: "desc" };
-    //             break;
-    //         case "weekly_featured_products":
-    //             obj.sort = { "is_featured_updated_at": "DESC" };
-    //             break;
-    //         case "new_products":
-    //             obj.sort = { "created_at": "DESC" };
-    //             break;
-    //         case "products_on_sale":
-    //             obj.sort = { "sell_price_updated_at": "DESC" };
-    //             break;
-    //         case "top_rated_products":
-    //             obj.sort = { "ratings_updated_at": "DESC" };
-    //             break;
-    //         case "most_viewed_products":
-    //             obj.sort = { "visitors_counter": "DESC" };
-    //             break;
-    //         default:
-    //         // Handle default case if needed
-    //     }
-    //     console.log("selectedCategories", selectedCategories)
-    //     const uniqueArray = [...new Set(selectedCategories)];
-    //
-    //     console.log('ommmmmmmmmmmmmmmmmmmmm---------------', maxPrice)
-    //
-    //     let data = {
-    //         category: uniqueArray,
-    //         brands: selectedBrandNames,
-    //         price: filteredPrice[1] === null || filteredPrice[1] === undefined
-    //             ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
-    //             : filteredPrice,
-    //         ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
-    //     };
-    //
-    //     console.log("DATA", data)
-    //     // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
-    //     if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
-    //         getfilterWiseProduct(data)
-    //         setProductsListData([])
-    //     } else {
-    //         setProductsListData([])
-    //         getProductsList()
-    //     }
-    //
-    // }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption, brandData])
 
     useEffect(() => {
-        if (!show) {  // Add this condition
+        if (!show) {
             const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
             const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
             let obj = {};
