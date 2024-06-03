@@ -14,6 +14,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useParams } from 'react-router-dom';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
+import { Offcanvas, Button } from 'react-bootstrap';
 
 function ShopScreen() {
     // const { type, id } = useParams();
@@ -49,6 +50,11 @@ function ShopScreen() {
     const [selectedOption, setSelectedOption] = useState();
     const [selectedSortingOption, setSelectedSortingOption] = useState(location?.state?.sorting);
     const [maxPrice, setMaxPrice] = useState()
+    const [show, setShow] = useState(false);
+    const [filtersChanged, setFiltersChanged] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
 
 
@@ -98,60 +104,112 @@ function ShopScreen() {
             ]);
         }
     }, [name, id])
+    // useEffect(() => {
+    //     const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
+    //     const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
+    //     let obj = {};
+    //     switch (selectedSortingOption) {
+    //         case "low":
+    //             obj.sort = { price: "asc" };
+    //             break;
+    //         case "high":
+    //             obj.sort = { price: "desc" };
+    //             break;
+    //         case "weekly_featured_products":
+    //             obj.sort = { "is_featured_updated_at": "DESC" };
+    //             break;
+    //         case "new_products":
+    //             obj.sort = { "created_at": "DESC" };
+    //             break;
+    //         case "products_on_sale":
+    //             obj.sort = { "sell_price_updated_at": "DESC" };
+    //             break;
+    //         case "top_rated_products":
+    //             obj.sort = { "ratings_updated_at": "DESC" };
+    //             break;
+    //         case "most_viewed_products":
+    //             obj.sort = { "visitors_counter": "DESC" };
+    //             break;
+    //         default:
+    //         // Handle default case if needed
+    //     }
+    //     console.log("selectedCategories", selectedCategories)
+    //     const uniqueArray = [...new Set(selectedCategories)];
+    //
+    //     console.log('ommmmmmmmmmmmmmmmmmmmm---------------', maxPrice)
+    //
+    //     let data = {
+    //         category: uniqueArray,
+    //         brands: selectedBrandNames,
+    //         price: filteredPrice[1] === null || filteredPrice[1] === undefined
+    //             ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
+    //             : filteredPrice,
+    //         ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
+    //     };
+    //
+    //     console.log("DATA", data)
+    //     // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
+    //     if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
+    //         getfilterWiseProduct(data)
+    //         setProductsListData([])
+    //     } else {
+    //         setProductsListData([])
+    //         getProductsList()
+    //     }
+    //
+    // }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption, brandData])
+
     useEffect(() => {
-        const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
-        const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
-        let obj = {};
-        switch (selectedSortingOption) {
-            case "low":
-                obj.sort = { price: "asc" };
-                break;
-            case "high":
-                obj.sort = { price: "desc" };
-                break;
-            case "weekly_featured_products":
-                obj.sort = { "is_featured_updated_at": "DESC" };
-                break;
-            case "new_products":
-                obj.sort = { "created_at": "DESC" };
-                break;
-            case "products_on_sale":
-                obj.sort = { "sell_price_updated_at": "DESC" };
-                break;
-            case "top_rated_products":
-                obj.sort = { "ratings_updated_at": "DESC" };
-                break;
-            case "most_viewed_products":
-                obj.sort = { "visitors_counter": "DESC" };
-                break;
-            default:
-            // Handle default case if needed
+        if (!show) {  // Add this condition
+            const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
+            const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
+            let obj = {};
+            switch (selectedSortingOption) {
+                case "low":
+                    obj.sort = { price: "asc" };
+                    break;
+                case "high":
+                    obj.sort = { price: "desc" };
+                    break;
+                case "weekly_featured_products":
+                    obj.sort = { "is_featured_updated_at": "DESC" };
+                    break;
+                case "new_products":
+                    obj.sort = { "created_at": "DESC" };
+                    break;
+                case "products_on_sale":
+                    obj.sort = { "sell_price_updated_at": "DESC" };
+                    break;
+                case "top_rated_products":
+                    obj.sort = { "ratings_updated_at": "DESC" };
+                    break;
+                case "most_viewed_products":
+                    obj.sort = { "visitors_counter": "DESC" };
+                    break;
+                default:
+            }
+            const uniqueArray = [...new Set(selectedCategories)];
+
+            let data = {
+                category: uniqueArray,
+                brands: selectedBrandNames,
+                price: filteredPrice[1] === null || filteredPrice[1] === undefined
+                    ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
+                    : filteredPrice,
+                ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
+            };
+
+            if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
+                getfilterWiseProduct(data);
+                setProductsListData([]);
+            } else {
+                setProductsListData([]);
+                getProductsList();
+            }
+            setFiltersChanged(false);
         }
-        console.log("selectedCategories", selectedCategories)
-        const uniqueArray = [...new Set(selectedCategories)];
+    }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption, brandData, show]);
 
-        console.log('ommmmmmmmmmmmmmmmmmmmm---------------', maxPrice)
-
-        let data = {
-            category: uniqueArray,
-            brands: selectedBrandNames,
-            price: filteredPrice[1] === null || filteredPrice[1] === undefined
-                ? [0, maxPrice !== undefined ? JSON.parse(maxPrice) : 0]
-                : filteredPrice,
-            ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
-        };
-
-        console.log("DATA", data)
-        // (selectedCategories.length > 0 || selectedBrands.length > 0) && filteredPrice !== null
-        if (data?.brands?.length > 0 || data?.category?.length > 0 || data?.price[1] !== 0) {
-            getfilterWiseProduct(data)
-            setProductsListData([])
-        } else {
-            setProductsListData([])
-            getProductsList()
-        }
-
-    }, [selectedCategories, selectedBrands, filteredPrice, selectedSortingOption, brandData])
     const fetchData = async () => {
         try {
             await Promise.all([
@@ -278,9 +336,11 @@ function ShopScreen() {
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
         setCurrentPage(1)
+        setFiltersChanged(true);
     };
     const handleSortingChange = (e) => {
         setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
+        setFiltersChanged(true);
     };
     console.log(selectedSortingOption)
     if (loader) {
@@ -289,6 +349,9 @@ function ShopScreen() {
     return (
         <div className="" >
             <div className="custom-container">
+                <div style={{display: 'flex'}} className={'sidebarMobile'}>
+                    <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
+                </div>
                 <div className="row mt-3" style={{}}>
                     <div className="col-md-12 col-lg-3 sidebar_hide mt-2 ">
                         <div className='m-2'>
@@ -376,6 +439,28 @@ function ShopScreen() {
                             </React.Fragment>
                         )}
                     </div>
+
+
+                    <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+                        <Offcanvas.Header closeButton>
+                            <Offcanvas.Title>Filters</Offcanvas.Title>
+                        </Offcanvas.Header>
+                        <Offcanvas.Body>
+                            <LeftSideBarComponents
+                                categoriesData={categoriesData}
+                                brandData={brandData}
+                                availabilityData={availabilityData}
+                                selectedCategories={selectedCategories}
+                                setSelectedCategories={setSelectedCategories}
+                                selectedBrands={selectedBrands}
+                                setSelectedBrands={setSelectedBrands}
+                                filteredPrice={filteredPrice}
+                                setFilteredPrice={setFilteredPrice}
+                                maximumPrice={maxPrice}
+                                categoryLoader={categories_Loader}
+                            />
+                        </Offcanvas.Body>
+                    </Offcanvas>
                 </div>
             </div>
             <div>

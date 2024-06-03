@@ -3037,7 +3037,7 @@ h2 {
 }
 
 .select-dropdown {
-  height: 3rem;
+  height: 2.2rem;
   line-height: 2.75rem;
   border-radius: 1rem;
   position: relative;
@@ -3626,3 +3626,31 @@ text-align: center;
   }
 }
 /* load more button */
+
+@media (max-width: 992px) {
+  .sidebar_hide {
+    display: none;
+  }
+  .sidebarMobile{
+    margin-top: 30px!important;
+    margin-bottom: 20px !important;
+  }
+  .offcanvas-start{
+    height: calc(100vh - 119px);
+    top: 119px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .offcanvas-start{
+    height: calc(100vh - 75px);
+    top: 75px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .sidebarMobile{
+    margin-top: 0px!important;
+    margin-bottom: 0px !important;
+  }
+}
