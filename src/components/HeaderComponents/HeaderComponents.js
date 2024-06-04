@@ -10,6 +10,8 @@ import Cookies from 'js-cookie';
 import AuthServices from '../../services/AuthServices';
 import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action/auth-action';
 import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
+import BannersServices from '../../services/BannersServices';
+import Carousel from 'react-bootstrap/Carousel';
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -109,19 +111,19 @@ const NavManu = styled.ul`
     }
   `;
 
-  const useWindowWidth = () => {
-    const [width, setWidth] = useState(window.innerWidth);
-  
-    useEffect(() => {
-      const handleResize = () => setWidth(window.innerWidth);
-  
-      window.addEventListener('resize', handleResize);
-      
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
-  
-    return width;
-  };
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return width;
+};
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -131,6 +133,7 @@ function Header() {
   const width = useWindowWidth();
 
   const [isToggleOpen, setIsToggleOpen] = useState(false);
+  const [slogans, setSlogans] = useState([])
   const [isEllipsisToggleOpen, setIsEllipsisToggleOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const cartItems = useSelector(state => state.CartReducer.cartItems);
@@ -138,50 +141,79 @@ function Header() {
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navMenuRef = useRef(null);
-  const ellipsisRef = useRef(null)
+  const ellipsisRef = useRef(null);
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
 
   useEffect(() => {
     console.log("user Login or not", AuthData, GuestData);
     console.log("width", width);
-  
+    getSlogan()
+
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
     };
-  
+
     const handleOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
-  
+
     const handleNavManuOutsideClick = (event) => {
       if (navMenuRef.current && !navMenuRef.current.contains(event.target)) {
         setIsToggleOpen(false);
       }
     };
-    
+
     const handleEllipsisOutsideClick = (event) => {
       if (ellipsisRef.current && !ellipsisRef.current.contains(event.target)) {
         setIsEllipsisToggleOpen(false);
       }
     };
-  
+
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleOutsideClick);
     document.addEventListener('mousedown', handleNavManuOutsideClick);
     document.addEventListener('mousedown', handleEllipsisOutsideClick);
 
-  
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('mousedown', handleNavManuOutsideClick);
     };
   }, []);
-  
- 
+
+  const getSlogan = async () => {
+    try {
+      const resp = await BannersServices.getSlogan();
+
+      if (resp?.status_code === 200) {
+        if (resp?.list?.data?.length > 0) {
+          setSlogans(resp?.list?.data);
+        } else {
+          const staticSlogan = [{
+            id: 0,
+            text: "We are open with limited hours and staff.",
+            url: "#"
+          }];
+          setSlogans(staticSlogan);
+            // console.log('No slogans available.');
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+    }
+  };
+
+
   const handleNavigation = (url) => {
-    console.log("url",url)
+    console.log("url", url)
     setIsToggleOpen(false);
     setIsEllipsisToggleOpen(false);
     navigate(`/${url}`);
@@ -242,7 +274,21 @@ function Header() {
         <div className={`header-content-top  hide-div `}>
           <div className="left-content"></div>
           <div className="middle-content">
-            <strong className="topBarCenterText">We are open with limited hours and staff.</strong>
+            <Carousel
+              activeIndex={index}
+              onSelect={handleSelect}
+              controls={false}
+              indicators={false}
+            >
+              {slogans?.map((slogan, idx) => (
+                <Carousel.Item key={idx} interval={10000}>
+                  <a href={slogan?.url} target="_blank" rel="noopener noreferrer">
+                    <strong className="topBarCenterText">{slogan?.text}</strong>
+                  </a>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+
           </div>
           <div className="right-content"></div>
         </div>
@@ -251,15 +297,15 @@ function Header() {
             <nav className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : 'bottomHeaderBG'} `}>
               <div className="left-content">
                 <Link to="/">
-                {scrollPosition > 0 ?(
-                  <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
-                ):(
-                  <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
-                )}
+                  {scrollPosition > 0 ? (
+                    <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                  ) : (
+                    <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                  )}
                 </Link>
               </div>
               <div className="middle-content" >
-                <NavManu  isToggleOpen={isToggleOpen} ref={navMenuRef}>
+                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
                       Home
@@ -307,7 +353,7 @@ function Header() {
                     )}
                   </div>
                   {/* onMouseLeave={() => setIsOpen(false)} */}
-                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)}  ref={dropdownRef}>
+                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
                     {isOpen && (
                       <div className="dropdown-content">
@@ -341,40 +387,40 @@ function Header() {
                       <div className="row mt-2">
                         <div className="col text-right">
                           <div className="d-inline-flex align-items-center">
-                       
+
                             <React.Fragment>
-                            <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
-                              <i className="fas fa-cart-arrow-down fa-lg text-black"></i>
-                              {cartItems.length !== undefined && cartItems.length > 0 && (
-                                <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-10px', right: '-10px' }}>
-                                  {cartItems.length}
-                                </span>
-                              )}
-                            </div>
-                            <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
-                              <i className="fa fa-user fa-lg text-black" aria-hidden="true"></i>
-                            </div>
+                              <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
+                                <i className="fas fa-cart-arrow-down fa-lg text-black"></i>
+                                {cartItems.length !== undefined && cartItems.length > 0 && (
+                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-10px', right: '-10px' }}>
+                                    {cartItems.length}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
+                                <i className="fa fa-user fa-lg text-black" aria-hidden="true"></i>
+                              </div>
                             </React.Fragment>
-                           
+
                           </div>
                         </div>
                       </div>
-                
+
 
 
                     </div>
-                    
+
                   }
-                 {isOpen && width <= 768 ? (
-                      <div className="dropdown-content" ref={dropdownRef}>
-                        {AuthData === undefined && GuestData === undefined ? (
-                          <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
-                        ) : (
-                          <div className='text-black pt-2' onClick={logout}>logout</div>
-                        )}
-                        <div className='text-black pt-2' onClick={() => handleNavigation('#')}>My Account</div>
-                      </div>
-                    ):null}
+                  {isOpen && width <= 768 ? (
+                    <div className="dropdown-content" ref={dropdownRef}>
+                      {AuthData === undefined && GuestData === undefined ? (
+                        <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
+                      ) : (
+                        <div className='text-black pt-2' onClick={logout}>logout</div>
+                      )}
+                      <div className='text-black pt-2' onClick={() => handleNavigation('#')}>My Account</div>
+                    </div>
+                  ) : null}
 
                 </div>
               </div>
