@@ -13,6 +13,7 @@ import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastCompo
 import BannersServices from '../../services/BannersServices';
 import Carousel from 'react-bootstrap/Carousel';
 import { Offcanvas, Button } from 'react-bootstrap';
+import ProductServices from '../../services/ProductServices';
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -145,11 +146,21 @@ function Header() {
   const ellipsisRef = useRef(null);
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
-  const [searchInputText, setSearchInputText]= useState('')
+  const [searchInputText, setSearchInputText] = useState('')
+  const [searchResults, setSearchResults] = useState([]);
 
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current && dropdownRef.current) {
+      const inputWidth = inputRef.current.offsetWidth;
+      dropdownRef.current.style.width = `${inputWidth}px`;
+    }
+  }, [searchInputText]);
 
   const handleClose = () => {
     setShow(false);
+    setSearchResults([]);
     // navigate(`/Shop?name=search=${searchInputText}`)
   }
   const handleShow = () => {
@@ -157,12 +168,44 @@ function Header() {
     setShow(true);
   }
   const handleInputChange = (e) => {
-    setSearchInputText(e.target.value);
+    const query = e.target.value;
+    setSearchInputText(query);
+    searchProducts(query);
   };
+  const handleResultClick = (result) => {
+    setSearchInputText(result);
+    setSearchResults([]);
+  };
+  const clearSearchText = () => {
+    setSearchInputText('');
+    setSearchResults([]);
+  };
+ 
+  async function searchProducts(query) {
+    await ProductServices.getSearchSuggestion({ searchParam: query }).then((resp) => {
+      if (resp?.status_code === 200) {
+        setSearchResults(resp?.list)
+
+
+        const timers = setTimeout(() => {
+          // setLoading(false)
+        }, 1000);
+        return () => clearTimeout(timers);
+      }
+    }).catch((error) => {
+      // setLoading(false)
+      console.log(error)
+    })
+  }
+  // };
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
 
+  const handleSearchInputClick = () => {
+    // Show search results when the search input is clicked
+    // fetchSearchResults(searchQuery);
+  };
   useEffect(() => {
     console.log("user Login or not", AuthData, GuestData);
     console.log("width", width);
@@ -349,15 +392,44 @@ function Header() {
                 </NavManu>
 
               </div>
-              <div className="right-content ">
+              <div className="right-content">
                 <div className="icons-container">
                   <div className="hide-div displyHide">
-                    <div className="search-container" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
-                      <input type="text" placeholder="Search for items..." className="search-input" style={{ width: 'auto', marginLeft: 10 }} />
+                    <div className="search-container position-relative" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
+                      <input
+                        type="text"
+                        placeholder="Search for items..."
+                        className="search-input"
+                        style={{ width: 'auto', marginLeft: 10 }}
+                        value={searchInputText}
+                        onChange={handleInputChange}
+                        onClick={handleSearchInputClick}
+                      />
+                      {searchInputText && (
+                        <div className="clear-search-icon search-icon" onClick={clearSearchText}>
+                          <i className="fas fa-times-circle"></i>
+                        </div>
+                      )}
                       <div className="search-icon">
                         <i className="fas fa-search"></i>
                       </div>
+
+                      {searchResults.length > 0 && (
+                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                          <ul className="list-group">
+                            {searchResults.map((result, index) => (
+                              <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                <span className='ml-1'><i className="fas fa-search"></i></span>
+                                <span className='ml-2'>{result}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
+
+
+
                   </div>
                   <div className="icon hide-div displyHide" onClick={() => handleNavigation('cart')}>
                     <i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>
@@ -438,11 +510,11 @@ function Header() {
           </div>
 
         </header>
-        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+        {/* <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>Searching Products</Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body className='d-flex flex-column justify-content-center'>
+          <Offcanvas.Body className='d-flex flex-column justify-content-top'>
             <div className='w-100'>
              
               <input 
@@ -452,6 +524,39 @@ function Header() {
                value={searchInputText}
                onChange={handleInputChange}
                 />
+            </div>
+          </Offcanvas.Body>
+        </Offcanvas> */}
+        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Searching Products</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body className='d-flex flex-column justify-content-top'>
+            <div className='w-100 position-relative'>
+              <input
+                ref={inputRef}
+                type="text"
+                className="form-control custom-search-input"
+                placeholder="Search products"
+                value={searchInputText}
+                onChange={handleInputChange}
+              />
+              {searchInputText && (
+                <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                  <ul ref={dropdownRef} className="list-group">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((result, index) => (
+                        <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                          <span className='ml-1'><i className="fas fa-search"></i></span>
+                          <span className='ml-2'>{result}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="list-group-item">No results found</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
           </Offcanvas.Body>
         </Offcanvas>

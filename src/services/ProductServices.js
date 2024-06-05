@@ -56,6 +56,10 @@ const ProductServices = {
   deleteManyProducts: async (body) => {
     return requests.post("/product/multiple_delete", body);
   },
+  getSearchSuggestion: async (body) => {
+    return requests.post("/product/generic-search", body);
+  },
+
 };
 
 export default ProductServices;
