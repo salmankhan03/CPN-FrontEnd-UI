@@ -862,7 +862,8 @@ section {
   align-items: center;
   position: absolute;
   top: 15px;
-  right: 65px;
+  /* right: 65px; */
+  margin-left: 15px;
   width: 20px;
   height: 20px;
   border-radius: 50%;

@@ -296,6 +296,10 @@
   .Toastify__toast-container--top-right {
     top: 8rem !important;
   }
+  .checkout_items{
+    top: 7px !important;
+    margin-left: 25px !important;
+  }
 }
 
 /************
