@@ -76,10 +76,10 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
     return null;
   };
   const filteredCategories = categoriesData?.filter(category =>
-    category.name.toLowerCase().includes(categorySearchTerm.toLowerCase())
+    category.name?.toLowerCase()?.includes(categorySearchTerm?.toLowerCase())
   );
   const filteredBrands = brandData?.filter(category =>
-    category.name.toLowerCase().includes(brandSearchTerm.toLowerCase())
+    category.name?.toLowerCase()?.includes(brandSearchTerm?.toLowerCase())
   );
 
   const handleSearchCategory = (event) => {
