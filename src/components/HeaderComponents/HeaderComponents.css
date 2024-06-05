@@ -188,6 +188,16 @@ header {
 .top-header-hide-show {
   display: none;
 }
+.custom-searc-input {
+  border: none !important;
+  border-bottom: 1px solid #415da1 !important;
+  border-radius: 0px !important;
+}
+.custom-searc-input:focus {
+  border-bottom: 1px solid #415da1 !important;
+  outline: none !important; 
+  box-shadow: none !important;
+}
 
 
 @media screen and (max-width: 768px) {

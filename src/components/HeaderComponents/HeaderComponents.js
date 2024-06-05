@@ -12,6 +12,7 @@ import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action
 import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
 import BannersServices from '../../services/BannersServices';
 import Carousel from 'react-bootstrap/Carousel';
+import { Offcanvas, Button } from 'react-bootstrap';
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -143,7 +144,21 @@ function Header() {
   const navMenuRef = useRef(null);
   const ellipsisRef = useRef(null);
   const [index, setIndex] = useState(0);
+  const [show, setShow] = useState(false);
+  const [searchInputText, setSearchInputText]= useState('')
 
+
+  const handleClose = () => {
+    setShow(false);
+    // navigate(`/Shop?name=search=${searchInputText}`)
+  }
+  const handleShow = () => {
+    setIsEllipsisToggleOpen(false);
+    setShow(true);
+  }
+  const handleInputChange = (e) => {
+    setSearchInputText(e.target.value);
+  };
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
@@ -202,7 +217,7 @@ function Header() {
             url: "#"
           }];
           setSlogans(staticSlogan);
-            // console.log('No slogans available.');
+          // console.log('No slogans available.');
         }
       }
     } catch (error) {
@@ -374,21 +389,14 @@ function Header() {
                   </div>
                   {isEllipsisToggleOpen &&
                     <div className='p-2 ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }} ref={ellipsisRef}>
-                      <div className='row p-2'>
-                        <div className='text-center'>
-                          <div className="search-container" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
-                            <input type="text" placeholder="Search for items..." className="search-input" style={{ width: 'auto', marginLeft: 10 }} />
-                            <div className="search-icon">
-                              <i className="fas fa-search"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                       <div className="row mt-2">
                         <div className="col text-right">
                           <div className="d-inline-flex align-items-center">
 
                             <React.Fragment>
+                              <div className="search-icon" onClick={handleShow}>
+                                <i className="fas fa-search"></i>
+                              </div>
                               <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
                                 <i className="fas fa-cart-arrow-down fa-lg text-black"></i>
                                 {cartItems.length !== undefined && cartItems.length > 0 && (
@@ -430,6 +438,24 @@ function Header() {
           </div>
 
         </header>
+        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Searching Products</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body className='d-flex flex-column justify-content-center'>
+            <div className='w-100'>
+             
+              <input 
+               type="text"
+               className="form-control custom-searc-input" 
+               placeholder="Search products"
+               value={searchInputText}
+               onChange={handleInputChange}
+                />
+            </div>
+          </Offcanvas.Body>
+        </Offcanvas>
+
 
 
       </div>
