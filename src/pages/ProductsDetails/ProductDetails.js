@@ -20,6 +20,7 @@ import { Tabs, Tab, Row, Col, Container } from 'react-bootstrap';
 import Loading from "../../components/LoadingComponents/LoadingComponents";
 import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
+import MetaTitle from "../../components/HelmetComponent/MetaTitle";
 
 
 const useSlidesToShow = () => {
@@ -498,6 +499,7 @@ function ProductDetails() {
     }
     return (
         <>
+            <MetaTitle pageTitle={productData?.name}/>
             <div className="container single_product_container border-bottom-0 mb-2">
                 {productData && (
                     <div>

@@ -6,6 +6,7 @@ import Slider2 from "../../assets/images/banner_faq.jpg"
 import SliderComponents from '../../components/SliderComponents/SliderComponents';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
+import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 
 
 const Faq = () => {
@@ -114,6 +115,7 @@ const Faq = () => {
     }
     return (
         <div className=''>
+            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
             <div className='mb-5 '>
                 {banner_loader ? (
                     <div className='d-flex justify-content-center'>

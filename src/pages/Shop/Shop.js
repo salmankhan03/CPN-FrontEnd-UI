@@ -15,6 +15,7 @@ import FooterComponents from '../../components/FooterComponents/FooterComponents
 import { useParams } from 'react-router-dom';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import { Offcanvas, Button } from 'react-bootstrap';
+import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 
 function ShopScreen() {
     // const { type, id } = useParams();
@@ -295,6 +296,7 @@ function ShopScreen() {
     }
     return (
         <div className="" >
+            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
             <div className="custom-container">
                 <div style={{display: 'flex'}} className={'sidebarMobile'}>
                     <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
