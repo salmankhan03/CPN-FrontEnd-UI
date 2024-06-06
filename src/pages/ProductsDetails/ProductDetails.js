@@ -241,8 +241,24 @@ function ProductDetails() {
                     setProductsVariants(resp?.data?.variants ? variantsData : []);
                     setAttributes(JSON.parse(resp?.data?.variants_array))
                 }
-                const tagsArray = resp?.data?.tags?.split(',');
-                setTag(tagsArray ? tagsArray : []);
+                let tagsArray = [];
+                if (resp?.data?.tags) {
+                    try {
+                        tagsArray = JSON.parse(resp?.data?.tags);
+                    } catch (error) {
+                        tagsArray = resp?.data?.tags?.split(',');
+                    }
+                }
+
+                const orderedTags = [];
+
+                if (tagsArray) {
+                    tagsArray.forEach(tag => {
+                        orderedTags.push(tag.trim());
+                    });
+                }
+
+                setTag(orderedTags);
                 if (resp?.data?.images.length > 0) {
                     setSelectedImage(resp?.data?.images[0]?.name)
                     // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
