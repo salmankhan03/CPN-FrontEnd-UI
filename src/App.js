@@ -25,6 +25,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 import Faq from './pages/Faq/Faq';
 import Profile from './pages/Profile/Profile'
 import NotFoundPage from './pages/NotFound/NotFound';
+import SearchResults from './pages/Search/SearchResult';
 
 
 
@@ -84,6 +85,7 @@ function App() {
         <Routes>
           <Route path="/" element={<WithNavbar component={HomeScreen} />} />
           <Route path="/Shop" element={<WithNavbar component={ShopScreen} />} />
+          <Route path="/search" element={<WithNavbar component={SearchResults} />} />
           <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
           {/* <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} /> */}
           <Route path="/login" element={<WithNavbar component={LoginScreen} />} />
