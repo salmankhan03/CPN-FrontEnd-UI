@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 // import logo from "../../assets/images/logo.png"
@@ -14,6 +14,7 @@ import BannersServices from '../../services/BannersServices';
 import Carousel from 'react-bootstrap/Carousel';
 import { Offcanvas, Button } from 'react-bootstrap';
 import ProductServices from '../../services/ProductServices';
+import { debounce } from 'lodash';
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -147,7 +148,7 @@ function Header() {
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
   const [searchInputText, setSearchInputText] = useState('')
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState();
 
   const inputRef = useRef(null);
 
@@ -167,26 +168,65 @@ function Header() {
     setIsEllipsisToggleOpen(false);
     setShow(true);
   }
+    const debouncedSearch = useCallback(
+    debounce((query) => {
+      searchProducts(query);
+    }, 500),
+    []
+  );
+
   const handleInputChange = (e) => {
     const query = e.target.value;
     setSearchInputText(query);
-    searchProducts(query);
+    debouncedSearch(query);
   };
-  const handleResultClick = (result) => {
-    setSearchInputText(result);
+
+  const handleResultClick = (selectedResult) => {
+    
+    if(searchResults[selectedResult] === 1){
+      getSearchResult(selectedResult,1)
+
+    }else{
+      navigate(`/search?q=${selectedResult}&searchType=autosuggest&searchIdentifier=text_search`, { state: { searchingText: selectedResult } })
+    }
     setSearchResults([]);
+
   };
   const clearSearchText = () => {
     setSearchInputText('');
     setSearchResults([]);
   };
- 
+
   async function searchProducts(query) {
+    console.log("query",query)
     await ProductServices.getSearchSuggestion({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
+        console.log("here", resp?.list)
         setSearchResults(resp?.list)
+        const timers = setTimeout(() => {
+          // setLoading(false)
+        }, 1000);
+        return () => clearTimeout(timers);
+      }
+    }).catch((error) => {
+      // setLoading(false)
+      console.log(error)
+    })
+  }
+  async function getSearchResult(query,screen) {
+    await ProductServices.getSearchResults({ searchParam: query }).then((resp) => {
+      if (resp?.status_code === 200) {
+        console.log("here", resp?.list)
+        // setSearchResults(resp?.list)
+        if(screen === 1){
+          navigate(`/products-details/${resp?.list[0].id}`, {
+            state: {
+                id: resp?.list[0].id
+            }
+        })
+        }else{
 
-
+        }
         const timers = setTimeout(() => {
           // setLoading(false)
         }, 1000);
@@ -414,15 +454,19 @@ function Header() {
                         <i className="fas fa-search"></i>
                       </div>
 
-                      {searchResults.length > 0 && (
-                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                      {searchResults && (
+                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>                
                           <ul className="list-group">
-                            {searchResults.map((result, index) => (
-                              <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
-                                <span className='ml-1'><i className="fas fa-search"></i></span>
-                                <span className='ml-2'>{result}</span>
-                              </li>
-                            ))}
+                            {Object.keys(searchResults).map((result, index) => {
+                              console.log(result, "res");
+                              return (
+                                <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                  <span className='ml-1'><i className="fas fa-search"></i></span>
+                                 
+                                  <span className='ml-2'>{result}   {searchResults[result]}</span>
+                                </li>
+                              );
+                            })}
                           </ul>
                         </div>
                       )}
@@ -541,22 +585,22 @@ function Header() {
                 value={searchInputText}
                 onChange={handleInputChange}
               />
-              {searchInputText && (
-                <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                  <ul ref={dropdownRef} className="list-group">
-                    {searchResults.length > 0 ? (
-                      searchResults.map((result, index) => (
-                        <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
-                          <span className='ml-1'><i className="fas fa-search"></i></span>
-                          <span className='ml-2'>{result}</span>
-                        </li>
-                      ))
-                    ) : (
-                      <li className="list-group-item">No results found</li>
-                    )}
-                  </ul>
-                </div>
-              )}
+              {searchResults && (
+                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>                
+                          <ul className="list-group">
+                            {Object.keys(searchResults).map((result, index) => {
+                              console.log(result, "res");
+                              return (
+                                <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                  <span className='ml-1'><i className="fas fa-search"></i></span>
+                                  {/* : {searchResults[result]} */}
+                                  <span className='ml-2'>{result}</span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      )}
             </div>
           </Offcanvas.Body>
         </Offcanvas>

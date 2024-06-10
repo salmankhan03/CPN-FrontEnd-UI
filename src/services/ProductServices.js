@@ -59,6 +59,9 @@ const ProductServices = {
   getSearchSuggestion: async (body) => {
     return requests.post("/product/generic-search", body);
   },
+  getSearchResults: async (body) => {
+    return requests.post("/product/generic-search/list", body);
+  },
 
 };
 
