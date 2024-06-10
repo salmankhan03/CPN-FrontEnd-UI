@@ -569,7 +569,7 @@ function ProductDetails() {
                             <div className="col-lg-7 mt-4">
                                 <div className="product_details mt-4">
                                     <div className="product_details_title">
-                                        <h3 className="product-title titleColor custom-auto-height">{productData?.name}</h3>
+                                        <h3 className="product-title text-left titleColor custom-auto-height">{productData?.name}</h3>
 
                                     </div>
                                     <div className="product_price priceLabelColor mt-3">
