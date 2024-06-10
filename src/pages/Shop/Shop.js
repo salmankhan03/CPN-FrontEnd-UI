@@ -161,7 +161,7 @@ function ShopScreen() {
     const fetchData = async () => {
         try {
             await Promise.all([
-                getProductsList(),
+                // getProductsList(),
                 getCategoryList(),
                 getBrandList(),
                 getPriceFilter(),
