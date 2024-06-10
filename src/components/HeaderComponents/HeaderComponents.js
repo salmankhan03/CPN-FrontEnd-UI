@@ -189,7 +189,7 @@ function Header() {
       getSearchResult(selectedResult,1)
 
     }else{
-      navigate(`/search?q=${selectedResult}&searchType=autosuggest&searchIdentifier=text_search`, { state: { searchingText: selectedResult } })
+      navigate(`/search?q=${selectedResult}`, { state: { searchingText: selectedResult } })
     }
     setSearchResults([]);
 
