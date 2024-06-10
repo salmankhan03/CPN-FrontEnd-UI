@@ -182,7 +182,9 @@ function Header() {
   };
 
   const handleResultClick = (selectedResult) => {
-    
+    if(show){
+      setShow(false)
+    }
     if(searchResults[selectedResult] === 1){
       getSearchResult(selectedResult,1)
 
@@ -463,7 +465,7 @@ function Header() {
                                 <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
                                   <span className='ml-1'><i className="fas fa-search"></i></span>
                                  
-                                  <span className='ml-2'>{result}   {searchResults[result]}</span>
+                                  <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
                                 </li>
                               );
                             })}
@@ -594,7 +596,7 @@ function Header() {
                                 <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
                                   <span className='ml-1'><i className="fas fa-search"></i></span>
                                   {/* : {searchResults[result]} */}
-                                  <span className='ml-2'>{result}</span>
+                                  <span className='ml-2'>{result} <span className=''>{`(${searchResults[result]})`} </span></span>
                                 </li>
                               );
                             })}
