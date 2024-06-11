@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.6ecb728f.css",
-    "main.js": "/static/js/main.ea1f901e.js",
+    "main.css": "/static/css/main.2a67c527.css",
+    "main.js": "/static/js/main.5d7b4f41.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/Inter-ExtraBold.ttf": "/static/media/Inter-ExtraBold.4164cfba15dbca5f37aa.ttf",
     "static/media/Inter-Medium.ttf": "/static/media/Inter-Medium.3f7acfe50aad7ad68548.ttf",
@@ -11,17 +11,19 @@
     "static/media/banner_faq.jpg": "/static/media/banner_faq.80912ab730d58bd56410.jpg",
     "static/media/no-result.ec22e94c.svg": "/static/media/no-result.ec22e94c.ec22e94cb810f5bd2f888f1a5a292e90.svg",
     "static/media/aboutUs.jpg": "/static/media/aboutUs.3d5f14f65b79bf9f5f57.jpg",
+    "static/media/iHealthCare_logo_white.svg": "/static/media/iHealthCare_logo_white.c5bfc68c7bd4690100079b7e0fe621d8.svg",
+    "static/media/iHealthCare_logo.svg": "/static/media/iHealthCare_logo.41c5cc3672b3d562a8bab67371149935.svg",
     "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.6ecb728f.css.map": "/static/css/main.6ecb728f.css.map",
-    "main.ea1f901e.js.map": "/static/js/main.ea1f901e.js.map"
+    "main.2a67c527.css.map": "/static/css/main.2a67c527.css.map",
+    "main.5d7b4f41.js.map": "/static/js/main.5d7b4f41.js.map"
   },
   "entrypoints": [
-    "static/css/main.6ecb728f.css",
-    "static/js/main.ea1f901e.js"
+    "static/css/main.2a67c527.css",
+    "static/js/main.5d7b4f41.js"
   ]
 }
