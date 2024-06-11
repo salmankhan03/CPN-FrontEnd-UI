@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 // import logo from "../../assets/images/logo.png"
-import logo from "../../assets/images/logo/logo_top.png"
+import logo from "../../assets/images/logo/logo_top.png";
+// import { ReactComponent as Logo } from "../../assets/images/logo/iHealthCare_logo_white.svg"
+// import { ReactComponent as  Logos } from "../../assets/images/logo/iHealthCare_logo.svg";
 import { useDispatch, useSelector } from 'react-redux';
 import './HeaderComponents.css';
 import styled from "styled-components";
@@ -15,6 +17,9 @@ import Carousel from 'react-bootstrap/Carousel';
 import { Offcanvas, Button } from 'react-bootstrap';
 import ProductServices from '../../services/ProductServices';
 import { debounce } from 'lodash';
+import HeaderLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
+import stickyLogo from "../../assets/images/logo/iHealthCare_logo.svg";
+
 
 const StyledHeader = styled.header`
     background-color: #fff  ;
@@ -168,7 +173,7 @@ function Header() {
     setIsEllipsisToggleOpen(false);
     setShow(true);
   }
-    const debouncedSearch = useCallback(
+  const debouncedSearch = useCallback(
     debounce((query) => {
       searchProducts(query);
     }, 500),
@@ -182,13 +187,13 @@ function Header() {
   };
 
   const handleResultClick = (selectedResult) => {
-    if(show){
+    if (show) {
       setShow(false)
     }
-    if(searchResults[selectedResult] === 1){
-      getSearchResult(selectedResult,1)
+    if (searchResults[selectedResult] === 1) {
+      getSearchResult(selectedResult, 1)
 
-    }else{
+    } else {
       navigate(`/search?q=${selectedResult}`, { state: { searchingText: selectedResult } })
     }
     setSearchResults([]);
@@ -200,7 +205,7 @@ function Header() {
   };
 
   async function searchProducts(query) {
-    console.log("query",query)
+    console.log("query", query)
     await ProductServices.getSearchSuggestion({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
         console.log("here", resp?.list)
@@ -215,18 +220,18 @@ function Header() {
       console.log(error)
     })
   }
-  async function getSearchResult(query,screen) {
+  async function getSearchResult(query, screen) {
     await ProductServices.getSearchResults({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
         console.log("here", resp?.list)
         // setSearchResults(resp?.list)
-        if(screen === 1){
+        if (screen === 1) {
           navigate(`/products-details/${resp?.list[0].id}`, {
             state: {
-                id: resp?.list[0].id
+              id: resp?.list[0].id
             }
-        })
-        }else{
+          })
+        } else {
 
         }
         const timers = setTimeout(() => {
@@ -398,9 +403,9 @@ function Header() {
               <div className="left-content">
                 <Link to="/">
                   {scrollPosition > 0 ? (
-                    <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                    <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
                   ) : (
-                    <ImageComponent src={logo} alt={"logo"} classAtribute="logo" />
+                    <img className="my-4" src={HeaderLogo} alt="no-result"  width="200" />
                   )}
                 </Link>
               </div>
@@ -457,14 +462,14 @@ function Header() {
                       </div>
 
                       {searchResults && (
-                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>                
+                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
                           <ul className="list-group">
                             {Object.keys(searchResults).map((result, index) => {
                               console.log(result, "res");
                               return (
                                 <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
                                   <span className='ml-1'><i className="fas fa-search"></i></span>
-                                 
+
                                   <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
                                 </li>
                               );
@@ -588,21 +593,21 @@ function Header() {
                 onChange={handleInputChange}
               />
               {searchResults && (
-                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>                
-                          <ul className="list-group">
-                            {Object.keys(searchResults).map((result, index) => {
-                              console.log(result, "res");
-                              return (
-                                <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
-                                  <span className='ml-1'><i className="fas fa-search"></i></span>
-                                  {/* : {searchResults[result]} */}
-                                  <span className='ml-2'>{result} <span className=''>{`(${searchResults[result]})`} </span></span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      )}
+                <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                  <ul className="list-group">
+                    {Object.keys(searchResults).map((result, index) => {
+                      console.log(result, "res");
+                      return (
+                        <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                          <span className='ml-1'><i className="fas fa-search"></i></span>
+                          {/* : {searchResults[result]} */}
+                          <span className='ml-2'>{result} <span className=''>{`(${searchResults[result]})`} </span></span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             </div>
           </Offcanvas.Body>
         </Offcanvas>

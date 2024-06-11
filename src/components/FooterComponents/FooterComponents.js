@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo/logo_top.png"
+import footerLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
 import ImageComponent from '../ImageComponents/ImageComponents';
 
 function FooterComponents() {
@@ -12,7 +12,7 @@ function FooterComponents() {
                         <div className=''>
                             <div className="">
                                 <Link to="/">
-                                    <ImageComponent src={logo} alt={"logo"} width={80} />
+                                    <ImageComponent src={footerLogo} alt={"logo"} width={80} />
                                 </Link>
                             </div>
                             <div className='mt-4'>
