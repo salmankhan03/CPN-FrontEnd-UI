@@ -714,7 +714,7 @@ function ProductDetails() {
                                 <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
                                     <Tab eventKey="description" title="Description">
                                         <div className="tab-content-custom">
-                                            <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
+                                            <div className='tab-content-custom-peragraph' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
                                         </div>
                                     </Tab>
                                     <Tab eventKey="reviews" title="Reviews (0)">

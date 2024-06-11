@@ -115,7 +115,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
   };
   return (
     <div >
-      <div className="m-3">
+      <div className="m-3 leftSidebarCategory">
         <h4 className="d-flex justify-content-between align-items-center">
           Categories
           <span className="load-more-span">
@@ -158,13 +158,13 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
           </div>
         </div>
       </div>
-      <div className='m-3 mt-2'>
+      <div className='m-3 mt-2 leftSidebarPrice'>
         <h4>Filter by Price</h4>
         <div className='mt-4 m-2'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
-      <div className="m-3">
+      <div className="m-3 leftSidebarBrand">
         <h4 className="d-flex justify-content-between align-items-center">Brands
         <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">

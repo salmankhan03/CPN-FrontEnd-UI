@@ -315,7 +315,10 @@ function HomeScreen() {
                                             <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
                                             <h3 className="product-title secondaryColor">{truncateString(product?.name, truncateLength)}</h3>
                                             <div className="d-flex mt-1 justify-content-between align-items-center w-100">
-                                                <div className='priceLabel'>${product?.sell_price}</div>
+                                                <div>
+                                                    <div className={`${product?.price ? 'priceLabel' : 'normalPriceLabel'}`}>${product?.sell_price}</div>
+                                                    {product?.price && <span className="actualPrice">${product?.price}</span>}
+                                                </div>
                                                 <div>
                                                     <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
                                                         <i className="fas fa-shopping-bag mt-2"></i>
@@ -428,7 +431,10 @@ function HomeScreen() {
                                                             )}
                                                         </div>
                                                         <div className="d-flex mt-2 justify-content-between">
-                                                            <div className="priceLabel">${category?.sell_price}</div>
+                                                            <div>
+                                                                <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'}`}>${category?.sell_price}</div>
+                                                                {category?.price && <span className="actualPrice">${category?.price}</span>}
+                                                            </div>
                                                             <div>
                                                                 <span className="circle" onClick={(event) => addToCart(event, category)}>
                                                                     <i className="fas fa-shopping-bag mt-2"></i>

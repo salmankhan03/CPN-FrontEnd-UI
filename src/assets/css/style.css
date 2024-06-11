@@ -50,7 +50,7 @@ COLOR PALETTE
   --black-color: #000000;
   --White-color: #fff;
   --brand-color: #747c80;
-  --price-color:#46a69c;
+  --price-color: #e4573d;
   --Products-title-color:#2e3133;
   --button-blue-color:#4abfd9;
   --lightGray-color:#f3f4f6;
@@ -215,7 +215,22 @@ h3.titles{
     font-weight: bold;
     color: var(--price-color);
     display: inline-block;
+}
 
+.normalPriceLabel{
+  position: relative;
+  font-size: 1.25rem;
+  line-height: 2rem;
+  font-weight: bold;
+  color: black;
+  display: inline-block;
+}
+
+.actualPrice{
+  text-decoration: line-through;
+  padding: 0 9px;
+  font-weight: 400;
+  color: var(--brand-color);
 }
 
 body {
@@ -3442,6 +3457,10 @@ input:-webkit-autofill:active {
   justify-content: center;
 }
 
+.tab-content-custom-peragraph{
+  text-align: start;
+}
+
 ul {
   padding-left: 1.5rem;
 }
@@ -3619,6 +3638,21 @@ text-align: center;
 
 .load-more-button:hover {
   background-color: #af5d5f; /* Hover color */
+}
+
+.leftSidebarCategory{
+  background: #F8F8F8;
+  padding: 25px;
+}
+
+.leftSidebarPrice{
+  background: #F8F8F8;
+  padding: 25px;
+}
+
+.leftSidebarBrand{
+  background: #F8F8F8;
+  padding: 25px;
 }
 
 @media (max-width: 768px) {
