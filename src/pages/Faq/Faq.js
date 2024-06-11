@@ -125,12 +125,12 @@ const Faq = () => {
                     <SliderComponents banners={faqBanners} />
                 )}
             </div>
-            <div className='custom-container'>
+            <div className='custom-container mb-5'>
                 <div className='mt-3'>
                     <div className='row'>
-                        <div className='text-center mt-2'>
+                        {/* <div className='text-center mt-2'>
                             <h3 className='titles titleColor'>READ OUR</h3>
-                        </div>
+                        </div> */}
                         <div className='text-center mt-3'>
                             <h5 className='titleColor tab-title'>FREQUENTLY ASKED QUESTIONS</h5>
                         </div>
