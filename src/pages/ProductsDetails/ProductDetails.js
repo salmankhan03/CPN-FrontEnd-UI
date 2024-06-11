@@ -222,6 +222,12 @@ function ProductDetails() {
                 dispatch(setProductDetails({
                     ...resp.data
                 }))
+                if (resp?.data?.images.length > 0) {
+                    setSelectedImage(resp?.data?.images[0]?.name)
+
+                } else {
+                    setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
+                }
                 setProductData(resp?.data)
                 setRelatedProduct(resp?.data.relatedProducts)
 
@@ -260,13 +266,7 @@ function ProductDetails() {
                 }
 
                 setTag(orderedTags);
-                if (resp?.data?.images.length > 0) {
-                    setSelectedImage(resp?.data?.images[0]?.name)
-                    // setSelectedImage("https://m.media-amazon.com/images/I/71wbxatiuDL._SX569_.jpg")
-
-                } else {
-                    setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
-                }
+              
                 const timers = setTimeout(() => {
                     setLoading(false)
                     setRelatedProductLoader(false)
