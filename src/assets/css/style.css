@@ -50,9 +50,9 @@ COLOR PALETTE
   --black-color: #000000;
   --White-color: #fff;
   --brand-color: #747c80;
-  --price-color:#46a69c;
+  --price-color:#0777b9;
   --Products-title-color:#2e3133;
-  --button-blue-color:#4abfd9;
+  --button-blue-color:#0777b9;
   --lightGray-color:#f3f4f6;
 }
 
@@ -3241,7 +3241,7 @@ input:-webkit-autofill:active {
 
 .faq-question h4 {
   margin: 0;
-  color: #415da1
+  color: #0777b9
 }
 
 .faq-icon {
@@ -3249,7 +3249,7 @@ input:-webkit-autofill:active {
 }
 
 .faq-icon-color {
-  color: #415da1
+  color: #0777b9
 }
 
 .faq-answer {
@@ -3348,7 +3348,7 @@ input:-webkit-autofill:active {
 }
 
 .slick-prev:before, .slick-next:before {
-  color: black !important;
+  color: #0777b9 !important;
 }
 
 .image-wrapper {
@@ -3514,6 +3514,7 @@ text-align: center;
   z-index: 1;
   color: #fff;
   width: 95%;
+  margin-left: 10px;
 }
 
 .text-left .banner-content {
@@ -3609,7 +3610,7 @@ text-align: center;
 
 .load-more-button {
   padding: 5px 10px !important;
-  background-color: #fe4c50 !important; /* Button color */
+  background-color: #0777b9 !important; /* Button color */
   color: #fff !important; /* Text color */
   border: none !important;
   border-radius: 5px !important;
