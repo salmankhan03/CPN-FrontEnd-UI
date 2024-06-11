@@ -248,24 +248,25 @@ function ProductDetails() {
                     setProductsVariants(resp?.data?.variants ? variantsData : []);
                     setAttributes(JSON.parse(resp?.data?.variants_array))
                 }
-                let tagsArray = [];
-                if (resp?.data?.tags) {
-                    try {
-                        tagsArray = JSON.parse(resp?.data?.tags);
-                    } catch (error) {
-                        tagsArray = resp?.data?.tags?.split(',');
-                    }
-                }
+                // let tagsArray = [];
+                // console.log("tags", resp?.data?.tags)
+                // if (resp?.data?.tags) {
+                //     try {
+                //         tagsArray = JSON.parse(resp?.data?.tags);
+                //     } catch (error) {
+                //         tagsArray = resp?.data?.tags?.split(',');
+                //     }
+                // }
 
-                const orderedTags = [];
+                // const orderedTags = [];
 
-                if (tagsArray) {
-                    tagsArray.forEach(tag => {
-                        orderedTags.push(tag.trim());
-                    });
-                }
+                // if (tagsArray) {
+                //     tagsArray.forEach(tag => {
+                //         orderedTags.push(tag?.name.trim());
+                //     });
+                // }
 
-                setTag(orderedTags);
+                setTag(resp?.data?.tags);
               
                 const timers = setTimeout(() => {
                     setLoading(false)
@@ -695,15 +696,16 @@ function ProductDetails() {
                                     <div className="mt-3 brandLabel">
                                         Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
                                     </div>
+                                    <div className="mt-3 brandLabel">
+                                        Brand: <span className="ml-2">{productData?.brand}</span>
+                                    </div>
                                     {tag?.length > 0 &&
                                         <div className="product-tags-container mt-3 brandLabel">
                                             Tags:
                                             <ProductTags tags={tag} />
                                         </div>
                                     }
-                                    <div className="mt-3 brandLabel">
-                                        Brand: <span className="ml-2">{productData?.brand}</span>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>
