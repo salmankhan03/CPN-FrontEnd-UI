@@ -713,7 +713,7 @@ function ProductDetails() {
                             <Container className="mt-4">
                                 <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
                                     <Tab eventKey="description" title="Description">
-                                        <div className="tab-content-custom">
+                                        <div className="tab-content-custom text-left">
                                             <div dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
                                         </div>
                                     </Tab>
