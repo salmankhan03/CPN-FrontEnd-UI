@@ -569,13 +569,20 @@ function ProductDetails() {
                             </div>
                             <div className="col-lg-7 mt-4">
                                 <div className="product_details mt-4">
-                                    <div className="product_details_title">
-                                        <h3 className="product-title text-left titleColor custom-auto-height">{productData?.name}</h3>
 
-                                    </div>
-                                    <div className="product_price priceLabelColor mt-3">
-                                        ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
-                                        <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
+                                        <div className="product_details_title">
+                                            <h3 className="product-title text-left titleColor custom-auto-height" style={{fontSize: '25px'}}>{productData?.name}</h3>
+                                        </div>
+                                        <div className="mt-3 productDetailBrandLabel">
+                                            Brand:  <a href={`/shop?name=brand&id=${productData.brand_id}`}>
+                                            {productData?.brand}
+                                        </a>
+                                        </div>
+                                    <div style={{borderBottom: '1px solid #eee', width: '100%', display: 'flex'}}>
+                                        <div className="product_price priceLabelColor mt-3 mb-3">
+                                            ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
+                                            <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
+                                        </div>
                                     </div>
                                     {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
@@ -596,67 +603,118 @@ function ProductDetails() {
                                                 // console.log("selectedAttributesOptions", selectedAttributesOptions)
                                                 return (
                                                     <React.Fragment key={index}>
+                                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                                            <div className="mt-3 ">
+                                                                <label style={{minWidth: '100px', display: 'inline-flex'}}>{attributes[index]?.title}:</label>
+                                                            </div>
 
-                                                        <div className="mt-3 ">
-                                                            {attributes[index]?.title}:
+                                                            <div className="mt-2 d-flex  flex-sm-row align-items-sm-center" >
+                                                                {attributes[index]?.option !== "Radio" ? (
+
+                                                                    <select
+                                                                        id="simpleDropdown"
+                                                                        defaultValue={selectedOption}
+                                                                        onChange={(event) =>
+                                                                            selectVarintsProducts(z?.attributeID, event.target.value, "drop-down")
+                                                                        }
+                                                                        className='select-dropdown'
+                                                                    >
+                                                                        {attributes[index]?.variants?.map((option, k) => {
+                                                                            let ids = String(option?.id);
+                                                                            let index = z?.options?.findIndex((xy) => xy === ids)
+
+                                                                            return (
+                                                                                <React.Fragment key={option?.name}>
+                                                                                    {index !== -1 ? (
+                                                                                        <option key={option?.name} value={option?.id} name={z?.options[k]}>{option?.name}</option>
+                                                                                    ) : null}
+                                                                                </React.Fragment>
+                                                                            );
+                                                                        })}
+                                                                    </select>
+                                                                ) : (
+                                                                    <React.Fragment>
+                                                                        {attributes[index]?.title === "Color" ? (
+                                                                            <div className="color-options">
+                                                                                {attributes[index]?.variants?.map((i, l) => {
+                                                                                    let ids = String(i?.id);
+                                                                                    let index = z?.options?.findIndex((xy) => xy === ids);
+                                                                                    const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
+
+                                                                                    return (
+                                                                                        <React.Fragment key={l}>
+                                                                                            {index !== -1 ? (
+                                                                                                <div className={`color-circle ${keyFound !== undefined ? "selected" : ""}`}>
+                                                                                                <span
+                                                                                                    className={`color-circles`}
+                                                                                                    style={{ backgroundColor: i?.name, margin: '2px' }}
+                                                                                                    onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
+                                                                                                >
+                                                                                                </span>
+                                                                                                </div>
+                                                                                            ) : null}
+                                                                                        </React.Fragment>
+                                                                                    );
+                                                                                })}
+                                                                            </div>
+                                                                        ) : attributes[index]?.title === "Size" ? (
+                                                                            <div className="size-options">
+                                                                                {attributes[index]?.variants?.map((i, l) => {
+                                                                                    let ids = String(i?.id);
+                                                                                    let index = z?.options?.findIndex((xy) => xy === ids);
+                                                                                    const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
+
+                                                                                    return (
+                                                                                        <React.Fragment key={l}>
+                                                                                            {index !== -1 ? (
+                                                                                                <div className={`color-circle ${keyFound !== undefined ? "selected" : ""}`}>
+                                                                                                <span
+                                                                                                    className={`color-circles`}
+                                                                                                    onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
+                                                                                                    style={{ backgroundColor: '#F5F5F5', margin: '2px' }}
+                                                                                                >
+                                                                                                    {i?.name}
+                                                                                                </span>
+                                                                                                </div>
+                                                                                            ) : null}
+                                                                                        </React.Fragment>
+                                                                                    );
+                                                                                })}
+                                                                            </div>
+                                                                        ) : attributes[index]?.variants?.map((i, l) => {
+                                                                                let ids = String(i?.id)
+                                                                                let index = z?.options?.findIndex((xy) => xy === ids)
+                                                                                const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
+                                                                                return (
+                                                                                    <React.Fragment key={l}>
+                                                                                        {index !== -1 ? (
+                                                                                            <div
+                                                                                                className={`ml-2 mr-2 pointer-on-hover variantsButton ${keyFound !== undefined ? "secondaryBGColor" : "lightGrayBGColor"
+                                                                                                }`}
+                                                                                                onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}//selectVarintsProducts(productsVariants[l], z?.options[l])
+                                                                                            >
+                                                                                                {i?.name}
+                                                                                            </div>
+                                                                                        ) : null}
+                                                                                    </React.Fragment>
+
+                                                                                )
+                                                                            })}
+                                                                    </React.Fragment>
+                                                                )}
+
+                                                            </div>
                                                         </div>
 
-                                                        <div className="mt-2 d-flex  flex-sm-row align-items-sm-center" >
-                                                            {attributes[index]?.option !== "Radio" ? (
-
-                                                                <select
-                                                                    id="simpleDropdown"
-                                                                    defaultValue={selectedOption}
-                                                                    onChange={(event) =>
-                                                                        selectVarintsProducts(z?.attributeID, event.target.value, "drop-down")
-                                                                    }
-                                                                    className='select-dropdown'
-                                                                >
-                                                                    {attributes[index]?.variants?.map((option, k) => {
-                                                                        let ids = String(option?.id);
-                                                                        let index = z?.options?.findIndex((xy) => xy === ids)
-
-                                                                        return (
-                                                                            <React.Fragment key={option?.name}>
-                                                                                {index !== -1 ? (
-                                                                                    <option key={option?.name} value={option?.id} name={z?.options[k]}>{option?.name}</option>
-                                                                                ) : null}
-                                                                            </React.Fragment>
-                                                                        );
-                                                                    })}
-                                                                </select>
-                                                            ) : (
-                                                                <React.Fragment >
-                                                                    {attributes[index]?.variants?.map((i, l) => {
-                                                                        let ids = String(i?.id)
-                                                                        let index = z?.options?.findIndex((xy) => xy === ids)
-                                                                        const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
-                                                                        return (
-                                                                            <React.Fragment key={l}>
-                                                                                {index !== -1 ? (
-                                                                                    <div
-                                                                                        className={`ml-2 mr-2 pointer-on-hover variantsButton ${keyFound !== undefined ? "secondaryBGColor" : "lightGrayBGColor"
-                                                                                            }`}
-                                                                                        onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}//selectVarintsProducts(productsVariants[l], z?.options[l])
-                                                                                    >
-                                                                                        {i?.name}
-                                                                                    </div>
-                                                                                ) : null}
-                                                                            </React.Fragment>
-
-                                                                        )
-                                                                    })}
-                                                                </React.Fragment>
-                                                            )}
-
-                                                        </div>
                                                     </React.Fragment>
                                                 )
                                             })}
                                         </>
                                     ) : null}
-                                    <div className="mt-3">Quantity:</div>
-                                    <div className="quantity d-flex  flex-sm-row align-items-sm-center">
+                                    <div className='' style={{borderBottom: '1px solid #eee', width: '100%'}}>
+                                        <div className='' style={{marginBottom: '30px'}}>
+                                            <div className="mt-3 d-flex">Quantity:</div>
+                                            <div className="quantity d-flex  flex-sm-row align-items-sm-center">
                                         <div className="quantity_selector">
                                             <span
                                                 className={
@@ -690,18 +748,17 @@ function ProductDetails() {
                                             add to cart
                                         </div>
                                     </div>
-                                    <div className="mt-3 brandLabel">
-                                        SKU: <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 brandLabel">
+                                        <label style={{minWidth: '100px', display: 'inline-flex'}}>SKU:</label> <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
                                     </div>
                                     <div className="mt-3 brandLabel">
-                                        Category: <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
-                                    </div>
-                                    <div className="mt-3 brandLabel">
-                                        Brand: <span className="ml-2">{productData?.brand}</span>
+                                        <label style={{minWidth: '100px', display: 'inline-flex'}}>Category:</label> <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
                                     </div>
                                     {tag?.length > 0 &&
                                         <div className="product-tags-container mt-3 brandLabel">
-                                            Tags:
+                                            <label style={{minWidth: '100px', display: 'inline-flex'}}>Tags:</label>
                                             <ProductTags tags={tag} />
                                         </div>
                                     }

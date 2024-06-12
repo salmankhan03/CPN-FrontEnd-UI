@@ -50,7 +50,7 @@ COLOR PALETTE
   --black-color: #000000;
   --White-color: #fff;
   --brand-color: #747c80;
-  --price-color:#0777b9;
+  --price-color:#e4573d;
   --Products-title-color:#2e3133;
   --button-blue-color:#0777b9;
   --lightGray-color:#f3f4f6;
@@ -208,6 +208,11 @@ h3.titles{
   font-size: 0.875rem;
   line-height: 1rem;
 }
+
+.productDetailBrandLabel{
+  color: #333;
+}
+
 .priceLabel{
   position: relative;
     font-size: 1.25rem;
@@ -3655,6 +3660,72 @@ text-align: center;
   background: #F8F8F8;
   padding: 25px;
 }
+
+.color-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+}
+.color-circles{
+  width: 30px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.selected {
+  border: 2px solid #000; /* Change to your preferred selected color border */
+}
+
+.color-circle .inner-circle {
+  width: 15px; /* Adjust inner circle size as needed */
+  height: 15px; /* Adjust inner circle size as needed */
+  border-radius: 50%;
+  background-color: #fff; /* Inner circle color */
+}
+
+.size-options {
+  display: flex;
+  gap: 10px; /* Adjust gap as needed */
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+.size-circle {
+  width: 30px; /* Adjust size as needed */
+  height: 30px; /* Adjust size as needed */
+  border-radius: 50%;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: lightgray; /* Background color for size circles */
+  box-sizing: border-box; /* Ensure the border fits within the dimensions */
+}
+
+.size-circle.selected {
+  border: 2px solid #000; /* Change to your preferred selected color border */
+}
+
 
 @media (max-width: 768px) {
   .load-more-container {
