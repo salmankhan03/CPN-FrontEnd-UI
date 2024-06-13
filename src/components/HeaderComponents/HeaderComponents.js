@@ -146,6 +146,8 @@ function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
   const cartItems = useSelector(state => state.CartReducer.cartItems);
   const [isOpen, setIsOpen] = useState(false);
+  const [categoryIsOpen, setCategoryIsOpen] = useState(false);
+
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navMenuRef = useRef(null);
@@ -170,6 +172,7 @@ function Header() {
     // navigate(`/Shop?name=search=${searchInputText}`)
   }
   const handleShow = () => {
+    console.log("isEllipsisToggleOpen Value false set")
     setIsEllipsisToggleOpen(false);
     setShow(true);
   }
@@ -269,12 +272,15 @@ function Header() {
     };
 
     const handleNavManuOutsideClick = (event) => {
+      console.log("isEllipsisToggleOpen Value false set")
+
       if (navMenuRef.current && !navMenuRef.current.contains(event.target)) {
         setIsToggleOpen(false);
       }
     };
 
     const handleEllipsisOutsideClick = (event) => {
+      console.log("isEllipsisToggleOpen Value false set")
       if (ellipsisRef.current && !ellipsisRef.current.contains(event.target)) {
         setIsEllipsisToggleOpen(false);
       }
@@ -318,6 +324,7 @@ function Header() {
 
 
   const handleNavigation = (url) => {
+    console.log("isEllipsisToggleOpen Value false set")
     console.log("url", url)
     setIsToggleOpen(false);
     setIsEllipsisToggleOpen(false);
@@ -326,13 +333,18 @@ function Header() {
   }
 
   const handleToggleOpen = () => {
+    console.log("isEllipsisToggleOpen Value false set")
     setIsToggleOpen(!isToggleOpen);
     setIsEllipsisToggleOpen(false);
 
   };
   const handleEllipsisToggleOpen = () => {
-    setIsToggleOpen(false);
+    console.log("Clicked",isEllipsisToggleOpen)
+    console.log("isEllipsisToggleOpen Value change set")
+
     setIsEllipsisToggleOpen(!isEllipsisToggleOpen);
+      setIsToggleOpen(false);
+
   };
   const logout = () => {
     setIsOpen(false)
@@ -369,15 +381,34 @@ function Header() {
     }
   };
   const mobileDropdown = () => {
+    console.log("isEllipsisToggleOpen Value false set")
     setIsEllipsisToggleOpen(false)
     setIsOpen(true)
   }
 
+  const toggleBrowseCategoryDropdown = () => {
+    setBrowseCategoryIsOpen(!browseCategoryIsOpen);
+  };
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+  const categoryToggleDropdown = () => {
+    setCategoryIsOpen(!categoryIsOpen);
+  };
   return (
     <>
       <div>
+        {/* Top Header Start */}
         <div className={`header-content-top  hide-div `}>
-          <div className="left-content"></div>
+          <div className="left-content">
+            <span className='topBarFonts'>
+              (00)0000-0000
+            </span>
+            <span className='topBarFonts ml-2'>|</span>
+            <span className='ml-3 ml-md-2 topBarFonts'>
+              Store Location
+            </span>
+          </div>
           <div className="middle-content">
             <Carousel
               activeIndex={index}
@@ -395,54 +426,89 @@ function Header() {
             </Carousel>
 
           </div>
-          <div className="right-content"></div>
+          <div className="right-content">
+            <div className="language-dropdown ml-3 ml-md-2">
+              <select className='cutom-dropdown topBarFonts'>
+                <option className="custom-option" value="en">English</option>
+                <option className="custom-option" value="es">Spanish</option>
+                <option className="custom-option" value="fr">French</option>
+              </select>
+            </div>
+            <span className='ml-3 ml-md-1'> |    <Link to="/login"><span className='ml-2 ml-md-2 topBarFonts'>Login / Sign Up</span></Link></span>
+          </div>
         </div>
+        {/* Top Header Close */}
+
         <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
+          {/* Middle Header Start */}
           <div className="PrimaryBGColor">
-            <nav className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : 'bottomHeaderBG'} `}>
+            <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} `}>
               <div className="left-content">
                 <Link to="/">
-                  {scrollPosition > 0 ? (
                     <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
-                  ) : (
-                    <img className="my-4" src={HeaderLogo} alt="no-result"  width="200" />
-                  )}
                 </Link>
               </div>
               <div className="middle-content" >
-                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
-                      Home
-                    </Link>
-                  </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
-                      About Us
-                    </Link>
-                  </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
-                      Shop
-                    </Link>
-                  </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
-                      Faq
-                    </Link>
-                  </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 35 }}>
-                    <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} `} onClick={handleToggleOpen}>
-                      Contact
-                    </Link>
-                  </li>
-                </NavManu>
+                <div className='parent-container ml-5 mr-5 hide-div' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
+                  <div className="d-flex align-items-center">
+                    <div className="dropdown dropdown-right-border">
+                      <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
+                        <span className=''>Browse Categories</span>
+                      </div>
+                      {categoryIsOpen && (
+                        <div className="dropdown-content">
+                          <Link to="/">Link 1</Link>
+                          <Link to="/">Link 2</Link>
+                          <Link to="/">Link 3</Link>
+                        </div>
+                      )}
+                    </div>
+                    <div className="search-container ">
+                      <div className="search-container position-relative">
+                        <input
+                          type="text"
+                          placeholder="Search for items..."
+                          className="search-input"
+                          style={{ width: 'auto', marginLeft: 10 }}
+                          value={searchInputText}
+                          onChange={handleInputChange}
+                          onClick={handleSearchInputClick}
+                        />
+                        {searchInputText && (
+                          <div className="clear-search-icon search-icon" onClick={clearSearchText}>
+                            <i className="fas fa-times-circle"></i>
+                          </div>
+                        )}
+                        <div className="search-icon">
+                          <i className="fas fa-search"></i>
+                        </div>
 
+                        {searchResults && (
+                          <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                            <ul className="list-group">
+                              {Object.keys(searchResults).map((result, index) => {
+                                console.log(result, "res");
+                                return (
+                                  <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                    <span className='ml-1'><i className="fas fa-search"></i></span>
+
+                                    <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        
               </div>
               <div className="right-content">
                 <div className="icons-container">
                   <div className="hide-div displyHide">
-                    <div className="search-container position-relative" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
+                    {/* <div className="search-container position-relative" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
                       <input
                         type="text"
                         placeholder="Search for items..."
@@ -477,11 +543,9 @@ function Header() {
                           </ul>
                         </div>
                       )}
-                    </div>
-
-
-
+                    </div> */}
                   </div>
+                  {/* Carts */}
                   <div className="icon hide-div displyHide" onClick={() => handleNavigation('cart')}>
                     <i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>
                     {cartItems.length !== undefined && cartItems.length > 0 && (
@@ -491,6 +555,7 @@ function Header() {
                     )}
                   </div>
                   {/* onMouseLeave={() => setIsOpen(false)} */}
+                  {/* User Icon */}
                   <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
                     {isOpen && (
@@ -540,7 +605,6 @@ function Header() {
 
 
                     </div>
-
                   }
                   {isOpen && width <= 768 ? (
                     <div className="dropdown-content" ref={dropdownRef}>
@@ -555,29 +619,69 @@ function Header() {
 
                 </div>
               </div>
-            </nav>
+            </div>
             {/* </header> */}
 
           </div>
-
-        </header>
-        {/* <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Searching Products</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body className='d-flex flex-column justify-content-top'>
-            <div className='w-100'>
-             
-              <input 
-               type="text"
-               className="form-control custom-searc-input" 
-               placeholder="Search products"
-               value={searchInputText}
-               onChange={handleInputChange}
-                />
+          {/* Middle Header Close */}
+          {/* Bottom Header Start */}
+          <nav className={`header-content-top bottomHeaderBG `}>
+            <div className="left-content">
+              <div className="dropdown">
+                <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
+                  <span><i className="fa fa-bars" aria-hidden="true"></i></span>
+                  <span className='ml-2'>Browse Categories</span>
+                </div>
+                {browseCategoryIsOpen && (
+                  <div className="dropdown-content">
+                    <Link to="/">Link 1</Link>
+                    <Link to="/">Link 2</Link>
+                    <Link to="/">Link 3</Link>
+                  </div>
+                )}
+              </div>
             </div>
-          </Offcanvas.Body>
-        </Offcanvas> */}
+            <div className='middle-content'>
+              <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
+                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                  <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                    Home
+                  </Link>
+                </li>
+                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                  <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                    About Us
+                  </Link>
+                </li>
+                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                  <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                    Shop
+                  </Link>
+                </li>
+                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                  <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                    Faq
+                  </Link>
+                </li>
+                <li style={{ paddingLeft: 15, paddingRight: 35 }}>
+                  <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                    Contact
+                  </Link>
+                </li>
+              </NavManu>
+
+            </div>
+            <div className="right-content hide-div">
+              <div className="">
+                <i className="fa fa-phone text-black" aria-hidden="true"></i>
+                <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
+
+              </div>
+            </div>
+          </nav>
+          {/* Bottom Header Close */}
+        </header>
+    
         <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>Searching Products</Offcanvas.Title>

@@ -113,7 +113,8 @@ header {
 
 .dropdown-content {
   position: absolute;
-  top: 100%;
+  /* top: 100%; */
+  margin-top: 10px;
   right: 0;
   background-color: #ffffff;
   border-radius: 0 0 20px 20px; 
@@ -201,9 +202,7 @@ header {
 
 
 @media screen and (max-width: 768px) {
-  .dropdown {
-    display: none; /* Hide dropdown on smaller screens */
-  }
+ 
   .nav-content {
     display: flex;
     justify-content: center; /* Center align navigation links */
@@ -235,6 +234,9 @@ header {
 }
 
 @media (max-width: 767px) {
+  .dropdown {
+    display: none; /* Hide dropdown on smaller screens */
+  }
   .hide-div {
     display: none; /* Hide left and right content on small screens */
   }
