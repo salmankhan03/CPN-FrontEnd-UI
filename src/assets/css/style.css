@@ -3775,3 +3775,7 @@ text-align: center;
     margin-bottom: 35px !important;
 }
 /* Commom class for all div */
+
+.carouselCaptionHeading{
+font-size: 50px !important; 
+}
