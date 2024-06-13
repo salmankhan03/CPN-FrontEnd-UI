@@ -12,7 +12,9 @@ function FooterComponents() {
                         <div className=''>
                             <div className="">
                                 <Link to="/">
-                                    <ImageComponent src={footerLogo} alt={"logo"} width={80} />
+                                    {/* <ImageComponent src={footerLogo} alt={"logo"} width={80} /> */}
+                                    <img className="my-4" src={footerLogo} alt="no-result" width="200" />
+
                                 </Link>
                             </div>
                             <div className='mt-4'>
