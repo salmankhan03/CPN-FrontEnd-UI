@@ -1,15 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.f5b91674.css",
-    "main.js": "/static/js/main.43d771c0.js",
+    "main.css": "/static/css/main.6ad6c863.css",
+    "main.js": "/static/js/main.0e370ee5.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
+    "static/media/SFPRODISPLAYMEDIUM.OTF": "/static/media/SFPRODISPLAYMEDIUM.b85d841dacb040b84951.OTF",
+    "static/media/SFPRODISPLAYBOLD.OTF": "/static/media/SFPRODISPLAYBOLD.b1f4d2c69fa808ebca12.OTF",
     "static/media/Inter-ExtraBold.ttf": "/static/media/Inter-ExtraBold.4164cfba15dbca5f37aa.ttf",
     "static/media/Inter-Medium.ttf": "/static/media/Inter-Medium.3f7acfe50aad7ad68548.ttf",
     "static/media/Inter-Light.ttf": "/static/media/Inter-Light.02850f28027788580733.ttf",
     "static/media/Inter-Regular.ttf": "/static/media/Inter-Regular.9ca9ba81e9dcaa12b3a1.ttf",
+    "static/media/SFPRODISPLAYREGULAR.OTF": "/static/media/SFPRODISPLAYREGULAR.d1f5e6e16dd4f75c3950.OTF",
     "static/media/banner_aboutus.jpg": "/static/media/banner_aboutus.97abb3846a33aef0bb4d.jpg",
     "static/media/banner_faq.jpg": "/static/media/banner_faq.80912ab730d58bd56410.jpg",
     "static/media/no-result.ec22e94c.svg": "/static/media/no-result.ec22e94c.ec22e94cb810f5bd2f888f1a5a292e90.svg",
+    "static/media/payment-methods.png": "/static/media/payment-methods.47ad3e696f50516da1b3.png",
     "static/media/aboutUs.jpg": "/static/media/aboutUs.3d5f14f65b79bf9f5f57.jpg",
     "static/media/iHealthCare_logo_white.svg": "/static/media/iHealthCare_logo_white.c5bfc68c7bd4690100079b7e0fe621d8.svg",
     "static/media/iHealthCare_logo.svg": "/static/media/iHealthCare_logo.41c5cc3672b3d562a8bab67371149935.svg",
@@ -19,11 +23,11 @@
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
-    "main.f5b91674.css.map": "/static/css/main.f5b91674.css.map",
-    "main.43d771c0.js.map": "/static/js/main.43d771c0.js.map"
+    "main.6ad6c863.css.map": "/static/css/main.6ad6c863.css.map",
+    "main.0e370ee5.js.map": "/static/js/main.0e370ee5.js.map"
   },
   "entrypoints": [
-    "static/css/main.f5b91674.css",
-    "static/js/main.43d771c0.js"
+    "static/css/main.6ad6c863.css",
+    "static/js/main.0e370ee5.js"
   ]
 }
