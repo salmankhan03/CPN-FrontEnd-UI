@@ -267,11 +267,11 @@ function ProductDetails() {
                 // }
 
                 setTag(resp?.data?.tags);
-              
+
                 const timers = setTimeout(() => {
                     setLoading(false)
                     setRelatedProductLoader(false)
-                    
+
                 }, 500)
                 return () => clearTimeout(timers);
             }
@@ -500,7 +500,7 @@ function ProductDetails() {
     }
     return (
         <>
-            <MetaTitle pageTitle={productData?.name}/>
+            <MetaTitle pageTitle={productData?.name} />
             <div className="container single_product_container border-bottom-0 mb-2">
                 {productData && (
                     <div>
@@ -570,15 +570,15 @@ function ProductDetails() {
                             <div className="col-lg-7 mt-4">
                                 <div className="product_details mt-4">
 
-                                        <div className="product_details_title">
-                                            <h3 className="product-title text-left titleColor custom-auto-height" style={{fontSize: '25px'}}>{productData?.name}</h3>
-                                        </div>
-                                        <div className="mt-3 productDetailBrandLabel">
-                                            Brand:  <a href={`/shop?name=brand&id=${productData.brand_id}`}>
+                                    <div className="product_details_title">
+                                        <h3 className="product-title text-left titleColor custom-auto-height" style={{ fontSize: '25px' }}>{productData?.name}</h3>
+                                    </div>
+                                    <div className="mt-3 productDetailBrandLabel">
+                                        Brand:  <a href={`/shop?name=brand&id=${productData.brand_id}`}>
                                             {productData?.brand}
                                         </a>
-                                        </div>
-                                    <div style={{borderBottom: '1px solid #eee', width: '100%', display: 'flex'}}>
+                                    </div>
+                                    <div style={{ borderBottom: '1px solid #eee', width: '100%', display: 'flex' }}>
                                         <div className="product_price priceLabelColor mt-3 mb-3">
                                             ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
                                             <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
@@ -603,9 +603,9 @@ function ProductDetails() {
                                                 // console.log("selectedAttributesOptions", selectedAttributesOptions)
                                                 return (
                                                     <React.Fragment key={index}>
-                                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                                        <div style={{ display: 'flex', alignItems: 'center' }}>
                                                             <div className="mt-3 ">
-                                                                <label style={{minWidth: '100px', display: 'inline-flex'}}>{attributes[index]?.title}:</label>
+                                                                <label style={{ minWidth: '100px', display: 'inline-flex' }}>{attributes[index]?.title}:</label>
                                                             </div>
 
                                                             <div className="mt-2 d-flex  flex-sm-row align-items-sm-center" >
@@ -645,12 +645,12 @@ function ProductDetails() {
                                                                                         <React.Fragment key={l}>
                                                                                             {index !== -1 ? (
                                                                                                 <div className={`color-circle ${keyFound !== undefined ? "selected" : ""}`}>
-                                                                                                <span
-                                                                                                    className={`color-circles`}
-                                                                                                    style={{ backgroundColor: i?.name, margin: '2px' }}
-                                                                                                    onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
-                                                                                                >
-                                                                                                </span>
+                                                                                                    <span
+                                                                                                        className={`color-circles`}
+                                                                                                        style={{ backgroundColor: i?.name, margin: '2px' }}
+                                                                                                        onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
+                                                                                                    >
+                                                                                                    </span>
                                                                                                 </div>
                                                                                             ) : null}
                                                                                         </React.Fragment>
@@ -668,13 +668,13 @@ function ProductDetails() {
                                                                                         <React.Fragment key={l}>
                                                                                             {index !== -1 ? (
                                                                                                 <div className={`color-circle ${keyFound !== undefined ? "selected" : ""}`}>
-                                                                                                <span
-                                                                                                    className={`color-circles`}
-                                                                                                    onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
-                                                                                                    style={{ backgroundColor: '#F5F5F5', margin: '2px' }}
-                                                                                                >
-                                                                                                    {i?.name}
-                                                                                                </span>
+                                                                                                    <span
+                                                                                                        className={`color-circles`}
+                                                                                                        onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}
+                                                                                                        style={{ backgroundColor: '#F5F5F5', margin: '2px' }}
+                                                                                                    >
+                                                                                                        {i?.name}
+                                                                                                    </span>
                                                                                                 </div>
                                                                                             ) : null}
                                                                                         </React.Fragment>
@@ -682,24 +682,24 @@ function ProductDetails() {
                                                                                 })}
                                                                             </div>
                                                                         ) : attributes[index]?.variants?.map((i, l) => {
-                                                                                let ids = String(i?.id)
-                                                                                let index = z?.options?.findIndex((xy) => xy === ids)
-                                                                                const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
-                                                                                return (
-                                                                                    <React.Fragment key={l}>
-                                                                                        {index !== -1 ? (
-                                                                                            <div
-                                                                                                className={`ml-2 mr-2 pointer-on-hover variantsButton ${keyFound !== undefined ? "secondaryBGColor" : "lightGrayBGColor"
+                                                                            let ids = String(i?.id)
+                                                                            let index = z?.options?.findIndex((xy) => xy === ids)
+                                                                            const keyFound = Object.keys(chooseVariants).find(key => chooseVariants[key] === String(i?.id));
+                                                                            return (
+                                                                                <React.Fragment key={l}>
+                                                                                    {index !== -1 ? (
+                                                                                        <div
+                                                                                            className={`ml-2 mr-2 pointer-on-hover variantsButton ${keyFound !== undefined ? "secondaryBGColor" : "lightGrayBGColor"
                                                                                                 }`}
-                                                                                                onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}//selectVarintsProducts(productsVariants[l], z?.options[l])
-                                                                                            >
-                                                                                                {i?.name}
-                                                                                            </div>
-                                                                                        ) : null}
-                                                                                    </React.Fragment>
+                                                                                            onClick={() => selectVarintsProducts(i?.product_attribute_id, ids, "radio")}//selectVarintsProducts(productsVariants[l], z?.options[l])
+                                                                                        >
+                                                                                            {i?.name}
+                                                                                        </div>
+                                                                                    ) : null}
+                                                                                </React.Fragment>
 
-                                                                                )
-                                                                            })}
+                                                                            )
+                                                                        })}
                                                                     </React.Fragment>
                                                                 )}
 
@@ -711,58 +711,58 @@ function ProductDetails() {
                                             })}
                                         </>
                                     ) : null}
-                                    <div className='' style={{borderBottom: '1px solid #eee', width: '100%'}}>
-                                        <div className='' style={{marginBottom: '30px'}}>
+                                    <div className='' style={{ borderBottom: '1px solid #eee', width: '100%' }}>
+                                        <div className='' style={{ marginBottom: '30px' }}>
                                             <div className="mt-3 d-flex">Quantity:</div>
                                             <div className="quantity d-flex  flex-sm-row align-items-sm-center">
-                                        <div className="quantity_selector">
-                                            <span
-                                                className={
-                                                    productData?.quantity > 1 ? "minus" : "minus disabled"
-                                                }
-                                                onClick={() => handleDecrement()}
-                                            >
-                                                <i className="fa fa-minus" aria-hidden="true"></i>
-                                            </span>
-                                            <span id="quantity_value">{quantity}</span>
-                                            <span
-                                                className="plus"
-                                                onClick={() => handleIncrement()}
-                                            >
-                                                <i className="fa fa-plus" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
+                                                <div className="quantity_selector">
+                                                    <span
+                                                        className={
+                                                            productData?.quantity > 1 ? "minus" : "minus disabled"
+                                                        }
+                                                        onClick={() => handleDecrement()}
+                                                    >
+                                                        <i className="fa fa-minus" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span id="quantity_value">{quantity}</span>
+                                                    <span
+                                                        className="plus"
+                                                        onClick={() => handleIncrement()}
+                                                    >
+                                                        <i className="fa fa-plus" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
 
-                                        <div className={`red_button product-add_to_cart_button ml-2 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
-                                            onClick={() => {
-                                                if (productsVariants?.length) {
-                                                    if (selectedProductsVarints) {
-                                                        addtoCart(productData);
-                                                    }
-                                                } else {
-                                                    addtoCart(productData);
-                                                }
-                                            }}
+                                                <div className={`red_button product-add_to_cart_button ml-2 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
+                                                    onClick={() => {
+                                                        if (productsVariants?.length) {
+                                                            if (selectedProductsVarints) {
+                                                                addtoCart(productData);
+                                                            }
+                                                        } else {
+                                                            addtoCart(productData);
+                                                        }
+                                                    }}
 
-                                        >
-                                            add to cart
-                                        </div>
-                                    </div>
+                                                >
+                                                    add to cart
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="mt-4 brandLabel">
-                                        <label style={{minWidth: '100px', display: 'inline-flex'}}>SKU:</label> <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
+                                        <label style={{ minWidth: '100px', display: 'inline-flex' }}>SKU:</label> <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
                                     </div>
                                     <div className="mt-3 brandLabel">
-                                        <label style={{minWidth: '100px', display: 'inline-flex'}}>Category:</label> <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
+                                        <label style={{ minWidth: '100px', display: 'inline-flex' }}>Category:</label> <span className="ml-2">{categoryName ? categoryName : "Category Not Found"}</span>
                                     </div>
                                     {tag?.length > 0 &&
                                         <div className="product-tags-container mt-3 brandLabel">
-                                            <label style={{minWidth: '100px', display: 'inline-flex'}}>Tags:</label>
+                                            <label style={{ minWidth: '100px', display: 'inline-flex' }}>Tags:</label>
                                             <ProductTags tags={tag} />
                                         </div>
                                     }
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -823,10 +823,13 @@ function ProductDetails() {
                                                             <p className="inter-medium-fonts">Image not available</p>
                                                         )}
                                                     </div>
-                                                    <p className="brandLabel inter-medium-fonts">{item?.brand}</p>
-                                                    <h3 className="product-title secondaryColor">{truncateString(item?.name, 70)}</h3>
+                                                    <p className="brandLabel sf-Regular">{item?.brand}</p>
+                                                    <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(item?.name, 70)}</h3>
                                                     <div className="d-flex mt-2 justify-content-between">
-                                                        <div className="priceLabel">${item?.sell_price}</div>
+                                                        <div>
+                                                            <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
+                                                            {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>}
+                                                        </div>
                                                         <div>
                                                             <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
                                                                 <i className="fas fa-shopping-bag mt-2"></i>
