@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner'; // Import Spinner component
 
 const SliderComponents = ({ banners }) => {
     const [index, setIndex] = useState(0);
-    const [loadingStates, setLoadingStates] = useState(Array(banners.length).fill(false)); // Initialize loading states
+    const [loadingStates, setLoadingStates] = useState(Array(banners?.length).fill(false)); // Initialize loading states
 
     const handleSelect = (selectedIndex) => {
         setIndex(selectedIndex);
