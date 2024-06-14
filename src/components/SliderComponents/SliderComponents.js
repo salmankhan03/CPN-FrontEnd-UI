@@ -24,13 +24,19 @@ const SliderComponents = ({ banners }) => {
 
     return (
         <Carousel fade activeIndex={index} onSelect={handleSelect}>
-            {banners?.map((banner, idx) => (
+            {banners?.map((banner, idx) => {
+                console.log(banner)
+                return(
                 <Carousel.Item key={idx} interval={50000}>
                     <ImageComponent src={banner?.src} alt={`Slide ${idx + 1}`} classAtribute="slider-image d-block w-100" />
                     <Carousel.Caption className={`carousel-caption d-flex flex-column justify-content-center h-100 ${banner?.position === "LEFT" ? 'text-left align-items-start' : banner?.position === "CENTER" ? 'text-center align-items-center' : 'text-right align-items-end'}`}   >
+                    {banner.heading && (
                         <p className='carouselCaptionHeading text-black mb-0'>{banner.heading}</p>
+                    )}
+                     {banner.content && (
                         <p>{banner.content}</p>
-                        {banner.button_url !== "undefined" && banner.button_label !== "undefined" && (
+                    )}
+                        {banner.button_url && banner.button_url !== "undefined" && banner.button_label !== "undefined" && (
                             <Button
                                 onClick={() => handleButtonClick(banner.button_url, idx)}
                                 className="btn btn-primary w-auto"
@@ -53,7 +59,7 @@ const SliderComponents = ({ banners }) => {
 
                     </Carousel.Caption>
                 </Carousel.Item>
-            ))}
+            )})}
         </Carousel>
     );
 };
