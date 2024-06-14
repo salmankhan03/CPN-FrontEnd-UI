@@ -158,7 +158,7 @@ const Faq = () => {
                                                 </div>
                                                 {expandedId === item.id && (
                                                     <div className="faq-answer pt-4 pb-2">
-                                                        <p className='tab-title font-weight-normal'>{item.answer}</p>
+                                                        <p className='tab-title font-weight-normal text-left'>{item.answer}</p>
                                                     </div>
                                                 )}
                                             </div>
