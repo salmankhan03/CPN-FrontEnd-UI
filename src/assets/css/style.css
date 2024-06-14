@@ -84,6 +84,27 @@ COLOR PALETTE
   font-family: 'Inter-Light';
   src: url('../fonts/Inter/static/Inter-Light.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Sf-Pro-Regular';
+  src: url('../fonts/sf-pro/SFPRODISPLAYREGULAR.OTF') format('truetype');
+}
+@font-face {
+  font-family: 'Sf-Pro-Medium';
+  src: url('../fonts/sf-pro/SFPRODISPLAYMEDIUM.OTF') format('truetype');
+}
+@font-face {
+  font-family: 'Sf-Pro-Bold';
+  src: url('../fonts/sf-pro/SFPRODISPLAYBOLD.OTF') format('truetype');
+}
+.sf-Regular{
+  font-family: "Sf-Pro-Regular";
+}
+.sf-Medium{
+  font-family: "Sf-Pro-Medium"!important ;
+}
+.sf-Bold{
+  font-family: "Sf-Pro-Bold"!important ;
+}
 
 .fontSize10 {
   font-size: 10;
@@ -3778,4 +3799,20 @@ text-align: center;
 
 .carouselCaptionHeading{
 font-size: 50px !important; 
+}
+.download-access-shadow{
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 0px 0px 20px 0px rgba(51, 51, 51, 0.1);
+}
+.footer-logo{
+  width: 200px;
+}
+.download-app{
+  width: 150px;
+}
+.footer-links{
+  color: #9b9b9b
+}
+.footer-links:hover{
+  color: #4e97fd
 }

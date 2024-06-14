@@ -70,14 +70,14 @@ function ProductListing(props) {
                     </div>
                 )}
                 <div className="ml-3 mr-3 pt-4 customPadding">
-                    <p className='brandLabel inter-medium-fonts'>{productItem?.brand}</p>
-                    <h3 className="product-title secondaryColor pt-2 " style={{}}>{truncateString(productItem?.name, 60)}</h3>
+                    <p className='brandLabel sf-Regular'>{productItem?.brand}</p>
+                    <h3 className="product-title secondaryColor pt-2 sf-Medium font-weight-normal " style={{}}>{truncateString(productItem?.name, 60)}</h3>
 
                     <div className="d-flex mt-2 justify-content-between">
 
                         <div>
-                            <div className={`${productItem?.price ? 'priceLabel' : 'normalPriceLabel'}`}>${productItem?.sell_price}</div>
-                            {productItem?.price && <span className="actualPrice">${productItem?.price}</span>}
+                            <div className={`${productItem?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${productItem?.sell_price}</div>
+                            {productItem?.price && <span className="actualPrice sf-Regular">${productItem?.price}</span>}
                         </div>
                         <div>
                             <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>

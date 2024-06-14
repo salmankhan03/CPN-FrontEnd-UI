@@ -312,12 +312,12 @@ function HomeScreen() {
                                     </div>
                                     <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
                                         <div className='text-left w-100'>
-                                            <p className='brandLabel inter-medium-fonts'>{product?.brand}</p>
-                                            <h3 className="product-title secondaryColor">{truncateString(product?.name, truncateLength)}</h3>
+                                            <p className='brandLabel sf-Regular'>{product?.brand}</p>
+                                            <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(product?.name, truncateLength)}</h3>
                                             <div className="d-flex mt-1 justify-content-between align-items-center w-100">
                                                 <div>
-                                                    <div className={`${product?.price ? 'priceLabel' : 'normalPriceLabel'}`}>${product?.sell_price}</div>
-                                                    {product?.price && <span className="actualPrice">${product?.price}</span>}
+                                                    <div className={`${product?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${product?.sell_price}</div>
+                                                    {product?.price && <span className="actualPrice sf-Regular">${product?.price}</span>}
                                                 </div>
                                                 <div>
                                                     <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
@@ -421,19 +421,19 @@ function HomeScreen() {
                                             {weeklyProductsList.map((category, index) => (
                                                 <div key={index} className="product-slide" onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
                                                     <div className="product-details category-item product-card p-4 m-2">
-                                                        <p className="brandLabel inter-medium-fonts">{category?.brand}</p>
-                                                        <h3 className="product-title secondaryColor">{truncateString(category?.name, 70)}</h3>
+                                                        <p className="brandLabel sf-Regular">{category?.brand}</p>
+                                                        <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(category?.name, 70)}</h3>
                                                         <div className="product_image mb-3">
                                                             {category?.images[0]?.name ? (
                                                                 <ImageComponent src={category?.images[0]?.name} alt="products Image" />
                                                             ) : (
-                                                                <p className="inter-medium-fonts">Image not available</p>
+                                                                <p className="sf-Regular">Image not available</p>
                                                             )}
                                                         </div>
                                                         <div className="d-flex mt-2 justify-content-between">
                                                             <div>
-                                                                <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'}`}>${category?.sell_price}</div>
-                                                                {category?.price && <span className="actualPrice">${category?.price}</span>}
+                                                                <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${category?.sell_price}</div>
+                                                                {category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
                                                             </div>
                                                             <div>
                                                                 <span className="circle" onClick={(event) => addToCart(event, category)}>
@@ -448,7 +448,7 @@ function HomeScreen() {
                                     </div>
                                 ) : (
                                     <div className='d-flex justify-content-center'>
-                                        <h4 className='text-center inter-medium-fonts'>No products available</h4>
+                                        <h4 className='text-center sf-Regular'>No products available</h4>
                                     </div>
                                 )
                             )}
