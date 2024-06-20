@@ -21,45 +21,75 @@ const SliderComponents = ({ banners }) => {
             window.location.href = url;
         }, 2000);
     };
-
+  
+    const getPositionClasses = (position,positionCheck) => {
+        const [vertical, horizontal] = position.split('-');
+        let justifyContent = 'center';
+        let alignItems = 'center';
+        let marginTop = '0';
+        switch (vertical) {
+            case 'TOP':
+                alignItems = 'flex-start';
+                positionCheck ? marginTop =30  : marginTop=0
+                break;
+            case 'MIDDLE':
+                alignItems = 'center';
+                break;
+            case 'BOTTOM':
+                alignItems = 'flex-end';
+                break;
+            default:
+                alignItems = 'center';
+        }
+    
+        switch (horizontal) {
+            case 'LEFT':
+                justifyContent = 'flex-start';
+                break;
+            case 'MIDDLE':
+                justifyContent = 'center';
+                break;
+            case 'RIGHT':
+                justifyContent = 'flex-end';
+                break;
+            default:
+                justifyContent = 'center';
+        }
+    
+        return { justifyContent, alignItems,marginTop };
+    };
     return (
         <Carousel fade activeIndex={index} onSelect={handleSelect}>
             {banners?.map((banner, idx) => {
                 console.log(banner)
-                return(
-                <Carousel.Item key={idx} interval={50000}>
-                    <ImageComponent src={banner?.src} alt={`Slide ${idx + 1}`} classAtribute="slider-image d-block w-100" />
-                    <Carousel.Caption className={`carousel-caption d-flex flex-column justify-content-center h-100 ${banner?.position === "LEFT" ? 'text-left align-items-start' : banner?.position === "CENTER" ? 'text-center align-items-center' : 'text-right align-items-end'}`}   >
-                    {banner.heading && (
-                        <p className='carouselCaptionHeading text-black mb-0'>{banner.heading}</p>
-                    )}
-                     {banner.content && (
-                        <p>{banner.content}</p>
-                    )}
-                        {banner.button_url && banner.button_url !== "undefined" && banner.button_label !== "undefined" && (
-                            <Button
-                                onClick={() => handleButtonClick(banner.button_url, idx)}
-                                className="btn btn-primary w-auto"
-                                style={{ width: 'auto', minWidth: '150px' }}
-                                disabled={loadingStates[idx]}
-                            >
-                                {loadingStates[idx] ? (
-                                    <Spinner
-                                        as="span"
-                                        animation="border"
-                                        size="sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                    />
-                                ) : (
-                                    banner.button_label
-                                )}
-                            </Button>
-                        )}
+                return (
+                    <Carousel.Item key={idx} interval={50000}>
+                        <ImageComponent src={banner?.src} alt={`Slide ${idx + 1}`} classAtribute="slider-image d-block w-100" />
+                        <Carousel.Caption
+                        className={`carousel-caption d-flex h-100 p-0 `}
+                        style={{
+                            ...getPositionClasses(banner?.position)
+                        }}
+                    >
+                        {banner?.content && (
+                            <div
+                                className="w-full h-full text-white bg-opacity-50 dynamic-html"
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: getPositionClasses(banner?.position).justifyContent,
+                                    alignItems: getPositionClasses(banner?.position,).alignItems,
+                                    marginTop: getPositionClasses(banner?.position,'banner?.position').marginTop,
 
+                                }}
+                                dangerouslySetInnerHTML={{ __html: banner?.content }}
+                            />
+                        )}
                     </Carousel.Caption>
-                </Carousel.Item>
-            )})}
+
+                    </Carousel.Item>
+                )
+            })}
         </Carousel>
     );
 };
