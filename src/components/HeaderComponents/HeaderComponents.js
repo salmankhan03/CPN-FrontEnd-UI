@@ -491,7 +491,7 @@ function Header() {
                         <div className="dropdown-content">
                           {Categories.map((Category, index) => {
                             return (
-                              <div className='m-2 pointer-on-hover'>
+                              <div className='m-2 pointer-on-hover text-left'>
                                 <span className='text-black' onClick={() => navigateToShop(Category.id,1)}>{Category?.name}</span>
                               </div>);
                           })}
@@ -673,7 +673,7 @@ function Header() {
                       {Categories.map((Category, index) => {
                         return (
                           // <Link to={`/shop?name=category&id=${Category.id}`}>{Category?.name}</Link>
-                          <div className='m-2 pointer-on-hover'>
+                          <div className='m-2 pointer-on-hover text-left'>
                             <span className='text-black' onClick={() => navigateToShop(Category.id,2)}>{Category?.name}</span>
                           </div>
                         );
