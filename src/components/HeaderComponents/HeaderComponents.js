@@ -138,6 +138,7 @@ function Header() {
 
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
+  const Categories = useSelector(state => state.CategoryReducer.categoryListData)
   const width = useWindowWidth();
 
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -339,11 +340,9 @@ function Header() {
 
   };
   const handleEllipsisToggleOpen = () => {
-    console.log("Clicked",isEllipsisToggleOpen)
-    console.log("isEllipsisToggleOpen Value change set")
 
     setIsEllipsisToggleOpen(!isEllipsisToggleOpen);
-      setIsToggleOpen(false);
+    setIsToggleOpen(false);
 
   };
   const logout = () => {
@@ -395,6 +394,14 @@ function Header() {
   const categoryToggleDropdown = () => {
     setCategoryIsOpen(!categoryIsOpen);
   };
+  const navigateToShop = (id,number) => {
+    if(number === 1){
+      setCategoryIsOpen(false)
+    }else{
+      setBrowseCategoryIsOpen(false)
+    }
+    navigate(`/shop?name=category&id=${id}`)
+  }
   return (
     <>
       <div>
@@ -441,11 +448,11 @@ function Header() {
 
         <header className={`${scrollPosition > 0 ? 'header-fixed' : ''} `}>
           {/* Middle Header Start */}
-          <div className="" style={{backgroundColor: '#fff'}}>
+          <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 <Link to="/">
-                    <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
+                  <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
                 </Link>
               </div>
               <div className="middle-content" >
@@ -453,13 +460,17 @@ function Header() {
                   <div className="d-flex align-items-center">
                     <div className="dropdown dropdown-right-border">
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
-                        <span className='searchDropdown' style={{color: '#ababab'}}>Browse Categories</span>
+                        <span className='searchDropdown' style={{ color: '#ababab' }}>Browse Categories</span>
                       </div>
+
                       {categoryIsOpen && (
                         <div className="dropdown-content">
-                          <Link to="/">Link 1</Link>
-                          <Link to="/">Link 2</Link>
-                          <Link to="/">Link 3</Link>
+                          {Categories.map((Category, index) => {
+                            return (
+                              <div className='m-2 pointer-on-hover'>
+                                <span className='text-black' onClick={() => navigateToShop(Category.id,1)}>{Category?.name}</span>
+                              </div>);
+                          })}
                         </div>
                       )}
                     </div>
@@ -503,7 +514,7 @@ function Header() {
                     </div>
                   </div>
                 </div>
-        
+
               </div>
               <div className="right-content">
                 <div className="icons-container">
@@ -625,65 +636,71 @@ function Header() {
           </div>
           {/* Middle Header Close */}
           {/* Bottom Header Start */}
-          <div style={{backgroundColor: '#415DA1'}}>
-          <nav className={`header-content-top bottomHeaderBG container`}>
-            <div className="left-content">
-              <div className="dropdown">
-                <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
-                  <span><i className="fa fa-bars" aria-hidden="true"></i></span>
-                  <span className='searchDropdown ml-2' style={{color: '#ababab'}}>Browse Categories</span>
-                </div>
-                {browseCategoryIsOpen && (
-                  <div className="dropdown-content">
-                    <Link to="/">Link 1</Link>
-                    <Link to="/">Link 2</Link>
-                    <Link to="/">Link 3</Link>
+          <div style={{ backgroundColor: '#415DA1' }}>
+            <nav className={`header-content-top bottomHeaderBG container`}>
+              <div className="left-content">
+                <div className="dropdown">
+                  <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
+                    <span><i className="fa fa-bars" aria-hidden="true"></i></span>
+                    <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
                   </div>
-                )}
-              </div>
-            </div>
-            <div className='middle-content'>
-              <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
-                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                  <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
-                    Home
-                  </Link>
-                </li>
-                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                  <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
-                    About Us
-                  </Link>
-                </li>
-                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                  <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
-                    Shop
-                  </Link>
-                </li>
-                <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                  <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
-                    Faq
-                  </Link>
-                </li>
-                <li style={{ paddingLeft: 15, paddingRight: 35 }}>
-                  <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
-                    Contact
-                  </Link>
-                </li>
-              </NavManu>
+                  {browseCategoryIsOpen && (
+                    <div className="dropdown-content">
+                      {Categories.map((Category, index) => {
+                        return (
+                          // <Link to={`/shop?name=category&id=${Category.id}`}>{Category?.name}</Link>
+                          <div className='m-2 pointer-on-hover'>
+                            <span className='text-black' onClick={() => navigateToShop(Category.id,2)}>{Category?.name}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
 
-            </div>
-            <div className="right-content hide-div">
-              <div className="">
-                <i className="fa fa-phone text-black" aria-hidden="true"></i>
-                <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
+                  )}
+                </div>
+              </div>
+              <div className='middle-content'>
+                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
+                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                      Home
+                    </Link>
+                  </li>
+                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                      About Us
+                    </Link>
+                  </li>
+                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                      Shop
+                    </Link>
+                  </li>
+                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                      Faq
+                    </Link>
+                  </li>
+                  <li style={{ paddingLeft: 15, paddingRight: 35 }}>
+                    <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                      Contact
+                    </Link>
+                  </li>
+                </NavManu>
 
               </div>
-            </div>
-          </nav>
+              <div className="right-content hide-div">
+                <div className="">
+                  <i className="fa fa-phone text-black" aria-hidden="true"></i>
+                  <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
+
+                </div>
+              </div>
+            </nav>
           </div>
           {/* Bottom Header Close */}
         </header>
-    
+
         <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>Searching Products</Offcanvas.Title>
