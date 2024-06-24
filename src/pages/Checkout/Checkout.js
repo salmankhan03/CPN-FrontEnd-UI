@@ -23,6 +23,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import StripeDetails from "./StripeDetails";
 import axios from 'axios';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
+import FooterComponents from "../../components/FooterComponents/FooterComponents";
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
@@ -1055,7 +1056,7 @@ const CheckoutPage = () => {
 
                                             </form>
                                         </div>
-                                        <div>
+                                        <div className="form-group">
                                             <label>
                                                 <input
                                                     type="checkbox"
@@ -1475,9 +1476,11 @@ const CheckoutPage = () => {
                     </div>
                 </div>
             </div>
-
-
+            <div>
+                <FooterComponents />
+            </div>
         </div>
+
     );
 };
 

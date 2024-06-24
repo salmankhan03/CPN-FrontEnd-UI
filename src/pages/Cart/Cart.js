@@ -8,6 +8,7 @@ import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
 import {setUserLogInOrNot} from "../../redux/action/auth-action";
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
+import FooterComponents from "../../components/FooterComponents/FooterComponents";
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -292,6 +293,9 @@ const CartPage = () => {
                     </div>
                 </div>
             )}
+            <div>
+                <FooterComponents />
+            </div>
         </div>
     );
 };
