@@ -151,6 +151,8 @@ function Header() {
 
   const [browseCategoryIsOpen, setBrowseCategoryIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navDropdownRef = useRef(null);
+  const headerNavDropdownRef = useRef(null);
   const navMenuRef = useRef(null);
   const ellipsisRef = useRef(null);
   const [index, setIndex] = useState(0);
@@ -257,6 +259,19 @@ function Header() {
     // Show search results when the search input is clicked
     // fetchSearchResults(searchQuery);
   };
+
+    const handleClickOutside = (event) => {
+        if (navDropdownRef.current && !navDropdownRef.current.contains(event.target)) {
+            setCategoryIsOpen(false);
+        }
+    };
+
+    const handleBrowseClickOutside = (event) => {
+        if (headerNavDropdownRef.current && !headerNavDropdownRef.current.contains(event.target)) {
+            setBrowseCategoryIsOpen(false);
+        }
+    };
+
   useEffect(() => {
     console.log("user Login or not", AuthData, GuestData);
     console.log("width", width);
@@ -291,12 +306,16 @@ function Header() {
     document.addEventListener('mousedown', handleOutsideClick);
     document.addEventListener('mousedown', handleNavManuOutsideClick);
     document.addEventListener('mousedown', handleEllipsisOutsideClick);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleBrowseClickOutside);
 
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('mousedown', handleNavManuOutsideClick);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleBrowseClickOutside);
     };
   }, []);
 
@@ -458,7 +477,7 @@ function Header() {
               <div className="middle-content" >
                 <div className='parent-container ml-5 mr-5 hide-div' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
                   <div className="d-flex align-items-center">
-                    <div className="dropdown dropdown-right-border">
+                    <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
                         <span className='searchDropdown' style={{ color: '#ababab' }}>Browse Categories</span>
                       </div>
@@ -639,7 +658,7 @@ function Header() {
           <div style={{ backgroundColor: '#415DA1' }}>
             <nav className={`header-content-top bottomHeaderBG container`}>
               <div className="left-content">
-                <div className="dropdown">
+                <div className="dropdown"  ref={headerNavDropdownRef}>
                   <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
                     <span><i className="fa fa-bars" aria-hidden="true"></i></span>
                     <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
