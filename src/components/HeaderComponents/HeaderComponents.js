@@ -399,7 +399,7 @@ function Header() {
     <>
       <div>
         {/* Top Header Start */}
-        <div className={`header-content-top  hide-div `}>
+        <div className={`header-content-top  hide-div container`}>
           <div className="left-content">
             <span className='topBarFonts'>
               (00)0000-0000
@@ -439,10 +439,10 @@ function Header() {
         </div>
         {/* Top Header Close */}
 
-        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''}`}>
+        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''} `}>
           {/* Middle Header Start */}
-          <div className="PrimaryBGColor">
-            <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} `}>
+          <div className="" style={{backgroundColor: '#fff'}}>
+            <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 <Link to="/">
                     <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
@@ -453,7 +453,7 @@ function Header() {
                   <div className="d-flex align-items-center">
                     <div className="dropdown dropdown-right-border">
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
-                        <span className=''>Browse Categories</span>
+                        <span className='searchDropdown' style={{color: '#ababab'}}>Browse Categories</span>
                       </div>
                       {categoryIsOpen && (
                         <div className="dropdown-content">
@@ -625,12 +625,13 @@ function Header() {
           </div>
           {/* Middle Header Close */}
           {/* Bottom Header Start */}
-          <nav className={`header-content-top bottomHeaderBG `}>
+          <div style={{backgroundColor: '#415DA1'}}>
+          <nav className={`header-content-top bottomHeaderBG container`}>
             <div className="left-content">
               <div className="dropdown">
                 <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
                   <span><i className="fa fa-bars" aria-hidden="true"></i></span>
-                  <span className='ml-2'>Browse Categories</span>
+                  <span className='searchDropdown ml-2' style={{color: '#ababab'}}>Browse Categories</span>
                 </div>
                 {browseCategoryIsOpen && (
                   <div className="dropdown-content">
@@ -679,6 +680,7 @@ function Header() {
               </div>
             </div>
           </nav>
+          </div>
           {/* Bottom Header Close */}
         </header>
     

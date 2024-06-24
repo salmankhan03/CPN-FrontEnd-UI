@@ -49,8 +49,21 @@ header {
   background-color: #FFF;
   color: #fff;
   padding: 10px 20px;
-  transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
 }
+
+.dropdown-toggle::after{
+  color: #ababab;
+}
+
+.search-input::placeholder {
+  color: rgb(171, 171, 171) !important;
+  font-size: 14px;
+  opacity: 1;
+}
+
 .bottomHeaderBG{
   background-color: #415da1 !important;
 }

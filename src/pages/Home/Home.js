@@ -24,7 +24,7 @@ const useSlidesToShow = () => {
     const updateSlidesToShow = () => {
         const width = window.innerWidth;
         if (width >= 1680) {
-            setSlidesToShow(5);
+            setSlidesToShow(4);
         }
         else if (width >= 1440) {
             setSlidesToShow(4);
@@ -379,7 +379,7 @@ function HomeScreen() {
                         )}
                     </div>
                 </div>
-                <div className='custom-container'>
+                <div className='custom-container container'>
                     <div className="product-list-container marginTopBottom">
                         <div className="row">
                             <div className="col-12 col-md-12 col-lg-12">
@@ -454,7 +454,7 @@ function HomeScreen() {
                             )}
                         </div>
                     </div>
-                    <div className='marginTopBottom'>
+                    <div className='marginTopBottom '>
                         <div className='row mt-5 mb-5'>
                             <div className='col-12 col-md-6'>
                                 {banner_loader ? (

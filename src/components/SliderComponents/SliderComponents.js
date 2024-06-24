@@ -23,40 +23,43 @@ const SliderComponents = ({ banners }) => {
     };
   
     const getPositionClasses = (position,positionCheck) => {
-        const [vertical, horizontal] = position.split('-');
-        let justifyContent = 'center';
-        let alignItems = 'center';
-        let marginTop = '0';
-        switch (vertical) {
-            case 'TOP':
-                alignItems = 'flex-start';
-                positionCheck ? marginTop =30  : marginTop=0
-                break;
-            case 'MIDDLE':
-                alignItems = 'center';
-                break;
-            case 'BOTTOM':
-                alignItems = 'flex-end';
-                break;
-            default:
-                alignItems = 'center';
+        console.log('position==============================', position)
+        if(position) {
+            const [vertical, horizontal] = position && position?.split('-');
+            let justifyContent = 'center';
+            let alignItems = 'center';
+            let marginTop = '0';
+            switch (vertical) {
+                case 'TOP':
+                    alignItems = 'flex-start';
+                    positionCheck ? marginTop =30  : marginTop=0
+                    break;
+                case 'MIDDLE':
+                    alignItems = 'center';
+                    break;
+                case 'BOTTOM':
+                    alignItems = 'flex-end';
+                    break;
+                default:
+                    alignItems = 'center';
+            }
+
+            switch (horizontal) {
+                case 'LEFT':
+                    justifyContent = 'flex-start';
+                    break;
+                case 'MIDDLE':
+                    justifyContent = 'center';
+                    break;
+                case 'RIGHT':
+                    justifyContent = 'flex-end';
+                    break;
+                default:
+                    justifyContent = 'center';
+            }
+
+            return { justifyContent, alignItems,marginTop };
         }
-    
-        switch (horizontal) {
-            case 'LEFT':
-                justifyContent = 'flex-start';
-                break;
-            case 'MIDDLE':
-                justifyContent = 'center';
-                break;
-            case 'RIGHT':
-                justifyContent = 'flex-end';
-                break;
-            default:
-                justifyContent = 'center';
-        }
-    
-        return { justifyContent, alignItems,marginTop };
     };
     return (
         <Carousel fade activeIndex={index} onSelect={handleSelect}>

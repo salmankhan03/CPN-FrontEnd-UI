@@ -3224,11 +3224,11 @@ input:-webkit-autofill:active {
 }
 
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+/*.container {*/
+/*  max-width: 1200px;*/
+/*  margin: 0 auto;*/
+/*  padding: 0 20px;*/
+/*}*/
 
 
 .product-description {
@@ -3815,4 +3815,9 @@ font-size: 50px !important;
 }
 .footer-links:hover{
   color: #4e97fd
+}
+
+.tab-content-custom {
+  overflow: hidden;
+  transition: height 0.5s ease, opacity 0.5s ease;
 }

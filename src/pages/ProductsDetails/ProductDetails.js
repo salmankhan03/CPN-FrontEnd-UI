@@ -21,6 +21,7 @@ import Loading from "../../components/LoadingComponents/LoadingComponents";
 import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 import MetaTitle from "../../components/HelmetComponent/MetaTitle";
+import { gsap } from 'gsap';
 
 
 const useSlidesToShow = () => {
@@ -68,6 +69,7 @@ function ProductDetails() {
     const [quantity, setQuantity] = useState(1);
     const [selectedImage, setSelectedImage] = useState();
     const [selectedTab, setSelectedTab] = useState('description');
+    const [activeKey, setActiveKey] = useState('description');
     const tabNames = ['description', 'review', 'shipping'];
     const [tag, setTag] = useState([]);
     const [productsVariants, setProductsVariants] = useState([])
@@ -81,6 +83,16 @@ function ProductDetails() {
     const [relatedProduct, setRelatedProduct] = useState()
     const [relatedProductLoader, setRelatedProductLoader] = useState(false)
     const navigate = useNavigate();
+    const tabContentRef = useRef(null);
+
+    useEffect(() => {
+        const tabContent = tabContentRef.current;
+
+        gsap.fromTo(tabContent,
+            { height: 'auto', opacity: 0 },
+            { height: 'auto', opacity: 1, duration: 0.5, ease: 'power2.out' }
+        );
+    }, [activeKey]);
 
     const relatedProductSlidesToShow = Math.min(relatedProduct?.length, useSlidesToShow());
 
@@ -766,21 +778,26 @@ function ProductDetails() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row marginTopBottom product-detail" >
+                        <div className="row marginTopBottom product-detail">
                             <Container className="mt-4">
-                                <Tabs defaultActiveKey="description" id="tab-component" className="custom-tabs">
+                                <Tabs
+                                    id="tab-component"
+                                    className="custom-tabs"
+                                    activeKey={activeKey}
+                                    onSelect={(k) => setActiveKey(k)}
+                                >
                                     <Tab eventKey="description" title="Description">
-                                        <div className="tab-content-custom">
-                                            <div className='tab-content-custom-peragraph' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />;
+                                        <div className="tab-content-custom" ref={tabContentRef}>
+                                            <div className='tab-content-custom-peragraph' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
                                         </div>
                                     </Tab>
                                     <Tab eventKey="reviews" title="Reviews (0)">
-                                        <div className="tab-content-custom">
+                                        <div className="tab-content-custom" ref={tabContentRef}>
                                             <p>No reviews yet.</p>
                                         </div>
                                     </Tab>
-                                    <Tab eventKey="Shipping" title="Shipping">
-                                        <div className="tab-content-custom">
+                                    <Tab eventKey="shipping" title="Shipping">
+                                        <div className="tab-content-custom" ref={tabContentRef}>
                                             <p>For any enquiries, please contact us.</p>
                                         </div>
                                     </Tab>
