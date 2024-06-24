@@ -444,9 +444,14 @@ function Header() {
             >
               {slogans?.map((slogan, idx) => (
                 <Carousel.Item key={idx} interval={10000}>
-                  <a href={slogan?.url} target="_blank" rel="noopener noreferrer">
+                  {/* <a href={slogan?.url} target="_blank" rel="noopener noreferrer">
                     <strong className="topBarCenterText">{slogan?.text}</strong>
-                  </a>
+                  </a> */}
+                  <div
+                      className="w-full h-full text-white bg-opacity-50 dynamic-html" 
+                      style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}                        
+                                dangerouslySetInnerHTML={{ __html: slogan?.text }}
+                            />
                 </Carousel.Item>
               ))}
             </Carousel>
