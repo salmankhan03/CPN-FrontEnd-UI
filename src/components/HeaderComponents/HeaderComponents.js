@@ -480,7 +480,7 @@ function Header() {
                 </Link>
               </div>
               <div className="middle-content" >
-                <div className='parent-container ml-5 mr-5 hide-div' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
+                <div className='parent-container ml-2 hide-div' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
                   <div className="d-flex align-items-center">
                     <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
