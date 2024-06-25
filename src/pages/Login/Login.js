@@ -297,7 +297,7 @@ const LoginScreen = ({ onLogin }) => {
                                 {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Login</span>
                           </button> */}
-                                <div className="red_button product-add_to_cart_button mt-3" onClick={handleLoginSubmit}>
+                                <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleLoginSubmit}>
                                   Login
                                 </div>
                               </div>
@@ -411,7 +411,7 @@ const LoginScreen = ({ onLogin }) => {
                                 {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Sign Up</span>
                           </button> */}
-                                <div className="red_button product-add_to_cart_button mt-3" onClick={handleSignUpSubmit}>
+                                <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleSignUpSubmit}>
                                   Sign Up
                                 </div>
                               </div>
