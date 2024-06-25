@@ -135,6 +135,7 @@ const useWindowWidth = () => {
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const AuthDataFname = useSelector(state => state.AuthReducer.userData);
 
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
@@ -465,7 +466,7 @@ function Header() {
                 <option className="custom-option" value="fr">French</option>
               </select>
             </div>
-            <span className='ml-3 ml-md-1'> |    <Link to="/login"><span className='ml-2 ml-md-2 topBarFonts'>Login / Sign Up</span></Link></span>
+            <span className='ml-3 ml-md-1'> |    <Link to="/login"><span className='ml-2 ml-md-2 topBarFonts'>{AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? `${AuthDataFname.first_name} ${AuthDataFname.last_name}` : GuestData ? GuestData : 'Login / Sign Up'}</span></Link></span>
           </div>
         </div>
         {/* Top Header Close */}

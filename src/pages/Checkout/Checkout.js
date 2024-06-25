@@ -1251,6 +1251,7 @@ const CheckoutPage = () => {
                                 </div>
                             </Collapse>
                         </div>
+                        <div>{showShippingCharge ===false && <p style={{textAlign: 'left', color: 'red'}}>Please first select Province and Postal code*</p>}</div>
 
                         <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
                             <div style={{ backgroundColor: 'lightgray' }}>
