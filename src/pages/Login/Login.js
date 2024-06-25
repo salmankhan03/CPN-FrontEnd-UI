@@ -15,6 +15,7 @@ const LoginScreen = ({ onLogin }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [loaders, setLoaders] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [loginFormShowHide, setLoginFormShowHide] = useState(true);
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
@@ -89,6 +90,7 @@ const LoginScreen = ({ onLogin }) => {
     return Object.keys(errors).length === 0;
   };
   const handleLoginSubmit = async (e) => {
+    setIsButtonLoading(true)
     e.preventDefault();
 
     if (validateForm()) {
@@ -114,19 +116,22 @@ const LoginScreen = ({ onLogin }) => {
               } else {
                 navigate('/checkout', { replace: true });
               }
-
+              setIsButtonLoading(false)
             }, 1000)
           }
         }).catch((error) => {
           // setLoading(false)
+          setIsButtonLoading(false)
           console.log(error)
           notifyError(`${error?.response?.data?.message}`);
 
         })
       } catch (error) {
+        setIsButtonLoading(false)
         console.error('Login failed:', error);
       }
     } else {
+      setIsButtonLoading(false)
       console.log('Validation errors:', formDataErrors);
     }
   };
@@ -156,6 +161,7 @@ const LoginScreen = ({ onLogin }) => {
     return Object.keys(errors).length === 0;
   };
   const handleSignUpSubmit = async (e) => {
+    setIsButtonLoading(true)
     e.preventDefault();
     if (validateSignUpForm()) {
       try {
@@ -177,18 +183,22 @@ const LoginScreen = ({ onLogin }) => {
                   order_id: resp.order_id
                 }
               })
+              setIsButtonLoading(false)
             }, 1000)
           }
         }).catch((error) => {
           // setLoading(false)
+          setIsButtonLoading(false)
           console.log(error)
           notifyError(`${error?.response?.data?.message}`);
 
         })
       } catch (error) {
+        setIsButtonLoading(false)
         console.error('Login failed:', error);
       }
     } else {
+      setIsButtonLoading(false)
       console.log('Validation errors:', registerFormDataErrors);
     }
   };
@@ -297,9 +307,23 @@ const LoginScreen = ({ onLogin }) => {
                                 {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Login</span>
                           </button> */}
-                                <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleLoginSubmit}>
-                                  Login
-                                </div>
+                                {/* <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleLoginSubmit}>
+                                  {isButtonLoading ? "Loading...." : "Login"}
+                                </div> */}
+                                {isButtonLoading ? (
+                                  <div
+                                    className="red_button product-add_to_cart_button  mt-3"
+                                  >
+                                    Loading ....
+                                  </div>
+                                ) : (
+                                  <div
+                                    className="red_button product-add_to_cart_button pointer-on-hover mt-3"
+                                    onClick={handleLoginSubmit}
+                                  >
+                                    Login
+                                  </div>
+                                )}
                               </div>
                               <div className='mt-4 mb-4'>
                                 <hr />
@@ -411,9 +435,17 @@ const LoginScreen = ({ onLogin }) => {
                                 {/* <button className="btn btn-primary btn-block" type="submit">
                             <span>Sign Up</span>
                           </button> */}
-                                <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleSignUpSubmit}>
-                                  Sign Up
-                                </div>
+                                {isButtonLoading ? (
+                                  <div
+                                    className="red_button product-add_to_cart_button  mt-3"
+                                  >
+                                    Loading ....
+                                  </div>
+                                ) : (
+                                  <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleSignUpSubmit}>
+                                    Sign Up
+                                  </div>
+                                )}
                               </div>
                               <div className='mt-4 mb-4'>
                                 <hr />
