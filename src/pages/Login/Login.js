@@ -240,11 +240,11 @@ const LoginScreen = ({ onLogin }) => {
   }
   return (
     <>
+      <Toast />
       {userLogInOrNot === false ?
         <div className="container">
           <div className='m-3 mt-5'>
             <div className='row' style={{ backgroundColor: '' }}>
-              <Toast />
 
               <div className='col-md-6'>
                 <div>
@@ -658,6 +658,7 @@ const LoginScreen = ({ onLogin }) => {
 
         <FooterComponents />
       </div>
+
     </>
   );
 };

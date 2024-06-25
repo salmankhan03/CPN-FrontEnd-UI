@@ -3830,3 +3830,8 @@ font-size: 50px !important;
 label{
     font-size: medium;
 }
+
+/* Toast  */
+.Toastify__toast-container--top-right {
+  top: auto !important;
+}
