@@ -227,7 +227,10 @@ header {
     color: #ababab;
   }
   .displyHide{
-    display: none;
+    display: none ;
+  }
+  .carts-hide{
+    display: none !important;
   }
 }
 /* Responsive styles */
