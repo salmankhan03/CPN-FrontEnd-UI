@@ -9,6 +9,7 @@ import { Toast, notifySuccess, notifyError } from '../../components/ToastCompone
 import {setUserLogInOrNot} from "../../redux/action/auth-action";
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
+import emptyCarts from "../../assets/images/cart_is_empty.png"
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const CartPage = () => {
         setLoading(true)
         const timers = setTimeout(() => {
             setLoading(false)
-        }, 500)
+        }, 700)
         return () => clearTimeout(timers);
     },[])
     
@@ -132,11 +133,15 @@ const CartPage = () => {
         <div className="container mt-5">
             {/* <Toast /> */}
             {totalItems === 0 ? (
-                <div className="empty-cart">
-                    <p className='emptyCart'>Your cart is currently empty.</p>
-                    <ButtonComponent onClick={handleNavigation} label="Return to Shop" />
-
-                </div>
+               <div className="empty-cart">
+               <div className='emptyCart text-center d-flex flex-column align-items-center'>
+                   <ImageComponent src={emptyCarts} alt="Cart's Empty" />
+                   <div className='text-center mt-3'>
+                       <ButtonComponent onClick={handleNavigation} label="Return to Shop" />
+                   </div>
+               </div>
+           </div>
+           
             ) : (
                 <div className='row'>
                     <div className='col-md-8 col-xs-12'>

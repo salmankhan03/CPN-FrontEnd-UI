@@ -2815,8 +2815,8 @@ ul.stander li a {
 .emptyCart {
   margin: 0 0 16px !important;
   border-radius: 1rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
   padding-left: 1.875rem !important;
   padding-right: 1.875rem;
   position: relative;
@@ -2825,7 +2825,7 @@ ul.stander li a {
   list-style: none outside;
   width: auto;
   word-wrap: break-word;
-  background: #e5ecf1;
+  /* background: #e5ecf1; */
   color: #26658c;
   width: 100%;
 }
