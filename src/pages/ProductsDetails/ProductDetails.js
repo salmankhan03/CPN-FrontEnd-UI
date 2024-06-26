@@ -318,6 +318,7 @@ function ProductDetails() {
     };
 
     const addtoCart = (product) => {
+        console.log("ADD TO CART CALL")
         const existingCartItem = cartItems.find(item => item.id === product.id);
         let message = truncateString(product?.name, 60)
         if (existingCartItem) {
@@ -505,7 +506,7 @@ function ProductDetails() {
                             onClick={() => handleThumbnailClick(item.name)}
                             onMouseEnter={() => setSelectedImage(item.name)}
                         >
-                            <img src={item.name} alt={`Product Image ${index}`} style={{height: 'calc(100vh - 100px)'}} className="product-image" />
+                            <img src={item.name} alt={`Product Image ${index}`} style={{height: 'calc(100vh - 100px)',borderRadius:10}} className="product-image" />
                         </div>
                     </div>
                 ))}
@@ -602,7 +603,7 @@ function ProductDetails() {
                                     <div className="row">
                                         <div className="col-lg-12 image_col order-lg-2 order-1">
                                             <div className="fluid__image-container">
-                                                <img src={selectedImage} onClick={handleShow} style={{width: '-webkit-fill-available'}} alt={'Product Image'}/>
+                                                <img src={selectedImage} onClick={handleShow} style={{width: '-webkit-fill-available',cursor:'pointer'}} alt={'Product Image'}/>
 
                                                 {/*<ReactImageMagnify {...{*/}
                                                 {/*    smallImage: {*/}

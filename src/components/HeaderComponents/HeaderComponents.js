@@ -491,7 +491,7 @@ function Header() {
                       </div>
 
                       {categoryIsOpen && (
-                        <div className="dropdown-content">
+                        <div className="dropdown-content" style={{zIndex:2}}>
                           {Categories.map((Category, index) => {
                             return (
                               <div className='m-2 pointer-on-hover text-left'>
@@ -584,8 +584,8 @@ function Header() {
                     </div> */}
                   </div>
                   {/* Carts */}
-                  <div className="icon hide-div displyHide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
-                    <FontAwesomeIcon icon={faBagShopping} fontSize={23}/>
+                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
+                    <FontAwesomeIcon  icon={faBagShopping} fontSize={23}/>
                     {/*<i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>*/}
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
@@ -673,7 +673,7 @@ function Header() {
                     <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
                   </div>
                   {browseCategoryIsOpen && (
-                    <div className="dropdown-content">
+                    <div className="dropdown-content" style={{zIndex:2}}>
                       {Categories.map((Category, index) => {
                         return (
                           // <Link to={`/shop?name=category&id=${Category.id}`}>{Category?.name}</Link>
