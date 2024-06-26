@@ -572,7 +572,7 @@ function ProductDetails() {
                 {productData && (
                     <div>
                         <div className="row">
-                            <Toast />
+                            {/* <Toast /> */}
 
                             <div className="col">
                                 <div className="breadcrumbs d-flex flex-row align-items-center mt-2 mb-2">

@@ -130,7 +130,7 @@ const CartPage = () => {
     }
     return (
         <div className="container mt-5">
-            <Toast />
+            {/* <Toast /> */}
             {totalItems === 0 ? (
                 <div className="empty-cart">
                     <p className='emptyCart'>Your cart is currently empty.</p>
