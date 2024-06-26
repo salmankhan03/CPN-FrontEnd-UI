@@ -537,7 +537,7 @@ section {
 }
 
 .header {
-  position: fixed;
+  /*position: fixed;*/
   top: 0;
   left: 0;
   width: 100%;
@@ -901,10 +901,11 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 15px;
+  /*position: absolute;*/
+  /*top: 15px;*/
   /* right: 65px; */
-  margin-left: 15px;
+  margin-left: 9px;
+  margin-top: -9px;
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -3835,3 +3836,41 @@ label{
 .Toastify__toast-container--top-right {
   top: auto !important;
 }
+.productImageModal {
+    padding: 0 !important;
+    background-color: black;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.productImageModal .productImageModalSlider{
+    width: calc(100vw - 70px);
+    height: 90vh;
+    display: flex;
+    /*margin-left: 15px;*/
+}
+
+.custom-modal-header{
+    background-color: black !important;
+}
+
+.ProductImageHeader .modal-title{
+    color: #fff;
+}
+
+.custom-modal-header .btn-close {
+    background-color: #fff !important;
+}
+
+@media (max-width: 800px) {
+    .productImageModal .productImageModalSlider img{
+        height: -webkit-fill-available !important;
+    }
+    .productImageModal .productImageModalSlider{
+        /*margin-left: 35px !important;*/
+    }
+}
+
+
+

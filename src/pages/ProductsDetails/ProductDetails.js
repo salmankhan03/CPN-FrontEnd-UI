@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 import MetaTitle from "../../components/HelmetComponent/MetaTitle";
 import { gsap } from 'gsap';
+import Modal from 'react-bootstrap/Modal';
 
 
 const useSlidesToShow = () => {
@@ -82,6 +83,7 @@ function ProductDetails() {
     const [slideDirection, setSlideDirection] = useState('none');
     const [relatedProduct, setRelatedProduct] = useState()
     const [relatedProductLoader, setRelatedProductLoader] = useState(false)
+    const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const tabContentRef = useRef(null);
 
@@ -424,6 +426,15 @@ function ProductDetails() {
         ],
     };
 
+    const modalSettings = {
+        dots: false,
+        arrows: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
+
     useEffect(() => {
         const img = document.querySelector('.fluid__image-container img');
         if (img) {
@@ -474,6 +485,36 @@ function ProductDetails() {
         }
     };
 
+    const renderModelSlider = () => {
+        if (!productData || !productData.images || productData.images.length === 0) {
+            return <div>No images available</div>;
+        }
+        const selectedIndex = productData && productData?.images.findIndex(item => item.name === selectedImage);
+
+        const reorderedImages = [
+            productData && productData?.images[selectedIndex],
+            ...productData?.images.slice(0, selectedIndex),
+            ...productData?.images.slice(selectedIndex + 1)
+        ];
+
+        return (
+            <Slider {...modalSettings} className={"productImageModalSlider"}>
+                {reorderedImages.map((item, index) => (
+                    <div key={index} className="thumbnail">
+                        <div
+                            onClick={() => handleThumbnailClick(item.name)}
+                            onMouseEnter={() => setSelectedImage(item.name)}
+                        >
+                            <img src={item.name} alt={`Product Image ${index}`} style={{height: 'calc(100vh - 100px)'}} className="product-image" />
+                        </div>
+                    </div>
+                ))}
+            </Slider>
+        );
+
+    };
+
+
 
 
 
@@ -507,11 +548,24 @@ function ProductDetails() {
             }
         })
     }
+
+    const handleShow = () => {
+        setShow(true);
+    };
+
+
     if (loading) {
         return <SpinnerLoading loading={loading} />
     }
     return (
         <>
+            <Modal className={'ProductImageHeader'} show={show} fullscreen={true} onHide={() => setShow(false)}>
+
+                <Modal.Header closeButton className="custom-modal-header">
+                    <Modal.Title>Product Image</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={"productImageModal"}>{renderModelSlider()}</Modal.Body>
+            </Modal>
             <MetaTitle pageTitle={productData?.name} />
             <div className="container single_product_container border-bottom-0 mb-2">
                 {productData && (
@@ -548,25 +602,27 @@ function ProductDetails() {
                                     <div className="row">
                                         <div className="col-lg-12 image_col order-lg-2 order-1">
                                             <div className="fluid__image-container">
-                                                <ReactImageMagnify {...{
-                                                    smallImage: {
-                                                        alt: 'Wristwatch by Ted Baker London',
-                                                        isFluidWidth: true,
-                                                        src: selectedImage,
-                                                        style: {
-                                                            width: '100%', // Set the desired width
-                                                            height: 'auto',
-                                                            display: 'block',
-                                                            pointerEvents: 'none',
-                                                        }
-                                                    },
-                                                    largeImage: {
-                                                        src: selectedImage,
-                                                        width: 1200,
-                                                        height: 1800
-                                                    },
-                                                    enlargedImageContainerClassName: 'custom-enlarged-container',
-                                                }} />
+                                                <img src={selectedImage} onClick={handleShow} style={{width: '-webkit-fill-available'}} alt={'Product Image'}/>
+
+                                                {/*<ReactImageMagnify {...{*/}
+                                                {/*    smallImage: {*/}
+                                                {/*        alt: 'Wristwatch by Ted Baker London',*/}
+                                                {/*        isFluidWidth: true,*/}
+                                                {/*        src: selectedImage,*/}
+                                                {/*        style: {*/}
+                                                {/*            width: '100%', // Set the desired width*/}
+                                                {/*            height: 'auto',*/}
+                                                {/*            display: 'block',*/}
+                                                {/*            pointerEvents: 'none',*/}
+                                                {/*        }*/}
+                                                {/*    },*/}
+                                                {/*    largeImage: {*/}
+                                                {/*        src: selectedImage,*/}
+                                                {/*        width: 1200,*/}
+                                                {/*        height: 1800*/}
+                                                {/*    },*/}
+                                                {/*    enlargedImageContainerClassName: 'custom-enlarged-container',*/}
+                                                {/*}} />*/}
                                             </div>
 
                                             <div className="single_product_thumbnail">

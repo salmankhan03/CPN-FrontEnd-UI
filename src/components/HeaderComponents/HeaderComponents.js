@@ -19,6 +19,8 @@ import ProductServices from '../../services/ProductServices';
 import { debounce } from 'lodash';
 import HeaderLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
 import stickyLogo from "../../assets/images/logo/iHealthCare_logo.svg";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 
 const StyledHeader = styled.header`
@@ -582,8 +584,9 @@ function Header() {
                     </div> */}
                   </div>
                   {/* Carts */}
-                  <div className="icon hide-div displyHide" onClick={() => handleNavigation('cart')}>
-                    <i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>
+                  <div className="icon hide-div displyHide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
+                    <FontAwesomeIcon icon={faBagShopping} fontSize={23}/>
+                    {/*<i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>*/}
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.length}
