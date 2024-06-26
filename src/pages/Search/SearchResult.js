@@ -332,7 +332,7 @@ function SearchResults() {
     }
     return (
         <div className="" >
-            <div className="custom-container">
+            <div className="custom-container container">
                 <div style={{ display: 'flex' }} className={'sidebarMobile'}>
                     <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
                 </div>
@@ -446,11 +446,11 @@ function SearchResults() {
                         </Offcanvas.Body>
                     </Offcanvas>
                 </div>
-            </div>
             <div>
                 <FooterComponents />
                 {/* <Header/> */}
             </div>
+        </div>
         </div>
 
     );

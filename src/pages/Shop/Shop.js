@@ -297,7 +297,7 @@ function ShopScreen() {
     return (
         <div className="" >
             <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
-            <div className="custom-container">
+            <div className="custom-container container">
                 <div style={{display: 'flex'}} className={'sidebarMobile'}>
                     <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
                 </div>
@@ -411,11 +411,12 @@ function ShopScreen() {
                         </Offcanvas.Body>
                     </Offcanvas>
                 </div>
-            </div>
             <div>
                 <FooterComponents />
                 {/* <Header/> */}
             </div>
+            </div>
+
         </div>
 
     );

@@ -9,16 +9,21 @@ import ImageComponent from '../ImageComponents/ImageComponents';
 function FooterComponents() {
     return (
         // #415da1
-        <footer className="custom-header" style={{ backgroundColor: '#fff' }}>
-            <div className="container-fluid pt-3 pb-3">
+        <footer className="custom-header pb-5" style={{ backgroundColor: '#fff' }}>
+            <div className="container-fluid pt-5 pb-5">
                 <div className="row no-gutters m-4">
-                    <div className="col-lg-3 col-md-6 text-center d-flex flex-column align-items-center">
+                 
+                    <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <Link to="/" className='mt-3'>
                             <ImageComponent src={footerLogo} alt={"iHelthCaree"} classAtribute={'footer-logo'} />
                         </Link>
-                        <div className="mt-4 text-black text-center">Copyright © 2024 Canadian Pinnacle Nutritech.<br /> All rights reserved.</div>
+                        <div className="mt-4 text-black text-left w-100">
+                            Copyright © 2024 Canadian Pinnacle Nutritech.
+                            <br />
+                            All rights reserved.
+                        </div>
                     </div>
-                    <div className="col-lg-3 col-md-6 text-center">
+                    <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <h5 className="text-black mt-4">Customer Service</h5>
                         <ul className="list-unstyled mt-2">
                             <li className="mt-2"><Link to="#" className='footer-links'>Shipping Options</Link></li>
@@ -28,7 +33,7 @@ function FooterComponents() {
                             <li className="mt-2"><Link to="#" className='footer-links'>Shopping FAQs</Link></li>
                         </ul>
                     </div>
-                    <div className="col-lg-3 col-md-6 text-center">
+                    <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <h5 className="text-black mt-4">Our Company</h5>
                         <ul className="list-unstyled mt-2">
                             <li className="mt-2"><Link to="#" className='footer-links'>About Us</Link></li>
@@ -38,7 +43,7 @@ function FooterComponents() {
                             <li className="mt-2"><Link to="#" className='footer-links'>Link 9</Link></li>
                         </ul>
                     </div>
-                    <div className="col-lg-3 col-md-6 text-center">
+                    <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <h5 className="text-black mt-4">Download Our App</h5>
                         <div className='mt-2 text-black'>Fast & Convenient Access</div>
                         <div className='mt-3 d-flex justify-content-center'>

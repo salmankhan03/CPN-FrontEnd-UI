@@ -153,7 +153,7 @@ function HomeScreen() {
         setBanner_loader(true)
         BannersServices.getBanners().then((resp) => {
             setBanner(resp?.list)
-            const timers =  setTimeout(() => {
+            const timers = setTimeout(() => {
                 setBanner_loader(false)
             }, 500)
             return () => clearTimeout(timers);
@@ -364,7 +364,7 @@ function HomeScreen() {
 
     return (
         <div className="">
-            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
+            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
             <React.Fragment>
                 <div className="row" style={{ margin: 0 }}>
                     <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
@@ -503,10 +503,11 @@ function HomeScreen() {
                             />
                         </div>
                     </div>
+                    <div>
+                        <FooterComponents />
+                    </div>
                 </div>
-                <div>
-                    <FooterComponents />
-                </div>
+
             </React.Fragment>
         </div >
     );

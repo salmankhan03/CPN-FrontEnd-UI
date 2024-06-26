@@ -125,7 +125,7 @@ const Faq = () => {
                     <SliderComponents banners={faqBanners} />
                 )}
             </div>
-            <div className='custom-container mb-5'>
+            <div className='custom-container container'> 
                 <div className='mt-3'>
                     <div className='row'>
                         {/* <div className='text-center mt-2'>
@@ -170,10 +170,11 @@ const Faq = () => {
                         </div>
                     </div>
                 </div>
+                <div>
+                        <FooterComponents />
+                    </div>
             </div>
-            <div className='mt-2'>
-                <FooterComponents></FooterComponents>
-            </div>
+
 
         </div>
     )

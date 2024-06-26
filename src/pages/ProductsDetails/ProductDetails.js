@@ -923,10 +923,11 @@ function ProductDetails() {
                         )}
                     </div>
                 </div>
-            </div>
-            <div>
+                <div>
                 <FooterComponents />
             </div>
+            </div>
+            
         </>
     );
 }
