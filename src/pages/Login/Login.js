@@ -244,7 +244,8 @@ const LoginScreen = ({ onLogin }) => {
       <React.Fragment>
         <div className="container">
           {userLogInOrNot === false ?
-            <div className="">
+            <div className="mt-3">
+
               <div className='m-3 mt-5'>
                 <div className='row' style={{ backgroundColor: '' }}>
 
