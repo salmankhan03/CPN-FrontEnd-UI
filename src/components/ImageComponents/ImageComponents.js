@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../assets/css/style.css'
 
 function ImageComponent({ src, alt, classAtribute, width}) {
     const setCartWidth = width === true && '-webkit-fill-available'
