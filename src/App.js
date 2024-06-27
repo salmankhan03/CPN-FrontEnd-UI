@@ -99,7 +99,7 @@ function App() {
           />
           <Route
             path="/thankyou"
-            element={<PrivateRoute element={<ThankYouScreen />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+            element={<PrivateRoute element={<WithNavbar component={ThankYouScreen}/>} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
           <Route path="/about-us" element={<WithNavbar component={AboutUs} />} />
           <Route path="/faq" element={<WithNavbar component={Faq} />} />
