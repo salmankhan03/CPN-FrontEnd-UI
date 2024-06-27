@@ -37,6 +37,19 @@ header {
   top: 0;
   width: 100%;
   z-index: 99;
+  animation: slideIn 0.7s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+}
+
+@keyframes slideIn {
+  0% {
+    top: -100%;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
 }
 .headerWhite{
   background-color: #fff !important;
