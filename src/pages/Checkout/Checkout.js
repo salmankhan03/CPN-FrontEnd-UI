@@ -138,7 +138,7 @@ const CheckoutPage = () => {
                 body: xmlRequest
             };
 
-            fetch('https://ct.soa-gw.canadapost.ca/rs/ship/price', requestOptions)
+            fetch('/rs/ship/price', requestOptions)
                 .then(response => response.text())
                 .then(responseText => {
                     const parser = new DOMParser();
