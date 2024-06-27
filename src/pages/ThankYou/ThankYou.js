@@ -16,7 +16,7 @@ const ThankYouScreen = () => {
   }
   return (
     <div className="container mt-5">
-      <div className='text-center' >
+      <div className='text-center  mt-5 mb-5' >
         <ImageComponent src={thankyou} alt="Success" classAtribute="imageHeight" />
         <h1 className='mt-1'>Order Successful</h1>
         <p>Your Order ID: {orderId}</p>
