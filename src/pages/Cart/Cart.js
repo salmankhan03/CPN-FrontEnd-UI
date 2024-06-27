@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ButtonComponent from '../../components/ButtonComponents/ButtonComponents';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
-import {updateCartItems, updateCartSubTotal} from '../../redux/action/cart-action';
+import { updateCartItems, updateCartSubTotal } from '../../redux/action/cart-action';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
-import {setUserLogInOrNot} from "../../redux/action/auth-action";
+import { setUserLogInOrNot } from "../../redux/action/auth-action";
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import emptyCarts from "../../assets/images/cart_is_empty.png"
@@ -16,7 +16,7 @@ const CartPage = () => {
     const dispatch = useDispatch();
 
     const AuthData = useSelector(state => state.AuthReducer.userData);
-    const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId )
+    const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const totalItems = cartItems?.length;
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
@@ -27,15 +27,15 @@ const CartPage = () => {
     const [checkCouponCode, setCheckCouponCode] = useState(null)
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(0)
     const [couponDiscount, setCouponDiscount] = useState(0)
-    useEffect(()=>{
+    useEffect(() => {
         window.scrollTo(0, 0);
         setLoading(true)
         const timers = setTimeout(() => {
             setLoading(false)
         }, 700)
         return () => clearTimeout(timers);
-    },[])
-    
+    }, [])
+
     const handleNavigation = () => {
         navigate(`/`)
     };
@@ -55,10 +55,10 @@ const CartPage = () => {
         dispatch(updateCartItems(updatedCartItemsList));
     }
 
-    const handleApplyCoupon = async() => {
+    const handleApplyCoupon = async () => {
         setCouponCode(couponCode)
 
-        const payload= {
+        const payload = {
             coupon_code: couponCode,
             cart_amount: subtotal
         }
@@ -100,11 +100,11 @@ const CartPage = () => {
         dispatch(updateCartItems(updatedCartItems));
     };
     const gotoCheckout = () => {
-        console.log(  isLoggedIn)
-        if(isLoggedIn){
+        console.log(isLoggedIn)
+        if (isLoggedIn) {
             navigate('/checkout')
             dispatch(setUserLogInOrNot(false))
-        }else{
+        } else {
             dispatch(setUserLogInOrNot(false))
             navigate('/login')
         }
@@ -133,25 +133,25 @@ const CartPage = () => {
         <div className="container mt-5">
             {/* <Toast /> */}
             {totalItems === 0 ? (
-               <div className="empty-cart">
-               <div className='emptyCart text-center d-flex flex-column align-items-center'>
-                   <ImageComponent src={emptyCarts} alt="Cart's Empty" />
-                   <div className='text-center mt-3'>
-                       <ButtonComponent onClick={handleNavigation} label="Return to Shop" />
-                   </div>
-               </div>
-           </div>
-           
+                <div className="empty-cart">
+                    <div className='emptyCart text-center d-flex flex-column align-items-center'>
+                        <ImageComponent src={emptyCarts} alt="Cart's Empty" />
+                        <div className='text-center mt-3'>
+                            <ButtonComponent onClick={handleNavigation} label="Return to Shop" />
+                        </div>
+                    </div>
+                </div>
+
             ) : (
                 <div className='row'>
                     <div className='col-md-8 col-xs-12'>
                         <div className="text-center">
-                        <h5 className="bold pointer-on-hover title d-inline">Your Cart  ({cartItems.length} items)</h5>
+                            <h5 className="bold pointer-on-hover title d-inline">Your Cart  ({cartItems.length} items)</h5>
                         </div>
                         <table className="table mt-5 cart_table_hide">
                             <thead>
                                 <tr className=''>
-                                {/* className={`tab tab-title  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`} */}
+                                    {/* className={`tab tab-title  ${selectedTab === tabName ? 'active sidebar-filter-section-list' : ''}`} */}
                                     <th scope="col" className="col-sm-6 custom-no-border tab-title secondaryColor">Item</th>
                                     <th scope="col" className="col-sm-2 custom-no-border tab-title secondaryColor">Price</th>
                                     <th scope="col" className="col-sm-2 custom-no-border tab-title secondaryColor">Quantity</th>
@@ -256,7 +256,7 @@ const CartPage = () => {
                     </div>
                     <div className='col-md-4 col-xs-12 mt-md-0 mt-5'>
                         <div className="text-center">
-                        <h5 className="bold pointer-on-hover title d-inline">Order Summary</h5>
+                            <h5 className="bold pointer-on-hover title d-inline">Order Summary</h5>
                         </div>
                         <div className="text-right mt-5">
                             <div className="mr-auto tab-title font-weight-normal">Subtotal: <span className='ml-5'>${subtotal}</span></div>
@@ -290,15 +290,15 @@ const CartPage = () => {
                         </div>
                         <div className='row'>
                             <div className='text-right'>
-                                {checkCouponCode?.is_coupon_code_valid === false && <h6 style={{color: 'red'}}>{checkCouponCode.message}</h6>}
+                                {checkCouponCode?.is_coupon_code_valid === false && <h6 style={{ color: 'red' }}>{checkCouponCode.message}</h6>}
                                 {/*<h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>*/}
                                 <button class="checkout-button cart-checkout-btn mt-4" onClick={() => gotoCheckout()} >Proceed to Checkout</button>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             )}
-            <div>
+            <div className='pb-2'>
                 <FooterComponents />
             </div>
         </div>

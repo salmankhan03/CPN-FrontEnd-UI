@@ -1477,9 +1477,9 @@ const CheckoutPage = () => {
                     </div>
                 </div>
             </div>
-            <div>
-                <FooterComponents />
-            </div>
+            <div className='pb-2'>
+                        <FooterComponents />
+                    </div>
         </div>
 
     );

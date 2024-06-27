@@ -285,25 +285,25 @@ function SearchResults() {
         console.log(location?.state?.searchingText)
         await ProductServices.getSearchResults(
             { searchParam: location?.state?.searchingText }).then((resp) => {
-            if (resp?.status_code === 200) {
-                dispatch(setProductList({
-                    ...resp?.list?.data
-                }))
-                setProductDisplayLimit(resp?.list?.per_page)
-                setProductsListData(resp?.list)
-                setTotalPages(resp?.list?.last_page)
-                setTotalItems(resp?.list?.total)
-                const timers = setTimeout(() => {
-                    setLoading(false)
-                    setProducts_List_loader(false)
+                if (resp?.status_code === 200) {
+                    dispatch(setProductList({
+                        ...resp?.list?.data
+                    }))
+                    setProductDisplayLimit(resp?.list?.per_page)
+                    setProductsListData(resp?.list)
+                    setTotalPages(resp?.list?.last_page)
+                    setTotalItems(resp?.list?.total)
+                    const timers = setTimeout(() => {
+                        setLoading(false)
+                        setProducts_List_loader(false)
 
-                }, 1000);
-                return () => clearTimeout(timers);
-            }
-        }).catch((error) => {
-            setLoading(false)
-            console.log(error)
-        })
+                    }, 1000);
+                    return () => clearTimeout(timers);
+                }
+            }).catch((error) => {
+                setLoading(false)
+                console.log(error)
+            })
     }
     function getPriceFilter() {
         ProductServices.getMaximumPrice().then((resp) => {
@@ -446,11 +446,10 @@ function SearchResults() {
                         </Offcanvas.Body>
                     </Offcanvas>
                 </div>
-            <div>
-                <FooterComponents />
-                {/* <Header/> */}
+                <div className='pb-2'>
+                    <FooterComponents />
+                </div>
             </div>
-        </div>
         </div>
 
     );

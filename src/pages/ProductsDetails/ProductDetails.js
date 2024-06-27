@@ -506,7 +506,7 @@ function ProductDetails() {
                             onClick={() => handleThumbnailClick(item.name)}
                             onMouseEnter={() => setSelectedImage(item.name)}
                         >
-                            <img src={item.name} alt={`Product Image ${index}`} style={{height: 'calc(100vh - 100px)',borderRadius:10}} className="product-image" />
+                            <img src={item.name} alt={`Product Image ${index}`} style={{ height: 'calc(100vh - 100px)', borderRadius: 10 }} className="product-image" />
                         </div>
                     </div>
                 ))}
@@ -568,7 +568,7 @@ function ProductDetails() {
                 <Modal.Body className={"productImageModal"}>{renderModelSlider()}</Modal.Body>
             </Modal>
             <MetaTitle pageTitle={productData?.name} />
-            <div className="container single_product_container border-bottom-0 mb-2">
+            <div className="container single_product_container border-bottom-0 pb-0">
                 {productData && (
                     <div>
                         <div className="row">
@@ -603,7 +603,7 @@ function ProductDetails() {
                                     <div className="row">
                                         <div className="col-lg-12 image_col order-lg-2 order-1">
                                             <div className="fluid__image-container">
-                                                <img src={selectedImage} onClick={handleShow} style={{width: '-webkit-fill-available',cursor:'pointer'}} alt={'Product Image'}/>
+                                                <img src={selectedImage} onClick={handleShow} style={{ width: '-webkit-fill-available', cursor: 'pointer' }} alt={'Product Image'} />
 
                                                 {/*<ReactImageMagnify {...{*/}
                                                 {/*    smallImage: {*/}
@@ -923,11 +923,11 @@ function ProductDetails() {
                         )}
                     </div>
                 </div>
-                <div>
-                <FooterComponents />
+                <div className='pb-2'>
+                    <FooterComponents />
+                </div>
             </div>
-            </div>
-            
+
         </>
     );
 }

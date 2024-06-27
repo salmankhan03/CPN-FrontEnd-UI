@@ -657,7 +657,7 @@ const LoginScreen = ({ onLogin }) => {
 
             </div>
           }
-          <div>
+          <div className='pb-2'>
             <FooterComponents />
           </div>
         </div>

@@ -411,10 +411,9 @@ function ShopScreen() {
                         </Offcanvas.Body>
                     </Offcanvas>
                 </div>
-            <div>
-                <FooterComponents />
-                {/* <Header/> */}
-            </div>
+                <div className='pb-2'>
+                        <FooterComponents />
+                    </div>
             </div>
 
         </div>

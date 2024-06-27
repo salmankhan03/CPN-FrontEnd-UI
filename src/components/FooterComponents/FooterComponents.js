@@ -9,8 +9,8 @@ import ImageComponent from '../ImageComponents/ImageComponents';
 function FooterComponents() {
     return (
         // #415da1
-        <footer className="custom-header pb-5" style={{ backgroundColor: '#fff' }}>
-            <div className="container-fluid pt-5 pb-5">
+        <footer className="custom-header pt-2 pb-2 " style={{ backgroundColor: '#fff' }}>
+            <div className="container-fluid ">
                 <div className="row no-gutters m-4">
                  
                     <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">

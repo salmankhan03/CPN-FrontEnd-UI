@@ -503,7 +503,7 @@ function HomeScreen() {
                             />
                         </div>
                     </div>
-                    <div>
+                    <div className='pb-2'>
                         <FooterComponents />
                     </div>
                 </div>

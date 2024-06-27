@@ -170,7 +170,7 @@ const Faq = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className='pb-2'>
                         <FooterComponents />
                     </div>
             </div>
