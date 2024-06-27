@@ -598,7 +598,7 @@ function Header() {
                   <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
                     {isOpen && (
-                      <div className="dropdown-content">
+                      <div className="dropdown-content" style={{minWidth:'auto'}}>
                         {AuthData === undefined && GuestData === undefined ? (
                           <Link to="/login">Login/Signup</Link>
                         ) : (
@@ -646,7 +646,7 @@ function Header() {
                     </div>
                   }
                   {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" ref={dropdownRef}>
+                    <div className="dropdown-content" style={{zIndex:2,right:0,}} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
                         <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
                       ) : (
