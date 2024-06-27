@@ -263,17 +263,17 @@ function Header() {
     // fetchSearchResults(searchQuery);
   };
 
-    const handleClickOutside = (event) => {
-        if (navDropdownRef.current && !navDropdownRef.current.contains(event.target)) {
-            setCategoryIsOpen(false);
-        }
-    };
+  const handleClickOutside = (event) => {
+    if (navDropdownRef.current && !navDropdownRef.current.contains(event.target)) {
+      setCategoryIsOpen(false);
+    }
+  };
 
-    const handleBrowseClickOutside = (event) => {
-        if (headerNavDropdownRef.current && !headerNavDropdownRef.current.contains(event.target)) {
-            setBrowseCategoryIsOpen(false);
-        }
-    };
+  const handleBrowseClickOutside = (event) => {
+    if (headerNavDropdownRef.current && !headerNavDropdownRef.current.contains(event.target)) {
+      setBrowseCategoryIsOpen(false);
+    }
+  };
 
   useEffect(() => {
     console.log("user Login or not", AuthData, GuestData);
@@ -416,10 +416,10 @@ function Header() {
   const categoryToggleDropdown = () => {
     setCategoryIsOpen(!categoryIsOpen);
   };
-  const navigateToShop = (id,number) => {
-    if(number === 1){
+  const navigateToShop = (id, number) => {
+    if (number === 1) {
       setCategoryIsOpen(false)
-    }else{
+    } else {
       setBrowseCategoryIsOpen(false)
     }
     navigate(`/shop?name=category&id=${id}`)
@@ -451,10 +451,10 @@ function Header() {
                     <strong className="topBarCenterText">{slogan?.text}</strong>
                   </a> */}
                   <div
-                      className="w-full h-full text-white bg-opacity-50 dynamic-html" 
-                      style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}                        
-                                dangerouslySetInnerHTML={{ __html: slogan?.text }}
-                            />
+                    className="w-full h-full text-white bg-opacity-50 dynamic-html"
+                    style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+                    dangerouslySetInnerHTML={{ __html: slogan?.text }}
+                  />
                 </Carousel.Item>
               ))}
             </Carousel>
@@ -473,7 +473,7 @@ function Header() {
         </div>
         {/* Top Header Close */}
 
-        <header className={`${scrollPosition > 100 ? 'header-fixed' : ''} `}>
+        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''} `}>
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} container`}>
@@ -491,11 +491,11 @@ function Header() {
                       </div>
 
                       {categoryIsOpen && (
-                        <div className="dropdown-content" style={{zIndex:2}}>
+                        <div className="dropdown-content" style={{ zIndex: 2 }}>
                           {Categories.map((Category, index) => {
                             return (
                               <div className='m-2 pointer-on-hover text-left'>
-                                <span className='text-black' onClick={() => navigateToShop(Category.id,1)}>{Category?.name}</span>
+                                <span className='text-black' onClick={() => navigateToShop(Category.id, 1)}>{Category?.name}</span>
                               </div>);
                           })}
                         </div>
@@ -546,59 +546,22 @@ function Header() {
               <div className="right-content">
                 <div className="icons-container">
                   <div className="hide-div displyHide">
-                    {/* <div className="search-container position-relative" style={{ backgroundColor: '#f5f5f5', borderRadius: 25 }}>
-                      <input
-                        type="text"
-                        placeholder="Search for items..."
-                        className="search-input"
-                        style={{ width: 'auto', marginLeft: 10 }}
-                        value={searchInputText}
-                        onChange={handleInputChange}
-                        onClick={handleSearchInputClick}
-                      />
-                      {searchInputText && (
-                        <div className="clear-search-icon search-icon" onClick={clearSearchText}>
-                          <i className="fas fa-times-circle"></i>
-                        </div>
-                      )}
-                      <div className="search-icon">
-                        <i className="fas fa-search"></i>
-                      </div>
-
-                      {searchResults && (
-                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                          <ul className="list-group">
-                            {Object.keys(searchResults).map((result, index) => {
-                              console.log(result, "res");
-                              return (
-                                <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
-                                  <span className='ml-1'><i className="fas fa-search"></i></span>
-
-                                  <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      )}
-                    </div> */}
+                    {/* Search Component (commented out) */}
                   </div>
-                  {/* Carts */}
+                  {/* Cart Icon */}
                   <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
-                    <FontAwesomeIcon  icon={faBagShopping} fontSize={23}/>
-                    {/*<i className="fas fa-cart-arrow-down fa-lg" style={{ color: '' }}></i>*/}
+                    <FontAwesomeIcon icon={faBagShopping} fontSize={23} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.length}
                       </span>
                     )}
                   </div>
-                  {/* onMouseLeave={() => setIsOpen(false)} */}
                   {/* User Icon */}
-                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef}>
+                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
                     <i className="fa fa-user fa-lg" aria-hidden="true"></i>
                     {isOpen && (
-                      <div className="dropdown-content" style={{minWidth:'auto'}}>
+                      <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', minWidth: 'auto' }}>
                         {AuthData === undefined && GuestData === undefined ? (
                           <Link to="/login">Login/Signup</Link>
                         ) : (
@@ -608,18 +571,18 @@ function Header() {
                       </div>
                     )}
                   </div>
-                  <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen} >
+                  {/* Mobile Menu Toggle */}
+                  <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen}>
                     <i className="fa fa-bars" aria-hidden="true" style={{ color: '#000' }}></i>
                   </div>
-                  <div className="mobileMenu icon displyHide displaynone" onClick={handleEllipsisToggleOpen} >
+                  <div className="mobileMenu icon displyHide displaynone" onClick={handleEllipsisToggleOpen}>
                     <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#000' }}></i>
                   </div>
-                  {isEllipsisToggleOpen &&
-                    <div className='p-2 ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }} ref={ellipsisRef}>
+                  {isEllipsisToggleOpen && (
+                    <div className='p-2' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }} ref={ellipsisRef}>
                       <div className="row mt-2">
                         <div className="col text-right">
                           <div className="d-inline-flex align-items-center">
-
                             <React.Fragment>
                               <div className="search-icon" onClick={handleShow}>
                                 <i className="fas fa-search"></i>
@@ -636,17 +599,13 @@ function Header() {
                                 <i className="fa fa-user fa-lg text-black" aria-hidden="true"></i>
                               </div>
                             </React.Fragment>
-
                           </div>
                         </div>
                       </div>
-
-
-
                     </div>
-                  }
+                  )}
                   {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" style={{zIndex:2,right:0,}} ref={dropdownRef}>
+                    <div className="dropdown-content" style={{  position: 'absolute', right: 0,  zIndex: 2, backgroundColor: '#fff', minWidth: 'auto' }} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
                         <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
                       ) : (
@@ -656,8 +615,27 @@ function Header() {
                     </div>
                   ) : null}
 
+
+                  {/* <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
+                    <i className="fa fa-user fa-lg" aria-hidden="true"></i>
+                    {isOpen && (
+                      <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', minWidth: 'auto' }}>
+                        {AuthData === undefined && GuestData === undefined ? (
+                          <Link to="/login">Login/Signup</Link>
+                        ) : (
+                          <div onClick={logout}>logout</div>
+                        )}
+                        <Link to="/my-account">My Account</Link>
+                      </div>
+                    )}
+                  </div> */}
                 </div>
               </div>
+
+
+
+
+
             </div>
             {/* </header> */}
 
@@ -667,18 +645,18 @@ function Header() {
           <div style={{ backgroundColor: '#415DA1' }}>
             <nav className={`header-content-top bottomHeaderBG container`}>
               <div className="left-content">
-                <div className="dropdown"  ref={headerNavDropdownRef}>
+                <div className="dropdown" ref={headerNavDropdownRef}>
                   <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
                     <span><i className="fa fa-bars" aria-hidden="true"></i></span>
                     <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
                   </div>
                   {browseCategoryIsOpen && (
-                    <div className="dropdown-content" style={{zIndex:2}}>
+                    <div className="dropdown-content" style={{ zIndex: 2 }}>
                       {Categories.map((Category, index) => {
                         return (
                           // <Link to={`/shop?name=category&id=${Category.id}`}>{Category?.name}</Link>
                           <div className='m-2 pointer-on-hover text-left'>
-                            <span className='text-black' onClick={() => navigateToShop(Category.id,2)}>{Category?.name}</span>
+                            <span className='text-black' onClick={() => navigateToShop(Category.id, 2)}>{Category?.name}</span>
                           </div>
                         );
                       })}
