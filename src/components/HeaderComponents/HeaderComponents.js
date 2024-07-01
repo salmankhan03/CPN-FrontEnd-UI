@@ -473,7 +473,7 @@ function Header() {
         </div>
         {/* Top Header Close */}
 
-        <header className={`${scrollPosition > 50 ? 'header-fixed' : ''} `}>
+        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''} `}>
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} container`}>

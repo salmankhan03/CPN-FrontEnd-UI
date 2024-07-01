@@ -43,6 +43,7 @@ const CartPage = () => {
         const timers = setTimeout(() => {
             setLoading(false)
         }, 1000)
+        window.scrollTo(0, 0);
         return () => clearTimeout(timers);
     }, [])
 

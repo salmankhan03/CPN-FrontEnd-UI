@@ -221,6 +221,7 @@ const CheckoutPage = () => {
     useEffect(() => {
         // window.scrollTo(0, 0);
         // console.log("AuthData",AuthData)
+        window.scrollTo(0, 0);
         setLoading(true)
         if (cartItems.length === 0) {
             navigate('/');
