@@ -24,6 +24,9 @@ import StripeDetails from "./StripeDetails";
 import axios from 'axios';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
@@ -216,7 +219,7 @@ const CheckoutPage = () => {
     }, [shippingFormData?.zipcode]);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
         // console.log("AuthData",AuthData)
         setLoading(true)
         if (cartItems.length === 0) {
@@ -243,7 +246,7 @@ const CheckoutPage = () => {
             })
             const timers = setTimeout(() => {
                 setLoading(false)
-            }, 500)
+            }, 1000)
             return () => clearTimeout(timers);
 
         }
@@ -678,7 +681,12 @@ const CheckoutPage = () => {
         console.log("Codupon Dis|", discount);
         console.log("data", data)
         setCouponDiscount(discount)
-        dispatch(addCoupon({ couponCode: couponCode, couponDiscount: discount }));
+        dispatch(addCoupon({
+            couponCode: couponCode,
+            couponDiscount: discount,
+            amount: data?.coupon_code?.amount,
+            calculation_type: data?.coupon_code?.calculation_type
+        }));
 
     }
 
@@ -747,6 +755,12 @@ const CheckoutPage = () => {
         setSubTotalWithCoupon(updatedCartSubTotals - JSON.parse(updatedItem.price));
 
     };
+    const removeCoupon = () => {
+        console.log(isApplayCoupon);
+        setCouponCode('')
+        dispatch(addCoupon({}));
+        setSubTotalWithCoupon(subtotal)
+    }
 
     const handleShippingOptionChange = (serviceName, basePrice) => {
         setSelectedShippingOption({ serviceName, basePrice });
@@ -802,7 +816,7 @@ const CheckoutPage = () => {
                 }
                 const response = await axios.post('https://backend.kingsmankids.com/api/stripe-charge', payload);
                 console.log('Response:', response.data);
-                if(response?.data?.message === "Payment processed successfully"){
+                if (response?.data?.message === "Payment processed successfully") {
                     let submitobj = {
                         total_amount: orderTotal,
                         discount_price: couponDiscount?.toFixed(2),
@@ -825,7 +839,7 @@ const CheckoutPage = () => {
                             "status": "SUCCESS"
                         },
                     };
-        
+
                     for (let index = 0; index < cartItems.length; index++) {
                         let products = {
                             product_id: cartItems[index]?.id,
@@ -890,12 +904,12 @@ const CheckoutPage = () => {
                     quantity: cartItems[index]?.purchaseQty,
                     use_product_original_data: 0
                 };
-                if(cartItems[index]?.variants){
-                    products['variants'] =cartItems[index]?.variants
+                if (cartItems[index]?.variants) {
+                    products['variants'] = cartItems[index]?.variants
                 }
                 submitobj.product_data.push(products);
             }
-            console.log("Submit Obj",submitobj)
+            console.log("Submit Obj", submitobj)
             if (stripeDetailsRef.current) {
                 await stripeDetailsRef.current.handleButtonClick(handleStripeData);
                 orderGenrate(submitobj)
@@ -909,13 +923,14 @@ const CheckoutPage = () => {
             console.log('Form validation failed');
         }
     };
+    console.log(isApplayCoupon)
     if (loading) {
         return <SpinnerLoading loading={loading} />
     }
     return (
         <div className="container mt-5">
             <div>
-                <Toast />
+                {/* <Toast /> */}
                 <div className="row">
 
                     <div className="col-md-8">
@@ -1106,7 +1121,7 @@ const CheckoutPage = () => {
                                                                 label="Phone *"
                                                                 customClass={`form-control gray-bg ${billingFormErrors.contact_no ? 'validation-error-border' : ''}`}
                                                                 value={billingFormData?.contact_no}
-                                                                  onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
+                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
                                                                 placeholder=""
                                                                 required
                                                                 isdisabled={isChecked}
@@ -1251,7 +1266,7 @@ const CheckoutPage = () => {
                                 </div>
                             </Collapse>
                         </div>
-                        <div>{showShippingCharge ===false && <p style={{textAlign: 'left', color: 'red'}}>Please first select Province and Postal code*</p>}</div>
+                        <div>{showShippingCharge === false && <p style={{ textAlign: 'left', color: 'red' }}>Please first select Province and Postal code*</p>}</div>
 
                         <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
                             <div style={{ backgroundColor: 'lightgray' }}>
@@ -1292,14 +1307,14 @@ const CheckoutPage = () => {
                         <div className="mt-5">
                             <div className="d-flex justify-content-between mt-2">
                                 <div className="mr-auto tab-title font-weight-normal">Subtotal</div>
-                                <div>
+                                <div className='ml-5 tab-title font-weight-normal'>
                                     <span >${subtotal?.toFixed(2)}</span>
                                 </div>
                             </div>
                             <div className="d-flex justify-content-between mt-2">
                                 <div className="mr-auto tab-title font-weight-normal">Shipping</div>
                                 <div>
-                                    <span className="ml-5">{shipping ? shipping : "----"}</span>
+                                    <span className="ml-5">{shipping ? shipping : "-----------"}</span>
                                 </div>
                             </div>
 
@@ -1307,34 +1322,34 @@ const CheckoutPage = () => {
                                 {parseFloat(cartTotalTax?.gst) !== 0 &&
                                     <div className="d-flex justify-content-between mt-2">
                                         <div className="mr-auto tab-title font-weight-normal">GST {`(${province?.gst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>${cartTotalTax?.gst}</div>
+                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.gst}</div>
                                     </div>
                                 }
                                 {parseFloat(cartTotalTax?.pst) !== 0 &&
                                     <div className="d-flex justify-content-between mt-2">
                                         <div className="mr-auto tab-title font-weight-normal">PST {`(${province?.pst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>${cartTotalTax?.pst}</div>
+                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.pst}</div>
                                     </div>
                                 }
                                 {parseFloat(cartTotalTax?.hst) !== 0 &&
                                     <div className="d-flex justify-content-between mt-2s">
                                         <div className="mr-auto tab-title font-weight-normal">HST {`(${province?.hst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>${cartTotalTax?.hst}</div>
+                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.hst}</div>
                                     </div>
                                 }
                             </>
-                            {couponDiscount > 0 &&
-                                <div className="d-flex justify-content-between mt-2">
-                                    <div>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`}</div>
-                                    <div>- ${couponDiscount?.toFixed(2)}</div>
-                                    {/* <p className='mt-1'>{`Coupon Discount ${checkCouponCode?.coupon_code.calculation_type === 'percentage' ? `(${checkCouponCode?.coupon_code.amount}%)` : `(${checkCouponCode?.coupon_code.amount} CAD)`} :`} <span className='ml-5'>{couponDiscount}</span></p> */}
-                                </div>
-                            }
 
                             {selectedShippingOption &&
                                 <div className="d-flex justify-content-between mt-2">
-                                    <div>Shipping charge ({selectedShippingOption.serviceName})</div>
-                                    <div> ${selectedShippingOption.basePrice}</div>
+                                    <div className='mr-auto tab-title text-left font-weight-normal'>Shipping charge ({selectedShippingOption.serviceName})</div>
+                                    <div className='ml-5 tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
+                                </div>
+                            }
+                            {isApplayCoupon?.couponCode && couponDiscount > 0 &&
+                                <div className="d-flex  mt-2">
+                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
+                                                    ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} `}</div>
+                                    <div className=' tab-title font-weight-normal'>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
                                 </div>
                             }
                             <hr></hr>
@@ -1370,31 +1385,49 @@ const CheckoutPage = () => {
                                 <div className='' id="example-collapse-text" >
                                     <div className="container p-3">
                                         <div className="coupon-section">
-                                            <div className="d-flex justify-content-between ">
-                                                <div className=''>
-                                                    <InputComponent
-                                                        type="text"
-                                                        id="coupon"
-                                                        label=""
-                                                        customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
-                                                        value={couponCode}
-                                                        onChange={(e) => setCouponCode(e.target.value)}
-                                                        placeholder="Enter your coupon code"
-                                                        required
-                                                    />
+                                            { !isApplayCoupon?.couponCode ? (
+                                                <div className="d-flex justify-content-between ">
+                                                    <div className=''>
+                                                        <InputComponent
+                                                            type="text"
+                                                            id="coupon"
+                                                            label=""
+                                                            customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
+                                                            value={couponCode}
+                                                            onChange={(e) => setCouponCode(e.target.value)}
+                                                            placeholder="Enter your coupon code"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div className=''>
+                                                        <button
+                                                            style={{ padding: 5, width: 80, backgroundColor: 'black', borderRadius: 10, color: 'white' }}
+                                                            className={`${couponDiscount > 0 ? 'disabled' : ''}`}
+                                                            // disabled={couponDiscount > 0}
+                                                            onClick={handleApplyCoupon}
+                                                        >
+                                                            {"Apply"}
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div className=''>
-                                                    <button
-                                                        style={{ padding: 5, width: 80, backgroundColor: 'black', borderRadius: 10, color: 'white' }}
-                                                        className={`${couponDiscount > 0 ? 'disabled' : ''}`}
-                                                        disabled={couponDiscount > 0}
-                                                        onClick={handleApplyCoupon}
-                                                    >
-                                                        {"Apply"}
-                                                    </button>
+                                            ) : (
+                                                <div className="row justify-content-center align-items-center">
+                                                    <div className="col-auto text-center">
+                                                        <p className="fs-4 text-success d-flex align-items-center justify-content-center">
+                                                            <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
+                                                            Coupon applied!
+                                                        </p>
+                                                    </div>
+                                                    <div className="col-auto">
+                                                        <div className="d-inline-flex align-items-center coupon-container pointer-on-hover">
+                                                            {isApplayCoupon?.couponCode}
+                                                            <span className='ml-2 d-flex align-items-center' onClick={removeCoupon}>
+                                                                <FontAwesomeIcon icon={faXmark} fontSize={20} />
+                                                            </span>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -1478,8 +1511,8 @@ const CheckoutPage = () => {
                 </div>
             </div>
             <div className='pb-2'>
-                        <FooterComponents />
-                    </div>
+                <FooterComponents />
+            </div>
         </div>
 
     );

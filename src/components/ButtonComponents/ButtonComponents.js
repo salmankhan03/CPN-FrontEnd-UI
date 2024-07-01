@@ -1,7 +1,7 @@
 import React from "react"
-function ButtonComponent ({ onClick, label }) {
+function ButtonComponent ({ onClick,cssClass, label }) {
     return(
-        <button className="red_button product-add_to_cart_button" onClick={onClick} >
+        <button className={`${cssClass ? cssClass :''} red_button product-add_to_cart_button1`} onClick={onClick}>
             {label}
         </button>
 )
