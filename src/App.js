@@ -26,6 +26,7 @@ import Faq from './pages/Faq/Faq';
 import Profile from './pages/Profile/Profile'
 import NotFoundPage from './pages/NotFound/NotFound';
 import SearchResults from './pages/Search/SearchResult';
+import MyAccount from './pages/MyAccount/MyAccount';
 
 
 
@@ -39,9 +40,9 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
   const [isAuthUser, setAuthUser] = useState(false)//GuestData ? GuestData?.guestUserId : AuthData?.id
   if (process.env.NODE_ENV === 'production') {
-    console.log = () => {};
-    console.error = () => {}
-    console.debug = () => {}
+    console.log = () => { };
+    console.error = () => { }
+    console.debug = () => { }
   }
   useEffect(() => {
     getStaticPageList()
@@ -73,7 +74,7 @@ function App() {
     if (AuthData || GuestData) {
       setLoggedIn(true)
     }
-    if(AuthData && Object.keys(AuthData).length > 0){
+    if (AuthData && Object.keys(AuthData).length > 0) {
       setAuthUser(true)
     }
 
@@ -92,21 +93,25 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
 
           <Route path="/cart" element={<WithNavbar component={CartPage} />} />
-          <Route path="/profile" element={<PrivateRoute element={<WithNavbar component={Profile}/>} isAuthenticated={isAuthUser} fallbackPath="/profile" />}/>
+          <Route path="/profile" element={<PrivateRoute element={<WithNavbar component={Profile} />} isAuthenticated={isAuthUser} fallbackPath="/profile" />} />
           <Route
             path="/checkout"
             element={<PrivateRoute element={<WithNavbar component={CheckoutPage} />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
           <Route
+            path='/my-account'
+            element={<PrivateRoute element={<WithNavbar component={MyAccount} />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+          />
+          <Route
             path="/thankyou"
-            element={<PrivateRoute element={<WithNavbar component={ThankYouScreen}/>} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
+            element={<PrivateRoute element={<WithNavbar component={ThankYouScreen} />} isAuthenticated={isLoggedIn} fallbackPath="/login" />}
           />
           <Route path="/about-us" element={<WithNavbar component={AboutUs} />} />
           <Route path="/faq" element={<WithNavbar component={Faq} />} />
           <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
-          <Route path="*" element={<WithNavbar component={NotFoundPage} />} /> 
+          <Route path="*" element={<WithNavbar component={NotFoundPage} />} />
         </Routes>
       </Router>
     </div>

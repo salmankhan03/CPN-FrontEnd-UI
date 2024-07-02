@@ -190,6 +190,9 @@ h3.titles {
 .secondaryColor {
   color: var(--secondary-color) !important
 }
+.secondaryBG{
+  background-color: var(--secondary-color) !important;
+}
 
 .secondaryBGColor {
   background-color: var(--button-blue-color) !important;
