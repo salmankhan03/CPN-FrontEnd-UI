@@ -156,12 +156,14 @@ function Header() {
   const dropdownRef = useRef(null);
   const navDropdownRef = useRef(null);
   const headerNavDropdownRef = useRef(null);
+  const searchResultRef = useRef(null)
   const navMenuRef = useRef(null);
   const ellipsisRef = useRef(null);
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
   const [searchInputText, setSearchInputText] = useState('')
   const [searchResults, setSearchResults] = useState();
+  const [searchResultsShow, setSearchResultsShow] = useState(false)
 
   const inputRef = useRef(null);
 
@@ -193,6 +195,7 @@ function Header() {
     const query = e.target.value;
     setSearchInputText(query);
     debouncedSearch(query);
+    setSearchResultsShow(true)
   };
 
   const handleResultClick = (selectedResult) => {
@@ -218,6 +221,9 @@ function Header() {
     await ProductServices.getSearchSuggestion({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
         console.log("here", resp?.list)
+        if(resp?.list?.length > 0 ){
+          setSearchResultsShow(true)
+        }
         setSearchResults(resp?.list)
         const timers = setTimeout(() => {
           // setLoading(false)
@@ -274,6 +280,12 @@ function Header() {
       setBrowseCategoryIsOpen(false);
     }
   };
+  const handleSearchOutsideClick = (event) => {
+    if (searchResultRef.current && !searchResultRef.current.contains(event.target)) {
+      // setSearchResults([])
+      setSearchResultsShow(false)
+    }
+  };
 
   useEffect(() => {
     console.log("user Login or not", AuthData, GuestData);
@@ -311,6 +323,7 @@ function Header() {
     document.addEventListener('mousedown', handleEllipsisOutsideClick);
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('mousedown', handleBrowseClickOutside);
+    document.addEventListener('mousedown', handleSearchOutsideClick);
 
 
     return () => {
@@ -319,6 +332,8 @@ function Header() {
       document.removeEventListener('mousedown', handleNavManuOutsideClick);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('mousedown', handleBrowseClickOutside);
+      document.removeEventListener('mousedown', handleSearchOutsideClick);
+
     };
   }, []);
 
@@ -521,13 +536,13 @@ function Header() {
                           <i className="fas fa-search"></i>
                         </div>
 
-                        {searchResults && (
-                          <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                        {searchResults && searchResultsShow && (
+                          <div className="search-results mt-1 position-absolute" ref={searchResultRef} style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
                             <ul className="list-group">
                               {Object.keys(searchResults).map((result, index) => {
                                 console.log(result, "res");
                                 return (
-                                  <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                  <li key={index} className="text-left text-black p-2 pointer-on-hover" style={{}} onClick={() => handleResultClick(result)}>
                                     <span className='ml-1'><i className="fas fa-search"></i></span>
 
                                     <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
