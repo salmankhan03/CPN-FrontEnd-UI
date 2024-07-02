@@ -17,6 +17,7 @@ import "../../assets/css/slick.css"
 import Loading from '../../components/LoadingComponents/LoadingComponents';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
@@ -363,7 +364,9 @@ function HomeScreen() {
     }
 
     return (
-        <div className="">
+        <>
+            <Header />
+            <div className="">
             <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
             <React.Fragment>
                 <div className="row" style={{ margin: 0 }}>
@@ -510,6 +513,7 @@ function HomeScreen() {
 
             </React.Fragment>
         </div >
+        </>
     );
 }
 

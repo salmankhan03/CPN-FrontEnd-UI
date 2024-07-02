@@ -7,6 +7,7 @@ import SliderComponents from '../../components/SliderComponents/SliderComponents
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 
 const Faq = () => {
@@ -114,7 +115,9 @@ const Faq = () => {
         return <SpinnerLoading loading={loading} />
     }
     return (
-        <div className=''>
+        <>
+            <Header />
+            <div className=''>
             <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
             <div className='mb-5 '>
                 {banner_loader ? (
@@ -177,6 +180,7 @@ const Faq = () => {
 
 
         </div>
+        </>
     )
 }
 export default Faq

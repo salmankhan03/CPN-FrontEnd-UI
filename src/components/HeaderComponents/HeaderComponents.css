@@ -41,6 +41,27 @@ header {
   transition: transform 0.2s ease-in-out;
 }
 
+.header-visible {
+  box-shadow: none;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+  animation: slideOut 1s ease-in-out;
+  transition: transform 0.2s ease-in-out;
+}
+
+@keyframes slideOut {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: -100%;
+    opacity: 0;
+  }
+}
+
 @keyframes slideIn {
   0% {
     top: -100%;

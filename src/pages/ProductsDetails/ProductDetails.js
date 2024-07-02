@@ -23,6 +23,7 @@ import SpinnerLoading from "../../components/SpinnerComponents/SpinnerLoader";
 import MetaTitle from "../../components/HelmetComponent/MetaTitle";
 import { gsap } from 'gsap';
 import Modal from 'react-bootstrap/Modal';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 
 const useSlidesToShow = () => {
@@ -586,6 +587,7 @@ function ProductDetails() {
     }
     return (
         <>
+            <Header/>
             <Modal className={'ProductImageHeader'} show={show} fullscreen={true} onHide={() => setShow(false)}>
                 {/*<Modal.Header className="custom-modal-header">*/}
                 {/*    <Modal.Title>Product Image</Modal.Title>*/}

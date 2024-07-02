@@ -126,7 +126,7 @@ function WithNavbar({ component: Component, ...rest }: WithNavbarProps) {
   return (
     <>
       {/* <TopNavBar></TopNavBar> */}
-      <Header></Header>
+      {/*<Header></Header>*/}
       <Component {...rest} />
     </>
   );

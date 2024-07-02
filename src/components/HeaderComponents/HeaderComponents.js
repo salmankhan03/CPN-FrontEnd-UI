@@ -163,6 +163,10 @@ function Header() {
   const [show, setShow] = useState(false);
   const [searchInputText, setSearchInputText] = useState('')
   const [searchResults, setSearchResults] = useState();
+  const [lastScrollPosition, setLastScrollPosition] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const [isScrollingDown, setIsScrollingDown] = useState(true);
+  const headerRef = useRef(null);
   const [searchResultsShow, setSearchResultsShow] = useState(false)
 
   const inputRef = useRef(null);
@@ -293,7 +297,10 @@ function Header() {
     getSlogan()
 
     const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+      const currentScrollPosition = window.scrollY;
+      setIsScrollingDown(currentScrollPosition > lastScrollPosition);
+      setLastScrollPosition(currentScrollPosition);
+      setScrollPosition(currentScrollPosition);
     };
 
     const handleOutsideClick = (event) => {
@@ -316,6 +323,11 @@ function Header() {
         setIsEllipsisToggleOpen(false);
       }
     };
+    window.addEventListener('scroll', handleScroll);
+
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleOutsideClick);
@@ -441,7 +453,7 @@ function Header() {
   }
   return (
     <>
-      <div>
+      <div ref={headerRef}>
         {/* Top Header Start */}
         <div className={`header-content-top  hide-div container`}>
           <div className="left-content">
@@ -486,8 +498,8 @@ function Header() {
             <span className='ml-3 ml-md-1'> |
               {/* <Link to="/login">
                 <span className='ml-2 ml-md-2 topBarFonts'>
-                  {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? 
-                  `My Account` 
+                  {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ?
+                  `My Account`
                   :  'Login / Sign Up'}
                 </span>
               </Link> */}
@@ -511,11 +523,10 @@ function Header() {
           </div>
         </div>
         {/* Top Header Close */}
-
-        <header className={`${scrollPosition > 0 ? 'header-fixed' : ''} `}>
+        <header  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}>
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
-            <div className={`header-content-top ${scrollPosition > 0 ? 'headerWhite' : ''} container`}>
+            <div className={`header-content-top ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 <Link to="/">
                   <img className="my-4" src={stickyLogo} alt="no-result" width="200" />

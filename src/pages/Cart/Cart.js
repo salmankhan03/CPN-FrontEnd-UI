@@ -13,6 +13,7 @@ import emptyCarts from "../../assets/images/empty-carts.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from '../../components/ConfirmationModalComponents/ConfirmationModal';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -228,7 +229,9 @@ const CartPage = () => {
         return <SpinnerLoading loading={loading} />
     }
     return (
-        <div className="container mt-5">
+        <>
+            <Header></Header>
+            <div className="container mt-5">
             {/* <Toast /> */}
             {totalItems === 0 ? (
                 <div className="empty-cart">
@@ -498,6 +501,7 @@ const CartPage = () => {
                 <FooterComponents />
             </div>
         </div>
+        </>
     );
 };
 

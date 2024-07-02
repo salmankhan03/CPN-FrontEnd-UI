@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import { Offcanvas, Button } from 'react-bootstrap';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 function ShopScreen() {
     // const { type, id } = useParams();
@@ -295,7 +296,9 @@ function ShopScreen() {
         return <SpinnerLoading loading={loader} />
     }
     return (
-        <div className="" >
+        <>
+            <Header/>
+            <div className="" >
             <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
             <div className="custom-container container">
                 <div style={{display: 'flex'}} className={'sidebarMobile'}>
@@ -417,6 +420,7 @@ function ShopScreen() {
             </div>
 
         </div>
+        </>
 
     );
 }

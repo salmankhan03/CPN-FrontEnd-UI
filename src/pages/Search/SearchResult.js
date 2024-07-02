@@ -15,6 +15,7 @@ import FooterComponents from '../../components/FooterComponents/FooterComponents
 import { useParams } from 'react-router-dom';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import { Offcanvas, Button } from 'react-bootstrap';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 function SearchResults() {
     // const { type, id } = useParams();
@@ -331,7 +332,9 @@ function SearchResults() {
         return <SpinnerLoading loading={loader} />
     }
     return (
-        <div className="" >
+        <>
+            <Header/>
+            <div className="" >
             <div className="custom-container container">
                 <div style={{ display: 'flex' }} className={'sidebarMobile'}>
                     <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
@@ -451,6 +454,7 @@ function SearchResults() {
                 </div>
             </div>
         </div>
+        </>
 
     );
 }

@@ -27,6 +27,7 @@ import FooterComponents from "../../components/FooterComponents/FooterComponents
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
@@ -929,7 +930,9 @@ const CheckoutPage = () => {
         return <SpinnerLoading loading={loading} />
     }
     return (
-        <div className="container mt-5">
+        <>
+            <Header/>
+            <div className="container mt-5">
             <div>
                 {/* <Toast /> */}
                 <div className="row">
@@ -1515,6 +1518,7 @@ const CheckoutPage = () => {
                 <FooterComponents />
             </div>
         </div>
+        </>
 
     );
 };

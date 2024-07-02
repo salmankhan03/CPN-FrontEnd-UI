@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
+import Header from "../../components/HeaderComponents/HeaderComponents";
 
 const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -240,6 +241,7 @@ const LoginScreen = ({ onLogin }) => {
   }
   return (
     <>
+      <Header/>
       <Toast />
       <React.Fragment>
         <div className="container">
