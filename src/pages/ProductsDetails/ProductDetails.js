@@ -86,6 +86,7 @@ function ProductDetails() {
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const tabContentRef = useRef(null);
+    const modalRef = useRef(null);
 
     useEffect(() => {
         const tabContent = tabContentRef.current;
@@ -95,6 +96,24 @@ function ProductDetails() {
             { height: 'auto', opacity: 1, duration: 0.5, ease: 'power2.out' }
         );
     }, [activeKey]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target) && !event.target.closest('.slick-arrow')) {
+                setShow(false);
+            }
+        };
+
+        if (show) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [show, setShow]);
 
     const relatedProductSlidesToShow = Math.min(relatedProduct?.length, useSlidesToShow());
 
@@ -490,18 +509,25 @@ function ProductDetails() {
         if (!productData || !productData.images || productData.images.length === 0) {
             return <div>No images available</div>;
         }
-        const selectedIndex = productData && productData?.images.findIndex(item => item.name === selectedImage);
 
-        const reorderedImages = [
-            productData && productData?.images[selectedIndex],
-            ...productData?.images.slice(0, selectedIndex),
-            ...productData?.images.slice(selectedIndex + 1)
-        ];
+        const selectedIndex = productData?.images.findIndex(item => item.name === selectedImage);
+
+        const reorderedImages = selectedIndex !== -1
+            ? [
+                productData.images[selectedIndex],
+                ...productData.images.slice(0, selectedIndex),
+                ...productData.images.slice(selectedIndex + 1)
+            ]
+            : productData.images;
+
+        const sliderSettings = productData.images.length === 1
+            ? { ...modalSettings, infinite: false, arrows: false }
+            : modalSettings;
 
         return (
-            <Slider {...modalSettings} className={"productImageModalSlider"}>
+            <Slider {...sliderSettings} style={{display: 'block'}} className={"productImageModalSlider"} >
                 {reorderedImages.map((item, index) => (
-                    <div key={index} className="thumbnail">
+                    <div key={index} className="thumbnail" ref={modalRef}>
                         <div
                             onClick={() => handleThumbnailClick(item.name)}
                             onMouseEnter={() => setSelectedImage(item.name)}
@@ -561,10 +587,9 @@ function ProductDetails() {
     return (
         <>
             <Modal className={'ProductImageHeader'} show={show} fullscreen={true} onHide={() => setShow(false)}>
-
-                <Modal.Header closeButton className="custom-modal-header">
-                    <Modal.Title>Product Image</Modal.Title>
-                </Modal.Header>
+                {/*<Modal.Header className="custom-modal-header">*/}
+                {/*    <Modal.Title>Product Image</Modal.Title>*/}
+                {/*</Modal.Header>*/}
                 <Modal.Body className={"productImageModal"}>{renderModelSlider()}</Modal.Body>
             </Modal>
             <MetaTitle pageTitle={productData?.name} />
@@ -889,6 +914,8 @@ function ProductDetails() {
                                         {relatedProduct.map((item, index) => (
                                             <div key={index} className=" product-slide" onClick={() => getDetails(item?.id)}>
                                                 <div className="product-details category-item product-card p-4 m-2">
+                                                    <p className="brandLabel sf-Regular">{item?.brand}</p>
+                                                    <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(item?.name, 70)}</h3>
 
                                                     <div className="product_image mb-3">
                                                         {item?.images[0]?.name ? (
@@ -897,9 +924,7 @@ function ProductDetails() {
                                                             <p className="inter-medium-fonts">Image not available</p>
                                                         )}
                                                     </div>
-                                                    <p className="brandLabel sf-Regular">{item?.brand}</p>
-                                                    <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(item?.name, 70)}</h3>
-                                                    <div className="d-flex mt-2 justify-content-between">
+                                                   <div className="d-flex mt-2 justify-content-between">
                                                         <div>
                                                             <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
                                                             {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>}

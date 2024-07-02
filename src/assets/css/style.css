@@ -248,6 +248,7 @@ h3.titles {
   color: var(--brand-color);
   font-size: 0.875rem;
   line-height: 1rem;
+  text-align: start;
 }
 
 .productDetailBrandLabel {
@@ -1345,7 +1346,7 @@ section {
 .product {
   width: 100%;
   height: 100%;
-  background-color: #f2f2f261;
+  /*background-color: #f2f2f261;*/
 }
 
 .product_image {
@@ -3212,6 +3213,7 @@ input:-webkit-autofill:active {
   margin: 0;
   font-size: 18px;
   height: 100px;
+  text-align: start;
 }
 
 .product-price {
@@ -3818,8 +3820,8 @@ ul li {
   }
 
   .offcanvas-start {
-    height: calc(100vh - 119px);
-    top: 119px !important;
+    height: 100vh;
+    /*top: 119px !important;*/
   }
 }
 

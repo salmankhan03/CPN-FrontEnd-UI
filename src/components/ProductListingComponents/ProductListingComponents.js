@@ -57,6 +57,9 @@ function ProductListing(props) {
                     })
                 }
             >
+                <p className='brandLabel sf-Regular' style={{marginBottom: '0px'}}>{productItem?.brand}</p>
+                <h3 className="product-title secondaryColor pt-2 sf-Medium font-weight-normal " style={{}}>{truncateString(productItem?.name, 60)}</h3>
+
                 {productItem?.images?.length > 0 ? (
                     <div className="product_image">
                         {productItem.images[0].name ? (
@@ -70,8 +73,6 @@ function ProductListing(props) {
                     </div>
                 )}
                 <div className="ml-3 mr-3 pt-4 customPadding">
-                    <p className='brandLabel sf-Regular'>{productItem?.brand}</p>
-                    <h3 className="product-title secondaryColor pt-2 sf-Medium font-weight-normal " style={{}}>{truncateString(productItem?.name, 60)}</h3>
 
                     <div className="d-flex mt-2 justify-content-between">
 
