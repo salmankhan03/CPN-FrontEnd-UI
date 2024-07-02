@@ -3894,9 +3894,9 @@ label {
 }
 
 /* Toast  */
-.Toastify__toast-container--top-right {
-  top: auto !important;
-}
+/*.Toastify__toast-container--top-right {*/
+/*  top: auto !important;*/
+/*}*/
 
 .productImageModal {
   padding: 0 !important;
