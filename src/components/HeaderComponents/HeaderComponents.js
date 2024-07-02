@@ -10,7 +10,7 @@ import './HeaderComponents.css';
 import styled from "styled-components";
 import Cookies from 'js-cookie';
 import AuthServices from '../../services/AuthServices';
-import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action/auth-action';
+import { setGuestUser, setUserData, setUserLogInOrNot, setUserShowGuestOrNot } from '../../redux/action/auth-action';
 import { Toast, notifyError, notifySuccess } from '../ToastComponents/ToastComponents';
 import BannersServices from '../../services/BannersServices';
 import Carousel from 'react-bootstrap/Carousel';
@@ -613,7 +613,7 @@ function Header() {
                     {isOpen && (
                       <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
                         {AuthData === undefined && GuestData === undefined ? (
-                          <Link to="/login">Login/Signup</Link>
+                          <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
                         ) : (
                           <div onClick={logout}>logout</div>
                         )}
@@ -657,7 +657,7 @@ function Header() {
                   {isOpen && width <= 768 ? (
                     <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff', }} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
-                        <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
+                        <div className='text-black pt-2' onClick={() => { handleNavigation('login');  dispatch(setUserShowGuestOrNot(true))}}>Login/Signup</div>
                       ) : (
                         <div className='text-black pt-2' onClick={logout}>logout</div>
                       )}

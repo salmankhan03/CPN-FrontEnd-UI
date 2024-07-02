@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCoupon, updateCartItems, updateCartSubTotal } from '../../redux/action/cart-action';
 import InputComponent from '../../components/InputComponents/InputComponents';
 import { Toast, notifySuccess, notifyError } from '../../components/ToastComponents/ToastComponents';
-import { setUserLogInOrNot } from "../../redux/action/auth-action";
+import {setUserLogInOrNot, setUserShowGuestOrNot} from "../../redux/action/auth-action";
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import emptyCarts from "../../assets/images/empty-carts.svg"
@@ -175,6 +175,7 @@ const CartPage = () => {
         } else {
             dispatch(setUserLogInOrNot(false))
             navigate('/login')
+            dispatch(setUserShowGuestOrNot(false))
         }
     }
 

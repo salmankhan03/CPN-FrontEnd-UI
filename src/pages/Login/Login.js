@@ -21,6 +21,7 @@ const LoginScreen = ({ onLogin }) => {
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
   const userLogInOrNot = useSelector(state => state.AuthReducer.userLogInOrNot)
+  const userGuestOrNot = useSelector(state => state.AuthReducer.userGuestOrNot)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -239,6 +240,12 @@ const LoginScreen = ({ onLogin }) => {
   if (loading) {
     return <SpinnerLoading loading={loading} />
   }
+
+    const guestStyles = {
+        display: 'flex',
+        justifyContent: 'center'
+    };
+
   return (
     <>
       <Header/>
@@ -249,9 +256,9 @@ const LoginScreen = ({ onLogin }) => {
             <div className="mt-3">
 
               <div className='m-3 mt-5'>
-                <div className='row' style={{ backgroundColor: '' }}>
+                <div className='row' style={userGuestOrNot ? guestStyles : {}}>
 
-                  <div className='col-md-6'>
+                  {userGuestOrNot === false && <div className='col-md-6'>
                     <div>
                       <h5 className="bold pointer-on-hover title d-inline">Secure Checkout</h5>
                       <div className='mt-5 d-flex align-items-center'>
@@ -263,8 +270,8 @@ const LoginScreen = ({ onLogin }) => {
                         <p className='read-more pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
                       </div>
                     </div>
-                  </div>
-                  <div className='col-md-6 '>
+                  </div>}
+                  <div className='col-md-6'>
 
                     <div className='ml-5 mr-5'>
                       {loginFormShowHide ? (
