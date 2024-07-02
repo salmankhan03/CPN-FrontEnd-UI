@@ -221,7 +221,7 @@ function Header() {
     await ProductServices.getSearchSuggestion({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
         console.log("here", resp?.list)
-        if(resp?.list?.length > 0 ){
+        if (resp?.list?.length > 0) {
           setSearchResultsShow(true)
         }
         setSearchResults(resp?.list)
@@ -303,7 +303,7 @@ function Header() {
     };
 
     const handleNavManuOutsideClick = (event) => {
-      console.log("isEllipsisToggleOpen Value false set")
+      // console.log("isEllipsisToggleOpen Value false set")
 
       if (navMenuRef.current && !navMenuRef.current.contains(event.target)) {
         setIsToggleOpen(false);
@@ -311,7 +311,7 @@ function Header() {
     };
 
     const handleEllipsisOutsideClick = (event) => {
-      console.log("isEllipsisToggleOpen Value false set")
+      // console.log("isEllipsisToggleOpen Value false set")
       if (ellipsisRef.current && !ellipsisRef.current.contains(event.target)) {
         setIsEllipsisToggleOpen(false);
       }
@@ -483,7 +483,31 @@ function Header() {
                 <option className="custom-option" value="fr">French</option>
               </select>
             </div>
-            <span className='ml-3 ml-md-1'> |    <Link to="/login"><span className='ml-2 ml-md-2 topBarFonts'>{AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? `${AuthDataFname.first_name} ${AuthDataFname.last_name}` : GuestData ? GuestData : 'Login / Sign Up'}</span></Link></span>
+            <span className='ml-3 ml-md-1'> |
+              {/* <Link to="/login">
+                <span className='ml-2 ml-md-2 topBarFonts'>
+                  {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? 
+                  `My Account` 
+                  :  'Login / Sign Up'}
+                </span>
+              </Link> */}
+              {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? (
+                <Link to="/my-account" className='ml-2 ml-md-2 topBarFonts'>
+                  My Account
+                </Link>
+              ) : (
+                GuestData ? (
+                  <Link to="#" className='ml-2 ml-md-2 topBarFonts'>
+                    {GuestData}
+                  </Link>
+                ) : (
+                  <Link to="/login" className='ml-2 ml-md-2 topBarFonts'>
+                    Login / Sign Up
+                  </Link>
+                )
+              )}
+
+            </span>
           </div>
         </div>
         {/* Top Header Close */}
@@ -582,7 +606,7 @@ function Header() {
                         ) : (
                           <div onClick={logout}>logout</div>
                         )}
-                        <Link to="/my-account">My Account</Link>
+                        {/* <Link to="/my-account">My Account</Link> */}
                       </div>
                     )}
                   </div>
@@ -620,7 +644,7 @@ function Header() {
                     </div>
                   )}
                   {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" style={{  position: 'absolute', right: 0,  zIndex: 2, backgroundColor: '#fff', }} ref={dropdownRef}>
+                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff', }} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
                         <div className='text-black pt-2' onClick={() => handleNavigation('login')}>Login/Signup</div>
                       ) : (
