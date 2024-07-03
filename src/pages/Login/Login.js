@@ -252,27 +252,109 @@ const LoginScreen = ({ onLogin }) => {
       <Toast />
       <React.Fragment>
         <div className="container">
-          {userLogInOrNot === false ?
             <div className="mt-3">
 
               <div className='m-3 mt-5'>
                 <div className='row' style={userGuestOrNot ? guestStyles : {}}>
+                  <div className='col-md-12 col-lg-6'>
+                    <h5 className="bold pointer-on-hover title d-inline">Register
+                    </h5>
 
-                  {userGuestOrNot === false && <div className='col-md-6'>
-                    <div>
-                      <h5 className="bold pointer-on-hover title d-inline">Secure Checkout</h5>
-                      <div className='mt-5 d-flex align-items-center'>
-                        <span className='mr-2'><i className="fa fa-shopping-cart"></i></span>
-                        <h5 className='mb-0 bold pointer-on-hover title d-inline'>Guest Checkout</h5>
-                      </div>
-                      <div className='mt-3 text-left'>
-                        <p>No account? No problem. Create an account later to keep track of your orders.</p>
-                        <p className='read-more pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
-                      </div>
-                    </div>
-                  </div>}
-                  <div className='col-md-6'>
+                    <form onSubmit={handleSignUpSubmit}>
+                      <div className="form-row mt-3">
+                        <div className="form-group col-md-12">
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerFirstName"> First Name</label>
+                            <InputComponent
+                                type="text"
+                                id="first_name"
+                                customClass={`form-control r-style  gray-bg ${registerFormDataErrors.first_name ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                                value={registerFormData?.first_name}
+                                onChange={(e) => handleChange('first_name', e.target.value, 'signupForm')}
+                                placeholder=""
+                                // required
+                            />
+                            {registerFormDataErrors.first_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.first_name}</div>}
+                          </div>
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerLastName">Last Name</label>
+                            <InputComponent
+                                type="text"
+                                id="last_name"
+                                customClass={`form-control r-style gray-bg ${registerFormDataErrors.last_name ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                                value={registerFormData?.last_name}
+                                onChange={(e) => handleChange('last_name', e.target.value, 'signupForm')}
+                                placeholder=""
+                                // required={true}
+                            />
+                            {registerFormDataErrors.last_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.last_name}</div>}
+                          </div>
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerLastName">Date of Birth</label>
+                            <InputComponent
+                                type="date"
+                                id="date_of_birth"
+                                customClass={`form-control r-style gray-bg ${registerFormDataErrors.date_of_birth ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                                value={registerFormData?.date_of_birth}
+                                onChange={(e) => handleChange('date_of_birth', e.target.value, 'signupForm')}
+                                placeholder=""
+                            />
+                            {registerFormDataErrors.date_of_birth && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.date_of_birth}</div>}
+                          </div>
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerLastName">Phone Number</label>
+                            <InputComponent
+                                type="number"
+                                id="contact_no"
+                                customClass={`form-control r-style gray-bg ${registerFormDataErrors.contact_no ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                                value={registerFormData?.contact_no}
+                                onChange={(e) => handleChange('contact_no', e.target.value, 'signupForm')}
+                                placeholder=""
+                                // required={true}
+                            />
+                            {registerFormDataErrors.contact_no && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.contact_no}</div>}
+                          </div>
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerLastName">Email</label>
+                            <InputComponent
+                                type="email"
+                                id="email"
+                                customClass={`form-control r-style gray-bg ${registerFormDataErrors.email ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
+                                value={registerFormData?.email}
+                                onChange={(e) => handleChange('email', e.target.value, 'signupForm')}
+                                placeholder=""
+                                // required={true}
+                            />
+                            {registerFormDataErrors.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.email}</div>}
+                          </div>
+                          <div className="form-outline mb-4 text-left">
+                            <label className="form-label" htmlFor="registerName">Password</label>
+                            <InputComponent
+                                type="password"
+                                id="password"
+                                // label="User Name *"
+                                customClass={`form-control r-style gray-bg ${registerFormDataErrors.password ? 'validation-error-border' : ''}`}
+                                value={registerFormData?.password}
+                                onChange={(e) => handleChange('password', e.target.value, 'signupForm')}
+                                placeholder=""
+                                // required={true}
+                            />
+                            {registerFormDataErrors.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.password}</div>}
+                          </div>
 
+                          <div className="form-group">
+                            <div className="red_button product-add_to_cart_button mt-3" onClick={handleSignUpSubmit}>
+                              Register
+                            </div>
+                          </div>
+                          <div className='mt-4 mb-4'>
+                            {/*<hr />*/}
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div className='col-md-12 col-lg-6 inline-box'>
                     <div className='ml-5 mr-5'>
                       {loginFormShowHide ? (
                         loaders ? (
@@ -316,12 +398,6 @@ const LoginScreen = ({ onLogin }) => {
                                   </div>
 
                                   <div className="form-group">
-                                    {/* <button className="btn btn-primary btn-block" type="submit">
-                            <span>Login</span>
-                          </button> */}
-                                    {/* <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleLoginSubmit}>
-                                  {isButtonLoading ? "Loading...." : "Login"}
-                                </div> */}
                                     {isButtonLoading ? (
                                       <div
                                         className="red_button product-add_to_cart_button  mt-3"
@@ -343,9 +419,16 @@ const LoginScreen = ({ onLogin }) => {
                                   <div className="form-outline mb-2 ">
                                     <p className='read-more pointer-on-hover'>Forgot Password</p>
                                   </div>
-                                  <div className="form-outline mb-4">
-                                    <p className='read-more pointer-on-hover' onClick={LoginSignupFormShowHide}>Create account</p>
-                                  </div>
+                                    {userGuestOrNot === false && <div className='mt-5'>
+                                    <div className='mt-5 d-flex align-items-center'>
+                                      <span className='mr-2'><i className="fa fa-shopping-cart"></i></span>
+                                      <h5 className='mb-0 bold pointer-on-hover title d-inline'>Guest Checkout</h5>
+                                    </div>
+                                    <div className='mt-3 text-left'>
+                                      <p>No account? No problem. Create an account later to keep track of your orders.</p>
+                                      <p className='read-more pointer-on-hover' onClick={guestUserCheckout}>Continue <span><i className="fa fa-angle-right"></i></span> </p>
+                                    </div>
+                                  </div>}
                                 </div>
                               </div>
 
@@ -444,9 +527,6 @@ const LoginScreen = ({ onLogin }) => {
                                   </div>
 
                                   <div className="form-group">
-                                    {/* <button className="btn btn-primary btn-block" type="submit">
-                            <span>Sign Up</span>
-                          </button> */}
                                     {isButtonLoading ? (
                                       <div
                                         className="red_button product-add_to_cart_button  mt-3"
@@ -476,196 +556,7 @@ const LoginScreen = ({ onLogin }) => {
                 </div>
               </div>
 
-            </div> :
-            <div className="">
-              <div className='m-3 mt-5'>
-                <div className='row' style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Toast />
-                  <div className='col-md-6'>
-
-                    <div className='ml-5 mr-5'>
-                      {loginFormShowHide ? (
-                        loaders ? (
-                          <div className='d-flex justify-content-center'>
-                            <Loading loading={loaders} />
-                          </div>
-                        ) : (
-                          <>
-                            <h5 className="bold pointer-on-hover title d-inline">Login</h5>
-                            <form onSubmit={handleLoginSubmit}>
-                              <div className="form-row mt-3 ">
-                                <div className="form-group col-md-12">
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerName">Email</label>
-                                    <InputComponent
-                                      type="text"
-                                      id="email"
-                                      // label="User Name *"
-                                      customClass={`form-control gray-bg ${formDataErrors?.email ? 'validation-error-border' : ''} `}//
-                                      value={formData?.email}
-                                      onChange={(e) => handleChange('email', e.target.value, 'loginForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-                                    {formDataErrors?.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{formDataErrors?.email}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerName">Password</label>
-                                    <InputComponent
-                                      type="password"
-                                      id="password"
-                                      autoComplete="current-password"
-                                      customClass={`form-control gray-bg ${formDataErrors?.password ? 'validation-error-border' : ''}`}
-                                      value={formData?.password}
-                                      onChange={(e) => handleChange('password', e.target.value, 'loginForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-
-                                    {formDataErrors?.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{formDataErrors?.password}</div>}
-                                  </div>
-
-                                  <div className="form-group">
-                                    {/* <button className="btn btn-primary btn-block" type="submit">
-                            <span>Login</span>
-                          </button> */}
-                                    <div className="red_button product-add_to_cart_button mt-3" onClick={handleLoginSubmit}>
-                                      Login
-                                    </div>
-                                  </div>
-                                  <div className='mt-4 mb-4'>
-                                    <hr />
-                                  </div>
-                                  <div className="form-outline mb-2 ">
-                                    <p className='read-more pointer-on-hover'>Forgot Password</p>
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <p className='read-more pointer-on-hover' onClick={LoginSignupFormShowHide}>Create account</p>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </form>
-                          </>
-                        )
-                      ) : (
-                        loaders ? (
-                          <div className='d-flex justify-content-center'>
-                            <Loading loading={loaders} />
-                          </div>
-                        ) : (
-                          <>
-                            <h2>Create account</h2>
-
-                            <form onSubmit={handleSignUpSubmit}>
-                              <div className="form-row mt-3">
-                                <div className="form-group col-md-12">
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerFirstName"> First Name</label>
-                                    <InputComponent
-                                      type="text"
-                                      id="first_name"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.first_name ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                      value={registerFormData?.first_name}
-                                      onChange={(e) => handleChange('first_name', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    // required
-                                    />
-                                    {registerFormDataErrors.first_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.first_name}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerLastName">Last Name</label>
-                                    <InputComponent
-                                      type="text"
-                                      id="last_name"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.last_name ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                      value={registerFormData?.last_name}
-                                      onChange={(e) => handleChange('last_name', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-                                    {registerFormDataErrors.last_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.last_name}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerLastName">Date of Birth</label>
-                                    <InputComponent
-                                      type="date"
-                                      id="date_of_birth"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.date_of_birth ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                      value={registerFormData?.date_of_birth}
-                                      onChange={(e) => handleChange('date_of_birth', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    />
-                                    {registerFormDataErrors.date_of_birth && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.date_of_birth}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerLastName">Phone Number</label>
-                                    <InputComponent
-                                      type="number"
-                                      id="contact_no"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.contact_no ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                      value={registerFormData?.contact_no}
-                                      onChange={(e) => handleChange('contact_no', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-                                    {registerFormDataErrors.contact_no && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.contact_no}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerLastName">Email</label>
-                                    <InputComponent
-                                      type="email"
-                                      id="email"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.email ? 'validation-error-border' : ''}`}//${shippingFormErrors.first_name ? 'validation-error-border' : ''}
-                                      value={registerFormData?.email}
-                                      onChange={(e) => handleChange('email', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-                                    {registerFormDataErrors.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.email}</div>}
-                                  </div>
-                                  <div className="form-outline mb-4 text-left">
-                                    <label className="form-label" htmlFor="registerName">Password</label>
-                                    <InputComponent
-                                      type="password"
-                                      id="password"
-                                      // label="User Name *"
-                                      customClass={`form-control gray-bg ${registerFormDataErrors.password ? 'validation-error-border' : ''}`}
-                                      value={registerFormData?.password}
-                                      onChange={(e) => handleChange('password', e.target.value, 'signupForm')}
-                                      placeholder=""
-                                    // required={true}
-                                    />
-                                    {registerFormDataErrors.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.password}</div>}
-                                  </div>
-
-                                  <div className="form-group">
-                                    {/* <button className="btn btn-primary btn-block" type="submit">
-                            <span>Sign Up</span>
-                          </button> */}
-                                    <div className="red_button product-add_to_cart_button mt-3" onClick={handleSignUpSubmit}>
-                                      Sign Up
-                                    </div>
-                                  </div>
-                                  <div className='mt-4 mb-4'>
-                                    <hr />
-                                  </div>
-                                  <div className="form-outline mb-2 pointer-on-hover read-more" onClick={LoginSignupFormShowHide}>
-                                    Already have an account? Login
-                                  </div>
-                                </div>
-                              </div>
-                            </form>
-                          </>
-                        )
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
             </div>
-          }
           <div className='pb-2'>
             <FooterComponents />
           </div>

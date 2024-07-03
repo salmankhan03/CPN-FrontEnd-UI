@@ -513,7 +513,7 @@ function Header() {
                     {GuestData}
                   </Link>
                 ) : (
-                  <Link to="/login" className='ml-2 ml-md-2 topBarFonts'>
+                  <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))} className='ml-2 ml-md-2 topBarFonts'>
                     Login / Sign Up
                   </Link>
                 )
