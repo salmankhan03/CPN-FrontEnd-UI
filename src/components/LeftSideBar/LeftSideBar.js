@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import ListComponents from '../ListComponents/ListComponents';
-import ButtonComponent from '../ButtonComponents/ButtonComponents';
-import PriceFilter from '../PriceFilterComponents/PriceFilterComponents';
-import Slider from 'rc-slider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
 import InputComponent from '../InputComponents/InputComponents';
@@ -10,7 +9,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
   const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const [categorySearchTerm, setCategorySearchTerm] = useState('');
   const [brandSearchTerm, setBrandSearchTerm] = useState('');
-  const [visibleRecords, setVisibleRecords] = useState(5); 
+  const [visibleRecords, setVisibleRecords] = useState(5);
   const [visibleBrandRecords, setVisibleBrandRecords] = useState(5);
 
 
@@ -101,20 +100,34 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
     setVisibleRecords((prevVisible) => prevVisible + 5); // Increase visible records by 5
   };
 
-  
+
   const handleViewLess = () => {
     setVisibleRecords((prevVisible) => Math.max(5, prevVisible - 5)); // Decrease visible records by 5, minimum 5
   };
   const handleLoadMoreBrands = () => {
-    setVisibleBrandRecords((prevVisible) => prevVisible + 5); 
-    console.log("visibleBrandRecords",visibleBrandRecords)
-    console.log("filteredBrands?.length",filteredBrands?.length)
+    setVisibleBrandRecords((prevVisible) => prevVisible + 5);
+    // console.log("visibleBrandRecords", visibleBrandRecords)
+    // console.log("filteredBrands?.length", filteredBrands?.length)
   };
   const handleViewLessBrands = () => {
     setVisibleBrandRecords((prevVisible) => Math.max(5, prevVisible - 5)); // Decrease visible records by 5, minimum 5
   };
+  const clearAllFilters = () => {
+    setSelectedCategories([]);
+    setSelectedBrands([]);
+    setFilteredPrice([0, maximumPrice]);
+  };
+
+  const hasActiveFilters = selectedCategories.length > 0 || selectedBrands.length > 0 ;
+
   return (
     <div >
+      {hasActiveFilters && (
+        <div className="m-3 clearFilter">
+          <p>Clear All Filters</p>
+          <FontAwesomeIcon icon={faTrash} fontSize={23} className="icon" onClick={clearAllFilters} />
+        </div>
+      )}
       <div className="m-3 leftSidebarCategory">
         <h4 className="d-flex justify-content-between align-items-center">
           Categories
@@ -123,7 +136,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
               {categoriesData?.length > visibleRecords && (
                 <button className="load-more-button btn btn-sm " onClick={handleLoadMore}>View More</button>
               )}
-               {visibleRecords > 5 && (
+              {visibleRecords > 5 && (
                 <button className="load-more-button btn btn-sm" onClick={handleViewLess}>View Less</button>
               )}
             </div>
@@ -166,11 +179,11 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
       </div>
       <div className="m-3 leftSidebarBrand">
         <h4 className="d-flex justify-content-between align-items-center">Brands
-        <span className="load-more-span">
+          <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">
-              {filteredBrands?.length >= visibleBrandRecords  ? (
+              {filteredBrands?.length >= visibleBrandRecords ? (
                 <button className="load-more-button btn btn-sm " onClick={handleLoadMoreBrands}>View More</button>
-              ):(
+              ) : (
                 <button className="load-more-button btn btn-sm" onClick={handleViewLessBrands}>View Less</button>
               )}
             </div>
@@ -205,15 +218,6 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
           </div>
         </div>
       </div>
-      {/*  <div className="mt-2">
-                <h4>Availability</h4>
-                <ListComponents
-                data={availabilityData}
-                selectedData={selectedCategories}
-                handleDataChange={handleDataChange}
-                />
-            </div> */}
-
     </div >
   );
 }

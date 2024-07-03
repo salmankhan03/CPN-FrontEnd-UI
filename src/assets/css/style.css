@@ -4008,3 +4008,35 @@ color: #ccc;
 .w-max-content {
   width: max-content;
 }
+
+.clearFilter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.clearFilter p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.clearFilter .icon {
+  color: var(--secondary-color); /* or any color you prefer */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.clearFilter .icon:hover {
+  transform: scale(1.1);
+}
+
+.clearFilter .ml-auto {
+  margin-left: auto;
+}
