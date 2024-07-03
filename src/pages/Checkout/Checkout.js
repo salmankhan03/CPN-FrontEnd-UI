@@ -26,7 +26,7 @@ import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Header from "../../components/HeaderComponents/HeaderComponents";
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
@@ -733,30 +733,6 @@ const CheckoutPage = () => {
 
     }
 
-    const handleIncrement = (index) => {
-        const updatedCartSubTotals = subtotal;
-        const updatedCartItems = [...cartItems];
-        const updatedItem = { ...updatedCartItems[index] };
-        updatedItem.purchaseQty = JSON.parse(updatedItem.purchaseQty) + 1;
-        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
-        updatedCartItems[index] = updatedItem;
-        dispatch(updateCartItems(updatedCartItems));
-        dispatch(updateCartSubTotal(updatedCartSubTotals + JSON.parse(updatedItem.price)))
-        setSubTotalWithCoupon(updatedCartSubTotals + JSON.parse(updatedItem.price));
-    };
-
-    const handleDecrement = (index) => {
-        const updatedCartSubTotals = subtotal;
-        const updatedCartItems = [...cartItems];
-        const updatedItem = { ...updatedCartItems[index] };
-        updatedItem.purchaseQty = Math.max(1, JSON.parse(updatedItem.purchaseQty) - 1);
-        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
-        updatedCartItems[index] = updatedItem;
-        dispatch(updateCartItems(updatedCartItems));
-        dispatch(updateCartSubTotal(updatedCartSubTotals - JSON.parse(updatedItem.price)))
-        setSubTotalWithCoupon(updatedCartSubTotals - JSON.parse(updatedItem.price));
-
-    };
     const removeCoupon = () => {
         console.log(isApplayCoupon);
         setCouponCode('')
@@ -1467,29 +1443,14 @@ const CheckoutPage = () => {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-7">
-                                                    <div className="">{truncateString(item?.name, 30)}</div>
-                                                    <div className="quantity d-flex flex-column flex-sm-row align-items-sm-center">
-                                                        <div className="quantity_selector">
-                                                            <span
-                                                                className={
-                                                                    item?.purchaseQty > 1 ? "minus" : "minus disabled"
-                                                                }
-                                                                onClick={() => handleDecrement(index)}
-                                                            >
-                                                                <i className="fa fa-minus" aria-hidden="true"></i>
-                                                            </span>
-                                                            <span id="quantity_value">{item?.purchaseQty}</span>
-                                                            <span
-                                                                className="plus"
-                                                                onClick={() => handleIncrement(index)}
-                                                            >
-                                                                <i className="fa fa-plus" aria-hidden="true"></i>
-                                                            </span>
-                                                        </div>
+                                                    <div className="text-left">
+                                                        {truncateString(item?.name, 50)} 
+                                                        <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
+                                                         <span className='fs-5 font-bold'>{item?.purchaseQty}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-2">
-                                                    <div className=""> ${item?.totalPrice}</div>
+                                                    <div className='fs-5 font-bold'> ${item?.totalPrice}</div>
                                                 </div>
                                             </div>
                                         ))}
