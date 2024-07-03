@@ -11,12 +11,10 @@ import Cookies from 'js-cookie';
 import AuthServices from '../../services/AuthServices';
 import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action/auth-action';
 import { useNavigate } from 'react-router-dom';
-import { Toast, notifyError, notifySuccess } from '../../components/ToastComponents/ToastComponents';
+import { notifyError, notifySuccess } from '../../components/ToastComponents/ToastComponents';
+import Header from '../../components/HeaderComponents/HeaderComponents';
 
 
-const Orders = () => <div><h3>Orders Content</h3><p>Your order history is displayed here.</p></div>;
-const Downloads = () => <div><h3>Downloads Content</h3><p>Your downloadable items are listed here.</p></div>;
-const Addresses = () => <div><h3>Addresses Content</h3><p>Manage your addresses here.</p></div>;
 const Compare = () => <div><h3>Compare Content</h3><p>Compare items here.</p></div>;
 const Wishlist = () => <div><h3>Wishlist Content</h3><p>Your wishlist items are displayed here.</p></div>;
 const Logout = () => <div><h3>Log Out Content</h3><p>Click here to log out.</p></div>;
@@ -35,10 +33,16 @@ const MyAccount = () => {
         { Label: "Downloads", link: "downloads" },
         { Label: "Addresses", link: "addresses" },
         { Label: "Account details", link: "account-details" },
-        { Label: "Compare", link: "compare" },
-        { Label: "Wishlist", link: "wishlist" },
+        // { Label: "Compare", link: "compare" },
+        // { Label: "Wishlist", link: "wishlist" },
         { Label: "Log out", link: "logout" }
     ];
+    const ordersData = [
+        { orderid: '1', date: '2024-01-01', status: 'Pending', total: '$100' },
+        { orderid: '2', date: '2024-02-01', status: 'Shipped', total: '$200' },
+        { orderid: '3', date: '2024-03-01', status: 'Delivered', total: '$300' },
+    ];
+    
     const [activeTab, setActiveTab] = useState(myAccountSidebar[0].Label);
 
     useEffect(() => {
@@ -53,11 +57,29 @@ const MyAccount = () => {
     };
 
     const handleUpdateUser = (updatedUserData) => {
+        console.log("updatedUserData",updatedUserData)
         setUser({
             ...user,
             ...updatedUserData,
         });
+        customerDataUpdate(updatedUserData)
     };
+    const customerDataUpdate = (data) =>{
+        data.id = AuthData.id;
+
+        AuthServices.customerProfileUpdate(data).then((resp) => {
+            if (resp?.status_code === 200) {
+                notifySuccess(`Your Profile is updated Successfully`);
+                console.log(resp)
+                dispatch(setUserData({
+                    ...resp?.data
+                }))
+            }
+        }).catch((error) => {
+            notifyError(`Something went wrong`);
+        })
+
+    }
     const logout = () => {
         console.log("call")
         let token;
@@ -96,7 +118,7 @@ const MyAccount = () => {
             case "Dashboard":
                 return <Dashboard data={AuthData} logout={logout} />;
             case "Orders":
-                return <Order />;
+                return <Order orderData={ordersData}/>;
             case "Downloads":
                 return <Download />;
             case "Addresses":
@@ -120,6 +142,8 @@ const MyAccount = () => {
     }
 
     return (
+        <React.Fragment>
+        <Header />
         <div className="container mt-5">
             <div>
                 <div className="row mt-5">
@@ -160,6 +184,7 @@ const MyAccount = () => {
                 <FooterComponents />
             </div>
         </div>
+        </React.Fragment>
     );
 };
 
