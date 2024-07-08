@@ -263,7 +263,7 @@ const LoginScreen = ({ onLogin }) => {
                     <form onSubmit={handleSignUpSubmit}>
                       <div className="form-row mt-3">
                         <div className="form-group col-md-12">
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerFirstName"> First Name</label>
                             <InputComponent
                                 type="text"
@@ -276,7 +276,7 @@ const LoginScreen = ({ onLogin }) => {
                             />
                             {registerFormDataErrors.first_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.first_name}</div>}
                           </div>
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerLastName">Last Name</label>
                             <InputComponent
                                 type="text"
@@ -289,7 +289,7 @@ const LoginScreen = ({ onLogin }) => {
                             />
                             {registerFormDataErrors.last_name && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.last_name}</div>}
                           </div>
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerLastName">Date of Birth</label>
                             <InputComponent
                                 type="date"
@@ -301,7 +301,7 @@ const LoginScreen = ({ onLogin }) => {
                             />
                             {registerFormDataErrors.date_of_birth && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.date_of_birth}</div>}
                           </div>
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerLastName">Phone Number</label>
                             <InputComponent
                                 type="number"
@@ -314,7 +314,7 @@ const LoginScreen = ({ onLogin }) => {
                             />
                             {registerFormDataErrors.contact_no && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.contact_no}</div>}
                           </div>
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerLastName">Email</label>
                             <InputComponent
                                 type="email"
@@ -327,7 +327,7 @@ const LoginScreen = ({ onLogin }) => {
                             />
                             {registerFormDataErrors.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.email}</div>}
                           </div>
-                          <div className="form-outline mb-4 text-left">
+                          <div className="form-outline mb-4 text-top">
                             <label className="form-label" htmlFor="registerName">Password</label>
                             <InputComponent
                                 type="password"
@@ -367,13 +367,13 @@ const LoginScreen = ({ onLogin }) => {
                             <form onSubmit={handleLoginSubmit}>
                               <div className="form-row mt-3 ">
                                 <div className="form-group col-md-12">
-                                  <div className="form-outline mb-4 text-left">
+                                  <div className="form-outline mb-4 text-top">
                                     <label className="form-label" htmlFor="registerName">Email</label>
                                     <InputComponent
                                       type="text"
                                       id="email"
                                       // label="User Name *"
-                                      customClass={`form-control gray-bg ${formDataErrors?.email ? 'validation-error-border' : ''} `}//
+                                      customClass={`form-control form-style white-bg ${formDataErrors?.email ? 'validation-error-border' : ''} `}//
                                       value={formData?.email}
                                       onChange={(e) => handleChange('email', e.target.value, 'loginForm')}
                                       placeholder=""
@@ -381,13 +381,13 @@ const LoginScreen = ({ onLogin }) => {
                                     />
                                     {formDataErrors?.email && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{formDataErrors?.email}</div>}
                                   </div>
-                                  <div className="form-outline mb-4 text-left">
+                                  <div className="form-outline mb-4 text-top">
                                     <label className="form-label" htmlFor="registerName">Password</label>
                                     <InputComponent
                                       type="password"
                                       id="password"
                                       autoComplete="current-password"
-                                      customClass={`form-control gray-bg ${formDataErrors?.password ? 'validation-error-border' : ''}`}
+                                      customClass={`form-control form-style white-bg ${formDataErrors?.password ? 'validation-error-border' : ''}`}
                                       value={formData?.password}
                                       onChange={(e) => handleChange('password', e.target.value, 'loginForm')}
                                       placeholder=""
