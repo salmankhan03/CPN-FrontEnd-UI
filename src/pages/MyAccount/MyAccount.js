@@ -13,6 +13,7 @@ import { setGuestUser, setUserData, setUserLogInOrNot } from '../../redux/action
 import { useNavigate } from 'react-router-dom';
 import { notifyError, notifySuccess } from '../../components/ToastComponents/ToastComponents';
 import Header from '../../components/HeaderComponents/HeaderComponents';
+import OrderServices from '../../services/orderService';
 
 
 const Compare = () => <div><h3>Compare Content</h3><p>Compare items here.</p></div>;
@@ -24,7 +25,7 @@ const MyAccount = () => {
     const dispatch = useDispatch();
     const AuthData = useSelector(state => state.AuthReducer.userData);
     const [user, setUser] = useState(AuthData)
-
+    const [orderListData, setOrderListData] = useState([])
     const [loading, setLoading] = useState(true);
 
     const myAccountSidebar = [
@@ -37,20 +38,29 @@ const MyAccount = () => {
         // { Label: "Wishlist", link: "wishlist" },
         { Label: "Log out", link: "logout" }
     ];
-    const ordersData = [
-        { orderid: '1', date: '2024-01-01', status: 'Pending', total: '$100' },
-        { orderid: '2', date: '2024-02-01', status: 'Shipped', total: '$200' },
-        { orderid: '3', date: '2024-03-01', status: 'Delivered', total: '$300' },
-    ];
     
     const [activeTab, setActiveTab] = useState(myAccountSidebar[0].Label);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
+            fetchOrdersData()
         }, 1500);
         return () => clearTimeout(timer);
     }, []);
+
+    function fetchOrdersData(){
+
+        OrderServices.getUserOrderList(AuthData.id).then((resp) => {
+            if (resp?.status_code === 200) {
+                console.log(resp)
+                setOrderListData(resp?.list)
+            }
+        }).catch((error) => {
+            notifyError(`Something went wrong`);
+        })
+
+    }
 
     const handleTabClick = (label) => {
         setActiveTab(label);
@@ -118,7 +128,7 @@ const MyAccount = () => {
             case "Dashboard":
                 return <Dashboard data={AuthData} logout={logout} />;
             case "Orders":
-                return <Order orderData={ordersData}/>;
+                return <Order orderData={orderListData}/>;
             case "Downloads":
                 return <Download />;
             case "Addresses":

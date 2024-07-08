@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+
 
 const Order = ({ orderData }) => {
     console.log(orderData)
@@ -38,11 +40,11 @@ const Order = ({ orderData }) => {
                     {selectedOrder ? (
                         <div className='text-left'>
                             <p className='fs-6'>
-                                Order #<span className='text-blue'>{selectedOrder.orderid} </span>
+                                Order #<span className='text-blue'>{selectedOrder?.id} </span>
                                 was placed on July 3, 2024 and is currently Processing.
                             </p>
                             <h2 className='mt-5 ml-0'>Order details</h2>
-                           
+                          
                             <table className="table text-center mt-5">
                                 <thead>
                                     <tr>
@@ -51,30 +53,33 @@ const Order = ({ orderData }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {selectedOrder?.items.map((item) => (
                                     <tr>
-                                        <td>{orderDetails.productName}</td>
-                                        <td>${orderDetails.productPrice}</td>
+                                        <td>{item?.product?.name}</td>
+                                        <td>${item?.product?.sell_price}</td>
                                     </tr>
+                                     ))}
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Subtotal:</th>
-                                        <td>${orderDetails.subTotal}</td>
-                                    </tr>
+                                <tfoot>                        
                                     <tr>
                                         <th>Shipping:</th>
-                                        <td>${orderDetails.shippingCharge}</td>
+                                        <td>${selectedOrder?.shipping_price}</td>
                                     </tr>
+                                    {/* <tr>
+                                        <th>Subtotal:</th>
+                                        <td>${orderDetails.subTotal}</td>
+                                    </tr> */}
                                     <tr>
                                         <th>Payment method:</th>
-                                        <td>{orderDetails.paymentMethod}</td>
+                                        <td>{selectedOrder?.payment?.is_cod_paymend_received === 0 ? 'Cash On Delevery':'Online'}</td>
                                     </tr>
                                     <tr>
                                         <th>Total:</th>
-                                        <td>${orderDetails.grandTotal}</td>
+                                        <td>${selectedOrder?.total_amount}</td>
                                     </tr>
                                 </tfoot>
                             </table>
+                        
                             <div className='text-center mt-5'>
                             <button className="btn secondaryBG text-white text-center" onClick={handleBackToTable}>
                                 Back to Orders
@@ -94,11 +99,11 @@ const Order = ({ orderData }) => {
                             </thead>
                             <tbody>
                                 {orderData.map((order) => (
-                                    <tr key={order.orderid}>
-                                        <td>#{order.orderid}</td>
-                                        <td>{order.date}</td>
-                                        <td>{order.status}</td>
-                                        <td>{order.total}</td>
+                                    <tr key={order?.id}>
+                                        <td>#{order?.id}</td>
+                                        <td>{moment(order?.created_at).format('DD/MM/YYYY')}</td>
+                                        <td>{order?.status}</td>
+                                        <td>${order?.total_amount}</td>
                                         <td>
                                             <button className="btn secondaryBG text-white" onClick={() => handleViewOrder(order)}>
                                                 View
