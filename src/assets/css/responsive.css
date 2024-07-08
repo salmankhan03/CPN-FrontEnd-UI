@@ -259,6 +259,9 @@
     margin-top: 30px;
     margin-bottom: 40px;
   }
+  .inline-box{
+    left: 0px;
+  }
 
   .footer_nav_container {
     height: auto;
@@ -358,6 +361,9 @@
 
   .smallFonts {
     font-size: small !important;
+  }
+  .inline-box{
+    left: 0px;
   }
 
   /* .carousel-item img{
