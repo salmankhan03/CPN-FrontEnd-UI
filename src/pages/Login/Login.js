@@ -10,6 +10,7 @@ import FooterComponents from '../../components/FooterComponents/FooterComponents
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import Loading from '../../components/LoadingComponents/LoadingComponents';
 import Header from "../../components/HeaderComponents/HeaderComponents";
+import ButtonComponent from '../../components/ButtonComponents/ButtonComponents';
 
 const LoginScreen = ({ onLogin }) => {
   const navigate = useNavigate();
@@ -404,13 +405,8 @@ const LoginScreen = ({ onLogin }) => {
                                       >
                                         Loading ....
                                       </div>
-                                    ) : (
-                                      <div
-                                        className="red_button product-add_to_cart_button pointer-on-hover mt-3"
-                                        onClick={handleLoginSubmit}
-                                      >
-                                        Login
-                                      </div>
+                                    ) : (                    
+                                      <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={handleLoginSubmit} label="Login" />
                                     )}
                                   </div>
                                   <div className='mt-4 mb-4'>
@@ -533,10 +529,8 @@ const LoginScreen = ({ onLogin }) => {
                                       >
                                         Loading ....
                                       </div>
-                                    ) : (
-                                      <div className="red_button product-add_to_cart_button pointer-on-hover mt-3" onClick={handleSignUpSubmit}>
-                                        Sign Up
-                                      </div>
+                                    ) : (                              
+                                     <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={handleSignUpSubmit} label="Sign Up" />
                                     )}
                                   </div>
                                   <div className='mt-4 mb-4'>

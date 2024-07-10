@@ -5,6 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
 import InputComponent from '../InputComponents/InputComponents';
+import ButtonComponent from '../ButtonComponents/ButtonComponents';
 function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice }) {
   const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const [categorySearchTerm, setCategorySearchTerm] = useState('');
@@ -182,9 +183,12 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
           <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">
               {filteredBrands?.length >= visibleBrandRecords ? (
-                <button className="load-more-button btn btn-sm " onClick={handleLoadMoreBrands}>View More</button>
+                // <button className="load-more-button btn btn-sm " onClick={handleLoadMoreBrands}>View More</button>
+                <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleLoadMoreBrands} label="View More" />
               ) : (
-                <button className="load-more-button btn btn-sm" onClick={handleViewLessBrands}>View Less</button>
+                // <button className="load-more-button btn btn-sm" onClick={handleViewLessBrands}>View Less</button>
+                <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleViewLessBrands} label="View Less" />
+
               )}
             </div>
           </span>

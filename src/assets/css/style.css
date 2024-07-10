@@ -54,6 +54,7 @@ COLOR PALETTE
   --Products-title-color: #2e3133;
   --button-blue-color: #0777b9;
   --lightGray-color: #f3f4f6;
+  --logoColor: #0777b9;
 }
 
 /***********
@@ -1167,7 +1168,7 @@ section {
   align-items: center;
   width: auto;
   height: 40px;
-  background: var(--button-blue-color);
+  background: var(--secondary-color);
   border-radius: 3px;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -1177,7 +1178,7 @@ section {
 }
 
 .red_button:hover {
-  background: #41a8bf !important;
+  background: var(--logoColor) !important;
 }
 
 .red_button a {
@@ -3958,10 +3959,14 @@ label {
 
 .shopping-btn {
   padding: 25px;
-  border-radius: 30px;
   border: none;
   color: #ffff;
+  border-radius: 30px;
 }
+.btn-border-radius{
+  border-radius: 15px !important;
+}
+
 
 .empty-carts-image {
   width: 250px;

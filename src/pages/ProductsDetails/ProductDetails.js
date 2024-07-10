@@ -24,6 +24,7 @@ import MetaTitle from "../../components/HelmetComponent/MetaTitle";
 import { gsap } from 'gsap';
 import Modal from 'react-bootstrap/Modal';
 import Header from "../../components/HeaderComponents/HeaderComponents";
+import ButtonComponent from "../../components/ButtonComponents/ButtonComponents";
 
 
 const useSlidesToShow = () => {
@@ -526,7 +527,7 @@ function ProductDetails() {
             : modalSettings;
 
         return (
-            <Slider {...sliderSettings} style={{display: 'block'}} className={"productImageModalSlider"} >
+            <Slider {...sliderSettings} style={{ display: 'block' }} className={"productImageModalSlider"} >
                 {reorderedImages.map((item, index) => (
                     <div key={index} className="thumbnail" ref={modalRef}>
                         <div
@@ -587,7 +588,7 @@ function ProductDetails() {
     }
     return (
         <>
-            <Header/>
+            <Header />
             <Modal className={'ProductImageHeader'} show={show} fullscreen={true} onHide={() => setShow(false)}>
                 {/*<Modal.Header className="custom-modal-header">*/}
                 {/*    <Modal.Title>Product Image</Modal.Title>*/}
@@ -810,26 +811,26 @@ function ProductDetails() {
                                     <div className='' style={{ borderBottom: '1px solid #eee', width: '100%' }}>
                                         <div className='' style={{ marginBottom: '30px' }}>
                                             <div className="mt-3 d-flex">Quantity:</div>
-                                            <div className="quantity d-flex  flex-sm-row align-items-sm-center">
-                                                <div className="quantity_selector">
+                                            <div className="quantity d-flex align-items-center flex-sm-row">
+                                                <div className="quantity_selector d-flex align-items-center">
                                                     <span
-                                                        className={
-                                                            productData?.quantity > 1 ? "minus" : "minus disabled"
-                                                        }
-                                                        onClick={() => handleDecrement()}
+                                                        className={productData?.quantity > 1 ? "minus" : "minus disabled"}
+                                                        onClick={handleDecrement}
+                                                        style={{ cursor: 'pointer' }}
                                                     >
                                                         <i className="fa fa-minus" aria-hidden="true"></i>
                                                     </span>
-                                                    <span id="quantity_value">{quantity}</span>
+                                                    <span id="quantity_value" className="mx-3">{quantity}</span>
                                                     <span
                                                         className="plus"
-                                                        onClick={() => handleIncrement()}
+                                                        onClick={handleIncrement}
+                                                        style={{ cursor: 'pointer' }}
                                                     >
                                                         <i className="fa fa-plus" aria-hidden="true"></i>
                                                     </span>
                                                 </div>
-
-                                                <div className={`red_button product-add_to_cart_button ml-2 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
+                                                <ButtonComponent
+                                                    cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
                                                     onClick={() => {
                                                         if (productsVariants?.length) {
                                                             if (selectedProductsVarints) {
@@ -839,10 +840,8 @@ function ProductDetails() {
                                                             addtoCart(productData);
                                                         }
                                                     }}
-
-                                                >
-                                                    add to cart
-                                                </div>
+                                                    label="Add to Cart"
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -926,7 +925,7 @@ function ProductDetails() {
                                                             <p className="inter-medium-fonts">Image not available</p>
                                                         )}
                                                     </div>
-                                                   <div className="d-flex mt-2 justify-content-between">
+                                                    <div className="d-flex mt-2 justify-content-between">
                                                         <div>
                                                             <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
                                                             {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>}
