@@ -18,7 +18,10 @@ const AuthServices = {
     },
     getStaticTemplates:async (params) =>{
         return requests.get(`/template/list?page=${params?.page}&pageSize=${params?.limit}`, );
-    }
+    },
+    changePassword:async (body) => {
+        return requests.post(`/user/update-password`, body);
+    },
 
 
 };
