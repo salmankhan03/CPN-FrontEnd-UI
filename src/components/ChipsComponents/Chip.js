@@ -18,7 +18,7 @@ const styles = {
     alignItems: 'center',
     padding: '12px 20px',
     margin: '4px',
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#f8f8f8',
     borderRadius: '16px',
     fontSize: '14px',
   },
