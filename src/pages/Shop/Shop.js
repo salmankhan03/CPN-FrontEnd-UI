@@ -17,6 +17,7 @@ import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import { Offcanvas, Button } from 'react-bootstrap';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 import Header from "../../components/HeaderComponents/HeaderComponents";
+import Chip from '../../components/ChipsComponents/Chip';
 
 function ShopScreen() {
     // const { type, id } = useParams();
@@ -24,7 +25,7 @@ function ShopScreen() {
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
     const id = searchParams.get('id');
-    console.log("params", name, id)
+    // console.log("params", name, id)
 
 
     const dispatch = useDispatch();
@@ -54,6 +55,7 @@ function ShopScreen() {
     const [maxPrice, setMaxPrice] = useState()
     const [show, setShow] = useState(false);
     const [filtersChanged, setFiltersChanged] = useState(false);
+    const [chipsData, setChipsData] = useState([])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -112,6 +114,51 @@ function ShopScreen() {
         if (!show) {
             const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
             const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
+            
+            //Category Data SET CHIPS  
+            const findCategoryById = (categories, id) => {
+                for (const category of categories) {
+                    if (category.id === id) {
+                        return category;
+                    }
+                    if (category.children && category.children.length > 0) {
+                        const found = findCategoryById(category.children, id);
+                        if (found) {
+                            return found;
+                        }
+                    }
+                }
+                return null;
+            };
+            
+            const selectedCategoryObjects = selectedCategories.map(id => findCategoryById(categoriesData, id)).filter(category => category !== null);
+            let updatedCategories = selectedCategoryObjects.map(category => {
+                return {
+                    ...category,
+                    key: "category",
+                    label: category?.name
+                };
+            });
+
+            // 
+            if (Array.isArray(selectedBrandNames)) {
+                let brandObjects = selectedBrandNames.map(brand => ({
+                    key: "brand",
+                    label: brand
+                }));
+            
+                // Merge the two arrays of objects
+                let selectedFilters = [...updatedCategories, ...brandObjects];
+                if(selectedFilters.length > 0){
+                    let newObject = {
+                        "key": "ALL",
+                        "label": "Clear All Filters"
+                    };
+                    selectedFilters.push(newObject);
+
+                }
+                setChipsData(selectedFilters)
+            }
             let obj = {};
             switch (selectedSortingOption) {
                 case "low":
@@ -291,135 +338,160 @@ function ShopScreen() {
         setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
         setFiltersChanged(true);
     };
-    console.log(selectedSortingOption)
+
+    const removeChip = (data) => {
+        if(data?.key === "brand"){
+            let getselectedBrandDataObj = brandData?.filter(brand => brand.name === data?.label);
+            let updatedBrandsData = selectedBrands.filter(brand => brand !== getselectedBrandDataObj[0]?.id);
+            setSelectedBrands(updatedBrandsData)
+        }else if(data?.key === "category"){
+            let updatedSelectedCategories = selectedCategories.filter(id => id !== data?.id);
+            setSelectedCategories(updatedSelectedCategories)
+        }else{
+            setSelectedCategories([]);
+            setSelectedBrands([]);
+            // setFilteredPrice([0, maximumPrice]);
+        }
+      };
+   
+    // console.log(selectedSortingOption)
     if (loader) {
         return <SpinnerLoading loading={loader} />
     }
     return (
         <>
-            <Header/>
+            <Header />
             <div className="" >
-            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'}/>
-            <div className="custom-container container">
-                <div style={{display: 'flex'}} className={'sidebarMobile'}>
-                    <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
-                </div>
-                <div className="row " style={{}}>
-                    <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
-                        <div className='m-2'>
-                            <LeftSideBarComponents
-                                categoriesData={categoriesData}
-                                brandData={brandData}
-                                availabilityData={availabilityData}
-                                selectedCategories={selectedCategories}
-                                setSelectedCategories={setSelectedCategories}
-                                selectedBrands={selectedBrands}
-                                setSelectedBrands={setSelectedBrands}
-                                filteredPrice={filteredPrice}
-                                setFilteredPrice={setFilteredPrice}
-                                maximumPrice={maxPrice}
-                                categoryLoader={categories_Loader}
-                                
-                            />
-                        </div>
+                <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
+                <div className="custom-container container">
+                    <div style={{ display: 'flex' }} className={'sidebarMobile'}>
+                        <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
                     </div>
-                    <div className="col-md-12 col-lg-9 marginTopBottom">
-                        {products_List_loader ? (
-                            <div className='d-flex justify-content-center mt-5'>
-                                <Loadings loading={products_List_loader} />
+                    <div className="row " style={{}}>
+                        <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
+                            <div className='m-2'>
+                                <LeftSideBarComponents
+                                    categoriesData={categoriesData}
+                                    brandData={brandData}
+                                    availabilityData={availabilityData}
+                                    selectedCategories={selectedCategories}
+                                    setSelectedCategories={setSelectedCategories}
+                                    selectedBrands={selectedBrands}
+                                    setSelectedBrands={setSelectedBrands}
+                                    filteredPrice={filteredPrice}
+                                    setFilteredPrice={setFilteredPrice}
+                                    maximumPrice={maxPrice}
+                                    categoryLoader={categories_Loader}
+
+                                />
                             </div>
-                        ) : (
-                            <React.Fragment>
-                                <div className="row mb-5">
-                                    <div className="col-md-6 col-xs-4 mt-1">
-                                        <div className='d-flex align-items-center'>
-                                            <p className='mt-3'>Showing all {productsListData?.length} results</p>
-                                            <span className='ml-2'>
-                                                <select
-                                                    id="simpleDropdown"
-                                                    value={selectedOption}
-                                                    onChange={handleChange}
-                                                    className='select-dropdown'
-                                                ><option defaultValue={20} >20</option>
-                                                    <option value="12">12</option>
-                                                    <option value="24">24</option>
-                                                    <option value="36">36</option>
-                                                </select>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
-                                        <select
-                                            id="sortingDropdown"
-                                            defaultValue={selectedSortingOption}
-                                            onChange={handleSortingChange}
-                                            className='select-dropdown'
-                                        >
-                                            <option value="low">Sort by price: low to high</option>
-                                            <option value="high">Sort by price: high to low</option>
-                                            <option value="weekly_featured_products">Weekly Featured Products</option>
-                                            <option value="new_products">New Products</option>
-                                            <option value="products_on_sale">Products On Sale</option>
-                                            <option value="top_rated_products">Top Rated Products</option>
-                                            <option value="most_viewed_products">Most Viewed Products</option>
-                                        </select>
-                                    </div>
+                        </div>
+                        <div className="col-md-12 col-lg-9 marginTopBottom">
+                            {products_List_loader ? (
+                                <div className='d-flex justify-content-center mt-5'>
+                                    <Loadings loading={products_List_loader} />
                                 </div>
-                                <div className="row m-1">
-                                    {loading ? (
-                                        <div>
-                                            <Loadings skNumber={15} />
+                            ) : (
+                                <React.Fragment>
+                                    <div className="row mb-2">
+                                        <div className="col-md-6 col-xs-4 mt-1">
+                                            <div className='d-flex align-items-center'>
+                                                <p className='mt-3'>Showing all {productsListData?.length} results</p>
+                                                <span className='ml-2'>
+                                                    <select
+                                                        id="simpleDropdown"
+                                                        value={selectedOption}
+                                                        onChange={handleChange}
+                                                        className='select-dropdown'
+                                                    ><option defaultValue={20} >20</option>
+                                                        <option value="12">12</option>
+                                                        <option value="24">24</option>
+                                                        <option value="36">36</option>
+                                                    </select>
+                                                </span>
+                                            </div>
                                         </div>
-                                    ) : (
-                                        productsListData?.length > 0 ? (
-                                            <>
-                                                {productsListData.map((item, index) => (
-                                                    <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
-                                                        <ProductListing productItem={item} />
-                                                    </div>
-
+                                        <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
+                                            <select
+                                                id="sortingDropdown"
+                                                defaultValue={selectedSortingOption}
+                                                onChange={handleSortingChange}
+                                                className='select-dropdown'
+                                            >
+                                                <option value="low">Sort by price: low to high</option>
+                                                <option value="high">Sort by price: high to low</option>
+                                                <option value="weekly_featured_products">Weekly Featured Products</option>
+                                                <option value="new_products">New Products</option>
+                                                <option value="products_on_sale">Products On Sale</option>
+                                                <option value="top_rated_products">Top Rated Products</option>
+                                                <option value="most_viewed_products">Most Viewed Products</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {chipsData.length > 0 && (
+                                        <div className='row'>
+                                            <div className='text-left'>
+                                                {chipsData.map(chip => (
+                                                    <Chip key={chip} label={chip?.label} onRemove={() => removeChip(chip)} />
                                                 ))}
-                                                <div className='row text-center'>
-                                                    <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} />
-                                                </div>
-                                            </>
-                                        ) : (
-                                            <NotFound title="Sorry, There are no Products right now." />
-                                        )
+                                            </div>
+                                        </div>
                                     )}
-                                </div>
-                            </React.Fragment>
-                        )}
+                                    <div className="row m-1">
+                                        {loading ? (
+                                            <div>
+                                                <Loadings skNumber={15} />
+                                            </div>
+                                        ) : (
+                                            productsListData?.length > 0 ? (
+                                                <>
+                                                    {productsListData.map((item, index) => (
+                                                        <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
+                                                            <ProductListing productItem={item} />
+                                                        </div>
+
+                                                    ))}
+                                                    <div className='row text-center'>
+                                                        <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <NotFound title="Sorry, There are no Products right now." />
+                                            )
+                                        )}
+                                    </div>
+                                </React.Fragment>
+                            )}
+                        </div>
+
+
+                        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Filters</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <LeftSideBarComponents
+                                    categoriesData={categoriesData}
+                                    brandData={brandData}
+                                    availabilityData={availabilityData}
+                                    selectedCategories={selectedCategories}
+                                    setSelectedCategories={setSelectedCategories}
+                                    selectedBrands={selectedBrands}
+                                    setSelectedBrands={setSelectedBrands}
+                                    filteredPrice={filteredPrice}
+                                    setFilteredPrice={setFilteredPrice}
+                                    maximumPrice={maxPrice}
+                                    categoryLoader={categories_Loader}
+                                />
+                            </Offcanvas.Body>
+                        </Offcanvas>
                     </div>
-
-
-                    <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>Filters</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <LeftSideBarComponents
-                                categoriesData={categoriesData}
-                                brandData={brandData}
-                                availabilityData={availabilityData}
-                                selectedCategories={selectedCategories}
-                                setSelectedCategories={setSelectedCategories}
-                                selectedBrands={selectedBrands}
-                                setSelectedBrands={setSelectedBrands}
-                                filteredPrice={filteredPrice}
-                                setFilteredPrice={setFilteredPrice}
-                                maximumPrice={maxPrice}
-                                categoryLoader={categories_Loader}
-                            />
-                        </Offcanvas.Body>
-                    </Offcanvas>
-                </div>
-                <div className='pb-2'>
+                    <div className='pb-2'>
                         <FooterComponents />
                     </div>
-            </div>
+                </div>
 
-        </div>
+            </div>
         </>
 
     );
