@@ -3,7 +3,7 @@ import ProductListing from '../../components/ProductListingComponents/ProductLis
 import LeftSideBarComponents from '../../components/LeftSideBar/LeftSideBar';
 import ProductServices from '../../services/ProductServices';
 import { setProductList } from '../../redux/action/action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
 import Loadings from '../../components/LoadingComponents/LoadingComponents';
 import CategoryServices from '../../services/categoryService';
@@ -21,6 +21,7 @@ import Chip from '../../components/ChipsComponents/Chip';
 
 function ShopScreen() {
     // const { type, id } = useParams();
+    const Categories = useSelector(state => state.CategoryReducer.categoryListData)
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
@@ -42,7 +43,7 @@ function ShopScreen() {
     const [productsListData, setProductsListData] = useState();
     const [products_List_loader, setProducts_List_loader] = useState(true);
 
-    const [categoriesData, setCategoriesData] = useState();
+    const [categoriesData, setCategoriesData] = useState(Categories);
     const [categories_Loader, setCategories_Loader] = useState(true);
 
     const [brandData, setBrandData] = useState();
@@ -115,10 +116,10 @@ function ShopScreen() {
             const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
             const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
             
-            //Category Data SET CHIPS  
+            //Category Data SET CHIPS 
             const findCategoryById = (categories, id) => {
                 for (const category of categories) {
-                    if (category.id === id) {
+                    if (category?.id === id) {
                         return category;
                     }
                     if (category.children && category.children.length > 0) {
@@ -129,9 +130,9 @@ function ShopScreen() {
                     }
                 }
                 return null;
-            };
-            
-            const selectedCategoryObjects = selectedCategories.map(id => findCategoryById(categoriesData, id)).filter(category => category !== null);
+            };  
+            let uniqueSelectedCategories = [...new Set(selectedCategories)];
+            const selectedCategoryObjects = uniqueSelectedCategories.map(id => findCategoryById( categoriesData , id)).filter(category => category !== null);    
             let updatedCategories = selectedCategoryObjects.map(category => {
                 return {
                     ...category,
