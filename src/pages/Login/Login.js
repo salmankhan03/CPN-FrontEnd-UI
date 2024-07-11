@@ -400,11 +400,7 @@ const LoginScreen = ({ onLogin }) => {
 
                                   <div className="form-group">
                                     {isButtonLoading ? (
-                                      <div
-                                        className="red_button product-add_to_cart_button  mt-3"
-                                      >
-                                        Loading ....
-                                      </div>
+                                      <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={''} label="Loading..." disabled={true}/>
                                     ) : (                    
                                       <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={handleLoginSubmit} label="Login" />
                                     )}
