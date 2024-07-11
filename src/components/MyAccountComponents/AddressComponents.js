@@ -26,26 +26,29 @@ const Address = ({ user, onUpdateUser }) => {
     const [billingFormErrors, setBillingFormErrors] = useState({});
     const [shippingFormErrors, setShippingFormErrors] = useState({});
     const [billingFormData, setBillingFormData] = useState({
-        first_name: '',
-        last_name: '',
-        country: 'CA',
-        street_address: '',
-        city: '',
-        state: '',
-        zipcode: '',
-        contact_no: '',
-        email: '',
+        first_name: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.first_name : '',
+        last_name: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.last_name : '',
+        country: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.country : 'CA',
+        street_address: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.street_address : '',
+        city: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.city : '',
+        state: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.state : '',
+        zipcode: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.zipcode : '',
+        contact_no: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.contact_no : '',
+        email: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.email : '',
+        id: user?.billing_address_addedy_by_user?.length > 0 ? user?.billing_address_addedy_by_user[0]?.id : null,
     });
     const [shippingFormData, setShippingFormData] = useState({
-        first_name: user ? user?.first_name : '',
-        last_name: user ? user?.last_name : '',
-        country: 'CA',
-        street_address: user ? user?.street_address : '',
-        city: user ? user?.city : '',
-        state: user ? user?.state : '',
-        zipcode: user ? user?.zipcode : '',
-        contact_no: user ? user?.contact_no : '',
-        email: user ? user?.email : '',
+        first_name: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.first_name : '',
+        last_name: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.last_name : '',
+        country: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.country : 'CA',
+        street_address: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.street_address : '',
+        city: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.city : '',
+        state: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.state : '',
+        zipcode: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.zipcode : '',
+        contact_no: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.contact_no : '',
+        email: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.email : '',
+        id: user?.shipping_address_addedy_by_user?.length > 0 ? user?.shipping_address_addedy_by_user[0]?.id : null,
+
     });
 
     const handleInputChange = (formData, setFormData, field, value, setFormErrors) => {
@@ -81,25 +84,29 @@ const Address = ({ user, onUpdateUser }) => {
         setEditMode(!editMode);
     };
 
-    const handleSubmit = (e) => {
+    const handleShippingSubmit = (e) => {
         e.preventDefault();
-        onUpdateUser(formData);
+        const updatedUser = { ...user, shipping_address: shippingFormData, billing_address: billingFormData };
+        userDataUpdate(updatedUser);
         setEditMode(false);
     };
 
     const handleBillingSubmit = (e) => {
         e.preventDefault();
-        // Save billingFormData
+        const updatedUser = { ...user, billing_address: billingFormData, shipping_address: shippingFormData };
+        userDataUpdate(updatedUser);
         setEditMode(false);
     };
-
+    const userDataUpdate = (userData) => {
+        onUpdateUser(userData);
+    }
     return (
         <div className='mt-1 text-left'>
             <p>The following addresses will be used on the checkout page by default.</p>
             {editMode ? (
                 <React.Fragment>
                     <h3 className='pt-3'>{formType === 'billing' ? 'Billing address' : 'Shipping address'}</h3>
-                    <form onSubmit={formType === 'billing' ? handleBillingSubmit : handleSubmit}>
+                    <form onSubmit={formType === 'billing' ? handleBillingSubmit : handleShippingSubmit}>
                         <div className="form-row pt-5">
                             <div className="form-group col-md-12">
                                 <InputComponent
@@ -217,8 +224,23 @@ const Address = ({ user, onUpdateUser }) => {
                         <h2 className='ml-0'>Billing address</h2>
                         <div className='mt-3'>
                             <div className='pointer-on-hover brandLabel fs-5 pt-2' onClick={() => toggleEditMode('billing')}>
-                                {billingFormData.first_name ? 'Edit' : 'Add'}
-                                {!billingFormData.first_name && <div className='mt-3'><p>You have not set up this type of address yet.</p></div>}
+                                {user?.billing_address_addedy_by_user?.length > 0 ? 'Edit' : 'Add'}
+                            </div>
+                            <div>
+                                {!user?.billing_address_addedy_by_user?.length > 0 ? (
+                                    <div className='mt-3'><p>You have not set up this type of address yet.</p></div>
+                                ) : (
+                                    <address className='mt-3'>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.first_name}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.last_name}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.street_address}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.city} <span className='ml-2'> {user?.billing_address_addedy_by_user[0]?.zipcode}</span></p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.state} <span className='ml-2'> {user?.billing_address_addedy_by_user[0]?.country}</span></p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.billing_address_addedy_by_user[0]?.contact_no}</p>
+                                        {/* <p>{user?.billing_address_addedy_by_user[0]?.email} </p> */}
+                                    </address>
+                                )
+                                }
                             </div>
                         </div>
                     </div>
@@ -226,9 +248,24 @@ const Address = ({ user, onUpdateUser }) => {
                         <h2 className='ml-0'>Shipping address</h2>
                         <div className='mt-3'>
                             <div className='pointer-on-hover brandLabel fs-5 pt-2' onClick={() => toggleEditMode('shipping')}>
-                                {shippingFormData.first_name ? 'Edit' : 'Add'}
+                                {user?.shipping_address_addedy_by_user?.length > 0 ? 'Edit' : 'Add'}
                             </div>
-                            {!shippingFormData.first_name && <div className='mt-3'><p>You have not set up this type of address yet.</p></div>}
+                            <div>
+                                {!user?.shipping_address_addedy_by_user?.length > 0 ? (
+                                    <div className='mt-3'><p>You have not set up this type of address yet.</p></div>
+                                ) : (
+                                    <address className='mt-3'>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.first_name}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.last_name}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.street_address}</p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.city} <span className='ml-2'> {user?.shipping_address_addedy_by_user[0]?.zipcode}</span></p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.state} <span className='ml-2'> {user?.shipping_address_addedy_by_user[0]?.country}</span></p>
+                                        <p className='mb-0 mt-0 pt-1'>{user?.shipping_address_addedy_by_user[0]?.contact_no}</p>
+                                        {/* <p>{user?.shipping_address_addedy_by_user[0]?.email} </p> */}
+                                    </address>
+                                )
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import InputComponent from '../InputComponents/InputComponents';
 import ButtonComponent from "../ButtonComponents/ButtonComponents";
 import { Modal, Button, Form } from 'react-bootstrap';
 import AuthServices from "../../services/AuthServices";
+import { notifySuccess } from '../ToastComponents/ToastComponents';
 
 const AccountDetails = ({ user, onUpdateUser }) => {
     const [editMode, setEditMode] = useState(false);
@@ -70,16 +71,18 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                 confirmPassword: passwordFormData.confirmPassword
             }
             AuthServices.changePassword(payload).then((resp) => {
-                if (resp?.status_code === 200) {
-                   console.log('resp==========================', resp)
+                if (resp?.status_code === 200 || resp?.status_code === 500) {
+                    // console.log('resp==========================', resp)
+                    notifySuccess(`Password Upadet Successfully !`);
                 }
             }).catch((error) => {
                 // setLoading(false)
                 console.log(error)
             })
-
-
-            handleClose();
+            const timers = setTimeout(() => {
+                handleClose();
+            }, 1000)
+            return () => clearTimeout(timers);
         }
     };
 
@@ -119,11 +122,12 @@ const AccountDetails = ({ user, onUpdateUser }) => {
         if (!formData.date_of_birth) errors.date_of_birth = 'Date of birth is required';
         if (!formData.contact_no) errors.contact_no = 'Contact number is required';
         if (!formData.email) errors.email = 'Email is required';
-        if (!formData.password) errors.password = 'Password is required';
+        // if (!formData.password) errors.password = 'Password is required';
         return errors;
     };
 
     const handleSubmit = (e) => {
+        setIsButtonLoading(true)
         e.preventDefault();
         const errors = validateForm();
         if (Object.keys(errors).length > 0) {
@@ -134,6 +138,10 @@ const AccountDetails = ({ user, onUpdateUser }) => {
             setIsButtonLoading(false);
             toggleEditMode();
         }
+        const timers = setTimeout(() => {
+            setIsButtonLoading(false)
+        }, 1000);
+        return () => clearTimeout(timers);
     };
 
     const handleCancel = () => {
@@ -164,7 +172,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form className={"container"}>
-                        <Form.Group controlId="formOldPassword" style={{textAlign: 'start', marginBottom: 10}}>
+                        <Form.Group controlId="formOldPassword" style={{ textAlign: 'start', marginBottom: 10 }}>
                             <Form.Label>Old Password</Form.Label>
                             <InputComponent
                                 type="password"
@@ -177,7 +185,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                             {passwordFormDataErrors.oldPassword && <div className="validation-error">{passwordFormDataErrors.oldPassword}</div>}
                         </Form.Group>
 
-                        <Form.Group controlId="formNewPassword" style={{textAlign: 'start', marginBottom: 10}}>
+                        <Form.Group controlId="formNewPassword" style={{ textAlign: 'start', marginBottom: 10 }}>
                             <Form.Label>New Password</Form.Label>
                             <InputComponent
                                 type="password"
@@ -190,7 +198,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                             {passwordFormDataErrors.newPassword && <div className="validation-error">{passwordFormDataErrors.newPassword}</div>}
                         </Form.Group>
 
-                        <Form.Group controlId="formConfirmPassword" style={{textAlign: 'start', marginBottom: 10}}>
+                        <Form.Group controlId="formConfirmPassword" style={{ textAlign: 'start', marginBottom: 10 }}>
                             <Form.Label>Confirm Password</Form.Label>
                             <InputComponent
                                 type="password"
@@ -229,12 +237,12 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                                     onChange={(e) => handleChange(field, e.target.value)}
                                     placeholder=""
                                 />
-                                {formDataErrors[field] && <div className="validation-error" style={{color: 'red', fontSize: '0.875em'}}>{formDataErrors[field]}</div>}
+                                {formDataErrors[field] && <div className="validation-error" style={{ color: 'red', fontSize: '0.875em' }}>{formDataErrors[field]}</div>}
                             </div>
                         ))}
-                        <ButtonComponent  cssClass="empty-carts" onClick={handleShow} label="Change Password"/>
+                        <ButtonComponent cssClass="empty-carts" onClick={handleShow} label="Change Password" />
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         {isButtonLoading ? (
                             <div className="red_button product-add_to_cart_button mt-3">
                                 Loading...
@@ -244,10 +252,17 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                                 Save
                             </button>
                         )}
+                    </div> */}
+                    <div className="form-group">
+                        {isButtonLoading ? (
+                            <ButtonComponent cssClass="shopping-btn btn-border-radius mt-5" onClick={''} label="Loading ...." disabled={true} />
+                        ) : (
+                            <ButtonComponent cssClass="shopping-btn btn-border-radius mt-5" onClick={handleSubmit} label="Save" />
+                        )}
                     </div>
                 </form>
             </div>
-           
+
         </div>
     );
 };

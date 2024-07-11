@@ -11,7 +11,7 @@ const AuthServices = {
     },
     customerProfileUpdate: async (body) => {
         console.log(body)
-        return requests.post('/customer/update',body)
+        return requests.post('/user/update',body)
     },
     customerLogout: async () => {
         return requests.get(`/customer/logout`, );
@@ -22,7 +22,9 @@ const AuthServices = {
     changePassword:async (body) => {
         return requests.post(`/user/update-password`, body);
     },
-
+    getCustomerDetaila:async(id)=>{
+        return requests.get(`${id}/get-customer-by-id`)
+    }
 
 };
 

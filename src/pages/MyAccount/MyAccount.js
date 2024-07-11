@@ -38,7 +38,7 @@ const MyAccount = () => {
         // { Label: "Wishlist", link: "wishlist" },
         { Label: "Log out", link: "logout" }
     ];
-    
+
     const [activeTab, setActiveTab] = useState(myAccountSidebar[0].Label);
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const MyAccount = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    function fetchOrdersData(){
+    function fetchOrdersData() {
 
         OrderServices.getUserOrderList(AuthData.id).then((resp) => {
             if (resp?.status_code === 200) {
@@ -58,6 +58,12 @@ const MyAccount = () => {
             }
         }).catch((error) => {
             notifyError(`Something went wrong`);
+            if (error?.response?.data?.status === 401) {
+                dispatch(setUserData({}))
+                dispatch(setGuestUser({}))
+                dispatch(setUserLogInOrNot(false))
+                navigate(`/login`)
+            }
         })
 
     }
@@ -67,15 +73,25 @@ const MyAccount = () => {
     };
 
     const handleUpdateUser = (updatedUserData) => {
-        console.log("updatedUserData",updatedUserData)
+        let data = {
+            ...AuthData,
+            ...updatedUserData
+
+        }
+        if (!data['billing_address']) {
+            data['billing_address'] = data?.billing_address_addedy_by_user ? data?.billing_address_addedy_by_user[0] :'';
+            data['shipping_address'] =data?.shipping_address_addedy_by_user ? data?.shipping_address_addedy_by_user[0] : '';
+        }
+        
         setUser({
-            ...user,
+            ...AuthData,
             ...updatedUserData,
         });
-        customerDataUpdate(updatedUserData)
+        customerDataUpdate(data)
     };
-    const customerDataUpdate = (data) =>{
+    const customerDataUpdate = (data) => {
         data.id = AuthData.id;
+        delete data.password;
 
         AuthServices.customerProfileUpdate(data).then((resp) => {
             if (resp?.status_code === 200) {
@@ -128,11 +144,11 @@ const MyAccount = () => {
             case "Dashboard":
                 return <Dashboard data={AuthData} logout={logout} />;
             case "Orders":
-                return <Order orderData={orderListData}/>;
+                return <Order orderData={orderListData} />;
             case "Downloads":
                 return <Download />;
             case "Addresses":
-                return <Address />;
+                return <Address user={AuthData} onUpdateUser={handleUpdateUser} />;
             case "Account details":
                 return <AccountDetails user={AuthData} onUpdateUser={handleUpdateUser} />;
             case "Compare":
@@ -140,7 +156,7 @@ const MyAccount = () => {
             case "Wishlist":
                 return <Wishlist />;
             case "Log out":
-                logout(); 
+                logout();
                 return <Logout />;
             default:
                 return null;
@@ -153,47 +169,47 @@ const MyAccount = () => {
 
     return (
         <React.Fragment>
-        <Header />
-        <div className="container mt-5">
-            <div>
-                <div className="row mt-5">
-                    <div className='text-center'>
-                        <h2 className='title'>My Account</h2>
-                    </div>
-                </div>
-                <div className="row mt-5 mb-5">
-                    <div className="col-md-4">
-                        <div className='m-1'>
-                            <ul style={{ border: '1px solid #ccc' }} className='pl-0'>
-                                {myAccountSidebar.map((item, index) => (
-                                    <React.Fragment key={index}>
-                                        <li
-                                            className={`p-4 mb-0 text-left ${activeTab === item.Label ? 'secondaryBG' : ''}`}
-                                            onClick={() => handleTabClick(item.Label)}
-                                        >
-                                            <a
-                                                href={'#'}
-                                                className={activeTab === item.Label ? 'text-white' : 'titleColor'}
-                                                style={{ textDecoration: 'none' }}
-                                            >
-                                                {item.Label}
-                                            </a>
-                                        </li>
-                                        {index < myAccountSidebar.length - 1 && <hr className='mt-0 mb-0' />}
-                                    </React.Fragment>
-                                ))}
-                            </ul>
+            <Header />
+            <div className="container mt-5">
+                <div>
+                    <div className="row mt-5">
+                        <div className='text-center'>
+                            <h2 className='title'>My Account</h2>
                         </div>
                     </div>
-                    <div className="col-md-8">
-                        {renderContent()}
+                    <div className="row mt-5 mb-5">
+                        <div className="col-md-4">
+                            <div className='m-1'>
+                                <ul style={{ border: '1px solid #ccc' }} className='pl-0'>
+                                    {myAccountSidebar.map((item, index) => (
+                                        <React.Fragment key={index}>
+                                            <li
+                                                className={`p-4 mb-0 text-left ${activeTab === item.Label ? 'secondaryBG' : ''}`}
+                                                onClick={() => handleTabClick(item.Label)}
+                                            >
+                                                <a
+                                                    href={'#'}
+                                                    className={activeTab === item.Label ? 'text-white' : 'titleColor'}
+                                                    style={{ textDecoration: 'none' }}
+                                                >
+                                                    {item.Label}
+                                                </a>
+                                            </li>
+                                            {index < myAccountSidebar.length - 1 && <hr className='mt-0 mb-0' />}
+                                        </React.Fragment>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-md-8">
+                            {renderContent()}
+                        </div>
                     </div>
                 </div>
+                <div className='pb-2'>
+                    <FooterComponents />
+                </div>
             </div>
-            <div className='pb-2'>
-                <FooterComponents />
-            </div>
-        </div>
         </React.Fragment>
     );
 };

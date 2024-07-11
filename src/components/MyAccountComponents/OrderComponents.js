@@ -16,15 +16,6 @@ const Order = ({ orderData }) => {
     const handleBackToTable = () => {
         setSelectedOrder(null);
     };
-    let orderDetails = {
-        productName: 'Anti-virus Carbon Mask × 1',
-        productPrice: 520,
-        subTotal: 520,
-        shippingCharge: 30,
-        paymentMethod: 'Cash on delivery',
-        GrandTotal: 550
-
-    }
 
 
     return (
@@ -53,14 +44,14 @@ const Order = ({ orderData }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {selectedOrder?.items.map((item) => (
-                                    <tr>
-                                        <td>{item?.product?.name}</td>
-                                        <td>${item?.product?.sell_price}</td>
-                                    </tr>
-                                     ))}
+                                    {selectedOrder?.items.map((item) => (
+                                        <tr>
+                                            <td>{item?.product?.name}</td>
+                                            <td>${item?.product?.sell_price}</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
-                                <tfoot>                        
+                                <tfoot>
                                     <tr>
                                         <th>Shipping:</th>
                                         <td>${selectedOrder?.shipping_price}</td>
@@ -71,7 +62,7 @@ const Order = ({ orderData }) => {
                                     </tr> */}
                                     <tr>
                                         <th>Payment method:</th>
-                                        <td>{selectedOrder?.payment?.is_cod_paymend_received === 0 ? 'Cash On Delevery':'Online'}</td>
+                                        <td>{selectedOrder?.payment?.is_cod_paymend_received === 0 ? 'Cash On Delevery' : 'Online'}</td>
                                     </tr>
                                     <tr>
                                         <th>Total:</th>
@@ -79,11 +70,37 @@ const Order = ({ orderData }) => {
                                     </tr>
                                 </tfoot>
                             </table>
-                        
+                            <div className='mt-4'>
+                                <div className='row'>
+                                    <div className='col-12 col-md-6 col-lg-6'>
+                                        <h3>Billing Address</h3>
+                                        <address>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.first_name}</p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.street_address}</p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.city}  <span className='ml-2'> {selectedOrder?.billing_address?.zipcode}</span></p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.state}, <span className='ml-2'> {selectedOrder?.billing_address?.country}</span></p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.contact_no}</p><br/>
+                                            <p>{selectedOrder?.billing_address?.email} </p>
+                                        </address>
+                                    </div>
+                                    <div className='col-12 col-md-6 col-lg-6'>
+                                        <h3>Shipping Address</h3>
+                                        <address>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.first_name}</p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.street_address}</p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.city}  <span className='ml-2'> {selectedOrder?.billing_address?.zipcode}</span></p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.state}, <span className='ml-2'> {selectedOrder?.billing_address?.country}</span></p>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.contact_no}</p><br/>
+                                            
+                                        </address>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className='text-center mt-5'>
-                            <button className="btn secondaryBG text-white text-center" onClick={handleBackToTable}>
-                                Back to Orders
-                            </button> 
+                                <button className="btn secondaryBG text-white text-center" onClick={handleBackToTable}>
+                                    Back to Orders
+                                </button>
                             </div>
                         </div>
                     ) : (
