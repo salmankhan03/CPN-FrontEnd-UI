@@ -27,6 +27,7 @@ import Profile from './pages/Profile/Profile'
 import NotFoundPage from './pages/NotFound/NotFound';
 import SearchResults from './pages/Search/SearchResult';
 import MyAccount from './pages/MyAccount/MyAccount';
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 
@@ -111,6 +112,7 @@ function App() {
           <Route path="/privacy-policy" element={<WithNavbar component={PrivacyPolicy} />} />
           <Route path="/terms-conditions" element={<WithNavbar component={TermsAndCondition} />} />
           <Route path="/disclaimer" element={<WithNavbar component={Disclaimer} />} />
+          <Route path="/forgot-password" element={<WithNavbar component={ForgotPassword} />} />
           <Route path="*" element={<WithNavbar component={NotFoundPage} />} />
         </Routes>
       </Router>

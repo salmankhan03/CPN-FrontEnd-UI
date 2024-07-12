@@ -4069,3 +4069,9 @@ color: #ccc;
   border-color: #f8f8f8 !important;
   background-color: #f8f8f8 !important;
 }
+
+.forgot-password-style{
+  border-radius: 45px !important;
+  height: 50px;
+  border-color: #f8f8f8 !important;
+}

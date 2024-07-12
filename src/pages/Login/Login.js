@@ -409,7 +409,7 @@ const LoginScreen = ({ onLogin }) => {
                                     <hr />
                                   </div>
                                   <div className="form-outline mb-2 ">
-                                    <p className='read-more pointer-on-hover'>Forgot Password</p>
+                                    <p className='read-more pointer-on-hover' onClick={() => navigate('/forgot-password')}>Forgot Password</p>
                                   </div>
                                     {userGuestOrNot === false && <div className='mt-5'>
                                     <div className='mt-5 d-flex align-items-center'>
