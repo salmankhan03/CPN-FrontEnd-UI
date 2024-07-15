@@ -534,7 +534,7 @@ function ProductDetails() {
                             onClick={() => handleThumbnailClick(item.name)}
                             onMouseEnter={() => setSelectedImage(item.name)}
                         >
-                            <img src={item.name} alt={`Product Image ${index}`} style={{ height: 'calc(100vh - 100px)', borderRadius: 10 }} className="product-image" />
+                            <img src={item.name} alt={`Product Image ${index}`} style={{ height: 'calc(100vh - 100px)', borderRadius: 10, width: 'auto' }} className="product-image" />
                         </div>
                     </div>
                 ))}

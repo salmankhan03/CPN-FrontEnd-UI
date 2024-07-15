@@ -4075,3 +4075,7 @@ color: #ccc;
   height: 50px;
   border-color: #f8f8f8 !important;
 }
+
+select{
+  -webkit-appearance: initial !important;
+}
