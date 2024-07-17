@@ -368,9 +368,9 @@ function ShopScreen() {
                     <div style={{ display: 'flex' }} className={'sidebarMobile'}>
                         <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
                     </div>
-                    <div className="row " style={{}}>
+                    <div className="row shop" style={{}}>
                         <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
-                            <div className='m-2'>
+                            <div className=''>
                                 <LeftSideBarComponents
                                     categoriesData={categoriesData}
                                     brandData={brandData}

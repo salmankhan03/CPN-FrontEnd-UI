@@ -53,6 +53,25 @@
 ************/
 
 @media only screen and (max-width: 1380px) {}
+@media (min-width: 992px) {
+  .col-lg-3 {
+    flex: 0 0 auto;
+    width: 25%;
+  }
+
+  .shop .col-lg-3 {
+    width: 30%;
+  }
+
+  .col-lg-9 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+
+  .shop .col-lg-9 {
+    width: 70%;
+  }
+}
 
 /************
 3. 1280px
@@ -819,9 +838,10 @@
     /* max-height: 100px !important; */
     height: 170px;
   }
-  .carouselCaptionHeading{
-    font-size: 20px !important; 
-    }
+
+  .carouselCaptionHeading {
+    font-size: 20px !important;
+  }
 }
 
 /************

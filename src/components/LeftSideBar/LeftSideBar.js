@@ -129,7 +129,7 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
           <FontAwesomeIcon icon={faTrash} fontSize={23} className="icon" onClick={clearAllFilters} />
         </div>
       )}
-      <div className="m-3 leftSidebarCategory">
+      <div className="m-2 leftSidebarCategory">
         <h4 className="d-flex justify-content-between align-items-center">
           Categories
           <span className="load-more-span">
@@ -172,21 +172,19 @@ function LeftSideBarComponents({ categoriesData, brandData, availabilityData, se
           </div>
         </div>
       </div>
-      <div className='m-3 mt-2 leftSidebarPrice'>
+      <div className='m-2 mt-2 leftSidebarPrice'>
         <h4>Filter by Price</h4>
         <div className='mt-4 m-2'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
-      <div className="m-3 leftSidebarBrand">
+      <div className="m-2 leftSidebarBrand">
         <h4 className="d-flex justify-content-between align-items-center">Brands
           <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">
               {filteredBrands?.length >= visibleBrandRecords ? (
-                // <button className="load-more-button btn btn-sm " onClick={handleLoadMoreBrands}>View More</button>
                 <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleLoadMoreBrands} label="View More" />
               ) : (
-                // <button className="load-more-button btn btn-sm" onClick={handleViewLessBrands}>View Less</button>
                 <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleViewLessBrands} label="View Less" />
 
               )}
