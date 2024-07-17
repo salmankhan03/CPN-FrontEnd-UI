@@ -557,9 +557,9 @@ function Header() {
                     <div
                       className={`clear-search-icon  ${searchInputText ? 'enabled' : 'disabled'}`}
                       onClick={searchInputText ? clearSearchText : null}
-                      style={{ color: searchInputText ? '#000' : '#ccc' ,padding:'8px'}}
+                      style={{ color: searchInputText ? '#000' : '#ccc', padding: '8px' }}
                     >
-                      <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover': ''}`}></i>
+                      <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover' : ''}`}></i>
                     </div>
                     {/* )} */}
                     <div className="search-icon">
@@ -611,7 +611,11 @@ function Header() {
                           <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
                         ) : (
                           <>
-                            <Link to="/my-account">My Account</Link>
+                            {AuthData ? (
+                              <Link to="/my-account">My Account</Link>
+                            ) : (
+                              <span className="disabled-link">My Account</span>
+                            )}
                             <div onClick={logout}>logout</div>
                           </>
                         )}

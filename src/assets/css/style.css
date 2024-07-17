@@ -4164,3 +4164,9 @@ select {
   transition: opacity .6s ease;
   border-radius: 100%;  
 }
+
+.disabled-link {
+  color: gray;
+  cursor: not-allowed;
+  text-decoration: none;
+}
