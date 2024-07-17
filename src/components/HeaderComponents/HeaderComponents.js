@@ -455,7 +455,7 @@ function Header() {
     <>
       <div ref={headerRef}>
         {/* Top Header Start */}
-        <div className={`header-content-top  hide-div container`}>
+        {/* <div className={`header-content-top  hide-div container`}>
           <div className="left-content">
             <span className='topBarFonts'>
               (00)0000-0000
@@ -473,10 +473,7 @@ function Header() {
               indicators={false}
             >
               {slogans?.map((slogan, idx) => (
-                <Carousel.Item key={idx} interval={10000}>
-                  {/* <a href={slogan?.url} target="_blank" rel="noopener noreferrer">
-                    <strong className="topBarCenterText">{slogan?.text}</strong>
-                  </a> */}
+                <Carousel.Item key={idx} interval={10000}>                  
                   <div
                     className="w-full h-full text-white bg-opacity-50 dynamic-html"
                     style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
@@ -496,13 +493,6 @@ function Header() {
               </select>
             </div>
             <span className='ml-3 ml-md-1'> |
-              {/* <Link to="/login">
-                <span className='ml-2 ml-md-2 topBarFonts'>
-                  {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ?
-                  `My Account`
-                  :  'Login / Sign Up'}
-                </span>
-              </Link> */}
               {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? (
                 <Link to="/my-account" className='ml-2 ml-md-2 topBarFonts'>
                   My Account
@@ -521,21 +511,22 @@ function Header() {
 
             </span>
           </div>
-        </div>
+        </div> */}
         {/* Top Header Close */}
-        <header  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}>
+        <header className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}>
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 <Link to="/">
-                  <img className="my-4" src={stickyLogo} alt="no-result" width="200" />
+                  <img className="my-2" src={stickyLogo} alt="no-result" width="200" />
                 </Link>
               </div>
-              <div className="middle-content" >
-                <div className='parent-container ml-2 hide-div' style={{ border: '1px solid #ccc', borderRadius: 20 }}>
-                  <div className="d-flex align-items-center">
-                    <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
+              <div className="middle-content" style={{ backgroundColor: '#fff' }} >
+                <div className='parent-container ml-2 hide-div search-container-width ml-5 mr-5'
+                  style={{ border: '1px solid #ccc', borderRadius: 20, width: '80%' }}>
+                  {/* <div className="align-items-center "> */}
+                  {/* <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
                         <span className='searchDropdown' style={{ color: '#ababab' }}>Browse Categories</span>
                       </div>
@@ -550,47 +541,51 @@ function Header() {
                           })}
                         </div>
                       )}
+                    </div> */}
+                  {/* <div className="search-container "> */}
+                  <div className="search-container position-relative">
+                    <input
+                      type="text"
+                      placeholder="Search for items..."
+                      className="search-input"
+                      style={{ width: '90%', marginLeft: 10 }}
+                      value={searchInputText}
+                      onChange={handleInputChange}
+                      onClick={handleSearchInputClick}
+                    />
+                    {/* {searchInputText && ( */}
+                    <div
+                      className={`clear-search-icon  ${searchInputText ? 'enabled' : 'disabled'}`}
+                      onClick={searchInputText ? clearSearchText : null}
+                      style={{ color: searchInputText ? '#000' : '#ccc' ,padding:'8px'}}
+                    >
+                      <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover': ''}`}></i>
                     </div>
-                    <div className="search-container ">
-                      <div className="search-container position-relative">
-                        <input
-                          type="text"
-                          placeholder="Search for items..."
-                          className="search-input"
-                          style={{ width: 'auto', marginLeft: 10 }}
-                          value={searchInputText}
-                          onChange={handleInputChange}
-                          onClick={handleSearchInputClick}
-                        />
-                        {searchInputText && (
-                          <div className="clear-search-icon search-icon" onClick={clearSearchText}>
-                            <i className="fas fa-times-circle"></i>
-                          </div>
-                        )}
-                        <div className="search-icon">
-                          <i className="fas fa-search"></i>
-                        </div>
+                    {/* )} */}
+                    <div className="search-icon">
+                      <i className="fas fa-search"></i>
+                    </div>
 
-                        {searchResults && searchResultsShow && (
-                          <div className="search-results mt-1 position-absolute" ref={searchResultRef} style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                            <ul className="list-group">
-                              {Object.keys(searchResults).map((result, index) => {
-                                console.log(result, "res");
-                                return (
-                                  <li key={index} className="text-left text-black p-2 pointer-on-hover" style={{}} onClick={() => handleResultClick(result)}>
-                                    <span className='ml-1'><i className="fas fa-search"></i></span>
+                    {searchResults && searchResultsShow && (
+                      <div className="search-results mt-1 position-absolute" ref={searchResultRef} style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                        <ul className="list-group">
+                          {Object.keys(searchResults).map((result, index) => {
+                            console.log(result, "res");
+                            return (
+                              <li key={index} className="text-left text-black p-2 pointer-on-hover" style={{}} onClick={() => handleResultClick(result)}>
+                                <span className='ml-1'><i className="fas fa-search"></i></span>
 
-                                    <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          </div>
-                        )}
+                                <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
                       </div>
-                    </div>
+                    )}
                   </div>
+                  {/* </div> */}
                 </div>
+                {/* </div> */}
 
               </div>
               <div className="right-content">
@@ -615,9 +610,12 @@ function Header() {
                         {AuthData === undefined && GuestData === undefined ? (
                           <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
                         ) : (
-                          <div onClick={logout}>logout</div>
+                          <>
+                            <Link to="/my-account">My Account</Link>
+                            <div onClick={logout}>logout</div>
+                          </>
                         )}
-                        {/* <Link to="/my-account">My Account</Link> */}
+                        {/*  */}
                       </div>
                     )}
                   </div>
@@ -657,7 +655,7 @@ function Header() {
                   {isOpen && width <= 768 ? (
                     <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff', }} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
-                        <div className='text-black pt-2' onClick={() => { handleNavigation('login');  dispatch(setUserShowGuestOrNot(true))}}>Login/Signup</div>
+                        <div className='text-black pt-2' onClick={() => { handleNavigation('login'); dispatch(setUserShowGuestOrNot(true)) }}>Login/Signup</div>
                       ) : (
                         <div className='text-black pt-2' onClick={logout}>logout</div>
                       )}
