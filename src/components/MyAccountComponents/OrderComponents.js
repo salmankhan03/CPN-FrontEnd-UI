@@ -32,7 +32,7 @@ const Order = ({ orderData }) => {
                         <div className='text-left'>
                             <p className='fs-6'>
                                 Order #<span className='text-blue'>{selectedOrder?.id} </span>
-                                was placed on July 3, 2024 and is currently Processing.
+                                was placed on {moment(selectedOrder.created_at).format('MMMM D, YYYY')} and is currently Processing.
                             </p>
                             <h2 className='mt-5 ml-0'>Order details</h2>
                           
