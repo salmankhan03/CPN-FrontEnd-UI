@@ -374,7 +374,7 @@ function SearchResults() {
                                                     id="simpleDropdown"
                                                     value={selectedOption}
                                                     onChange={handleChange}
-                                                    className='select-dropdown'
+                                                    className='select-dropdown h-auto'
                                                 ><option defaultValue={20} >20</option>
                                                     <option value="12">12</option>
                                                     <option value="24">24</option>
@@ -388,7 +388,7 @@ function SearchResults() {
                                             id="sortingDropdown"
                                             defaultValue={selectedSortingOption}
                                             onChange={handleSortingChange}
-                                            className='select-dropdown'
+                                            className='select-dropdown h-auto'
                                         >
                                             <option value="low">Sort by price: low to high</option>
                                             <option value="high">Sort by price: high to low</option>
