@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
-// import logo from "../../assets/images/logo.png"
+import cartsIcon from "../../assets/images/cart.svg"
 import logo from "../../assets/images/logo/logo_top.png";
 // import { ReactComponent as Logo } from "../../assets/images/logo/iHealthCare_logo_white.svg"
 // import { ReactComponent as  Logos } from "../../assets/images/logo/iHealthCare_logo.svg";
@@ -21,6 +21,7 @@ import HeaderLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
 import stickyLogo from "../../assets/images/logo/iHealthCare_logo.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 
 
 const StyledHeader = styled.header`
@@ -513,13 +514,17 @@ function Header() {
           </div>
         </div> */}
         {/* Top Header Close */}
-        <header className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}>
+        <header
+          /* Scrolling Header Commentd & header-fixed in animation commented */
+           className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
+          // className={`header-fixed`}
+        >
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 <Link to="/">
-                  <img className="my-2" src={stickyLogo} alt="no-result" width="200" />
+                  <img className="my-1" src={stickyLogo} alt="no-result" width="200" />
                 </Link>
               </div>
               <div className="middle-content" style={{ backgroundColor: '#fff' }} >
@@ -553,17 +558,27 @@ function Header() {
                       onChange={handleInputChange}
                       onClick={handleSearchInputClick}
                     />
-                    {/* {searchInputText && ( */}
                     <div
                       className={`clear-search-icon  ${searchInputText ? 'enabled' : 'disabled'}`}
                       onClick={searchInputText ? clearSearchText : null}
                       style={{ color: searchInputText ? '#000' : '#ccc', padding: '8px' }}
                     >
-                      <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover' : ''}`}></i>
+                      {searchInputText ? (
+                        <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover secondaryColor' : ''}`}></i>
+                      ) : (
+                        <span style={{ visibility: 'hidden' }}>
+                          <i className="fas fa-times-circle"></i>
+                        </span>
+                      )}
                     </div>
-                    {/* )} */}
+
                     <div className="search-icon">
-                      <i className="fas fa-search"></i>
+                      <i
+                        // className="fas fa-search pointer-on-hover" 
+                        // onClick={() => handleResultClick(Object.keys(searchResults)[0])}
+                        className={`fas fa-search ${searchResults && Object.keys(searchResults).length ? 'pointer-on-hover secondaryColor' : ''}`}
+                        onClick={searchResults && Object.keys(searchResults).length ? () => handleResultClick(Object.keys(searchResults)[0]) : null}
+                      ></i>
                     </div>
 
                     {searchResults && searchResultsShow && (
@@ -595,7 +610,8 @@ function Header() {
                   </div>
                   {/* Cart Icon */}
                   <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
-                    <FontAwesomeIcon icon={faBagShopping} fontSize={23} />
+                    {/* <FontAwesomeIcon icon={faBagShopping} fontSize={23} /> */}
+                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={'fs-6'} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.length}
@@ -604,7 +620,8 @@ function Header() {
                   </div>
                   {/* User Icon */}
                   <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
-                    <i className="fa fa-user fa-lg" aria-hidden="true"></i>
+                    {/* <i className="fa fa-user fa-lg mt-2" height aria-hidden="true" ></i> */}
+                    <FontAwesomeIcon icon={faUser} fontSize={23} className='mt-1' />
                     {isOpen && (
                       <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
                         {AuthData === undefined && GuestData === undefined ? (
@@ -694,8 +711,8 @@ function Header() {
           </div>
           {/* Middle Header Close */}
           {/* Bottom Header Start */}
-          <div style={{ backgroundColor: '#415DA1' }}>
-            <nav className={`header-content-top bottomHeaderBG container`}>
+          <div className='secondaryBG' >
+            <nav className={`header-content-top bottomHeaderBG container pt-1 pb-1`} >
               <div className="left-content">
                 <div className="dropdown" ref={headerNavDropdownRef}>
                   <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">

@@ -133,6 +133,11 @@ h6 {
   font-family: "Inter-ExtraBold";
   font-weight: bold;
 }
+.interBold{
+  color: #2e3133;
+  font-family: "Inter-ExtraBold";
+  font-weight: bold;
+}
 
 .sidebar-filter-section {
   font-size: 1.25rem;
@@ -3126,6 +3131,11 @@ h2 {
   background: #fff;
   border: 2px solid #dce3e6;
 }
+.box-height{
+  line-height: 1.75rem !important;
+  padding-right: 1.375rem !important;
+  padding-left: 1.375rem !important;
+}
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -3533,7 +3543,7 @@ input:-webkit-autofill:active {
 .tab-content-custom-peragraph h6 {
   font-weight: bold !important;
   letter-spacing: -0.03rem !important;
-  font-family: "Inter-ExtraBold" !important;
+  font-family: "Sf-Pro-Bold" !important;
   font-size: 1.5rem !important;
 }
 
@@ -3542,7 +3552,7 @@ input:-webkit-autofill:active {
 }
 .tab-content-custom-peragraph p>strong {
 color: var(--brand-color);
-font-family: "Inter-ExtraBold" !important;
+font-family: "Sf-Pro-Bold" !important;
 }
 
 .tab-content-custom-peragraph ul>li {
@@ -3565,9 +3575,15 @@ font-family: "Inter-ExtraBold" !important;
 }
 
 .tab-content-custom-peragraph p {
-  font-family: "Inter-Regular";
+  /* font-family: "Inter-Regular";
   font-size: 1.125rem;
-  line-height: 1.5rem;
+  line-height: 1.5rem; */
+  font-family: "Sf-Pro-Regular";
+  color: #9B9B9B;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  line-height: 1.74;
 }
 
 ul {
@@ -3916,6 +3932,10 @@ ul li {
 
 .download-app {
   width: 150px;
+}
+.text-light-color{
+  color: #9b9b9b
+
 }
 
 .footer-links {
