@@ -403,7 +403,7 @@ function ShopScreen() {
                                                         id="simpleDropdown"
                                                         value={selectedOption}
                                                         onChange={handleChange}
-                                                        className='select-dropdown h-auto'
+                                                        className='select-dropdown h-auto box-height'
                                                     ><option defaultValue={20} >20</option>
                                                         <option value="12">12</option>
                                                         <option value="24">24</option>
@@ -412,12 +412,12 @@ function ShopScreen() {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
+                                        <div className="col-md-6 col-8 mt-1 text-right align-items-center text-center-sm">
                                             <select
                                                 id="sortingDropdown"
                                                 defaultValue={selectedSortingOption}
                                                 onChange={handleSortingChange}
-                                                className='select-dropdown h-auto'
+                                                className='select-dropdown h-auto box-height mt-2'
                                             >
                                                 <option value="low">Sort by price: low to high</option>
                                                 <option value="high">Sort by price: high to low</option>
