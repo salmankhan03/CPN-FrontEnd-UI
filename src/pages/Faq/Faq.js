@@ -151,7 +151,7 @@ const Faq = () => {
                                         <div key={item?.id}>
                                             <div className="faq-item ">
                                                 <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
-                                                    <div className='tab-title font-weight-bold'>{item.question}</div>
+                                                    <div className='interBold'>{item.question}</div>
                                                     <span className={`faq-icon`}>
                                                         {/*<span className={`faq-icon ${expandedId === item.id ? 'open' : ''}`}> */}
                                                         <i className={expandedId === item.id ? 'fas fa-minus faq-icon-color' : 'fas fa-plus faq-icon-color'} ></i>
@@ -161,7 +161,7 @@ const Faq = () => {
                                                 </div>
                                                 {expandedId === item.id && (
                                                     <div className="faq-answer pt-4 pb-2">
-                                                        <p className='tab-title font-weight-normal text-left'>{item.answer}</p>
+                                                        <p className='text-light-color sf-Regular text-left fs-6'>{item.answer}</p>
                                                     </div>
                                                 )}
                                             </div>
