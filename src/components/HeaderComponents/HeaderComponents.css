@@ -37,8 +37,8 @@ header {
   top: 0;
   width: 100%;
   z-index: 99;
-  animation: slideIn 1s ease-in-out;
-  transition: transform 0.2s ease-in-out;
+  /* animation: slideIn 1s ease-in-out;
+  transition: transform 0.2s ease-in-out;; */
 }
 
 .header-visible {

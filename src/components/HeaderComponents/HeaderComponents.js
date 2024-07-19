@@ -516,8 +516,9 @@ function Header() {
         {/* Top Header Close */}
         <header
           /* Scrolling Header Commentd & header-fixed in animation commented */
-           className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
-          // className={`header-fixed`}
+           className={`${scrollPosition ? (isScrollingDown ? 'header-fixed' : 'header-fixed') : ''}`}
+          // Old Code
+           //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
         >
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
