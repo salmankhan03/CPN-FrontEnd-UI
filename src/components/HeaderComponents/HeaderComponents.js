@@ -610,9 +610,9 @@ function Header() {
                     {/* Search Component (commented out) */}
                   </div>
                   {/* Cart Icon */}
-                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid' }} onClick={() => handleNavigation('cart')}>
+                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid',}} onClick={() => handleNavigation('cart')}>
                     {/* <FontAwesomeIcon icon={faBagShopping} fontSize={23} /> */}
-                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={'fs-6'} />
+                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length> 0 ? '' : 'cartsHeight'}`} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.length}

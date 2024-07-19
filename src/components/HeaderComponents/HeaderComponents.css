@@ -244,6 +244,10 @@ header {
   outline: none !important; 
   box-shadow: none !important;
 }
+.cartsHeight{
+  height: 30px;
+  width: 30px;
+}
 
 
 @media screen and (max-width: 768px) {
