@@ -28,6 +28,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faCheck, faTimes, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Header from "../../components/HeaderComponents/HeaderComponents";
+import ButtonComponent from '../../components/ButtonComponents/ButtonComponents';
 
 const stripePromise = loadStripe('pk_test_51NBOXVFb9Yh8bF654LWXyn1QaH9yuqdnPar9n5Kc22JPhuYUIBQMu73o63kb2RuCqS4OkmWtGqgNm2S4VQAs8QJf009k0x2ufb');
 
@@ -1379,15 +1380,8 @@ const CheckoutPage = () => {
                                                             required
                                                         />
                                                     </div>
-                                                    <div className=''>
-                                                        <button
-                                                            style={{ padding: 5, width: 80, backgroundColor: 'black', borderRadius: 10, color: 'white' }}
-                                                            className={`${couponDiscount > 0 ? 'disabled' : ''}`}
-                                                            // disabled={couponDiscount > 0}
-                                                            onClick={handleApplyCoupon}
-                                                        >
-                                                            {"Apply"}
-                                                        </button>
+                                                    <div className=''>                
+                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Applay Coupon" disabled={!couponCode} />
                                                     </div>
                                                 </div>
                                             ) : (
