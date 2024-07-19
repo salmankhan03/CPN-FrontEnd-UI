@@ -18,6 +18,7 @@ function InputComponent ({ type, id, label,customClass, value, onChange, placeho
         required={required}
         disabled={isdisabled}
         max={currentDate} 
+        min={0}
       />
     </div>
   );
