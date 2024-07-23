@@ -2959,7 +2959,12 @@ h2 {
 .small-card {
   display: none;
 }
-
+.cartsfitImg{
+  object-fit: contain;
+}
+.maxHeight{
+  height: 92px;
+}
 
 /*********************************
 * INPUT

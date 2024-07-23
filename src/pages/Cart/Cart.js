@@ -277,10 +277,10 @@ const CartPage = () => {
                                         {cartItems.map((item, index) => {
                                             return (
                                                 <tr key={index} className='p-3' >
-                                                    <td className='align-middle pt-5  pb-5'>
+                                                    <td className='align-middle pt-5  pb-5' style={{height:90,objectFit:'contain'}}>
                                                         {/* <div className='row align-items-center'> */}
                                                         {/* <div className='col-12 col-sm-3'> */}
-                                                        <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="carts-img" />
+                                                        <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="carts-img cartsfitImg maxHeight" />
                                                         {/* </div>
 
                                                 </div> */}
