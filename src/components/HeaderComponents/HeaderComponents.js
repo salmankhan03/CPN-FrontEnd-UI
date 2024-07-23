@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import ImageComponent from '../ImageComponents/ImageComponents';
 import cartsIcon from "../../assets/images/cart.svg"
+import account from "../../assets/images/account.svg"
+import phone from "../../assets/images/phone.svg"
 import logo from "../../assets/images/logo/logo_top.png";
 // import { ReactComponent as Logo } from "../../assets/images/logo/iHealthCare_logo_white.svg"
 // import { ReactComponent as  Logos } from "../../assets/images/logo/iHealthCare_logo.svg";
@@ -622,7 +624,8 @@ function Header() {
                   {/* User Icon */}
                   <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
                     {/* <i className="fa fa-user fa-lg mt-2" height aria-hidden="true" ></i> */}
-                    <FontAwesomeIcon icon={faUser} fontSize={23} className='mt-1' />
+                    {/* <FontAwesomeIcon icon={faUser} fontSize={23} className='mt-1' /> */}
+                    <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
                     {isOpen && (
                       <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
                         {AuthData === undefined && GuestData === undefined ? (
@@ -767,7 +770,8 @@ function Header() {
               </div>
               <div className="right-content hide-div">
                 <div className="">
-                  <i className="fa fa-phone text-black" aria-hidden="true"></i>
+                  {/* <i className="fa fa-phone text-black" aria-hidden="true"></i> */}
+                  <ImageComponent src={phone} alt="Contact" classAtribute={`fs-1 `}  />
                   <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
 
                 </div>

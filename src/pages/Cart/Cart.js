@@ -9,7 +9,7 @@ import { Toast, notifySuccess, notifyError } from '../../components/ToastCompone
 import { setUserLogInOrNot, setUserShowGuestOrNot } from "../../redux/action/auth-action";
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
-import emptyCarts from "../../assets/images/empty-carts.svg"
+import emptyCarts from "../../assets/images/cart_empty.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from '../../components/ConfirmationModalComponents/ConfirmationModal';
