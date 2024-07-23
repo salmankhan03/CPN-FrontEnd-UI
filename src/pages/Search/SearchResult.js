@@ -65,7 +65,7 @@ function SearchResults() {
 
     useEffect(() => {
         getProductsList(selectedOption)
-    }, [selectedOption, currentPage])
+    }, [selectedOption, currentPage,location?.state?.searchingText])
 
 
 
@@ -185,7 +185,7 @@ function SearchResults() {
                 : filteredPrice,
             ...(Object.keys(obj).length !== 0 && { sort: obj.sort }),
         }
-        if (data?.brands?.length > 0 || data?.category?.length > 0 || (data?.price[1] !== 0 && data?.price[1] !== maxPrice)) {
+        if (data?.brands?.length > 0 || data?.category?.length > 0 || (data?.price[0] !== 0 && data?.price[1] !== maxPrice) ) {
             getfilterWiseProduct(data);
             setProductsListData([]);
         } else {
@@ -333,127 +333,127 @@ function SearchResults() {
     }
     return (
         <>
-            <Header/>
+            <Header />
             <div className="" >
-            <div className="custom-container container">
-                <div style={{ display: 'flex' }} className={'sidebarMobile'}>
-                    <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
-                </div>
-                <div className="row " style={{}}>
-                    <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
-                        <div className='m-2'>
-                            <LeftSideBarComponents
-                                categoriesData={categoriesData}
-                                brandData={brandData}
-                                availabilityData={availabilityData}
-                                selectedCategories={selectedCategories}
-                                setSelectedCategories={setSelectedCategories}
-                                selectedBrands={selectedBrands}
-                                setSelectedBrands={setSelectedBrands}
-                                filteredPrice={filteredPrice}
-                                setFilteredPrice={setFilteredPrice}
-                                maximumPrice={maxPrice}
-                                categoryLoader={categories_Loader}
-
-                            />
-                        </div>
+                <div className="custom-container container">
+                    <div style={{ display: 'flex' }} className={'sidebarMobile'}>
+                        <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
                     </div>
-                    <div className="col-md-12 col-lg-9 marginTopBottom">
-                        {products_List_loader ? (
-                            <div className='d-flex justify-content-center mt-5'>
-                                <Loadings loading={products_List_loader} />
+                    <div className="row " style={{}}>
+                        <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
+                            <div className='m-2'>
+                                <LeftSideBarComponents
+                                    categoriesData={categoriesData}
+                                    brandData={brandData}
+                                    availabilityData={availabilityData}
+                                    selectedCategories={selectedCategories}
+                                    setSelectedCategories={setSelectedCategories}
+                                    selectedBrands={selectedBrands}
+                                    setSelectedBrands={setSelectedBrands}
+                                    filteredPrice={filteredPrice}
+                                    setFilteredPrice={setFilteredPrice}
+                                    maximumPrice={maxPrice}
+                                    categoryLoader={categories_Loader}
+
+                                />
                             </div>
-                        ) : (
-                            <React.Fragment>
-                                <div className="row mb-5">
-                                    <div className="col-md-6 col-xs-4 mt-1">
-                                        <div className='d-flex align-items-center'>
-                                            <p className='mt-3'>Showing all {productsListData?.length} results</p>
-                                            <span className='ml-2'>
-                                                <select
-                                                    id="simpleDropdown"
-                                                    value={selectedOption}
-                                                    onChange={handleChange}
-                                                    className='select-dropdown h-auto box-height'
-                                                ><option defaultValue={20} >20</option>
-                                                    <option value="12">12</option>
-                                                    <option value="24">24</option>
-                                                    <option value="36">36</option>
-                                                </select>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
-                                        <select
-                                            id="sortingDropdown"
-                                            defaultValue={selectedSortingOption}
-                                            onChange={handleSortingChange}
-                                            className='select-dropdown h-auto box-height mt-2'
-                                        >
-                                            <option value="low">Sort by price: low to high</option>
-                                            <option value="high">Sort by price: high to low</option>
-                                            <option value="weekly_featured_products">Weekly Featured Products</option>
-                                            <option value="new_products">New Products</option>
-                                            <option value="products_on_sale">Products On Sale</option>
-                                            <option value="top_rated_products">Top Rated Products</option>
-                                            <option value="most_viewed_products">Most Viewed Products</option>
-                                        </select>
-                                    </div>
+                        </div>
+                        <div className="col-md-12 col-lg-9 marginTopBottom">
+                            {products_List_loader ? (
+                                <div className='d-flex justify-content-center mt-5'>
+                                    <Loadings loading={products_List_loader} />
                                 </div>
-                                <div className="row m-1">
-                                    {loading ? (
-                                        <div>
-                                            <Loadings skNumber={15} />
+                            ) : (
+                                <React.Fragment>
+                                    <div className="row mb-5">
+                                        <div className="col-md-6 col-xs-4 mt-1">
+                                            <div className='d-flex align-items-center'>
+                                                <p className='mt-3'>Showing all {productsListData?.length} results</p>
+                                                <span className='ml-2'>
+                                                    <select
+                                                        id="simpleDropdown"
+                                                        value={selectedOption}
+                                                        onChange={handleChange}
+                                                        className='select-dropdown h-auto box-height'
+                                                    ><option defaultValue={20} >20</option>
+                                                        <option value="12">12</option>
+                                                        <option value="24">24</option>
+                                                        <option value="36">36</option>
+                                                    </select>
+                                                </span>
+                                            </div>
                                         </div>
-                                    ) : (
-                                        productsListData?.length > 0 ? (
-                                            <>
-                                                {productsListData.map((item, index) => (
-                                                    <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
-                                                        <ProductListing productItem={item} />
-                                                    </div>
-
-                                                ))}
-                                                <div className='row text-center'>
-                                                    {/* <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} /> */}
-                                                </div>
-                                            </>
+                                        <div className="col-md-6 col-8 mt-1 text-right text-center-sm">
+                                            <select
+                                                id="sortingDropdown"
+                                                defaultValue={selectedSortingOption}
+                                                onChange={handleSortingChange}
+                                                className='select-dropdown h-auto box-height mt-2'
+                                            >
+                                                <option value="low">Sort by price: low to high</option>
+                                                <option value="high">Sort by price: high to low</option>
+                                                <option value="weekly_featured_products">Weekly Featured Products</option>
+                                                <option value="new_products">New Products</option>
+                                                <option value="products_on_sale">Products On Sale</option>
+                                                <option value="top_rated_products">Top Rated Products</option>
+                                                <option value="most_viewed_products">Most Viewed Products</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="row m-1">
+                                        {loading ? (
+                                            <div>
+                                                <Loadings skNumber={15} />
+                                            </div>
                                         ) : (
-                                            <NotFound title="Sorry, There are no Products right now." />
-                                        )
-                                    )}
-                                </div>
-                            </React.Fragment>
-                        )}
+                                            productsListData?.length > 0 ? (
+                                                <>
+                                                    {productsListData.map((item, index) => (
+                                                        <div className="col-lg-4 col-md-6 col-sm-6 mt-3" key={index} data-aos="zoom-in">
+                                                            <ProductListing productItem={item} />
+                                                        </div>
+
+                                                    ))}
+                                                    <div className='row text-center'>
+                                                        {/* <CustomPagination totalItems={totalItems} itemsPerPage={productDisplayLimit} onPageChange={handlePageChange} currentPages={currentPage} /> */}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <NotFound title="Sorry, There are no Products right now." />
+                                            )
+                                        )}
+                                    </div>
+                                </React.Fragment>
+                            )}
+                        </div>
+
+
+                        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+                            <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Filters</Offcanvas.Title>
+                            </Offcanvas.Header>
+                            <Offcanvas.Body>
+                                <LeftSideBarComponents
+                                    categoriesData={categoriesData}
+                                    brandData={brandData}
+                                    availabilityData={availabilityData}
+                                    selectedCategories={selectedCategories}
+                                    setSelectedCategories={setSelectedCategories}
+                                    selectedBrands={selectedBrands}
+                                    setSelectedBrands={setSelectedBrands}
+                                    filteredPrice={filteredPrice}
+                                    setFilteredPrice={setFilteredPrice}
+                                    maximumPrice={maxPrice}
+                                    categoryLoader={categories_Loader}
+                                />
+                            </Offcanvas.Body>
+                        </Offcanvas>
                     </div>
-
-
-                    <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
-                        <Offcanvas.Header closeButton>
-                            <Offcanvas.Title>Filters</Offcanvas.Title>
-                        </Offcanvas.Header>
-                        <Offcanvas.Body>
-                            <LeftSideBarComponents
-                                categoriesData={categoriesData}
-                                brandData={brandData}
-                                availabilityData={availabilityData}
-                                selectedCategories={selectedCategories}
-                                setSelectedCategories={setSelectedCategories}
-                                selectedBrands={selectedBrands}
-                                setSelectedBrands={setSelectedBrands}
-                                filteredPrice={filteredPrice}
-                                setFilteredPrice={setFilteredPrice}
-                                maximumPrice={maxPrice}
-                                categoryLoader={categories_Loader}
-                            />
-                        </Offcanvas.Body>
-                    </Offcanvas>
-                </div>
-                <div className='pb-2'>
-                    <FooterComponents />
+                    <div className='pb-2'>
+                        <FooterComponents />
+                    </div>
                 </div>
             </div>
-        </div>
         </>
 
     );
