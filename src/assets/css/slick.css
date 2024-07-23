@@ -110,16 +110,16 @@ h2 {
 }
 
 .weekly-featured .slick-prev {
-    top: -110px;
+    /* top: -110px;
     left: auto;
     right: 35px !important;
-    z-index: 10;
+    z-index: 10; */
 }
 .weekly-featured .slick-next{
-    top: -110px;
+    /* top: -110px;
     right: 0px !important;
 
-    z-index: 10;
+    z-index: 10; */
 }
 /* Ensure the slider container uses the full width */
 .slick-slider {

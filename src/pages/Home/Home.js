@@ -18,6 +18,7 @@ import Loading from '../../components/LoadingComponents/LoadingComponents';
 import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 import Header from "../../components/HeaderComponents/HeaderComponents";
+import ProductsListingSlider from '../../components/ProductsListingSlider/ProductsListingSlider';
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
@@ -25,7 +26,7 @@ const useSlidesToShow = () => {
     const updateSlidesToShow = () => {
         const width = window.innerWidth;
         if (width >= 1680) {
-            setSlidesToShow(4);
+            setSlidesToShow(5);
         }
         else if (width >= 1440) {
             setSlidesToShow(4);
@@ -266,77 +267,88 @@ function HomeScreen() {
         navigate(`/Shop`, { state: { sorting: data } })
     }
 
-    const ProductSection = ({ title, products, category, truncateLength, loader }) => {
-        // if (loader) {
-        //     return (
-        //         <div className=''>
-        //             <Loading loading={loader} />
-        //         </div>
-        //     );
-        // }
+    // const ProductSection = ({ title, products, category, truncateLength, loader }) => {
+    //     return (
+    //         <div className='col-12 col-md-4 col-lg-4'>
+    //             <div className='d-flex align-items-center'>
+    //                 <div className='mr-auto' onClick={() => gotoShopScreen(category)}>
+    //                     <div className="bold pointer-on-hover title d-inline" style={{ fontWeight: 'bold', fontSize: 'larger' }}>
+    //                         {title}
+    //                     </div>
+    //                     <span className="ml-3 pointer-on-hover read-more">View All</span>
+    //                     <span className="ml-3 pointer-on-hover">
+    //                         <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+    //                     </span>
+    //                 </div>
+    //             </div>
+    //             <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15, minHeight: 200 }}>
+    //                 {loader ? (
+    //                     <div className='d-flex justify-content-center'>
+    //                         <Loading loading={loader} />
+    //                     </div>
+    //                 ) : (
+    //                     products?.slice(0, 3).map((product, index) => (
+    //                         <div className='m-3' key={index} onClick={() =>
+    //                             navigate(`/products-details/${product.id}`, {
+    //                                 state: {
+    //                                     id: product.id
+    //                                 }
+    //                             })
+    //                         }>
+    //                             <div className='row' style={{ maxHeight: 450 }}>
+    //                                 <div className='col-12 col-md-12 col-lg-5'>
+    //                                     <div className="product_image">
+    //                                         {product.images[0]?.name ? (
+    //                                             <ImageComponent src={product.images[0]?.name} alt={"products Image"} />
+    //                                         ) : (
+    //                                             <p>Image not available</p>
+    //                                         )}
+    //                                     </div>
+    //                                 </div>
+    //                                 <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
+    //                                     <div className='text-left w-100'>
+    //                                         <p className='brandLabel sf-Regular'>{product?.brand}</p>
+    //                                         <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(product?.name, truncateLength)}</h3>
+    //                                         <div className="d-flex mt-1 justify-content-between align-items-center w-100">
+    //                                             <div>
+    //                                                 <div className={`${product?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${product?.sell_price}</div>
+    //                                                 {product?.price && <span className="actualPrice sf-Regular">${product?.price}</span>}
+    //                                             </div>
+    //                                             <div>
+    //                                                 <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
+    //                                                     <i className="fas fa-shopping-bag mt-2"></i>
+    //                                                 </span>
+    //                                             </div>
+    //                                         </div>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                             {index < products.length - 1 && <hr />}
+    //                         </div>
+    //                     ))
+    //                 )}
+    //             </div>
+    //         </div>
+    //     );
+    // };
+    const SliderTittle = ({ title, category }) => {
         return (
-            <div className='col-12 col-md-4 col-lg-4'>
-                <div className='d-flex align-items-center'>
-                    <div className='mr-auto' onClick={() => gotoShopScreen(category)}>
-                        <div className="bold pointer-on-hover title d-inline" style={{ fontWeight: 'bold', fontSize: 'larger' }}>
-                            {title}
+            <div className="row">
+                <div className="col-12 col-md-12 col-lg-12">
+                    <div className="d-flex align-items-center">
+                        <div className="mr-auto" onClick={() => gotoShopScreen(category)}>
+                            <h5 className="bold pointer-on-hover title d-inline">{title}</h5>
+                            <span className="ml-3 pointer-on-hover read-more">View All</span>
+                            <span className="ml-3 pointer-on-hover">
+                                <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
+                            </span>
                         </div>
-                        <span className="ml-3 pointer-on-hover read-more">View All</span>
-                        <span className="ml-3 pointer-on-hover">
-                            <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                        </span>
                     </div>
                 </div>
-                <div className='mt-4 mb-3' style={{ border: '1px solid #ccc', borderRadius: 15, minHeight: 200 }}>
-                    {loader ? (
-                        <div className='d-flex justify-content-center'>
-                            <Loading loading={loader} />
-                        </div>
-                    ) : (
-                        products?.slice(0, 3).map((product, index) => (
-                            <div className='m-3' key={index} onClick={() =>
-                                navigate(`/products-details/${product.id}`, {
-                                    state: {
-                                        id: product.id
-                                    }
-                                })
-                            }>
-                                <div className='row' style={{ maxHeight: 450 }}>
-                                    <div className='col-12 col-md-12 col-lg-5'>
-                                        <div className="product_image">
-                                            {product.images[0]?.name ? (
-                                                <ImageComponent src={product.images[0]?.name} alt={"products Image"} />
-                                            ) : (
-                                                <p>Image not available</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className='col-12 col-md-12 col-lg-7 d-flex align-items-center'>
-                                        <div className='text-left w-100'>
-                                            <p className='brandLabel sf-Regular'>{product?.brand}</p>
-                                            <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(product?.name, truncateLength)}</h3>
-                                            <div className="d-flex mt-1 justify-content-between align-items-center w-100">
-                                                <div>
-                                                    <div className={`${product?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${product?.sell_price}</div>
-                                                    {product?.price && <span className="actualPrice sf-Regular">${product?.price}</span>}
-                                                </div>
-                                                <div>
-                                                    <span className="circle mt-1" onClick={(event) => addToCart(event, product)}>
-                                                        <i className="fas fa-shopping-bag mt-2"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {index < products.length - 1 && <hr />}
-                            </div>
-                        ))
-                    )}
-                </div>
+
             </div>
         );
-    };
+    }
 
     const Banner = ({ banners }) => {
         return (
@@ -367,152 +379,202 @@ function HomeScreen() {
         <>
             <Header />
             <div className="">
-            <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
-            <React.Fragment>
-                <div className="row" style={{ margin: 0 }}>
-                    <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
-                        {slider_loader ? (
-                            <div className='d-flex justify-content-center'>
-                                <Loading loading={slider_loader} />
-                            </div>
-                        ) : (
-                            slider?.length > 0 &&
-                            <SliderComponents banners={slider} />
-
-                        )}
-                    </div>
-                </div>
-                <div className='custom-container container'>
-                    <div className="product-list-container marginTopBottom">
-                        <div className="row">
-                            <div className="col-12 col-md-12 col-lg-12">
-                                <div className="d-flex align-items-center">
-                                    <div className="mr-auto" onClick={() => gotoShopScreen("weekly_featured_products")}>
-                                        <h5 className="bold pointer-on-hover title d-inline">Weekly Featured Products</h5>
-                                        <span className="ml-3 pointer-on-hover read-more">View All</span>
-                                        <span className="ml-3 pointer-on-hover">
-                                            <i className="fa fa-chevron-right secondaryColor fs-6" aria-hidden="true"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className="mt-2" style={{ overflowX: 'auto' }}>
-                            <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
-                                {categoriesData?.map((data) => (
-                                    <div
-                                        key={data.id}
-                                        className={`customBtn pointer-on-hover mt-3 mb-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
-                                        onClick={() => handleItemClick(data.id)}
-                                    >
-                                        {data.name}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="mt-3">
-
-                            {weekly_featured_products_loader ? (
+                <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
+                <React.Fragment>
+                    <div className="row" style={{ margin: 0 }}>
+                        <div className="col-md-12 col-lg-12" style={{ overflowX: 'auto', padding: 0 }}>
+                            {slider_loader ? (
                                 <div className='d-flex justify-content-center'>
-                                    <Loading loading={weekly_featured_products_loader} />
+                                    <Loading loading={slider_loader} />
                                 </div>
                             ) : (
-                                weeklyProductsList?.length > 0 ? (
-                                    <div className="weekly-featured" >
-                                        <Slider {...settings}>
-                                            {weeklyProductsList.map((category, index) => (
-                                                <div key={index} className="product-slide" onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
-                                                    <div className="product-details category-item product-card p-4 m-2">
-                                                        <p className="brandLabel sf-Regular">{category?.brand}</p>
-                                                        <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(category?.name, 70)}</h3>
-                                                        <div className="product_image mb-3">
-                                                            {category?.images[0]?.name ? (
-                                                                <ImageComponent src={category?.images[0]?.name} alt="products Image" />
-                                                            ) : (
-                                                                <p className="sf-Regular">Image not available</p>
-                                                            )}
-                                                        </div>
-                                                        <div className="d-flex mt-2 justify-content-between">
-                                                            <div>
-                                                                <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${category?.sell_price}</div>
-                                                                {category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
-                                                            </div>
-                                                            <div>
-                                                                <span className="circle" onClick={(event) => addToCart(event, category)}>
-                                                                    <i className="fas fa-shopping-bag mt-2"></i>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </Slider>
-                                    </div>
-                                ) : (
-                                    <div className='d-flex justify-content-center'>
-                                        <h4 className='text-center sf-Regular'>No products available</h4>
-                                    </div>
-                                )
+                                slider?.length > 0 &&
+                                <SliderComponents banners={slider} />
+
                             )}
                         </div>
                     </div>
-                    <div className='marginTopBottom '>
-                        <div className='row mt-5 mb-5'>
-                            <div className='col-12 col-md-6'>
-                                {banner_loader ? (
-                                    <div className='d-flex justify-content-center'>
-                                        <Loading loading={banner_loader} />
-                                    </div>
-                                ) : (
-                                    <Banner banners={leftBanners} />
-                                )}
+                    <div className='custom-container container'>
+                        <div className="product-list-container marginTopBottom">
+                            <SliderTittle title={"Weekly Featured Products"} category={"weekly_featured_products"} />
+                            <div className="mt-2" style={{ overflowX: 'auto' }}>
+                                <div className="d-flex" style={{ whiteSpace: 'nowrap' }}>
+                                    {categoriesData?.map((data) => (
+                                        <div
+                                            key={data.id}
+                                            className={`customBtn pointer-on-hover mt-3 mb-3 ${selectedCategories === data.id ? 'activeBtn' : ''}`}
+                                            onClick={() => handleItemClick(data.id)}
+                                        >
+                                            {data.name}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            <div className='col-12 col-md-6 bannerTopMargin'>
-                                {banner_loader ? (
+                            <div className="mt-3">
+
+                                {weekly_featured_products_loader ? (
                                     <div className='d-flex justify-content-center'>
-                                        <Loading loading={banner_loader} />
+                                        <Loading loading={weekly_featured_products_loader} />
                                     </div>
                                 ) : (
-                                    <Banner banners={rightBanners} />
+                                    weeklyProductsList?.length > 0 ? (
+                                        <div className="weekly-featured" >
+                                            <ProductsListingSlider 
+                                                data={weeklyProductsList} 
+                                                recordsDisplay={10} 
+                                                settings={settings} 
+                                                truncateString={truncateString} 
+                                                addToCart={addToCart} 
+                                                navigated={() => gotoShopScreen('weekly_featured_products')}/>
+                                        </div>
+                                    ) : (
+                                        <div className='d-flex justify-content-center'>
+                                            <h4 className='text-center sf-Regular'>No products available</h4>
+                                        </div>
+                                    )
                                 )}
                             </div>
                         </div>
-                    </div>
-                    <div className='marginTopBottom'>
-                        <div className='row mt-5 mb-5'>
-                            <ProductSection
-                                title="New Products"
-                                products={customProductsData?.newProducts?.slice(0, 3)}
-                                category="new_products"
-                                truncateLength={70}
-                                loader={custom_products_loader}
+                        <div className='marginTopBottom '>
+                            <div className='row mt-5 mb-5'>
+                                <div className='col-12 col-md-6'>
+                                    {banner_loader ? (
+                                        <div className='d-flex justify-content-center'>
+                                            <Loading loading={banner_loader} />
+                                        </div>
+                                    ) : (
+                                        <Banner banners={leftBanners} />
+                                    )}
+                                </div>
+                                <div className='col-12 col-md-6 bannerTopMargin'>
+                                    {banner_loader ? (
+                                        <div className='d-flex justify-content-center'>
+                                            <Loading loading={banner_loader} />
+                                        </div>
+                                    ) : (
+                                        <Banner banners={rightBanners} />
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className='marginTopBottom'>
 
-                            />
-                            <ProductSection
-                                title="Products On Sale"
-                                products={customProductsData?.productsOnSale?.slice(0, 3)}
-                                category="products_on_sale"
-                                truncateLength={50}
-                                loader={custom_products_loader}
-                            />
-                            <ProductSection
-                                title="Top Rated Products"
-                                products={customProductsData?.topRatedProducts?.slice(0, 3)}
-                                category="top_rated_products"
-                                truncateLength={50}
-                                loader={custom_products_loader}
 
-                            />
+                            <div className="product-list-container marginTopBottom">
+                                <SliderTittle title={"New Products"} category={"new_products"} />
+                                <div className="mt-3">
+
+                                    {custom_products_loader ? (
+                                        <div className='d-flex justify-content-center'>
+                                            <Loading loading={custom_products_loader} />
+                                        </div>
+                                    ) : (
+                                        customProductsData?.newProducts?.length > 0 ? (
+                                            <div className="weekly-featured" >
+                                                <ProductsListingSlider 
+                                                    data={customProductsData?.newProducts} 
+                                                    recordsDisplay={10}
+                                                    settings={settings} 
+                                                    truncateString={truncateString} 
+                                                    addToCart={addToCart} 
+                                                    navigated={() => gotoShopScreen('new_products')} />
+                                            </div>
+                                        ) : (
+                                            <div className='d-flex justify-content-center'>
+                                                <h4 className='text-center sf-Regular'>No products available</h4>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="product-list-container marginTopBottom">
+                                <SliderTittle title={"Products On Sale"} category={"products_on_sale"} />
+                                <div className="mt-3">
+                                    {custom_products_loader ? (
+                                        <div className='d-flex justify-content-center'>
+                                            <Loading loading={custom_products_loader} />
+                                        </div>
+                                    ) : (
+                                        customProductsData?.newProducts?.length > 0 ? (
+                                            <div className="weekly-featured" >
+                                                <ProductsListingSlider 
+                                                    data={customProductsData?.productsOnSale} 
+                                                    recordsDisplay={10} 
+                                                    settings={settings} 
+                                                    truncateString={truncateString} 
+                                                    addToCart={addToCart}
+                                                    navigated={() => gotoShopScreen('products_on_sale')} />
+                                                    
+                                            </div>
+                                        ) : (
+                                            <div className='d-flex justify-content-center'>
+                                                <h4 className='text-center sf-Regular'>No products available</h4>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                            <div className="product-list-container marginTopBottom">
+                                <SliderTittle title={"Top Rated Products"} category={"top_rated_products"} />
+                                <div className="mt-3">
+                                    {custom_products_loader ? (
+                                        <div className='d-flex justify-content-center'>
+                                            <Loading loading={custom_products_loader} />
+                                        </div>
+                                    ) : (
+                                        customProductsData?.newProducts?.length > 0 ? (
+                                            <div className="weekly-featured" >
+                                                <ProductsListingSlider 
+                                                    data={customProductsData?.topRatedProducts} 
+                                                    recordsDisplay={10} 
+                                                    settings={settings} 
+                                                    truncateString={truncateString} 
+                                                    addToCart={addToCart} 
+                                                    navigated={() => gotoShopScreen('top_rated_products')} />
+                                            </div>
+                                        ) : (
+                                            <div className='d-flex justify-content-center'>
+                                                <h4 className='text-center sf-Regular'>No products available</h4>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* <div className='row mt-5 mb-5'>
+                                <ProductSection
+                                    title="New Products"
+                                    products={customProductsData?.newProducts?.slice(0, 3)}
+                                    category="new_products"
+                                    truncateLength={70}
+                                    loader={custom_products_loader}
+
+                                />
+                                <ProductSection
+                                    title="Products On Sale"
+                                    products={customProductsData?.productsOnSale?.slice(0, 3)}
+                                    category="products_on_sale"
+                                    truncateLength={50}
+                                    loader={custom_products_loader}
+                                />
+                                <ProductSection
+                                    title="Top Rated Products"
+                                    products={customProductsData?.topRatedProducts?.slice(0, 3)}
+                                    category="top_rated_products"
+                                    truncateLength={50}
+                                    loader={custom_products_loader}
+
+                                />
+                            </div> */}
+                        </div>
+                        <div className='pb-2'>
+                            <FooterComponents />
                         </div>
                     </div>
-                    <div className='pb-2'>
-                        <FooterComponents />
-                    </div>
-                </div>
 
-            </React.Fragment>
-        </div >
+                </React.Fragment>
+            </div >
         </>
     );
 }
