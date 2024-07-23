@@ -20,8 +20,8 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                 {displayedData.map((category, index) => (
                     <React.Fragment>
                         {index + 1 !== recordsLength ? (
-                            <div key={index} className="product-slide" onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
-                                <div className="product-details category-item product-card p-4 m-2">
+                            <div key={index} className="product-slide"  onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                                <div className="product-details category-item product-card p-3 m-2" style={{width:'auto'}}>
                                     <p className="brandLabel sf-Regular">{category?.brand}</p>
                                     <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(category?.name, 70)}</h3>
                                     <div className="product_image mb-3">
@@ -33,7 +33,9 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                                     </div>
                                     <div className="d-flex mt-2 justify-content-between">
                                         <div>
-                                            <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${category?.sell_price}</div>
+                                            <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>
+                                                ${category?.sell_price}
+                                            </div>
                                             {category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
                                         </div>
                                         <div>
@@ -47,7 +49,7 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                         ) : (
 
                             <div className="product-slide view-all-slide" key="view-all">
-                                <div className="product-details category-item product-card p-4 m-2 d-flex align-items-center justify-content-center">
+                                <div className="product-details category-item p-4 m-2 d-flex align-items-center justify-content-center">
                                     <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={() => navigated()} label="View All" />
                                 </div>
                             </div>

@@ -25,16 +25,18 @@ const useSlidesToShow = () => {
 
     const updateSlidesToShow = () => {
         const width = window.innerWidth;
-        if (width >= 1680) {
+        if (width >= 2000) {
+            setSlidesToShow(5);
+        }else if (width >= 1680) {
             setSlidesToShow(5);
         }
         else if (width >= 1440) {
-            setSlidesToShow(4);
+            setSlidesToShow(5);
         }
         else if (width >= 992) {
-            setSlidesToShow(3);
+            setSlidesToShow(4);
         } else if (width >= 768) {
-            setSlidesToShow(2);
+            setSlidesToShow(3);
         } else if (width >= 576) {
             setSlidesToShow(1);
         } else {

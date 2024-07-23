@@ -55,13 +55,15 @@
 
 
 .product-title {
-    font-size: 1.2em;
+    /* font-size: 1.2em; */
+    font-size: 14px;
     font-weight: bold;
     color: #333;
 }
 
 .product-price {
-    font-size: 1em;
+    /* font-size: 1em; */
+    font-size: 14px;
     color: #666;
 }
 

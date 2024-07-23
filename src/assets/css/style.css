@@ -266,7 +266,8 @@ h3.titles {
 
 .priceLabel {
   position: relative;
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
+  font-size: 14px;
   line-height: 2rem;
   font-weight: bold;
   color: var(--price-color);
@@ -275,7 +276,8 @@ h3.titles {
 
 .normalPriceLabel {
   position: relative;
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
+  font-size: 14px;
   line-height: 2rem;
   font-weight: bold;
   color: black;
@@ -283,6 +285,7 @@ h3.titles {
 }
 
 .actualPrice {
+  font-size: 14px;
   text-decoration: line-through;
   padding: 0 9px;
   font-weight: 400;
@@ -1370,7 +1373,7 @@ section {
 .product_image img {
   max-width: 100%;
   max-height: 100%;
-  height: auto;
+  height: 125px;
   width: auto;
   object-fit: contain;
 }
