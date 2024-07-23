@@ -32,7 +32,6 @@ const CartPage = () => {
     const [couponCode, setCouponCode] = useState(isApplayCoupon ? isApplayCoupon?.couponCode : '');
     const [couponDiscount, setCouponDiscount] = useState(isApplayCoupon ? isApplayCoupon?.couponDiscount : 0)
 
-    console.log(subtotal)
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(isApplayCoupon?.couponDiscount ? subtotal - isApplayCoupon?.couponDiscount : subtotal)
     const [checkCouponCode, setCheckCouponCode] = useState(null)
     const [showModal, setShowModal] = useState(false);
@@ -64,14 +63,16 @@ const CartPage = () => {
         let message = truncateString(updatedCartItemsList[index]?.name, 60)
         notifySuccess(`${message} successfully remove to the cart!`);
         updatedCartItemsList.splice(index, 1)
-        // setSubTotalWithCoupon(subtotal);
-
         dispatch(updateCartItems(updatedCartItemsList));
         console.log("updatedCartItemsList", updatedCartItemsList)
+        const timers = setTimeout(() => {
+            handleApplyCoupon(false)
+        }, 1000);
+        return () => clearTimeout(timers);
 
     }
 
-    const handleApplyCoupon = async () => {
+    const handleApplyCoupon = async (toast) => {
         setCouponCode(couponCode)
 
         const payload = {
@@ -98,10 +99,22 @@ const CartPage = () => {
                 console.log('Success:', data);
                 setShowCouponInput(false)
                 manageCoupon(data)
+                if(toast){
                 notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
+                }
             } else {
-                notifyError(`Your Coupon "${couponCode}" Not Matched`);
+                setCheckCouponCode(null)
+                dispatch(addCoupon({
+                    couponCode: null,
+                    couponDiscount: null,
+                    amount: null,
+                    calculation_type: null
+                }));
+                setSubTotalWithCoupon(subtotal);
 
+                if(toast){
+                notifyError(`Your Coupon "${couponCode}" Not Matched`);
+                }
             }
         } catch (error) {
             console.error('Error:', error);
@@ -222,7 +235,10 @@ const CartPage = () => {
         //     amount: isApplayCoupon?.amount, 
         //     calculation_type:isApplayCoupon?.calculation_type
         //  }));
-        console.log(isApplayCoupon)
+        // console.log(isApplayCoupon)
+        if(isApplayCoupon?.couponDiscount){
+            handleApplyCoupon(false)
+        }
         setSubTotalWithCoupon(isApplayCoupon?.couponDiscount ? subtotal - isApplayCoupon?.couponDiscount : subtotal)
     }, [subtotal])
 
