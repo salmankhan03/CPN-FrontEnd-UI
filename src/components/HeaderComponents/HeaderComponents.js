@@ -21,6 +21,7 @@ import ProductServices from '../../services/ProductServices';
 import { debounce } from 'lodash';
 import HeaderLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
 import stickyLogo from "../../assets/images/logo/iHealthCare_logo.svg";
+import WhiteLogo from "../../assets/images/logo/iHealthCare_logo_white.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
@@ -518,23 +519,24 @@ function Header() {
         {/* Top Header Close */}
         <header
           /* Scrolling Header Commentd & header-fixed in animation commented */
-           className={`${scrollPosition ? (isScrollingDown ? 'header-fixed' : 'header-fixed') : ''}`}
-          // Old Code
-           //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
+          className={`${scrollPosition ? (isScrollingDown ? 'header-visible' : 'header-visible') : ''}`}
+        // Old Code
+        //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
         >
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
-                <Link to="/">
+                {/* <Link to="/">
                   <img className="my-1" src={stickyLogo} alt="no-result" width="200" />
-                </Link>
+                </Link> */}
               </div>
               <div className="middle-content" style={{ backgroundColor: '#fff' }} >
-                <div className='parent-container ml-2 hide-div search-container-width ml-5 mr-5'
-                  style={{ border: '1px solid #ccc', borderRadius: 20, width: '80%' }}>
-                  {/* <div className="align-items-center "> */}
-                  {/* <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
+                {/* Search bar Comment */}
+                {/* <div className='parent-container ml-2 hide-div search-container-width ml-5 mr-5'
+                  style={{ border: '1px solid #ccc', borderRadius: 20, width: '80%' }}> */}
+                {/* <div className="align-items-center "> */}
+                {/* <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
                       <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
                         <span className='searchDropdown' style={{ color: '#ababab' }}>Browse Categories</span>
                       </div>
@@ -550,8 +552,8 @@ function Header() {
                         </div>
                       )}
                     </div> */}
-                  {/* <div className="search-container "> */}
-                  <div className="search-container position-relative">
+                {/* <div className="search-container "> */}
+                {/* <div className="search-container position-relative">
                     <input
                       type="text"
                       placeholder="Search for items..."
@@ -600,9 +602,9 @@ function Header() {
                         </ul>
                       </div>
                     )}
-                  </div>
-                  {/* </div> */}
-                </div>
+                  </div> */}
+                {/* </div> */}
+                {/* </div> */}
                 {/* </div> */}
 
               </div>
@@ -612,9 +614,9 @@ function Header() {
                     {/* Search Component (commented out) */}
                   </div>
                   {/* Cart Icon */}
-                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid',}} onClick={() => handleNavigation('cart')}>
+                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid', }} onClick={() => handleNavigation('cart')}>
                     {/* <FontAwesomeIcon icon={faBagShopping} fontSize={23} /> */}
-                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length> 0 ? '' : 'cartsHeight'}`} />
+                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.length}
@@ -718,7 +720,7 @@ function Header() {
           <div className='secondaryBG' >
             <nav className={`header-content-top bottomHeaderBG container pt-1 pb-1`} >
               <div className="left-content">
-                <div className="dropdown" ref={headerNavDropdownRef}>
+                {/* <div className="dropdown" ref={headerNavDropdownRef}>
                   <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
                     <span><i className="fa fa-bars" aria-hidden="true"></i></span>
                     <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
@@ -736,26 +738,34 @@ function Header() {
                     </div>
 
                   )}
-                </div>
+                </div> */}
+                <Link to="/">
+                  <img className="my-1" src={WhiteLogo} alt="no-result" width="200" />
+                </Link>
               </div>
               <div className='middle-content'>
                 <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
-                      Home
+                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                      Best Seller
                     </Link>
                   </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                  {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
                       About Us
                     </Link>
-                  </li>
+                  </li> */}
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
                       Shop
                     </Link>
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
+                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                      Best Seller
+                    </Link>
+                  </li>
+                  {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
                       Faq
                     </Link>
@@ -764,15 +774,67 @@ function Header() {
                     <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
                       Contact
                     </Link>
-                  </li>
+                  </li> */}
                 </NavManu>
 
               </div>
               <div className="right-content hide-div">
-                <div className="">
-                  {/* <i className="fa fa-phone text-black" aria-hidden="true"></i> */}
-                  <ImageComponent src={phone} alt="Contact" classAtribute={`fs-1 `}  />
+                {/* <div className="">
+                  <ImageComponent src={phone} alt="Contact" classAtribute={`fs-1 `} />
                   <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
+                </div> */}
+                <div className='parent-container ml-2 hide-div search-container-width'
+                  style={{ border: '1px solid #ccc', borderRadius: 20, width: 'auto' }}>
+                  <div className="search-container position-relative">
+                    <input
+                      type="text"
+                      placeholder="Search for items..."
+                      className="search-input text-white"
+                      style={{ marginLeft: 10 }}
+                      value={searchInputText}
+                      onChange={handleInputChange}
+                      onClick={handleSearchInputClick}
+                    />
+                    <div
+                      className={`clear-search-icon  ${searchInputText ? 'enabled' : 'disabled'}`}
+                      onClick={searchInputText ? clearSearchText : null}
+                      style={{ color: searchInputText ? '#000' : '#ccc', padding: '8px' }}
+                    >
+                      {searchInputText ? (
+                        <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover text-white' : ''}`}></i>
+                      ) : (
+                        <span style={{ visibility: 'hidden' }}>
+                          <i className="fas fa-times-circle"></i>
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="search-icon">
+                      <i
+                        // className="fas fa-search pointer-on-hover" 
+                        // onClick={() => handleResultClick(Object.keys(searchResults)[0])}
+                        className={`fas fa-search ${searchResults && Object.keys(searchResults).length && searchResultsShow? 'pointer-on-hover  text-white' : ''}`}
+                        onClick={searchResults && Object.keys(searchResults).length ? () => handleResultClick(Object.keys(searchResults)[0]) : null}
+                      ></i>
+                    </div>
+
+                    {searchResults && searchResultsShow && (
+                      <div className="search-results mt-1 position-absolute" ref={searchResultRef} style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                        <ul className="list-group">
+                          {Object.keys(searchResults).map((result, index) => {
+                            // console.log(result, "res");
+                            return (
+                              <li key={index} className="text-left text-black p-2 pointer-on-hover" style={{}} onClick={() => handleResultClick(result)}>
+                                <span className='ml-1'><i className="fas fa-search"></i></span>
+
+                                <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
 
                 </div>
               </div>
@@ -799,7 +861,7 @@ function Header() {
                 <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
                   <ul className="list-group">
                     {Object.keys(searchResults).map((result, index) => {
-                      console.log(result, "res");
+                      // console.log(result, "res");
                       return (
                         <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
                           <span className='ml-1'><i className="fas fa-search"></i></span>

@@ -12,16 +12,11 @@ function FooterComponents() {
         <footer className="custom-header pt-2 pb-2 " style={{ backgroundColor: '#fff' }}>
             <div className="container-fluid ">
                 <div className="row no-gutters m-4">
-                 
+
                     <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <Link to="/" className='mt-3'>
                             <ImageComponent src={footerLogo} alt={"iHelthCaree"} classAtribute={'footer-logo'} />
                         </Link>
-                        <div className="mt-4 text-light-color sf-Regular text-left w-100">
-                            Copyright © 2024 Canadian Pinnacle Nutritech.
-                            <br />
-                            All rights reserved.
-                        </div>
                     </div>
                     <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <h5 className="text-black interBold mt-4">Customer Service</h5>
@@ -57,6 +52,12 @@ function FooterComponents() {
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <div className='row'>
+                <div className="mt-4 text-light-color sf-Regular text-center w-100">
+                    Copyright © 2024 Canadian Pinnacle Nutritech.
+                    All rights reserved.
                 </div>
             </div>
         </footer>
