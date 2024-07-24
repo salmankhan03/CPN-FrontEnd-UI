@@ -417,7 +417,7 @@ function ShopScreen() {
                                                 id="sortingDropdown"
                                                 defaultValue={selectedSortingOption}
                                                 onChange={handleSortingChange}
-                                                className='select-dropdown h-auto box-height mt-2'
+                                                className='select-dropdown h-auto box-height mt-2 text-center'
                                             >
                                                 <option value="low">Sort by price: low to high</option>
                                                 <option value="high">Sort by price: high to low</option>
