@@ -62,7 +62,7 @@ const SliderComponents = ({ banners }) => {
         }
     };
     return (
-        <Carousel slide={false} data-ride="carousel" activeIndex={index} onSelect={handleSelect}>
+        <Carousel fade activeIndex={index} onSelect={handleSelect}>
             {banners?.map((banner, idx) => {
                 console.log(banner)
                 return (
