@@ -519,13 +519,13 @@ function Header() {
         {/* Top Header Close */}
         <header
           /* Scrolling Header Commentd & header-fixed in animation commented */
-          className={`${scrollPosition ? (isScrollingDown ? 'header-visible' : 'header-visible') : ''}`}
+          className={`header-visible`}
         // Old Code
         //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
         >
           {/* Middle Header Start */}
           <div className="" style={{ backgroundColor: '#fff' }}>
-            <div className={`header-content-top ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
+            <div className={`header-content-top pt-0 pb-0 ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
                 {/* <Link to="/">
                   <img className="my-1" src={stickyLogo} alt="no-result" width="200" />
@@ -762,7 +762,7 @@ function Header() {
                   </li>
                   <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
-                      Best Seller
+                      Brand
                     </Link>
                   </li>
                   {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
@@ -784,7 +784,7 @@ function Header() {
                   <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
                 </div> */}
                 <div className='parent-container ml-2 hide-div search-container-width'
-                  style={{ border: '1px solid #ccc', borderRadius: 20, width: 'auto' }}>
+                  style={{ border: '1px solid #ccc', borderRadius: 15, width: 'auto' }}>
                   <div className="search-container position-relative">
                     <input
                       type="text"
