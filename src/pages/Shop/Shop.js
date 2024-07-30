@@ -226,7 +226,7 @@ function ShopScreen() {
     function getBrandList() {
         CategoryServices.getAllBrand({
             page: page,
-            limit: defaultLimit,
+            limit: 100,
         }).then((resp) => {
             // setLoading(false)
             // console.log(resp)
