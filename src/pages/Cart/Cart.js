@@ -293,7 +293,7 @@ const CartPage = () => {
                                         {cartItems.map((item, index) => {
                                             return (
                                                 <tr key={index} className='p-3' >
-                                                    <td className='align-middle pt-5  pb-5' style={{height:90,objectFit:'contain'}}>
+                                                    <td className='align-middle pt-5  pb-5 pointer-on-hover' style={{height:90,objectFit:'contain'}} onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>
                                                         {/* <div className='row align-items-center'> */}
                                                         {/* <div className='col-12 col-sm-3'> */}
                                                         <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="carts-img cartsfitImg maxHeight" />
@@ -301,9 +301,9 @@ const CartPage = () => {
 
                                                 </div> */}
                                                     </td>
-                                                    <td className='align-middle pt-5 pb-5'>
+                                                    <td className='align-middle pt-5 pb-5 '>
                                                         {/* <div className='col-12 col-sm-8 ml-1'> */}
-                                                        <p className='product-name mr-3 titleColor text-left'>{item.name}</p>
+                                                        <p className='product-name mr-3 titleColor text-left pointer-on-hover' onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>{item.name}</p>
                                                         {/* </div> */}
                                                     </td>
                                                     <td className='align-middle pt-5  pb-5'>
