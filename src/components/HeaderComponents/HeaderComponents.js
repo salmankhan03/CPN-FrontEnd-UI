@@ -25,6 +25,7 @@ import WhiteLogo from "../../assets/images/logo/iHealthCare_logo_white.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
+import MegaMenu from '../MegaMenuComponents/MegaMenuComponents';
 
 
 const StyledHeader = styled.header`
@@ -145,7 +146,8 @@ function Header() {
 
   const AuthData = useSelector(state => state.AuthReducer.userData?.uuid);
   const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
-  const Categories = useSelector(state => state.CategoryReducer.categoryListData)
+  const BrandListData = useSelector(state => state.BrandReducer.brandsListData)
+  const CategoriesListData = useSelector(state => state.CategoryReducer.categoryListData)
   const width = useWindowWidth();
 
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -175,6 +177,19 @@ function Header() {
 
   const inputRef = useRef(null);
 
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState({});
+
+  const handleMouseEnter = (menuType) => {
+    setIsMegaMenuOpen((prevState) => ({ ...prevState, [menuType]: true }));
+  };
+
+  const handleMouseLeave = (menuType) => {
+    setIsMegaMenuOpen((prevState) => ({ ...prevState, [menuType]: false }));
+  };
+
+  const handleMegamuToggleOpen = (menuType) => {
+    setIsMegaMenuOpen((prevState) => ({ ...prevState, [menuType]: !prevState[menuType] }));
+  };
   useEffect(() => {
     if (inputRef.current && dropdownRef.current) {
       const inputWidth = inputRef.current.offsetWidth;
@@ -455,6 +470,14 @@ function Header() {
     }
     navigate(`/shop?name=category&id=${id}`)
   }
+
+  const handleCategoryClick = (category,type) => {
+    if(type === 'brand'){
+      navigate(`/shop?name=brand&id=${category?.id}`)
+    }else{
+      navigate(`/shop?name=category&id=${category.id}`, { state: { selectedCategory: category.id } });
+    }
+  };
   return (
     <>
       <div ref={headerRef}>
@@ -750,20 +773,33 @@ function Header() {
                       Best Seller
                     </Link>
                   </li>
-                  {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
-                      About Us
-                    </Link>
-                  </li> */}
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/Shop"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
+                  <li
+                    style={{ paddingLeft: 15, paddingRight: 15 }}
+                    onMouseEnter={() => handleMouseEnter('shop')}
+                    onMouseLeave={() => handleMouseLeave('shop')}
+                  >
+                    <Link
+                      to="/Shop"
+                      className={`${scrollPosition > 0 ? 'fixed-header-list' : 'nav-menu-list'} text-white`}
+                      onClick={() => handleMegamuToggleOpen('shop')}
+                    >
                       Shop
                     </Link>
+                    <MegaMenu isOpen={isMegaMenuOpen.shop} data={CategoriesListData} type="category" onCategoryClick={handleCategoryClick}  />
                   </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                  <li
+                    style={{ paddingLeft: 15, paddingRight: 15 }}
+                    onMouseEnter={() => handleMouseEnter('brand')}
+                    onMouseLeave={() => handleMouseLeave('brand')}
+                  >
+                    <Link
+                      to="#"
+                      className={`${scrollPosition > 0 ? 'fixed-header-list' : 'nav-menu-list'} text-white`}
+                      onClick={() => handleMegamuToggleOpen('brand')}
+                    >
                       Brand
                     </Link>
+                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand"  onCategoryClick={handleCategoryClick} />
                   </li>
                   {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
@@ -813,7 +849,7 @@ function Header() {
                       <i
                         // className="fas fa-search pointer-on-hover" 
                         // onClick={() => handleResultClick(Object.keys(searchResults)[0])}
-                        className={`fas fa-search ${searchResults && Object.keys(searchResults).length && searchResultsShow? 'pointer-on-hover  text-white' : ''}`}
+                        className={`fas fa-search ${searchResults && Object.keys(searchResults).length && searchResultsShow ? 'pointer-on-hover  text-white' : ''}`}
                         onClick={searchResults && Object.keys(searchResults).length ? () => handleResultClick(Object.keys(searchResults)[0]) : null}
                       ></i>
                     </div>

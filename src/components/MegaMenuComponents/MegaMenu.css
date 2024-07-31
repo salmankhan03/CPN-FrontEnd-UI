@@ -1,0 +1,25 @@
+/* MegaMenu.css */
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 90%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  z-index: 1000;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mega-menu.open {
+  display: block;
+}
+
+.navbar {
+  position: relative;
+}
+
+.nav-item {
+  position: relative;
+}

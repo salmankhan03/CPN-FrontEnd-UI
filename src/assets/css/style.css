@@ -2232,7 +2232,7 @@ a:hover {
 }
 
 .mega-menu {
-  background: #ffffff;
+  /* background: #ffffff;
   visibility: hidden;
   opacity: 0;
   z-index: 1;
@@ -2240,7 +2240,7 @@ a:hover {
   transition: all 0.3s ease;
   padding: 10px 15px 10px 15px;
   padding-top: 0;
-  position: absolute;
+  position: absolute; */
 }
 
 .mega-drop-down:hover .mega-menu {
