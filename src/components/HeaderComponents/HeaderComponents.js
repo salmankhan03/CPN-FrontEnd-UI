@@ -23,7 +23,7 @@ import HeaderLogo from "../../assets/images/logo/iHealthCare_logo_white.svg";
 import stickyLogo from "../../assets/images/logo/iHealthCare_logo.svg";
 import WhiteLogo from "../../assets/images/logo/iHealthCare_logo_white.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
+import { faBagShopping, faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons/faUser';
 import MegaMenu from '../MegaMenuComponents/MegaMenuComponents';
 
@@ -111,21 +111,24 @@ const NavManu = styled.ul`
         color: #b8c3dc;
       }
     }
+
     @media screen and (max-width: 1199px) {
       display: ${(props) => (props.isToggleOpen ? "flex" : "none")};
       flex-direction: column;
       align-items: flex-start;
       position: absolute;
-      top: 95px;
-      right: 0;
-      background-color: #4e97fd;
+      top: 100px;
+      left:0px;
+      background-color: #fff;
       z-index: 998;
       overflow-y: auto;
-      height: calc(100vh - 10px);
+      height: auto;
+      width:100%;
       padding-right: 2rem;
+      min-height: calc(100vh - 10px);
     }
   `;
-
+// right: 0;
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -174,6 +177,8 @@ function Header() {
   const [isScrollingDown, setIsScrollingDown] = useState(true);
   const headerRef = useRef(null);
   const [searchResultsShow, setSearchResultsShow] = useState(false)
+  const [openCategories, setOpenCategories] = useState({});
+  const [isAtoZOpen, setIsAtoZOpen] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -471,6 +476,53 @@ function Header() {
     navigate(`/shop?name=category&id=${id}`)
   }
 
+
+  // const handleCategoryToggle = (category) => {
+  //   setOpenCategories((prevOpenCategories) => ({
+  //     ...prevOpenCategories,
+  //     [category]: !prevOpenCategories[category],
+  //   }));
+  // };
+  const handleCategoryToggle = (index) => {
+    setOpenCategories((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
+
+  const handleAtoZToggle = () => {
+    setIsAtoZOpen(!isAtoZOpen);
+  };
+
+  const renderCategories = (categories, parentKey = '') => {
+    return categories.map((category, index) => {
+      const currentKey = parentKey ? `${parentKey}-${index}` : `${index}`;
+      return (
+        <React.Fragment key={currentKey}>
+          <div className='d-flex w-100 p-2 mt-2' onClick={() => handleCategoryToggle(currentKey)}>
+            <div>
+              <span className="pointer-on-hover" onClick={() =>  navigate(`/shop?name=category&id=${category.id}`)}>{category.name}</span>
+            </div>
+            {category.children?.length > 0 && (
+              <div className='ms-auto'>
+                <FontAwesomeIcon
+                  icon={openCategories[currentKey] ? faChevronDown : faChevronRight}
+                  fontSize={18}
+                  className=""
+                />
+              </div>
+            )}
+          </div>
+          {openCategories[currentKey] && category.children?.length > 0 && (
+            <ul className="w-100 pl-0">
+              {renderCategories(category.children, currentKey)}
+            </ul>
+          )}
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <>
       <div ref={headerRef}>
@@ -756,11 +808,11 @@ function Header() {
                   )}
                 </div> */}
                 <Link to="/">
-                  <img className="my-1" src={WhiteLogo} alt="no-result" width="200" />
+                  <img className="my-1 ml-2" src={WhiteLogo} alt="no-result" width="200" />
                 </Link>
-              {/* </div>
+                {/* </div>
               <div className='middle-content'> */}
-                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
+                <NavManu >
                   <li style={{ paddingLeft: 15, paddingRight: 15 }} className='mt-2'>
                     <Link to={"#"} className={`nav-menu-list text-white `} onClick={handleToggleOpen}>
                       Best Seller
@@ -779,7 +831,7 @@ function Header() {
                     >
                       Shop
                     </Link>
-                    <MegaMenu isOpen={isMegaMenuOpen.shop} data={CategoriesListData} type="category"   />
+                    <MegaMenu isOpen={isMegaMenuOpen.shop} data={CategoriesListData} type="category" />
                   </li>
                   <li
                     style={{ paddingLeft: 15, paddingRight: 15 }}
@@ -794,7 +846,7 @@ function Header() {
                     >
                       Brand
                     </Link>
-                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand"   />
+                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand" />
                   </li>
                   {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
@@ -807,7 +859,38 @@ function Header() {
                     </Link>
                   </li> */}
                 </NavManu>
+                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef} className='mobileMenu icon displyHide displaynone' style={{overflow:'hidden'}}>
+                  <ul className={`d-block w-100 pl-0 ${isToggleOpen ? 'show' : 'displyHide displaynone'}`}>
+                    {renderCategories(CategoriesListData)}
+                    <hr />
+                  </ul>
+                  
+                  <div className='d-flex w-100 p-2 mt-2' onClick={handleAtoZToggle}>
+                    <div>
+                      <span className="pointer-on-hover">{"A to Z Brand"}</span>
+                    </div>
+                    <div className='ms-auto'>
+                      <FontAwesomeIcon
+                        icon={isAtoZOpen ? faChevronDown : faChevronRight}
+                        fontSize={18}
+                        className=""
+                      />
+                    </div>
+                  </div>
+                  {isAtoZOpen && (
+                    <ul className="d-block w-100 pl-0  mb-5">
+                      {BrandListData.map((brand, index) => (
+    
+                        <div className='d-flex w-100 p-2 mt-2' key={index}>
+                          <div>
+                            <span className="pointer-on-hover" onClick={() =>  navigate(`/shop?name=brand&id=${brand?.id}`)}>{brand?.name}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </ul>
+                  )}
 
+                </NavManu>
               </div>
               <div className="right-content hide-div">
                 {/* <div className="">
