@@ -859,7 +859,8 @@ function Header() {
                     </Link>
                   </li> */}
                 </NavManu>
-                <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef} className='mobileMenu icon displyHide displaynone' style={{overflow:'hidden'}}>
+                {/* this menu is working but currently set modal */}
+                {/* <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef} className='mobileMenu icon displyHide displaynone' style={{overflow:'hidden'}}>
                   <ul className={`d-block w-100 pl-0 ${isToggleOpen ? 'show' : 'displyHide displaynone'}`}>
                     {renderCategories(CategoriesListData)}
                     <hr />
@@ -890,7 +891,7 @@ function Header() {
                     </ul>
                   )}
 
-                </NavManu>
+                </NavManu> */}
               </div>
               <div className="right-content hide-div">
                 {/* <div className="">
@@ -991,6 +992,51 @@ function Header() {
           </Offcanvas.Body>
         </Offcanvas>
 
+
+        <Offcanvas show={isToggleOpen} onHide={() => setIsToggleOpen(false)}  className="d-lg-none">
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>
+            <span className='mr-2'>
+              <FontAwesomeIcon
+                  icon={faUser}
+                  fontSize={18}
+                />
+            </span>Welcome</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body className='d-flex flex-column justify-content-top'>
+          <ul className="d-block w-100 pl-0">
+            {renderCategories(CategoriesListData)}
+            <hr />
+            <div className='d-flex w-100 p-2 mt-2' onClick={handleAtoZToggle}>
+              <div>
+                <span className="pointer-on-hover">{"A to Z Brand"}</span>
+              </div>
+              <div className='ms-auto'>
+                <FontAwesomeIcon
+                  icon={isAtoZOpen ? faChevronDown : faChevronRight}
+                  fontSize={18}
+                />
+              </div>
+            </div>
+            {isAtoZOpen && (
+              <ul className="d-block w-100 pl-0 mb-5">
+                {BrandListData.map((brand, index) => (
+                  <div className='d-flex w-100 p-2 mt-2' key={index}>
+                    <div>
+                      <span
+                        className="pointer-on-hover"
+                        onClick={() => navigate(`/shop?name=brand&id=${brand?.id}`)}
+                      >
+                        {brand?.name}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </ul>
+            )}
+          </ul>
+        </Offcanvas.Body>
+      </Offcanvas>
 
 
       </div>
