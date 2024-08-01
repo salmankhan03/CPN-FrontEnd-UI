@@ -758,11 +758,11 @@ function Header() {
                 <Link to="/">
                   <img className="my-1" src={WhiteLogo} alt="no-result" width="200" />
                 </Link>
-              </div>
-              <div className='middle-content'>
+              {/* </div>
+              <div className='middle-content'> */}
                 <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef}>
-                  <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"#"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white `} onClick={handleToggleOpen}>
+                  <li style={{ paddingLeft: 15, paddingRight: 15 }} className='mt-2'>
+                    <Link to={"#"} className={`nav-menu-list text-white `} onClick={handleToggleOpen}>
                       Best Seller
                     </Link>
                   </li>
@@ -770,10 +770,11 @@ function Header() {
                     style={{ paddingLeft: 15, paddingRight: 15 }}
                     onMouseEnter={() => handleMouseEnter('shop')}
                     onMouseLeave={() => handleMouseLeave('shop')}
+                    className='mt-2'
                   >
                     <Link
                       to="/Shop"
-                      className={`${scrollPosition > 0 ? 'fixed-header-list' : 'nav-menu-list'} text-white`}
+                      className={`nav-menu-list text-white`}
                       onClick={() => handleMegamuToggleOpen('shop')}
                     >
                       Shop
@@ -784,10 +785,11 @@ function Header() {
                     style={{ paddingLeft: 15, paddingRight: 15 }}
                     onMouseEnter={() => handleMouseEnter('brand')}
                     onMouseLeave={() => handleMouseLeave('brand')}
+                    className='mt-2'
                   >
                     <Link
                       to="#"
-                      className={`${scrollPosition > 0 ? 'fixed-header-list' : 'nav-menu-list'} text-white`}
+                      className={`nav-menu-list text-white`}
                       onClick={() => handleMegamuToggleOpen('brand')}
                     >
                       Brand
