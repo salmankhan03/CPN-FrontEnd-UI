@@ -10,9 +10,9 @@ const RenderCategories = ({ categories, type, isTopLevel = true, onCategoryClick
        onCategoryClick(category,type);
     }
     if (type === 'brand') {
-      navigate(`/shop?brand=${category.id}`);
+      navigate(`/shop?name=brand&id=${category?.id}`)
     } else {
-      navigate(`/shop?category=${category.id}`);
+      navigate(`/shop?name=category&id=${category.id}`, { state: { selectedCategory: category.id } });
     }
   };
 

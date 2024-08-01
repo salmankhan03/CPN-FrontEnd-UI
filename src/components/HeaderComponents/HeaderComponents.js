@@ -471,13 +471,6 @@ function Header() {
     navigate(`/shop?name=category&id=${id}`)
   }
 
-  const handleCategoryClick = (category,type) => {
-    if(type === 'brand'){
-      navigate(`/shop?name=brand&id=${category?.id}`)
-    }else{
-      navigate(`/shop?name=category&id=${category.id}`, { state: { selectedCategory: category.id } });
-    }
-  };
   return (
     <>
       <div ref={headerRef}>
@@ -785,7 +778,7 @@ function Header() {
                     >
                       Shop
                     </Link>
-                    <MegaMenu isOpen={isMegaMenuOpen.shop} data={CategoriesListData} type="category" onCategoryClick={handleCategoryClick}  />
+                    <MegaMenu isOpen={isMegaMenuOpen.shop} data={CategoriesListData} type="category"   />
                   </li>
                   <li
                     style={{ paddingLeft: 15, paddingRight: 15 }}
@@ -799,7 +792,7 @@ function Header() {
                     >
                       Brand
                     </Link>
-                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand"  onCategoryClick={handleCategoryClick} />
+                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand"   />
                   </li>
                   {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
                     <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
