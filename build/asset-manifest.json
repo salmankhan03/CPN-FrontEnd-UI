@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.fc27a17d.css",
-    "main.js": "/static/js/main.f2199934.js",
+    "main.css": "/static/css/main.ac454df0.css",
+    "main.js": "/static/js/main.d3f6e274.js",
     "static/media/Inter-VariableFont_slnt,wght.ttf": "/static/media/Inter-VariableFont_slnt,wght.853e01975d2783d9fa29.ttf",
     "static/media/SFPRODISPLAYMEDIUM.OTF": "/static/media/SFPRODISPLAYMEDIUM.b85d841dacb040b84951.OTF",
     "static/media/SFPRODISPLAYBOLD.OTF": "/static/media/SFPRODISPLAYBOLD.b1f4d2c69fa808ebca12.OTF",
@@ -15,9 +15,9 @@
     "static/media/no-result.ec22e94c.svg": "/static/media/no-result.ec22e94c.ec22e94cb810f5bd2f888f1a5a292e90.svg",
     "static/media/payment-methods.png": "/static/media/payment-methods.47ad3e696f50516da1b3.png",
     "static/media/aboutUs.jpg": "/static/media/aboutUs.3d5f14f65b79bf9f5f57.jpg",
-    "static/media/cart_empty.svg": "/static/media/cart_empty.81d03fac34fab878bdc1cd3637182026.svg",
-    "static/media/iHealthCare_logo.svg": "/static/media/iHealthCare_logo.d3932b89f554081be00db1223f8eee53.svg",
-    "static/media/iHealthCare_logo_white.svg": "/static/media/iHealthCare_logo_white.1edfe9935b4dce91fca3c13b847b9421.svg",
+    "static/media/cart_empty.svg": "/static/media/cart_empty.60424ea28d8bbc2d2bbb729e00e7e5f4.svg",
+    "static/media/iHealthCare_logo.svg": "/static/media/iHealthCare_logo.41c5cc3672b3d562a8bab67371149935.svg",
+    "static/media/iHealthCare_logo_white.svg": "/static/media/iHealthCare_logo_white.6d6970f940b048cc719202b77c38c76e.svg",
     "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
@@ -27,13 +27,13 @@
     "static/media/phone.svg": "/static/media/phone.80655237979c414065b3e91f35d1496e.svg",
     "static/media/cart.svg": "/static/media/cart.a1621e210509a44d691e08e17478ed18.svg",
     "static/media/account.svg": "/static/media/account.21dfd13bcf29e42e4121d1b5ec3ea1d3.svg",
-    "static/media/arrow-chevron-left.svg": "/static/media/arrow-chevron-left.2c6982772507b55830ea.svg",
-    "static/media/arrow-chevron-right.svg": "/static/media/arrow-chevron-right.80b42c84e9fab0646506.svg",
-    "main.fc27a17d.css.map": "/static/css/main.fc27a17d.css.map",
-    "main.f2199934.js.map": "/static/js/main.f2199934.js.map"
+    "static/media/arrow-chevron-left.svg": "/static/media/arrow-chevron-left.5a844c8db69efc99c45b.svg",
+    "static/media/arrow-chevron-right.svg": "/static/media/arrow-chevron-right.51bf723ca3f11d8480ed.svg",
+    "main.ac454df0.css.map": "/static/css/main.ac454df0.css.map",
+    "main.d3f6e274.js.map": "/static/js/main.d3f6e274.js.map"
   },
   "entrypoints": [
-    "static/css/main.fc27a17d.css",
-    "static/js/main.f2199934.js"
+    "static/css/main.ac454df0.css",
+    "static/js/main.d3f6e274.js"
   ]
 }
