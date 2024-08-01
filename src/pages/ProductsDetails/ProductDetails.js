@@ -631,7 +631,7 @@ function ProductDetails() {
                                     <div className="row">
                                         <div className="col-lg-12 image_col order-lg-2 order-1">
                                             <div className="fluid__image-container">
-                                                <img src={selectedImage} onClick={handleShow} style={{ width: '-webkit-fill-available', cursor: 'pointer' }} alt={'Product Image'} />
+                                                <img src={selectedImage} onClick={handleShow} style={{ width: '300px', height:'300px', cursor: 'pointer', objectFit:'contain'}} alt={'Product Image'} />
 
                                                 {/*<ReactImageMagnify {...{*/}
                                                 {/*    smallImage: {*/}
