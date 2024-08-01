@@ -1214,7 +1214,7 @@ const CheckoutPage = () => {
                                     {shippingRate && shippingRate.length !== 0 && <div className="container p-3">
                                         <div className="coupon-section">
                                             {shippingRate && shippingRate.map((service, index) => (
-                                                <React.Fragment key={index} style={{ display: 'flex' }}>
+                                                <React.Fragment key={index} >
                                                     <div className="d-flex justify-content-between mt-2">
                                                         <div className="">
                                                             <label>
@@ -1430,7 +1430,7 @@ const CheckoutPage = () => {
                                 <div className='' id="example-collapse-text" >
                                     <div className="container">
                                         {cartItems.map((item, index) => (
-                                            <div className="row p-2 mt-3">
+                                            <div className="row p-2 mt-3" key={index} >
                                                 <div className="col-md-3">
                                                     <div className="">
                                                         <ImageComponent src={item?.image[0]?.name} width={true} alt="Product Image" classAtribute="cart-products w-auto" />
