@@ -147,7 +147,7 @@ const Faq = () => {
                                     </div>
                                 ) : (
 
-                                    faqData.map((item) => (
+                                    faqData.map((item, index) => (
                                         <div key={item?.id}>
                                             <div className="faq-item ">
                                                 <div className="faq-question  mt-3" onClick={() => toggleExpand(item.id)}>
@@ -165,7 +165,7 @@ const Faq = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            <hr></hr>
+                                            {index < faqData.length - 1 && <hr />}
                                         </div>
                                     ))
                                 )}
