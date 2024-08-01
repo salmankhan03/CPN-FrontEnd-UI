@@ -69,7 +69,7 @@ function ProductListing(props) {
                     </div>
                 ) : (
                     <div className="product_image">
-                        <ImageComponent src="https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp" alt={"products Image"} />
+                        <ImageComponent src="https://backend.i-healthcare.ca/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp" alt={"products Image"} />
                     </div>
                 )}
                 <div className="ml-3 mr-3 pt-4 customPadding">

@@ -261,7 +261,7 @@ function ProductDetails() {
                     setSelectedImage(resp?.data?.images[0]?.name)
 
                 } else {
-                    setSelectedImage("https://backend.kingsmankids.com/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
+                    setSelectedImage("https://backend.i-healthcare.ca/uploads/template_images/2024/01/laravel-c136ade819e33b5afcda41d1271d247c.webp")
                 }
                 setProductData(resp?.data)
                 setRelatedProduct(resp?.data.relatedProducts)

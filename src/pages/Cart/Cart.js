@@ -81,7 +81,7 @@ const CartPage = () => {
         }
 
         try {
-            const response = await fetch('https://backend.kingsmankids.com/api/coupon-code/validate', {
+            const response = await fetch('https://backend.i-healthcare.ca/api/coupon-code/validate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
