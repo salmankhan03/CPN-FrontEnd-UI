@@ -13,6 +13,7 @@ import icon1 from "../../assets/images/icon_1.png"
 import icon2 from "../../assets/images/icon_2.png"
 import icon3 from "../../assets/images/icon_3.png"
 import icon4 from "../../assets/images/icon_4.png"
+import Header from '../../components/HeaderComponents/HeaderComponents';
 
 
 const AboutUs = () => {
@@ -23,18 +24,18 @@ const AboutUs = () => {
     ];
     return (
         <div className=''>
-
-            <div className='mb-5 '>        
+            <Header />
+            <div className='mb-5 '>
                 <SliderComponents banners={banners} />
             </div>
-            <div className='custom-container'>
+            <div className='custom-container container'>
                 <div className='mt-3'>
                     <div className='row'>
                         <div className='text-center mt-2'>
                             <h3 className='titles titleColor'>DISCOVER</h3>
                         </div>
                         <div className='text-center mt-3'>
-                        <h5 className='titleColor tab-title'>CANADIAN PINNACLE NUTRITECH</h5></div>
+                            <h5 className='titleColor tab-title'>CANADIAN PINNACLE NUTRITECH</h5></div>
                     </div>
                     <div className='row mt-5'>
                         <div className='col-12 col-md-6 col-lg-6 '>
@@ -57,7 +58,6 @@ const AboutUs = () => {
 
 
                 </div>
-
                 <div className='mt-3' style={{ backgroundColor: '#f8f0d0' }} >
                     <div className='container'>
                         <div className="row ">
@@ -66,10 +66,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon1} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                   <h4 className='sidebar-filter-section'>Canadian Made</h4>
+                                    <h4 className='sidebar-filter-section'>Canadian Made</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                <p className='tab-title font-weight-normal'>CPN supplement are 100% formulated, made and packaged in Canada, according to the standards of Health Canada</p>
+                                    <p className='tab-title font-weight-normal'>CPN supplement are 100% formulated, made and packaged in Canada, according to the standards of Health Canada</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -77,10 +77,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon2} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                <h4 className='sidebar-filter-section'>GMP Standard</h4>
+                                    <h4 className='sidebar-filter-section'>GMP Standard</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                <p className='tab-title font-weight-normal'>All products are manufactured in a controlled and consistently monitored environment to ensure each product meets their quality standard</p>
+                                    <p className='tab-title font-weight-normal'>All products are manufactured in a controlled and consistently monitored environment to ensure each product meets their quality standard</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -88,10 +88,10 @@ const AboutUs = () => {
                                     <ImageComponent src={icon3} alt={"products Image"} />
                                 </div>
                                 <div className='text-center mt-2 mb-2'>
-                                <h4 className='sidebar-filter-section'>Health Canada</h4>
+                                    <h4 className='sidebar-filter-section'>Health Canada</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                <p className='tab-title font-weight-normal'>CPN products have been approved by Health Canada as natural health products, ensuring all products are safe, effective and of high quality</p>
+                                    <p className='tab-title font-weight-normal'>CPN products have been approved by Health Canada as natural health products, ensuring all products are safe, effective and of high quality</p>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3 col-lg-3'>
@@ -102,7 +102,7 @@ const AboutUs = () => {
                                     <h4 className='sidebar-filter-section'>FDA Compliance</h4>
                                 </div>
                                 <div className='text-center mb-2'>
-                                <p className='tab-title font-weight-normal'>Our manufacturing facility meets the GMP standards and has been approved by the US FDA as an acceptable manufacturing facility</p>
+                                    <p className='tab-title font-weight-normal'>Our manufacturing facility meets the GMP standards and has been approved by the US FDA as an acceptable manufacturing facility</p>
                                 </div>
                             </div>
                         </div>
@@ -110,12 +110,11 @@ const AboutUs = () => {
 
 
                 </div>
-
-
+                <div className='mt-2'>
+                    <FooterComponents></FooterComponents>
+                </div>
             </div>
-            <div className='mt-2'>
-                <FooterComponents></FooterComponents>
-            </div>
+
 
         </div>
     )
