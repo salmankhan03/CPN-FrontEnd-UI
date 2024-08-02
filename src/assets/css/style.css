@@ -3771,7 +3771,7 @@ ul li {
 
 /*Toast Css  */
 .Toastify__toast-container--top-right {
-  top: 10rem !important;
+  /* top: 10rem !important; */
 }
 
 /*Toast Css  */
@@ -3978,9 +3978,9 @@ label {
 }
 
 /* Toast  */
-/*.Toastify__toast-container--top-right {*/
-/*  top: auto !important;*/
-/*}*/
+.Toastify__toast-container--top-right {
+ top: auto !important;
+}
 
 .productImageModal {
   padding: 0 !important;

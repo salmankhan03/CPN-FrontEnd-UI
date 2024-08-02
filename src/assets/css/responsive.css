@@ -509,7 +509,7 @@
   }
 
   .Toastify__toast-container--top-right {
-    top: 9rem !important;
+    /* top: 9rem !important; */
   }
 
 }
