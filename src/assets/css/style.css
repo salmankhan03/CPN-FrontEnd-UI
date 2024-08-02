@@ -60,58 +60,65 @@ COLOR PALETTE
 /***********
 1. Fonts
 ***********/
+
+/* Bold Fonts */
 @font-face {
-  font-family: 'InterNormal';
-  src: url('../fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
+  /*---------- Inter ExtraBold ----------*/
+    /* font-family: 'Bold';
+    src: url('../fonts/Inter/static/Inter-ExtraBold.ttf') format('truetype'); */
+
+  /*---------- Sf-Pro-Bold ----------*/
+    /* font-family: 'Bold';
+    src: url('../fonts/sf-pro/SFPRODISPLAYBOLD.OTF') format('truetype'); */
+
+  /*---------- Satoshi-Bold ----------*/
+    font-family: 'Bold';
+    src: url('../fonts/satoshi/Satoshi-Bold.otf') format('truetype');
 }
 
+/* Regular Fonts */
 @font-face {
-  font-family: 'Inter-ExtraBold';
-  src: url('../fonts/Inter/static/Inter-ExtraBold.ttf') format('truetype');
+  /*---------- Inter-Regular ----------*/
+    /* font-family: 'Regular';
+    src: url('../fonts/Inter/static/Inter-Regular.ttf') format('truetype'); */
+
+  /*---------- Sf-Pro-Regular ----------*/
+    /* font-family: 'Regular';
+    src: url('../fonts/sf-pro/SFPRODISPLAYREGULAR.OTF') format('truetype'); */
+
+  /*---------- Satoshi-Regular ----------*/
+    font-family: 'Regular';
+    src: url('../fonts/satoshi/Satoshi-Regular.otf') format('truetype');
 }
 
+/* Medium Fonts */
 @font-face {
-  font-family: 'Inter-Regular';
-  src: url('../fonts/Inter/static/Inter-Regular.ttf') format('truetype');
+  /*---------- Inter-Medium ----------*/
+    /* font-family: 'Medium';
+    src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype'); */
+  
+  /*---------- Sf-Pro-Medium ----------*/
+    /* font-family: 'Medium';
+    src: url('../fonts/sf-pro/SFPRODISPLAYMEDIUM.OTF') format('truetype'); */
+
+  /*---------- Satoshi-Medium ----------*/
+    font-family: 'Medium';
+    src: url('../fonts/satoshi/Satoshi-Medium.otf') format('truetype');
 }
 
-@font-face {
-  font-family: 'Inter-Medium';
-  src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype');
-}
 
-@font-face {
-  font-family: 'Inter-Light';
-  src: url('../fonts/Inter/static/Inter-Light.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Sf-Pro-Regular';
-  src: url('../fonts/sf-pro/SFPRODISPLAYREGULAR.OTF') format('truetype');
-}
-
-@font-face {
-  font-family: 'Sf-Pro-Medium';
-  src: url('../fonts/sf-pro/SFPRODISPLAYMEDIUM.OTF') format('truetype');
-}
-
-@font-face {
-  font-family: 'Sf-Pro-Bold';
-  src: url('../fonts/sf-pro/SFPRODISPLAYBOLD.OTF') format('truetype');
-}
 
 .sf-Regular {
-  font-family: "Sf-Pro-Regular";
+  font-family: "Regular";
 }
 
 .sf-Medium {
-  font-family: "Sf-Pro-Medium" !important;
+  font-family: "Medium" !important;
+
 }
 
 .sf-Bold {
-  font-family: "Sf-Pro-Bold" !important;
+  font-family: "Bold" !important;
 }
 
 .fontSize10 {
@@ -119,8 +126,7 @@ COLOR PALETTE
 }
 
 .inter-medium-fonts {
-  font-family: "Inter-Medium";
-
+  font-family: "Medium";
 }
 
 h1,
@@ -130,12 +136,12 @@ h4,
 h5,
 h6 {
   color: #2e3133;
-  font-family: "Inter-ExtraBold";
+  font-family: "Bold";
   font-weight: bold;
 }
 .interBold{
   color: #2e3133;
-  font-family: "Inter-ExtraBold";
+  font-family: "Bold";
   font-weight: bold;
 }
 
@@ -145,18 +151,18 @@ h6 {
   margin-bottom: 1.45rem;
   font-weight: 600;
   letter-spacing: -0.025rem;
-  font-family: "Inter-Light";
+  font-family: "Regular";
 }
 
 .sidebar-filter-section-List {
   font-size: 1rem;
   font-weight: 500;
-  font-family: "Inter-Medium";
+  font-family: "Medium";
   color: var(--secondary-color);
 }
 
 .tab-title {
-  font-family: "Inter-Regular";
+  font-family: "Regular";
   font-size: 1.125rem;
   line-height: 1.5rem;
   font-weight: 600;
@@ -181,7 +187,7 @@ h3.titles {
   line-height: 3rem;
   font-weight: 500;
   letter-spacing: -0.025rem;
-  font-family: "Inter-Regular", sans-serif;
+  font-family: "Regular", sans-serif;
 }
 
 .read-more {
@@ -293,13 +299,14 @@ h3.titles {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  line-height: 23px;
-  font-weight: 400;
-  background: #ffffff;
-  color: #1e1e27;
-  min-height: 100vh;
+/* "Poppins", sans-serif; */
+  
+    color: #9B9B9B;
+    font-family: "Regular" !important;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    line-height: 1.74;
 }
 
 div {
@@ -316,7 +323,8 @@ ul {
 }
 
 p {
-  font-family: "Poppins", sans-serif;
+  /* font-family: "Poppins", sans-serif; */
+  font-family:"Regular" ;
   font-size: 14px;
   line-height: 1.7;
   font-weight: 500;
@@ -2357,16 +2365,16 @@ ul.stander li a {
   }
 }
 
-.error-container {
+/* .error-container {
   height: 100vh !important;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: montserrat, sans-serif;
-}
+} */
 
-.big-text {
+/* .big-text {
   font-size: 200px;
   font-weight: 900;
   font-family: sans-serif;
@@ -2375,17 +2383,17 @@ ul.stander li a {
   -webkit-text-fill-color: transparent;
   background-size: cover;
   background-position: center;
-}
+} */
 
-.small-text {
+/* .small-text {
   font-family: montserrat, sans-serif;
   color: rgb(0, 0, 0);
   font-size: 24px;
   font-weight: 700;
   text-transform: uppercase;
-}
+} */
 
-.home-page-button {
+/* .home-page-button {
   color: #fff;
   padding: 12px 36px;
   font-weight: 600;
@@ -2416,7 +2424,7 @@ ul.stander li a {
   -moz-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-}
+} */
 
 /*********************************
 6. Sidebar
@@ -2504,7 +2512,7 @@ ul.stander li a {
   color: #ffffff;
 }
 
-.checkboxes li {
+/* .checkboxes li {
   height: 40px;
   line-height: 40px;
 }
@@ -2542,9 +2550,9 @@ ul.stander li a {
 }
 
 .checkboxes li span {
-  font-family: "Poppins", sans-serif;
+  font-family:"Regular" ;
   color: #51545f;
-}
+} */
 
 .show_more {
   display: inline-block;
@@ -3064,7 +3072,7 @@ h2 {
   box-shadow: none;
 }
 
-.fluid {
+/* .fluid {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
@@ -3072,7 +3080,7 @@ h2 {
   font-family: Arial;
   line-height: 1.3;
   font-size: 16px;
-}
+} */
 
 /* ThankYou  */
 
@@ -3551,7 +3559,7 @@ input:-webkit-autofill:active {
 .tab-content-custom-peragraph h6 {
   font-weight: bold !important;
   letter-spacing: -0.03rem !important;
-  font-family: "Sf-Pro-Bold" !important;
+  font-family: "Bold" !important;
   font-size: 1.5rem !important;
 }
 
@@ -3560,11 +3568,11 @@ input:-webkit-autofill:active {
 }
 .tab-content-custom-peragraph p>strong {
 color: var(--brand-color);
-font-family: "Sf-Pro-Bold" !important;
+font-family: "Bold" !important;
 }
 
 .tab-content-custom-peragraph ul>li {
-  font-family: "Sf-Pro-Regular";
+  font-family: "Regular";
   color: #9B9B9B;
   font-size: 15px;
   font-weight: 400;
@@ -3573,7 +3581,7 @@ font-family: "Sf-Pro-Bold" !important;
 
 }
 .tab-content-custom-peragraph ol>li {
-  font-family: "Sf-Pro-Regular";
+  font-family: "Regular";
   color: #9B9B9B;
   font-size: 15px;
   font-weight: 400;
@@ -3586,7 +3594,7 @@ font-family: "Sf-Pro-Bold" !important;
   /* font-family: "Inter-Regular";
   font-size: 1.125rem;
   line-height: 1.5rem; */
-  font-family: "Sf-Pro-Regular";
+  font-family: "Regular";
   color: #9B9B9B;
   font-size: 15px;
   font-weight: 400;
