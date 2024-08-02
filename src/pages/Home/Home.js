@@ -19,6 +19,7 @@ import SpinnerLoading from '../../components/SpinnerComponents/SpinnerLoader';
 import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 import Header from "../../components/HeaderComponents/HeaderComponents";
 import ProductsListingSlider from '../../components/ProductsListingSlider/ProductsListingSlider';
+import { setBrandList } from '../../redux/action/brand-action';
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
@@ -121,6 +122,7 @@ function HomeScreen() {
                 getSlider(),
                 getBanners(),
                 getCategoryList(),
+                getBrandList(),
                 getCategoryWiseWeeklyProducts(),
                 getCustomProductsList()
             ]);
@@ -176,6 +178,27 @@ function HomeScreen() {
             ...data
         ];
     };
+    function getBrandList() {
+        CategoryServices.getAllBrand({
+            page: page,
+            limit: 100,
+        }).then((resp) => {
+            // setLoading(false)
+            // console.log(resp)
+            if (resp?.status_code === 200) {
+                // console.log(resp.list.data)
+                dispatch(setBrandList([
+                    ...resp?.list?.data
+                ]))
+                // setBrandData(resp?.list?.data)
+            }
+        }).catch((error) => {
+            // setLoading(false)
+            console.log(error)
+        })
+
+    }
+
     function getCategoryList() {
         CategoryServices.getAllCategory({
             page: page,
