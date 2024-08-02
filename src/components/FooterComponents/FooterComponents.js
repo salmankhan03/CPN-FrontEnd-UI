@@ -31,7 +31,7 @@ function FooterComponents() {
                     <div className="col-lg-3 col-md-6 text-left d-flex flex-column align-items-start">
                         <h5 className="text-black interBold mt-4">Our Company</h5>
                         <ul className="list-unstyled mt-2">
-                            <li className="mt-2"><Link to="#" className='footer-links sf-Regular'>About Us</Link></li>
+                            <li className="mt-2"><Link to="/about-us" className='footer-links sf-Regular'>About Us</Link></li>
                             <li className="mt-2"><Link to="/privacy-policy" className='footer-links sf-Regular'>Privacy Policy</Link></li>
                             <li className="mt-2"><Link to="/terms-conditions" className='footer-links sf-Regular'>Terms & Conditions</Link></li>
                             <li className="mt-2"><Link to="/disclaimer" className='footer-links sf-Regular'>Disclaimer</Link></li>
