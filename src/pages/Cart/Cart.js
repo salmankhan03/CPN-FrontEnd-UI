@@ -100,7 +100,7 @@ const CartPage = () => {
                 setShowCouponInput(false)
                 manageCoupon(data)
                 if(toast){
-                notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
+                notifySuccess(`Your Coupen "${couponCode}" applay successfull`);
                 }
             } else {
                 setCheckCouponCode(null)
@@ -113,13 +113,13 @@ const CartPage = () => {
                 setSubTotalWithCoupon(subtotal);
 
                 if(toast){
-                notifyError(`Your Coupon "${couponCode}" Not Matched`);
+                notifyError(`Your Coupen "${couponCode}" Not Matched`);
                 }
             }
         } catch (error) {
             console.error('Error:', error);
         }
-        console.log('Coupon code applied:', couponCode);
+        console.log('Coupen code applied:', couponCode);
     };
 
     function manageCoupon(data) {
@@ -360,10 +360,10 @@ const CartPage = () => {
                                                         {item.name}
                                                     </div>
                                                     <div className='col-2 text-end'>
-                                                        {item.price}
+                                                        ${item.price}
                                                     </div>
                                                     <div className='col-6 text-end'>
-                                                        {item.totalPrice}
+                                                        ${item.totalPrice}
                                                     </div>
                                                 </div>
                                                 <div className='row align-items-center mt-2'>
@@ -419,15 +419,15 @@ const CartPage = () => {
                             </div>
                         </div>
                         <div className='row mt-5 mb-5'>
-                            <div className='col-md-5 col-xs-12 mt-md-0 mt-5'>
+                            <div className='col-md-5 col-xs-12 mt-md-0'>
                                 {isApplayCoupon?.couponCode ? (
                                     <div className="text-left" style={{ padding: 25 }}>
-                                        <h6 className="pointer-on-hover title d-inline">Coupon Discount</h6>
+                                        <h6 className="pointer-on-hover title d-inline">Coupen Discount</h6>
                                         <div class="row d-block align-items-center mt-5">
                                             <div class="col-auto">
                                                 <p class="fs-4 text-success d-flex align-items-center">
                                                     <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
-                                                    Coupon applied!
+                                                    Coupen applied!
                                                 </p>
                                             </div>
                                             <div class="col-auto">
@@ -442,7 +442,7 @@ const CartPage = () => {
                                     </div>
                                 ) : (
                                     <div className="text-left" style={{ padding: 25 }}>
-                                        <h6 className="pointer-on-hover title d-inline">Coupon Discount</h6>
+                                        <h6 className="pointer-on-hover title d-inline">Coupen Discount</h6>
                                         <p className='mt-2'>Enter your coupon code if you have one.</p>
                                         <div className='mt-4'>
                                             <InputComponent
@@ -452,10 +452,10 @@ const CartPage = () => {
                                                 customClass={`form-control gray-bg carts-coupon-input ml-auto `}
                                                 value={couponCode}
                                                 onChange={(e) => setCouponCode(e.target.value)}
-                                                placeholder="Coupon code"
+                                                placeholder="Coupen code"
                                                 required
                                             />
-                                            <ButtonComponent cssClass="shopping-btn mt-3" onClick={handleApplyCoupon} label="Applay Coupon" disabled={!couponCode} />
+                                            <ButtonComponent cssClass="shopping-btn mt-3" onClick={handleApplyCoupon} label="Applay Coupen" disabled={!couponCode} />
 
                                             {/* <div className=''>
                                         <button
@@ -471,7 +471,7 @@ const CartPage = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className='col-md-7 col-xs-12 mt-md-0 mt-5'>
+                            <div className='col-md-7 col-xs-12 mt-md-0 '>
                                 <div className='row'>
                                     <div className='col-md-5 col-xs-12 mt-md-0 mt-5'>
                                     </div>
@@ -489,7 +489,7 @@ const CartPage = () => {
                                                 </div>
                                                 {isApplayCoupon?.couponDiscount > 0 &&
                                                     <div className="d-flex justify-content-between tab-title mt-2">
-                                                        <div>{<p className='tab-title'>Coupon Discount ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} :</p>}</div>
+                                                        <div>{<p className='tab-title'>Coupen Discount ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} :</p>}</div>
                                                         <div>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
                                                     </div>
                                                 }
