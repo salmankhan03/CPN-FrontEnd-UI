@@ -722,7 +722,7 @@ function Header() {
                     <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#000' }}></i>
                   </div>
                   {isEllipsisToggleOpen && (
-                    <div className='p-2' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 80 }} ref={ellipsisRef}>
+                    <div className='p-2 shadow  ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 50 }} ref={ellipsisRef}>
                       <div className="row mt-2">
                         <div className="col text-right">
                           <div className="d-inline-flex align-items-center">
@@ -731,15 +731,15 @@ function Header() {
                                 <i className="fas fa-search"></i>
                               </div>
                               <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
-                                <i className="fas fa-cart-arrow-down fa-lg text-black"></i>
+                                <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
                                 {cartItems.length !== undefined && cartItems.length > 0 && (
-                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-10px', right: '-10px' }}>
+                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-16px', right: '-10px' }}>
                                     {cartItems.length}
                                   </span>
                                 )}
                               </div>
                               <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
-                                <i className="fa fa-user fa-lg text-black" aria-hidden="true"></i>
+                                <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
                               </div>
                             </React.Fragment>
                           </div>
