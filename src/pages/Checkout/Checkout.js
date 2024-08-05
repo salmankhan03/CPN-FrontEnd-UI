@@ -720,14 +720,14 @@ const CheckoutPage = () => {
                 console.log('Success:', data);
                 setShowCouponInput(false)
                 manageCoupon(data)
-                notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
+                notifySuccess(`Your Coupen "${couponCode}" applay successfull`);
             } else {
-                notifyError(`Your Coupon "${couponCode}" is not applay`);
+                notifyError(`Your Coupen "${couponCode}" is not applay`);
             }
         } catch (error) {
             console.error('Error:', error);
         }
-        console.log('Coupon code applied:', couponCode);
+        console.log('Coupen code applied:', couponCode);
     };
     const handleRemoveCoupon = () => {
         console.log("Remove Coupen")
@@ -1322,13 +1322,13 @@ const CheckoutPage = () => {
 
                             {selectedShippingOption &&
                                 <div className="d-flex justify-content-between mt-2">
-                                    <div className='mr-auto tab-title text-left font-weight-normal'>Shipping charge ({selectedShippingOption.serviceName})</div>
-                                    <div className='ml-5 tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
+                                    <div className='mr-auto tab-title text-left font-weight-normal mr-2'>Shipping charge <br></br> ({selectedShippingOption.serviceName})</div>
+                                    <div className='ml-5  tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
                                 </div>
                             }
                             {isApplayCoupon?.couponCode && couponDiscount > 0 &&
                                 <div className="d-flex  mt-2">
-                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
+                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupen Discount 
                                                     ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} `}</div>
                                     <div className=' tab-title font-weight-normal'>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
                                 </div>
@@ -1376,12 +1376,12 @@ const CheckoutPage = () => {
                                                             customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
                                                             value={couponCode}
                                                             onChange={(e) => setCouponCode(e.target.value)}
-                                                            placeholder="Enter your coupon code"
+                                                            placeholder="Enter your coupen code"
                                                             required
                                                         />
                                                     </div>
                                                     <div className=''>                
-                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Applay Coupon" disabled={!couponCode} />
+                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Applay Coupen" disabled={!couponCode} />
                                                     </div>
                                                 </div>
                                             ) : (
@@ -1389,7 +1389,7 @@ const CheckoutPage = () => {
                                                     <div className="col-auto text-center">
                                                         <p className="fs-4 text-success d-flex align-items-center justify-content-center">
                                                             <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
-                                                            Coupon applied!
+                                                            Coupen applied!
                                                         </p>
                                                     </div>
                                                     <div className="col-auto">
