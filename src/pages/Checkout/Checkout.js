@@ -130,14 +130,14 @@ const CheckoutPage = () => {
             <quote-type>counter</quote-type>
           </mailing-scenario>`;
 
-
-
+            // application/vnd.cpc.ship.rate-v4+xml',\
             const requestOptions = {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Accept': 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Authorization': 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`)
+                    Accept: 'application/vnd.cpc.ship.rate-v4+xml',
+                    'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml;charset=UTF-8',        
+                    'Access-control-allow-origin':'https://www.i-healthcare.ca/',
+                    'Authorization': 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`)                    
                 },
                 // changeOrigin: true,
                 body: xmlRequest
