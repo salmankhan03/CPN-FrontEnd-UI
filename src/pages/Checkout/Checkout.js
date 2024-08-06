@@ -89,11 +89,11 @@ const CheckoutPage = () => {
         first_name: AuthData ? AuthData.first_name : '',
         last_name: AuthData ? AuthData?.last_name : '',
         country: 'CA',
-        street_address: AuthData ? AuthData?.street_address : '',
-        city: AuthData ? AuthData?.city : '',
-        state: AuthData ? AuthData?.state : '',
-        zipcode: AuthData ? AuthData?.zipcode : '',
-        contact_no: AuthData ? AuthData?.contact_no : '',
+        street_address: AuthData && AuthData?.shipping_address_addedy_by_user.length > 0 ? AuthData?.shipping_address_addedy_by_user[0]?.street_address : '',
+        city: AuthData && AuthData?.shipping_address_addedy_by_user.length > 0 ? AuthData?.shipping_address_addedy_by_user[0]?.city : '',
+        state: AuthData && AuthData?.shipping_address_addedy_by_user.length > 0 ? AuthData?.shipping_address_addedy_by_user[0]?.state : '',
+        zipcode: AuthData && AuthData?.shipping_address_addedy_by_user.length > 0 ? AuthData?.shipping_address_addedy_by_user[0]?.zipcode : '',
+        contact_no: AuthData && AuthData?.shipping_address_addedy_by_user.length > 0 ? AuthData?.shipping_address_addedy_by_user[0]?.contact_no : '',
         email: AuthData ? AuthData?.email : '',
     });
 
