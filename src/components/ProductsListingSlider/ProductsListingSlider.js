@@ -18,9 +18,9 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
         <div>
             <Slider {...settings}>
                 {displayedData.map((category, index) => (
-                    <React.Fragment>
+                    <React.Fragment key={index} >
                         {index + 1 !== recordsLength ? (
-                            <div key={index} className="product-slide"  onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
+                            <div className="product-slide"  onClick={() => navigate(`/products-details/${category.id}`, { state: { id: category.id } })}>
                                 <div className="product-details category-item product-card p-3 m-2" style={{width:'auto'}}>
                                     <p className="brandLabel sf-Regular">{category?.brand}</p>
                                     <h3 className="product-title secondaryColor sf-Medium font-weight-normal">{truncateString(category?.name, 70)}</h3>
