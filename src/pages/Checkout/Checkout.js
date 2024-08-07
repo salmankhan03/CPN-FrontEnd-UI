@@ -136,7 +136,6 @@ const CheckoutPage = () => {
                 headers: {
                     Accept: 'application/vnd.cpc.ship.rate-v4+xml',
                     'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml;charset=UTF-8',        
-                    'Access-control-allow-origin':'https://www.i-healthcare.ca/',
                     'Authorization': 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`)                    
                 },
                 // changeOrigin: true,
