@@ -348,7 +348,7 @@ function ProductDetails() {
                     return {
                         ...item,
                         purchaseQty: quantity + item?.purchaseQty,
-                        totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                        totalPrice: (quantity + item?.purchaseQty )* (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
                         price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
                         sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
                     };
