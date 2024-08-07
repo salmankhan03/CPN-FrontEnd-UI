@@ -4206,3 +4206,11 @@ select {
   cursor: not-allowed;
   text-decoration: none;
 }
+/* Products Description */
+.tab-content-custom-paragraph-word-wrap {
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+/* End */

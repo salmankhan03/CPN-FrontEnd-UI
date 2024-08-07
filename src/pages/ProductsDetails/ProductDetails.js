@@ -616,8 +616,8 @@ function ProductDetails() {
                                         </li>
                                         <li>
                                             <a href={`/products-details/${productData?.id}`}>
-                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
-                                                {productData?.name}
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>                                               
+                                                {truncateString(productData?.name, 70)}
                                             </a>
                                         </li>
                                     </ul>
@@ -871,7 +871,7 @@ function ProductDetails() {
                                 >
                                     <Tab eventKey="description" title="Description">
                                         <div className="tab-content-custom" ref={tabContentRef}>
-                                            <div className='tab-content-custom-peragraph' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
+                                            <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap'  dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
                                         </div>
                                     </Tab>
                                     <Tab eventKey="reviews" title="Reviews (0)">
