@@ -64,11 +64,8 @@ const CartPage = () => {
         notifySuccess(`${message} successfully remove to the cart!`);
         updatedCartItemsList.splice(index, 1)
         dispatch(updateCartItems(updatedCartItemsList));
-        console.log("updatedCartItemsList", updatedCartItemsList)
-        const timers = setTimeout(() => {
-            handleApplyCoupon(false)
-        }, 1000);
-        return () => clearTimeout(timers);
+        const totalPrice = updatedCartItemsList.reduce((sum, item) => sum + item.totalPrice, 0);
+        dispatch(updateCartSubTotal(totalPrice)) 
 
     }
 
@@ -124,16 +121,16 @@ const CartPage = () => {
 
     function manageCoupon(data) {
 
-        const isMinimumAmountReached = (subTotalWithCoupon > data?.coupon_code?.minimum_amount);
+        const isMinimumAmountReached = (subtotal > data?.coupon_code?.minimum_amount);
 
         const discount = isMinimumAmountReached
             ? data?.coupon_code?.calculation_type === "percentage"
-                ? (parseFloat(data?.coupon_code?.amount) / 100) * subTotalWithCoupon
+                ? (parseFloat(data?.coupon_code?.amount) / 100) * subtotal
                 : data?.coupon_code?.calculation_type === "fixed"
                     ? parseFloat(data?.coupon_code?.amount) : 0
             : 0;
-
-        const discountedTotal = parseFloat(subTotalWithCoupon) - discount;
+        console.log("discount ==> ",discount)
+        const discountedTotal = parseFloat(subtotal) - discount;
         // dispatch(updateCartSubTotal(discountedTotal));
         console.log("discountedTotal", discountedTotal)
         setSubTotalWithCoupon(discountedTotal);
@@ -351,12 +348,12 @@ const CartPage = () => {
                                 <div className='m-1 mt-2 small-card'>
                                     {cartItems.map((item, index) => (
                                         <div key={index} className='row align-items-center mt-3 cards'>
-                                            <div className='col-3 ' style={{ backgroundColor: '' }}>
+                                            <div className='col-3 ' style={{ backgroundColor: '' }} onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>
                                                 <ImageComponent src={item?.image[0]?.name} alt="Product Image" classAtribute="cart-products" />
                                             </div>
                                             <div className='col-9' style={{ backgroundColor: '' }}>
                                                 <div className='row'>
-                                                    <div className='col-4 cartItems-text    '>
+                                                    <div className='col-4 cartItems-text' onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>
                                                         {item.name}
                                                     </div>
                                                     <div className='col-2 text-end'>
