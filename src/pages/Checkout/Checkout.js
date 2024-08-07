@@ -135,8 +135,9 @@ const CheckoutPage = () => {
                 method: 'POST',
                 headers: {
                     Accept: 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml;charset=UTF-8',        
-                    'Authorization': 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`)                    
+                    'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml',
+                    Authorization: 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`),
+                    'Accept-Language': 'en-CA'                   
                 },
                 // changeOrigin: true,
                 body: xmlRequest
