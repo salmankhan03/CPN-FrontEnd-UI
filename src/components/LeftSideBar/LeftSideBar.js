@@ -6,7 +6,7 @@ import 'rc-slider/assets/index.css';
 import RangeSliderInput from '../PriceFilterComponents/PriceFilterComponents';
 import InputComponent from '../InputComponents/InputComponents';
 import ButtonComponent from '../ButtonComponents/ButtonComponents';
-function LeftSideBarComponents({ categoriesData, brandData, availabilityData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice }) {
+function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, setSelectedCategories, selectedBrands, setSelectedBrands, filteredPrice, setFilteredPrice, maximumPrice }) {
   const [priceRange, setPriceRange] = useState([0, maximumPrice]);
   const [categorySearchTerm, setCategorySearchTerm] = useState('');
   const [brandSearchTerm, setBrandSearchTerm] = useState('');

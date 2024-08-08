@@ -22,6 +22,7 @@ import Chip from '../../components/ChipsComponents/Chip';
 function ShopScreen() {
     // const { type, id } = useParams();
     const Categories = useSelector(state => state.CategoryReducer.categoryListData)
+    const Brands = useSelector(state => state.BrandReducer.brandsListData)
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
@@ -46,7 +47,7 @@ function ShopScreen() {
     const [categoriesData, setCategoriesData] = useState(Categories);
     const [categories_Loader, setCategories_Loader] = useState(true);
 
-    const [brandData, setBrandData] = useState();
+    const [brandData, setBrandData] = useState(Brands);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedBrands, setSelectedBrands] = useState([]);
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
@@ -73,14 +74,6 @@ function ShopScreen() {
         getProductsList(selectedOption)
     }, [selectedOption, currentPage])
 
-
-
-    const [availabilityData, setAvailabilityData] = useState([
-        { id: 4, name: 'exclude-from-catalog' },
-        { id: 5, name: 'exclude-from-search' },
-        { id: 6, name: 'featured' },
-        { id: 7, name: 'outofstock' }
-    ]);
     useEffect(() => {
         window.scrollTo(0, 0);
         fetchData()
@@ -211,8 +204,8 @@ function ShopScreen() {
         try {
             await Promise.all([
                 // getProductsList(),
-                getCategoryList(),
-                getBrandList(),
+                // getCategoryList(),
+                // getBrandList(),
                 getPriceFilter(),
             ]);
         } catch (error) {
@@ -223,50 +216,50 @@ function ShopScreen() {
 
         }
     };
-    function getBrandList() {
-        CategoryServices.getAllBrand({
-            page: page,
-            limit: 100,
-        }).then((resp) => {
-            // setLoading(false)
-            // console.log(resp)
-            if (resp?.status_code === 200) {
-                // console.log(resp.list.data)
-                dispatch(setBrandList([
-                    ...resp?.list?.data
-                ]))
-                setBrandData(resp?.list?.data)
-            }
-        }).catch((error) => {
-            // setLoading(false)
-            console.log(error)
-        })
+    // function getBrandList() {
+    //     CategoryServices.getAllBrand({
+    //         page: page,
+    //         limit: 100,
+    //     }).then((resp) => {
+    //         // setLoading(false)
+    //         // console.log(resp)
+    //         if (resp?.status_code === 200) {
+    //             // console.log(resp.list.data)
+    //             dispatch(setBrandList([
+    //                 ...resp?.list?.data
+    //             ]))
+    //             setBrandData(resp?.list?.data)
+    //         }
+    //     }).catch((error) => {
+    //         // setLoading(false)
+    //         console.log(error)
+    //     })
 
-    }
+    // }
 
-    function getCategoryList() {
-        CategoryServices.getAllCategory({
-            page: page,
-            limit: defaultLimit,
-        }).then((resp) => {
-            // setLoading(false)
-            // console.log(resp)
-            if (resp?.status_code === 200) {
-                dispatch(setCategoryList([
-                    ...resp?.tree?.data
-                ]))
-                setCategoriesData(resp?.tree?.data)
-                const timers = setTimeout(() => {
-                    setCategories_Loader(false)
-                }, 1000);
-                return () => clearTimeout(timers);
-            }
-        }).catch((error) => {
-            // setLoading(false)
-            setCategories_Loader(false)
-            console.log(error)
-        })
-    }
+    // function getCategoryList() {
+    //     CategoryServices.getAllCategory({
+    //         page: page,
+    //         limit: defaultLimit,
+    //     }).then((resp) => {
+    //         // setLoading(false)
+    //         // console.log(resp)
+    //         if (resp?.status_code === 200) {
+    //             dispatch(setCategoryList([
+    //                 ...resp?.tree?.data
+    //             ]))
+    //             setCategoriesData(resp?.tree?.data)
+    //             const timers = setTimeout(() => {
+    //                 setCategories_Loader(false)
+    //             }, 1000);
+    //             return () => clearTimeout(timers);
+    //         }
+    //     }).catch((error) => {
+    //         // setLoading(false)
+    //         setCategories_Loader(false)
+    //         console.log(error)
+    //     })
+    // }
     async function getfilterWiseProduct(data) {
         setProducts_List_loader(true)
 
@@ -374,7 +367,6 @@ function ShopScreen() {
                                 <LeftSideBarComponents
                                     categoriesData={categoriesData}
                                     brandData={brandData}
-                                    availabilityData={availabilityData}
                                     selectedCategories={selectedCategories}
                                     setSelectedCategories={setSelectedCategories}
                                     selectedBrands={selectedBrands}
@@ -474,7 +466,6 @@ function ShopScreen() {
                                 <LeftSideBarComponents
                                     categoriesData={categoriesData}
                                     brandData={brandData}
-                                    availabilityData={availabilityData}
                                     selectedCategories={selectedCategories}
                                     setSelectedCategories={setSelectedCategories}
                                     selectedBrands={selectedBrands}
