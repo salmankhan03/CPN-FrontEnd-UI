@@ -46,26 +46,26 @@ function App() {
     console.debug = () => { }
   }
   useEffect(() => {
-    getStaticPageList()
+    // getStaticPageList()
   }, [])
 
-  async function getStaticPageList() {
-    await AuthServices.getStaticTemplates({
-      page: 1,
-      limit: 100,
-    }).then((resp) => {
-      if (resp?.status_code === 200) {
-        dispatch(setDefaultTemplateList([
-          ...resp?.list?.data
-        ]))
+  // async function getStaticPageList() {
+  //   await AuthServices.getStaticTemplates({
+  //     page: 1,
+  //     limit: 100,
+  //   }).then((resp) => {
+  //     if (resp?.status_code === 200) {
+  //       dispatch(setDefaultTemplateList([
+  //         ...resp?.list?.data
+  //       ]))
 
 
-      }
-    }).catch((error) => {
+  //     }
+  //   }).catch((error) => {
 
-      console.log(error)
-    })
-  }
+  //     console.log(error)
+  //   })
+  // }
   function loginStatusUpdate() {
     console.log("call")
   }

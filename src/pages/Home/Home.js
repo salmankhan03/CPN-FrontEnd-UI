@@ -20,6 +20,8 @@ import MetaTitle from '../../components/HelmetComponent/MetaTitle';
 import Header from "../../components/HeaderComponents/HeaderComponents";
 import ProductsListingSlider from '../../components/ProductsListingSlider/ProductsListingSlider';
 import { setBrandList } from '../../redux/action/brand-action';
+import { setDefaultTemplateList } from '../../redux/action/template-action';
+import AuthServices from '../../services/AuthServices';
 
 const useSlidesToShow = () => {
     const [slidesToShow, setSlidesToShow] = useState(1);
@@ -124,7 +126,9 @@ function HomeScreen() {
                 getCategoryList(),
                 getBrandList(),
                 getCategoryWiseWeeklyProducts(),
-                getCustomProductsList()
+                getCustomProductsList(),
+                getStaticPageList()
+                
             ]);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -165,6 +169,21 @@ function HomeScreen() {
             return () => clearTimeout(timers);
         })
     }
+    async function getStaticPageList() {
+        await AuthServices.getStaticTemplates({
+          page: 1,
+          limit: 100,
+        }).then((resp) => {
+          if (resp?.status_code === 200) {
+            dispatch(setDefaultTemplateList([
+              ...resp?.list?.data
+            ]))
+          }
+        }).catch((error) => {
+    
+          console.log(error)
+        })
+      }
     const addViewAllCategory = (data) => {
         return [
             {
