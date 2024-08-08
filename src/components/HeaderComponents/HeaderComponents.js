@@ -316,9 +316,10 @@ function Header() {
   };
 
   useEffect(() => {
-    console.log("user Login or not", AuthData, GuestData);
-    console.log("width", width);
-    getSlogan()
+    // console.log("user Login or not", AuthData, GuestData);
+    // console.log("width", width);
+    // Top Header Commented 
+    // getSlogan()
 
     const handleScroll = () => {
       const currentScrollPosition = window.scrollY;
@@ -372,29 +373,29 @@ function Header() {
 
     };
   }, []);
+// Temperrory Top header Slogn Comments because top header not used 
+  // const getSlogan = async () => {
+  //   try {
+  //     const resp = await BannersServices.getSlogan();
 
-  const getSlogan = async () => {
-    try {
-      const resp = await BannersServices.getSlogan();
-
-      if (resp?.status_code === 200) {
-        if (resp?.list?.data?.length > 0) {
-          setSlogans(resp?.list?.data);
-        } else {
-          const staticSlogan = [{
-            id: 0,
-            text: "We are open with limited hours and staff.",
-            url: "#"
-          }];
-          setSlogans(staticSlogan);
-          // console.log('No slogans available.');
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-    }
-  };
+  //     if (resp?.status_code === 200) {
+  //       if (resp?.list?.data?.length > 0) {
+  //         setSlogans(resp?.list?.data);
+  //       } else {
+  //         const staticSlogan = [{
+  //           id: 0,
+  //           text: "We are open with limited hours and staff.",
+  //           url: "#"
+  //         }];
+  //         setSlogans(staticSlogan);
+  //         // console.log('No slogans available.');
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   } finally {
+  //   }
+  // };
 
 
   const handleNavigation = (url) => {
