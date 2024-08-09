@@ -104,8 +104,8 @@ const CheckoutPage = () => {
     const stripeDetailsRef = useRef();
 
     const userProperties = {
-        username: 'f89d8930468d9b94',
-        password: '2100e015132b09d589da39',
+        username: 'b22f485be2ccc492',
+        password: 'a03eaf866847c837b31e06',
         customerNumber: '1234567890',
         contractNumber: '1234567890',
     };
@@ -143,7 +143,7 @@ const CheckoutPage = () => {
                 body: xmlRequest
             };
 
-            fetch('https://soa-gw.canadapost.ca/rs/ship/price', requestOptions)
+            fetch('/rs/ship/price', requestOptions)
                 .then(response => response.text())
                 .then(responseText => {
                     const parser = new DOMParser();
