@@ -720,17 +720,17 @@ const CheckoutPage = () => {
                 console.log('Success:', data);
                 setShowCouponInput(false)
                 manageCoupon(data)
-                notifySuccess(`Your Coupen "${couponCode}" applay successfull`);
+                notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
             } else {
-                notifyError(`Your Coupen "${couponCode}" is not applay`);
+                notifyError(`Your Coupon "${couponCode}" is not applay`);
             }
         } catch (error) {
             console.error('Error:', error);
         }
-        console.log('Coupen code applied:', couponCode);
+        console.log('Coupon code applied:', couponCode);
     };
     const handleRemoveCoupon = () => {
-        console.log("Remove Coupen")
+        console.log("Remove Coupon")
 
     }
 
@@ -1328,7 +1328,7 @@ const CheckoutPage = () => {
                             }
                             {isApplayCoupon?.couponCode && couponDiscount > 0 &&
                                 <div className="d-flex  mt-2">
-                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupen Discount 
+                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
                                                     ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} `}</div>
                                     <div className=' tab-title font-weight-normal'>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
                                 </div>
@@ -1355,7 +1355,7 @@ const CheckoutPage = () => {
                                 >
                                     <div className="d-flex justify-content-between">
                                         <div style={{ color: 'black', padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Applay Coupen</h4></div>
+                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Apply Coupon</h4></div>
                                         <div style={{ padding: 15 }}>{showCouponInput ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
 
                                     </div>
@@ -1376,12 +1376,12 @@ const CheckoutPage = () => {
                                                             customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
                                                             value={couponCode}
                                                             onChange={(e) => setCouponCode(e.target.value)}
-                                                            placeholder="Enter your coupen code"
+                                                            placeholder="Enter your coupon code"
                                                             required
                                                         />
                                                     </div>
                                                     <div className=''>                
-                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Applay Coupen" disabled={!couponCode} />
+                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Apply Coupon" disabled={!couponCode} />
                                                     </div>
                                                 </div>
                                             ) : (
@@ -1389,7 +1389,7 @@ const CheckoutPage = () => {
                                                     <div className="col-auto text-center">
                                                         <p className="fs-4 text-success d-flex align-items-center justify-content-center">
                                                             <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
-                                                            Coupen applied!
+                                                            Coupon applied!
                                                         </p>
                                                     </div>
                                                     <div className="col-auto">
