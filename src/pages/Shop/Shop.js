@@ -53,7 +53,7 @@ function ShopScreen() {
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
-    const [selectedSortingOption, setSelectedSortingOption] = useState(location?.state?.sorting);
+    const [selectedSortingOption, setSelectedSortingOption] = useState(location?.state?.sorting ? location?.state?.sorting : 'low' );
     const [maxPrice, setMaxPrice] = useState()
     const [show, setShow] = useState(false);
     const [filtersChanged, setFiltersChanged] = useState(false);
