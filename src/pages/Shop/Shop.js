@@ -264,6 +264,7 @@ function ShopScreen() {
         setProducts_List_loader(true)
 
         console.log('data-----------------------------', data)
+        data['forAdminPanel'] = 0;
         await ProductServices.getfilterWiseProducts(data).then((resp) => {
             if (resp?.status_code === 200) {
 

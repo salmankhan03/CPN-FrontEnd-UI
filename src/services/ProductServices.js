@@ -6,6 +6,7 @@ const ProductServices = {
     if(price){
       obj.sort = { price: price === "low" ? "asc" : "desc" };
     }
+    obj['forAdminPanel'] = 0;
 
       // let body ={
       //   // category:searchCategory,
