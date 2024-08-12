@@ -23,16 +23,16 @@ const CartPage = () => {
     const GuestData = useSelector(state => state.AuthReducer.guestUserData?.guestUserId)
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = cartItems.reduce((total, item) => total + JSON.parse(item.totalPrice), 0);
-    const isApplayCoupon = useSelector(state => state.CartReducer.coupon)
+    const isApplyCoupon = useSelector(state => state.CartReducer.coupon)
     const totalItems = cartItems?.length;
 
     const [loading, setLoading] = useState(true);
     const [isLoggedIn, setLoggedIn] = useState(!!AuthData.id || !!GuestData)
     const [showCouponInput, setShowCouponInput] = useState(false);
-    const [couponCode, setCouponCode] = useState(isApplayCoupon ? isApplayCoupon?.couponCode : '');
-    const [couponDiscount, setCouponDiscount] = useState(isApplayCoupon ? isApplayCoupon?.couponDiscount : 0)
+    const [couponCode, setCouponCode] = useState(isApplyCoupon ? isApplyCoupon?.couponCode : '');
+    const [couponDiscount, setCouponDiscount] = useState(isApplyCoupon ? isApplyCoupon?.couponDiscount : 0)
 
-    const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(isApplayCoupon?.couponDiscount ? subtotal - isApplayCoupon?.couponDiscount : subtotal)
+    const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(isApplyCoupon?.couponDiscount ? subtotal - isApplyCoupon?.couponDiscount : subtotal)
     const [checkCouponCode, setCheckCouponCode] = useState(null)
     const [showModal, setShowModal] = useState(false);
 
@@ -97,7 +97,7 @@ const CartPage = () => {
                 setShowCouponInput(false)
                 manageCoupon(data)
                 if(toast){
-                notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
+                notifySuccess(`Your Coupon "${couponCode}" apply successfull`);
                 }
             } else {
                 setCheckCouponCode(null)
@@ -197,7 +197,7 @@ const CartPage = () => {
     }
 
     const removeCoupon = () => {
-        console.log(isApplayCoupon);
+        console.log(isApplyCoupon);
         dispatch(addCoupon({}));
         setSubTotalWithCoupon(subtotal)
     }
@@ -220,23 +220,23 @@ const CartPage = () => {
         dispatch(updateCartSubTotal(subtotal))
         // const isMinimumAmountReached = (subtotal > checkCouponCode?.coupon_code?.minimum_amount);
         // const discount = isMinimumAmountReached
-        //     ? isApplayCoupon?.calculation_type === "percentage" ? (parseFloat(isApplayCoupon?.amount) / 100) * subtotal : 
-        //     isApplayCoupon?.calculation_type === "fixed" ? parseFloat(isApplayCoupon?.amount) : 0
+        //     ? isApplyCoupon?.calculation_type === "percentage" ? (parseFloat(isApplyCoupon?.amount) / 100) * subtotal : 
+        //     isApplyCoupon?.calculation_type === "fixed" ? parseFloat(isApplyCoupon?.amount) : 0
         //     : 0;
         //     console.log("discount",discount)
-        //     console.log("discount",isApplayCoupon)
+        //     console.log("discount",isApplyCoupon)
 
         // dispatch(addCoupon({ 
-        //     couponCode: isApplayCoupon?.couponCode, 
+        //     couponCode: isApplyCoupon?.couponCode, 
         //     couponDiscount: discount, 
-        //     amount: isApplayCoupon?.amount, 
-        //     calculation_type:isApplayCoupon?.calculation_type
+        //     amount: isApplyCoupon?.amount, 
+        //     calculation_type:isApplyCoupon?.calculation_type
         //  }));
-        // console.log(isApplayCoupon)
-        if(isApplayCoupon?.couponDiscount){
+        // console.log(isApplyCoupon)
+        if(isApplyCoupon?.couponDiscount){
             handleApplyCoupon(false)
         }
-        setSubTotalWithCoupon(isApplayCoupon?.couponDiscount ? subtotal - isApplayCoupon?.couponDiscount : subtotal)
+        setSubTotalWithCoupon(isApplyCoupon?.couponDiscount ? subtotal - isApplyCoupon?.couponDiscount : subtotal)
     }, [subtotal])
 
     if (loading) {
@@ -417,7 +417,7 @@ const CartPage = () => {
                         </div>
                         <div className='row mt-5 mb-5'>
                             <div className='col-md-5 col-xs-12 mt-md-0'>
-                                {isApplayCoupon?.couponCode ? (
+                                {isApplyCoupon?.couponCode ? (
                                     <div className="text-left" style={{ padding: 25 }}>
                                         <h6 className="pointer-on-hover title d-inline">Coupon Discount</h6>
                                         <div class="row d-block align-items-center mt-5">
@@ -429,7 +429,7 @@ const CartPage = () => {
                                             </div>
                                             <div class="col-auto">
                                                 <div class="coupon-container pointer-on-hover">
-                                                    {isApplayCoupon?.couponCode}
+                                                    {isApplyCoupon?.couponCode}
                                                     <span className='ml-2 d-flex ' onClick={removeCoupon}>
                                                         <FontAwesomeIcon icon={faXmark} fontSize={20} />
                                                     </span>
@@ -484,10 +484,10 @@ const CartPage = () => {
                                                     <div className=''> <p className='tab-title'>Subtotal:</p></div>
                                                     <div>${subtotal?.toFixed(2)}</div>
                                                 </div>
-                                                {isApplayCoupon?.couponDiscount > 0 &&
+                                                {isApplyCoupon?.couponDiscount > 0 &&
                                                     <div className="d-flex justify-content-between tab-title mt-2">
-                                                        <div>{<p className='tab-title'>Coupon Discount ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} :</p>}</div>
-                                                        <div>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
+                                                        <div>{<p className='tab-title'>Coupon Discount ${isApplyCoupon?.calculation_type === 'percentage' ? `(${isApplyCoupon?.amount}%)` : `(${isApplyCoupon?.amount} CAD)`} :</p>}</div>
+                                                        <div>- ${isApplyCoupon?.couponDiscount?.toFixed(2)}</div>
                                                     </div>
                                                 }
                                                 <div className="d-flex justify-content-between tab-title  mt-2">

@@ -40,7 +40,7 @@ const CheckoutPage = () => {
     const cartItems = useSelector(state => state.CartReducer.cartItems);
     const subtotal = useSelector(state => state.CartReducer.cartSubTotal);
     const cartTotalTax = useSelector(state => state.CartReducer.cartTotalTax);
-    const isApplayCoupon = useSelector(state => state.CartReducer.coupon)
+    const isApplyCoupon = useSelector(state => state.CartReducer.coupon)
     const isProvinceSelected = useSelector(state => state.CartReducer.province)
 
     const CouponDetails = useSelector(state => state.CartReducer.coupon)
@@ -62,7 +62,7 @@ const CheckoutPage = () => {
     const [stripeShow, setStripeShow] = useState(false);
     const [couponCode, setCouponCode] = useState(CouponDetails ? CouponDetails?.couponCode : '');
     const [checkCouponCode, setCheckCouponCode] = useState(null)
-    const [couponDiscount, setCouponDiscount] = useState(isApplayCoupon ? isApplayCoupon?.couponDiscount : 0)
+    const [couponDiscount, setCouponDiscount] = useState(isApplyCoupon ? isApplyCoupon?.couponDiscount : 0)
     const [subTotalWithCoupon, setSubTotalWithCoupon] = useState(subtotal)
     const [validPostal, setValidPostal] = useState(false)
     const [shipping, setShipping] = useState()
@@ -530,10 +530,10 @@ const CheckoutPage = () => {
         setProvince(selectedProvince)
 
         dispatch(setSelectedProvince(selectedProvince))
-        // setSubTotalWithCoupon(isApplayCoupon  ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice);
-        if (isApplayCoupon?.couponDiscount) {
-            setSubTotalWithCoupon(isApplayCoupon ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice);
-            dispatch(cartOrderTotal(isApplayCoupon ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice))
+        // setSubTotalWithCoupon(isApplyCoupon  ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice);
+        if (isApplyCoupon?.couponDiscount) {
+            setSubTotalWithCoupon(isApplyCoupon ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice);
+            dispatch(cartOrderTotal(isApplyCoupon ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice))
         } else {
             setSubTotalWithCoupon(totalPrice)
             dispatch(cartOrderTotal(totalPrice))
@@ -617,10 +617,10 @@ const CheckoutPage = () => {
     //     setProvince(selectedProvince)
 
     //     dispatch(setSelectedProvince(selectedProvince))
-    //     // setSubTotalWithCoupon(isApplayCoupon  ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice);
-    //     if(isApplayCoupon?.couponDiscount){
-    //         setSubTotalWithCoupon(isApplayCoupon  ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice);
-    //         dispatch(cartOrderTotal(isApplayCoupon  ? totalPrice - isApplayCoupon?.couponDiscount : totalPrice))
+    //     // setSubTotalWithCoupon(isApplyCoupon  ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice);
+    //     if(isApplyCoupon?.couponDiscount){
+    //         setSubTotalWithCoupon(isApplyCoupon  ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice);
+    //         dispatch(cartOrderTotal(isApplyCoupon  ? totalPrice - isApplyCoupon?.couponDiscount : totalPrice))
     //     }else{
     //         setSubTotalWithCoupon(totalPrice)
     //         dispatch(cartOrderTotal(totalPrice))
@@ -720,9 +720,9 @@ const CheckoutPage = () => {
                 console.log('Success:', data);
                 setShowCouponInput(false)
                 manageCoupon(data)
-                notifySuccess(`Your Coupon "${couponCode}" applay successfull`);
+                notifySuccess(`Your Coupon "${couponCode}" apply successfull`);
             } else {
-                notifyError(`Your Coupon "${couponCode}" is not applay`);
+                notifyError(`Your Coupon "${couponCode}" is not apply`);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -735,7 +735,7 @@ const CheckoutPage = () => {
     }
 
     const removeCoupon = () => {
-        console.log(isApplayCoupon);
+        console.log(isApplyCoupon);
         setCouponCode('')
         dispatch(addCoupon({}));
         setSubTotalWithCoupon(subtotal)
@@ -902,7 +902,7 @@ const CheckoutPage = () => {
             console.log('Form validation failed');
         }
     };
-    console.log(isApplayCoupon)
+    console.log(isApplyCoupon)
     if (loading) {
         return <SpinnerLoading loading={loading} />
     }
@@ -1326,11 +1326,11 @@ const CheckoutPage = () => {
                                     <div className='ml-5  tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
                                 </div>
                             }
-                            {isApplayCoupon?.couponCode && couponDiscount > 0 &&
+                            {isApplyCoupon?.couponCode && couponDiscount > 0 &&
                                 <div className="d-flex  mt-2">
                                     <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
-                                                    ${isApplayCoupon?.calculation_type === 'percentage' ? `(${isApplayCoupon?.amount}%)` : `(${isApplayCoupon?.amount} CAD)`} `}</div>
-                                    <div className=' tab-title font-weight-normal'>- ${isApplayCoupon?.couponDiscount?.toFixed(2)}</div>
+                                                    ${isApplyCoupon?.calculation_type === 'percentage' ? `(${isApplyCoupon?.amount}%)` : `(${isApplyCoupon?.amount} CAD)`} `}</div>
+                                    <div className=' tab-title font-weight-normal'>- ${isApplyCoupon?.couponDiscount?.toFixed(2)}</div>
                                 </div>
                             }
                             <hr></hr>
@@ -1366,7 +1366,7 @@ const CheckoutPage = () => {
                                 <div className='' id="example-collapse-text" >
                                     <div className="container p-3">
                                         <div className="coupon-section">
-                                            { !isApplayCoupon?.couponCode ? (
+                                            { !isApplyCoupon?.couponCode ? (
                                                 <div className="d-flex justify-content-between ">
                                                     <div className=''>
                                                         <InputComponent
@@ -1394,7 +1394,7 @@ const CheckoutPage = () => {
                                                     </div>
                                                     <div className="col-auto">
                                                         <div className="d-inline-flex align-items-center coupon-container pointer-on-hover">
-                                                            {isApplayCoupon?.couponCode}
+                                                            {isApplyCoupon?.couponCode}
                                                             <span className='ml-2 d-flex align-items-center' onClick={removeCoupon}>
                                                                 <FontAwesomeIcon icon={faXmark} fontSize={20} />
                                                             </span>
