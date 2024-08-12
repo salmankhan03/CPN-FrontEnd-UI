@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
 import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
-import { addtoCartItems } from '../../redux/action/cart-action';
+import { addtoCartItems, updateCartItems } from '../../redux/action/cart-action';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useNavigate } from 'react-router-dom';
 import { setCategoryList } from '../../redux/action/category-action';
@@ -287,6 +287,20 @@ function HomeScreen() {
         const existingCartItem = cartItems.find(item => item.id === productItem.id);
         let message = truncateString(productItem?.name, 60)
         if (existingCartItem) {
+            const updatedCartItems = cartItems.map(item => {
+                if (item.id === productItem.id) {
+                    return {
+                        ...item,
+                        purchaseQty: 1 + item?.purchaseQty,
+                        totalPrice: (1 + item?.purchaseQty )* JSON.parse(productItem?.sell_price),
+                        price: productItem.sell_price,
+                        sku: productItem.sku,
+                    };
+                } else {
+                    return item;
+                }
+            });
+            dispatch(updateCartItems(updatedCartItems));
             notifySuccess(`${message} already added in the cart!`);
         } else {
             let cartObj = {
