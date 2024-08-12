@@ -303,6 +303,7 @@ function ShopScreen() {
                 setTotalItems(resp?.list?.total)
                 const timers = setTimeout(() => {
                     setLoading(false)
+                    setProducts_List_loader(false)
                 }, 1000);
                 return () => clearTimeout(timers);
             }
