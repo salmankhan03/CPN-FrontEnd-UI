@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ImageComponent from '../../components/ImageComponents/ImageComponents';
 import { useDispatch, useSelector } from 'react-redux';
-import { notifySuccess } from "../../components/ToastComponents/ToastComponents";
+import { notifyError, notifySuccess } from "../../components/ToastComponents/ToastComponents";
 import { addtoCartItems, updateCartItems } from '../../redux/action/cart-action';
 import FooterComponents from '../../components/FooterComponents/FooterComponents';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const useSlidesToShow = () => {
         const width = window.innerWidth;
         if (width >= 2000) {
             setSlidesToShow(5);
-        }else if (width >= 1680) {
+        } else if (width >= 1680) {
             setSlidesToShow(5);
         }
         else if (width >= 1440) {
@@ -128,7 +128,6 @@ function HomeScreen() {
                 getCategoryWiseWeeklyProducts(),
                 getCustomProductsList(),
                 getStaticPageList()
-                
             ]);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -171,19 +170,18 @@ function HomeScreen() {
     }
     async function getStaticPageList() {
         await AuthServices.getStaticTemplates({
-          page: 1,
-          limit: 100,
+            page: 1,
+            limit: 100,
         }).then((resp) => {
-          if (resp?.status_code === 200) {
-            dispatch(setDefaultTemplateList([
-              ...resp?.list?.data
-            ]))
-          }
+            if (resp?.status_code === 200) {
+                dispatch(setDefaultTemplateList([
+                    ...resp?.list?.data
+                ]))
+            }
         }).catch((error) => {
-    
-          console.log(error)
+            console.log(error)
         })
-      }
+    }
     const addViewAllCategory = (data) => {
         return [
             {
@@ -287,22 +285,28 @@ function HomeScreen() {
         const existingCartItem = cartItems.find(item => item.id === productItem.id);
         let message = truncateString(productItem?.name, 60)
         if (existingCartItem) {
-            const updatedCartItems = cartItems.map(item => {
-                if (item.id === productItem.id) {
-                    return {
-                        ...item,
-                        purchaseQty: 1 + item?.purchaseQty,
-                        totalPrice: (1 + item?.purchaseQty )* JSON.parse(productItem?.sell_price),
-                        price: productItem.sell_price,
-                        sku: productItem.sku,
-                    };
-                } else {
-                    return item;
-                }
-            });
-            dispatch(updateCartItems(updatedCartItems));
-            notifySuccess(`${message} already added in the cart!`);
+            if ((existingCartItem?.purchaseQty + 1) <= productItem?.quantity) {
+                const updatedCartItems = cartItems.map(item => {
+                    if (item.id === productItem.id) {
+                        return {
+                            ...item,
+                            purchaseQty: 1 + item?.purchaseQty,
+                            totalPrice: (1 + item?.purchaseQty) * JSON.parse(productItem?.sell_price),
+                            price: productItem.sell_price,
+                            sku: productItem.sku,
+                            availableQty: productItem?.quantity
+                        };
+                    } else {
+                        return item;
+                    }
+                });
+                dispatch(updateCartItems(updatedCartItems));
+                notifySuccess(`${message} already added in the cart!`);
+            } else {
+                notifyError(`Products Quantity not Sufficient`);
+            }
         } else {
+            if(Number(productItem?.quantity) <= productItem?.quantity){
             let cartObj = {
                 id: productItem.id,
                 name: productItem.name,
@@ -312,10 +316,14 @@ function HomeScreen() {
                 sku: productItem.sku,
                 purchaseQty: 1,
                 totalPrice: 1 * JSON.parse(productItem.sell_price),
-                is_tax_apply: productItem?.is_tax_apply
+                is_tax_apply: productItem?.is_tax_apply,
+                availableQty: productItem?.quantity
             };
             notifySuccess(`${message} added to the cart!`);
             dispatch(addtoCartItems(cartObj));
+        }else{
+            notifyError(`Products Quantity not Sufficient`);
+        }
         }
     }
 
@@ -477,13 +485,13 @@ function HomeScreen() {
                                 ) : (
                                     weeklyProductsList?.length > 0 ? (
                                         <div className="weekly-featured" >
-                                            <ProductsListingSlider 
-                                                data={weeklyProductsList} 
-                                                recordsDisplay={10} 
-                                                settings={settings} 
-                                                truncateString={truncateString} 
-                                                addToCart={addToCart} 
-                                                navigated={() => gotoShopScreen('weekly_featured_products')}/>
+                                            <ProductsListingSlider
+                                                data={weeklyProductsList}
+                                                recordsDisplay={10}
+                                                settings={settings}
+                                                truncateString={truncateString}
+                                                addToCart={addToCart}
+                                                navigated={() => gotoShopScreen('weekly_featured_products')} />
                                         </div>
                                     ) : (
                                         <div className='d-flex justify-content-center'>
@@ -529,12 +537,12 @@ function HomeScreen() {
                                     ) : (
                                         customProductsData?.newProducts?.length > 0 ? (
                                             <div className="weekly-featured" >
-                                                <ProductsListingSlider 
-                                                    data={customProductsData?.newProducts} 
+                                                <ProductsListingSlider
+                                                    data={customProductsData?.newProducts}
                                                     recordsDisplay={10}
-                                                    settings={settings} 
-                                                    truncateString={truncateString} 
-                                                    addToCart={addToCart} 
+                                                    settings={settings}
+                                                    truncateString={truncateString}
+                                                    addToCart={addToCart}
                                                     navigated={() => gotoShopScreen('new_products')} />
                                             </div>
                                         ) : (
@@ -556,14 +564,13 @@ function HomeScreen() {
                                     ) : (
                                         customProductsData?.newProducts?.length > 0 ? (
                                             <div className="weekly-featured" >
-                                                <ProductsListingSlider 
-                                                    data={customProductsData?.productsOnSale} 
-                                                    recordsDisplay={10} 
-                                                    settings={settings} 
-                                                    truncateString={truncateString} 
+                                                <ProductsListingSlider
+                                                    data={customProductsData?.productsOnSale}
+                                                    recordsDisplay={10}
+                                                    settings={settings}
+                                                    truncateString={truncateString}
                                                     addToCart={addToCart}
                                                     navigated={() => gotoShopScreen('products_on_sale')} />
-                                                    
                                             </div>
                                         ) : (
                                             <div className='d-flex justify-content-center'>
@@ -583,12 +590,12 @@ function HomeScreen() {
                                     ) : (
                                         customProductsData?.newProducts?.length > 0 ? (
                                             <div className="weekly-featured" >
-                                                <ProductsListingSlider 
-                                                    data={customProductsData?.topRatedProducts} 
-                                                    recordsDisplay={10} 
-                                                    settings={settings} 
-                                                    truncateString={truncateString} 
-                                                    addToCart={addToCart} 
+                                                <ProductsListingSlider
+                                                    data={customProductsData?.topRatedProducts}
+                                                    recordsDisplay={10}
+                                                    settings={settings}
+                                                    truncateString={truncateString}
+                                                    addToCart={addToCart}
                                                     navigated={() => gotoShopScreen('top_rated_products')} />
                                             </div>
                                         ) : (

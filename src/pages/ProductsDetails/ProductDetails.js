@@ -340,10 +340,11 @@ function ProductDetails() {
 
     const addtoCart = (product) => {
         console.log("ADD TO CART CALL")
-        const existingCartItem = cartItems.find(item => item.id === product.id);
+        const existingCartItem = cartItems.find(item => item?.id === product?.id);
         let message = truncateString(product?.name, 60)
         if (existingCartItem) {
-            const updatedCartItems = cartItems.map(item => {
+            if((existingCartItem?.purchaseQty + quantity) <= product?.quantity){
+                const updatedCartItems = cartItems.map(item => {
                 if (item.id === product.id) {
                     return {
                         ...item,
@@ -351,6 +352,7 @@ function ProductDetails() {
                         totalPrice: (quantity + item?.purchaseQty )* (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
                         price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
                         sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
+                        availableQty: product?.quantity
                     };
                 } else {
                     return item;
@@ -358,23 +360,31 @@ function ProductDetails() {
             });
             dispatch(updateCartItems(updatedCartItems));
             notifySuccess(`${message} already added in the cart!`);
-        } else {
-            let cartObj = {
-                id: product.id,
-                name: product.name,
-                image: product.images,
-                description: product.description,
-                price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
-                sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
-                purchaseQty: quantity,
-                totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
-                is_tax_apply: product?.is_tax_apply
-            };
-            if (selectedProductsVarints) {
-                cartObj['variants'] = selectedProductsVarints;
+            }else{
+                notifyError(`Products Quantity not Sufficient`);
             }
-            notifySuccess(`${message} added to the cart!`);
-            dispatch(addtoCartItems(cartObj));
+        } else {
+            if(quantity <= Number(product?.quantity)){
+                let cartObj = {
+                    id: product.id,
+                    name: product.name,
+                    image: product.images,
+                    description: product.description,
+                    price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
+                    sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
+                    purchaseQty: quantity,
+                    totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                    is_tax_apply: product?.is_tax_apply,
+                    availableQty: product?.quantity
+                };
+                if (selectedProductsVarints) {
+                    cartObj['variants'] = selectedProductsVarints;
+                }
+                notifySuccess(`${message} added to the cart!`);
+                dispatch(addtoCartItems(cartObj));
+            }else{
+                notifyError(`Products Quantity not Sufficient`);
+            }
         }
     }
     const selectVarintsProducts = (id, optionID, types) => {

@@ -65,7 +65,7 @@ const CartPage = () => {
         updatedCartItemsList.splice(index, 1)
         dispatch(updateCartItems(updatedCartItemsList));
         const totalPrice = updatedCartItemsList.reduce((sum, item) => sum + item.totalPrice, 0);
-        dispatch(updateCartSubTotal(totalPrice)) 
+        dispatch(updateCartSubTotal(totalPrice))
 
     }
 
@@ -96,8 +96,8 @@ const CartPage = () => {
                 console.log('Success:', data);
                 setShowCouponInput(false)
                 manageCoupon(data)
-                if(toast){
-                notifySuccess(`Your Coupon "${couponCode}" apply successfull`);
+                if (toast) {
+                    notifySuccess(`Your Coupon "${couponCode}" apply successfull`);
                 }
             } else {
                 setCheckCouponCode(null)
@@ -109,8 +109,8 @@ const CartPage = () => {
                 }));
                 setSubTotalWithCoupon(subtotal);
 
-                if(toast){
-                notifyError(`Your Coupon "${couponCode}" Not Matched`);
+                if (toast) {
+                    notifyError(`Your Coupon "${couponCode}" Not Matched`);
                 }
             }
         } catch (error) {
@@ -129,7 +129,7 @@ const CartPage = () => {
                 : data?.coupon_code?.calculation_type === "fixed"
                     ? parseFloat(data?.coupon_code?.amount) : 0
             : 0;
-        console.log("discount ==> ",discount)
+        // console.log("discount ==> ", discount)
         const discountedTotal = parseFloat(subtotal) - discount;
         // dispatch(updateCartSubTotal(discountedTotal));
         console.log("discountedTotal", discountedTotal)
@@ -151,14 +151,17 @@ const CartPage = () => {
         const updatedCartSubTotals = subtotal;
         const updatedCartItems = [...cartItems];
         const updatedItem = { ...updatedCartItems[index] };
-        updatedItem.purchaseQty = JSON.parse(updatedItem.purchaseQty) + 1;
-        updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
-        updatedCartItems[index] = updatedItem;
-        dispatch(updateCartItems(updatedCartItems));
-        dispatch(updateCartSubTotal(updatedCartSubTotals + JSON.parse(updatedItem.price)))
-        setSubTotalWithCoupon(updatedCartSubTotals + JSON.parse(updatedItem.price));
+        if ((updatedItem?.purchaseQty + 1) <= updatedItem?.availableQty) {
+            updatedItem.purchaseQty = JSON.parse(updatedItem.purchaseQty) + 1;
+            updatedItem.totalPrice = JSON.parse(updatedItem.price) * updatedItem.purchaseQty;
+            updatedCartItems[index] = updatedItem;
+            dispatch(updateCartItems(updatedCartItems));
+            dispatch(updateCartSubTotal(updatedCartSubTotals + JSON.parse(updatedItem.price)))
+            setSubTotalWithCoupon(updatedCartSubTotals + JSON.parse(updatedItem.price));
+        } else {
+            notifyError(`Products Quantity not Sufficient`);
+        }
     };
-
     const handleDecrement = (index) => {
         const updatedCartSubTotals = subtotal;
         const updatedCartItems = [...cartItems];
@@ -233,7 +236,7 @@ const CartPage = () => {
         //     calculation_type:isApplyCoupon?.calculation_type
         //  }));
         // console.log(isApplyCoupon)
-        if(isApplyCoupon?.couponDiscount){
+        if (isApplyCoupon?.couponDiscount) {
             handleApplyCoupon(false)
         }
         setSubTotalWithCoupon(isApplyCoupon?.couponDiscount ? subtotal - isApplyCoupon?.couponDiscount : subtotal)
@@ -290,7 +293,7 @@ const CartPage = () => {
                                         {cartItems.map((item, index) => {
                                             return (
                                                 <tr key={index} className='p-3' >
-                                                    <td className='align-middle pt-5  pb-5 pointer-on-hover' style={{height:90,objectFit:'contain'}} onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>
+                                                    <td className='align-middle pt-5  pb-5 pointer-on-hover' style={{ height: 90, objectFit: 'contain' }} onClick={() => navigate(`/products-details/${item.id}`, { state: { id: item.id } })}>
                                                         {/* <div className='row align-items-center'> */}
                                                         {/* <div className='col-12 col-sm-3'> */}
                                                         <ImageComponent src={item?.image[0]?.name} alt="Product Image" width={true} classAtribute="carts-img cartsfitImg maxHeight" />
