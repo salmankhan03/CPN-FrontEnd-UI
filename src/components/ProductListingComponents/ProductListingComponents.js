@@ -103,7 +103,7 @@ function ProductListing(props) {
 
                         <div>
                             <div className={`${productItem?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${productItem?.sell_price}</div>
-                            {productItem?.price && <span className="actualPrice sf-Regular">${productItem?.price}</span>}
+                            {productItem?.quantity > 0 && productItem?.price && <span className="actualPrice sf-Regular">${productItem?.price}</span>}
                         </div>
                         <div>
                             <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>

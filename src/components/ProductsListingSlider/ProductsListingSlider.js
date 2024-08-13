@@ -36,7 +36,7 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                                             <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>
                                                 ${category?.sell_price}
                                             </div>
-                                            {category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
+                                            { category?.quantity > 0 && category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
                                         </div>
                                         <div>
                                             <span className="circle" onClick={(event) => addToCart(event, category)}>

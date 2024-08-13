@@ -702,7 +702,7 @@ function ProductDetails() {
                                     <div style={{ borderBottom: '1px solid #eee', width: '100%', display: 'flex' }}>
                                         <div className="product_price priceLabelColor mt-3 mb-3">
                                             ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
-                                            <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
+                                            {productData?.quantity > 0 && <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>}
                                         </div>
                                     </div>
                                     {Number(productData?.quantity) === 0 &&
