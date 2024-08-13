@@ -66,7 +66,14 @@ function ShopScreen() {
 
     const handlePageChange = (newPage) => {
         // Your logic to fetch and display data for the new page
+        setLoading(true)
+        setProducts_List_loader(true)
+        window.scrollTo(0, 0);
         setCurrentPage(newPage);
+        setTimeout(() => {
+            setLoading(false)
+            setProducts_List_loader(false)
+        }, 2500);
     };
 
 
@@ -310,6 +317,7 @@ function ShopScreen() {
             }
         }).catch((error) => {
             setLoading(false)
+            setProducts_List_loader(false)
             console.log(error)
         })
     }

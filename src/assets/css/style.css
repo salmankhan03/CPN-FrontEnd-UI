@@ -3124,7 +3124,7 @@ h2 {
 }
 
 .active-page {
-  background-color: #2e3133;
+  background-color: var(--secondary-color);
   color: #fff;
 }
 
