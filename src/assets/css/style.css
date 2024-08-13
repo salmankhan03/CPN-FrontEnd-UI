@@ -4214,3 +4214,10 @@ select {
   overflow-wrap: break-word;
 }
 /* End */
+.out-of-stock{
+  padding: 7px;
+  border: 1px solid;
+  background-color: #fde8e8;
+  color: red;
+  border-radius: 15px;
+}

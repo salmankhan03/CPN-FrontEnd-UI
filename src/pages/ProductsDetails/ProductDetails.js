@@ -695,6 +695,11 @@ function ProductDetails() {
                                             <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>
                                         </div>
                                     </div>
+                                    {Number(productData?.quantity) === 0 &&
+                                    <div className="mt-4 mb-2">
+                                         <span class="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity  : "Out of Stock"} </span>                                                
+                                    </div>
+                                    }
                                     {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
                                 </div> */}
@@ -844,14 +849,17 @@ function ProductDetails() {
                                                     </span>
                                                 </div>
                                                 <ButtonComponent
-                                                    cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
+                                                    // cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
+                                                    cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled': ''}`}
                                                     onClick={() => {
                                                         if (productsVariants?.length) {
                                                             if (selectedProductsVarints) {
                                                                 addtoCart(productData);
                                                             }
                                                         } else {
-                                                            addtoCart(productData);
+                                                            if(Number(productData?.quantity) > 0){
+                                                                addtoCart(productData);
+                                                            }
                                                         }
                                                     }}
                                                     label="Add to Cart"
