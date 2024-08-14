@@ -1065,7 +1065,7 @@ const CheckoutPage = () => {
                     {/* <Toast /> */}
                     <div className="row">
 
-                        <div className="col-md-8">
+                        <div className="col-lg-8 col-md-12">
                             <div className="mt-3" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
@@ -1431,7 +1431,7 @@ const CheckoutPage = () => {
 
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-lg-4 col-md-12">
 
                             <div className="text-center">
                                 <h5 className="bold title d-inline">Order Summary</h5>
@@ -1591,11 +1591,11 @@ const CheckoutPage = () => {
                                                         <div className="text-left">
                                                             {truncateString(item?.name, 50)}
                                                             <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
-                                                            <span className='fs-5 font-bold'>{item?.purchaseQty}</span>
+                                                            <span className='fs-6 font-bold'>{item?.purchaseQty}</span>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-2">
-                                                        <div className='fs-5 font-bold'> ${item?.totalPrice}</div>
+                                                        <div className='fs-6 font-bold'> ${item?.totalPrice}</div>
                                                     </div>
                                                 </div>
                                             ))}
