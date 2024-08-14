@@ -343,10 +343,8 @@ const LoginScreen = ({ onLogin }) => {
                             {registerFormDataErrors.password && <div style={{ width: '100%', fontSize: '.875em', color: 'red' }}>{registerFormDataErrors.password}</div>}
                           </div>
 
-                          <div className="form-group">
-                            <div className="red_button product-add_to_cart_button mt-3" onClick={handleSignUpSubmit}>
-                              Register
-                            </div>
+                          <div className="form-group">      
+                            <ButtonComponent cssClass="shopping-btn w-100 mt-3" onClick={handleSignUpSubmit} label="Register" />
                           </div>
                           <div className='mt-4 mb-4'>
                             {/*<hr />*/}
@@ -400,9 +398,9 @@ const LoginScreen = ({ onLogin }) => {
 
                                   <div className="form-group">
                                     {isButtonLoading ? (
-                                      <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={''} label="Loading..." disabled={true}/>
+                                      <ButtonComponent cssClass="shopping-btn w-100 mt-3" onClick={''} label="Loading..." disabled={true}/>
                                     ) : (                    
-                                      <ButtonComponent cssClass="shopping-btn btn-border-radius w-100" onClick={handleLoginSubmit} label="Login" />
+                                      <ButtonComponent cssClass="shopping-btn w-100 mt-3" onClick={handleLoginSubmit} label="Login" />
                                     )}
                                   </div>
                                   <div className='mt-4 mb-4'>
