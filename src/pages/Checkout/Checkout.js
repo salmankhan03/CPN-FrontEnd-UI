@@ -147,7 +147,6 @@ const CheckoutPage = () => {
             myHeaders.append("Authorization", "Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2");
             myHeaders.append("Accept-Language", "en-CA");
             myHeaders.append("Cookie", "OWSPRD001SHIP=ship_01278_s001ptom001");
-
             const raw = `
             <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n
                 <mailing-scenario xmlns=\ "http://www.canadapost.ca/ws/ship/rate-v4\">\r\n
@@ -165,7 +164,7 @@ const CheckoutPage = () => {
                 body: raw,
                 redirect: "follow"
             };
-            fetch("https://soa-gw.canadapost.ca/rs/ship/price", requestOptions)
+            fetch("https://cors-anywhere.herokuapp.com/https://soa-gw.canadapost.ca/rs/ship/price", requestOptions)
                 .then(response => response.text())
                 .then(responseText => {
                     const parser = new DOMParser();
