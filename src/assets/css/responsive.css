@@ -867,6 +867,9 @@
     padding: 4px 11px !important;
     font-size: 10px !important;
   }
+  .text-sm-centerd{
+    text-align: center !important;
+  }
 
 }
 

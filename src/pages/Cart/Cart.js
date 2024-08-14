@@ -473,9 +473,9 @@ const CartPage = () => {
                             </div>
                             <div className='col-md-7 col-xs-12 mt-md-0 '>
                                 <div className='row'>
-                                    <div className='col-md-5 col-xs-12 mt-md-0 mt-5'>
+                                    <div className='col-md-3 col-lg-5 col-xs-12 mt-md-0 mt-5'>
                                     </div>
-                                    <div className='col-md-7 col-xs-12 mt-md-0 mt-5'>
+                                    <div className='col-md-9 col-lg-7 col-xs-12 mt-md-0 mt-5'>
                                         <div className='leftSidebarBrand'>
                                             <div className="text-center">
                                                 <h5 className="bold pointer-on-hover title d-inline">Order Summary</h5>

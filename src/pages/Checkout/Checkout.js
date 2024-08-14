@@ -901,7 +901,7 @@ const CheckoutPage = () => {
                     {/* <Toast /> */}
                     <div className="row">
 
-                        <div className="col-md-8">
+                        <div className="col-md-12 col-lg-8">
                             <div className="mt-3" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
@@ -1269,7 +1269,7 @@ const CheckoutPage = () => {
 
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-md-12 col-lg-4">
 
                             <div className="text-center">
                                 <h5 className="bold title d-inline">Order Summary</h5>
@@ -1370,7 +1370,7 @@ const CheckoutPage = () => {
                                                             />
                                                         </div>
                                                         <div className=''>
-                                                            <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Apply Coupon" disabled={!couponCode} />
+                                                            <ButtonComponent cssClass="shopping-btn p-3 fontSize14" onClick={handleApplyCoupon} label="Apply Coupon" disabled={!couponCode} />
                                                         </div>
                                                     </div>
                                                 ) : (
@@ -1426,7 +1426,7 @@ const CheckoutPage = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-7">
-                                                        <div className="text-left">
+                                                        <div className="text-left text-sm-centerd">
                                                             {truncateString(item?.name, 50)}
                                                             <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
                                                             <span className='fs-5 font-bold'>{item?.purchaseQty}</span>

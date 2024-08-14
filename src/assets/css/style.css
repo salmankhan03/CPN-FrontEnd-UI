@@ -124,6 +124,9 @@ COLOR PALETTE
 .fontSize10 {
   font-size: 10;
 }
+.fontSize14 {
+  font-size: 14px !important;
+}
 
 .inter-medium-fonts {
   font-family: "Medium";
