@@ -48,7 +48,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://soa-gw.canadapost.ca/rs/ship/price",
+  "proxy": "https://soa-gw.canadapost.ca",
+
   "eslintConfig": {
     "extends": [
       "react-app",
