@@ -116,34 +116,56 @@ const CheckoutPage = () => {
             const destinationPostalCode = shippingFormData.zipcode || 'M5A1A1';
             const weight = 1;
 
-            const xmlRequest = `<?xml version="1.0" encoding="UTF-8"?>
-          <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
-            <parcel-characteristics>
-              <weight>${weight}</weight>
-            </parcel-characteristics>
-            <origin-postal-code>${originPostalCode}</origin-postal-code>
-            <destination>
-              <domestic>
-                <postal-code>${destinationPostalCode}</postal-code>
-              </domestic>
-            </destination>
-            <quote-type>counter</quote-type>
-          </mailing-scenario>`;
+            //     const xmlRequest = `<?xml version="1.0" encoding="UTF-8"?>
+            //   <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
+            //     <parcel-characteristics>
+            //       <weight>1</weight>
+            //     </parcel-characteristics>
+            //     <origin-postal-code>V6X2T4</origin-postal-code>
+            //     <destination>
+            //       <domestic>
+            //         <postal-code>M5A1A1</postal-code>
+            //       </domestic>
+            //     </destination>
+            //     <quote-type>counter</quote-type>
+            //   </mailing-scenario>`;
 
             // application/vnd.cpc.ship.rate-v4+xml',\
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/vnd.cpc.ship.rate-v4+xml',
-                    'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml',
-                    Authorization: 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`),
-                    'Accept-Language': 'en-CA'                   
-                },
-                // changeOrigin: true,
-                body: xmlRequest
-            };
+            // const requestOptions = {
+            //     method: 'POST',
+            //     headers: {
+            //         Accept: 'application/vnd.cpc.ship.rate-v4+xml',
+            //         'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml',
+            //         Authorization: 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`),
+            //         'Accept-Language': 'en-CA'                   
+            //     },
+            //     body: xmlRequest
+            // };
+            const myHeaders = new Headers();
+            myHeaders.append("Accept", "application/vnd.cpc.ship.rate-v4+xml");
+            myHeaders.append("Content-Type", "application/vnd.cpc.ship.rate-v4+xml");
+            myHeaders.append("Authorization", "Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2");
+            myHeaders.append("Accept-Language", "en-CA");
+            myHeaders.append("Cookie", "OWSPRD001SHIP=ship_01278_s001ptom001");
 
-            fetch('https://soa-gw.canadapost.ca/rs/ship/price', requestOptions)
+            const raw = `
+            <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n
+                <mailing-scenario xmlns=\ "http://www.canadapost.ca/ws/ship/rate-v4\">\r\n
+                    <parcel-characteristics>\r\n
+                        <weight>1</weight>\r\n </parcel-characteristics>\r\n
+                    <origin-postal-code>V6X2T4</origin-postal-code>\r\n
+                    <destination>\r\n
+                        <domestic>\r\n
+                            <postal-code>M5A1A1</postal-code>\r\n </domestic>\r\n </destination>\r\n
+                    <quote-type>counter</quote-type>\r\n </mailing-scenario>";`
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+            fetch("https://soa-gw.canadapost.ca/rs/ship/price", requestOptions)
                 .then(response => response.text())
                 .then(responseText => {
                     const parser = new DOMParser();
@@ -908,163 +930,36 @@ const CheckoutPage = () => {
     }
     return (
         <>
-            <Header/>
+            <Header />
             <div className="container mt-5">
-            <div>
-                {/* <Toast /> */}
-                <div className="row">
+                <div>
+                    {/* <Toast /> */}
+                    <div className="row">
 
-                    <div className="col-md-8">
-                        <div className="mt-3" style={{ border: '1px solid #ccc', }}>
-                            <div style={{ backgroundColor: 'lightgray' }}>
-                                <div
-                                    className=''
-                                    // onClick={() => setOpen(!open)}
-                                    onClick={handleShippingAddressClick}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={showShippingAddress}
-                                >
-                                    <div className="d-flex justify-content-between">
-                                        <div style={{ padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Details</h4>
+                        <div className="col-md-8">
+                            <div className="mt-3" style={{ border: '1px solid #ccc', }}>
+                                <div style={{ backgroundColor: 'lightgray' }}>
+                                    <div
+                                        className=''
+                                        // onClick={() => setOpen(!open)}
+                                        onClick={handleShippingAddressClick}
+                                        aria-controls="example-collapse-text"
+                                        aria-expanded={showShippingAddress}
+                                    >
+                                        <div className="d-flex justify-content-between">
+                                            <div style={{ padding: 15 }}>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Details</h4>
+                                            </div>
+                                            <div style={{ padding: 15 }}>{showShippingAddress ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
+
                                         </div>
-                                        <div style={{ padding: 15 }}>{showShippingAddress ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
-
                                     </div>
                                 </div>
-                            </div>
-                            <Collapse in={showShippingAddress} >
-                                <div className='' id="example-collapse-text" >
-                                    <div className="container p-3">
-                                        <div>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Details</h4>
-                                            <form onSubmit={handleSubmit}>
-                                                <div className="form-row mt-3">
-                                                    <div className="form-group col-md-6">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="first_name"
-                                                            label="First Name *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.first_name ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.first_name}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'first_name', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required={true}
-
-
-                                                        />
-                                                        {shippingFormErrors.first_name && <div className="validation-error">{shippingFormErrors.first_name}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-6">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="last_name"
-                                                            label="Last Name *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.last_name ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.last_name}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'last_name', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.last_name && <div className="validation-error">{shippingFormErrors.last_name}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-6">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="contact_no"
-                                                            label="Phone *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.contact_no ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.contact_no}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'contact_no', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.contact_no && <div className="validation-error">{shippingFormErrors.contact_no}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-6">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="email"
-                                                            label="Email Address *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.email}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-12">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="street_address"
-                                                            label="Street address *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.street_address ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.street_address}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'street_address', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.street_address && <div className="validation-error">{shippingFormErrors.street_address}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-6">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="city"
-                                                            label="Town / City *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.city ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.city}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'city', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.city && <div className="validation-error">{shippingFormErrors.city}</div>}
-                                                    </div>
-                                                    <div className="form-group col-md-3">
-                                                        <div className='mb-3'>
-                                                            <label htmlFor="last_name">Province</label>
-                                                            <RegionDropdown
-                                                                defaultOptionLabel={'Select Province'}
-                                                                className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
-                                                                country={'CA'}
-                                                                countryValueType={'short'}
-                                                                value={shippingFormData.state}
-                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
-                                                            />
-                                                            {shippingFormErrors.state && <div className="validation-error">{shippingFormErrors.state}</div>}
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group col-md-3">
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="zipcode"
-                                                            label="Postal Code *"
-                                                            customClass={`form-control gray-bg ${shippingFormErrors.zipcode ? 'validation-error-border' : ''}`}
-                                                            value={shippingFormData?.zipcode}
-                                                            onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zipcode', e.target.value, "shippingform Error")}
-                                                            placeholder=""
-                                                            required
-                                                        />
-                                                        {shippingFormErrors.zipcode && <div className="validation-error">{shippingFormErrors.zipcode}</div>}
-                                                        {validPostal === true && <div className="validation-error">Please Enter valid Postal Code</div>}
-                                                    </div>
-                                                </div>
-
-                                            </form>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={isChecked}
-                                                    onChange={handleCheckboxChange}
-                                                />
-                                                <span className="ml-2">Billing address is the same as Shipping address.</span>
-                                            </label>
-                                        </div>
-                                        {!isChecked ? (
+                                <Collapse in={showShippingAddress} >
+                                    <div className='' id="example-collapse-text" >
+                                        <div className="container p-3">
                                             <div>
-                                                <h2>Billing Details</h2>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Details</h4>
                                                 <form onSubmit={handleSubmit}>
                                                     <div className="form-row mt-3">
                                                         <div className="form-group col-md-6">
@@ -1072,98 +967,93 @@ const CheckoutPage = () => {
                                                                 type="text"
                                                                 id="first_name"
                                                                 label="First Name *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.first_name ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.first_name}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'first_name', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.first_name ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.first_name}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'first_name', e.target.value, "shippingform Error")}
                                                                 placeholder=""
-                                                                required
-                                                                isdisabled={isChecked}
+                                                                required={true}
+
+
                                                             />
-                                                            {billingFormErrors.first_name && <div className="validation-error">{billingFormErrors.first_name}</div>}
+                                                            {shippingFormErrors.first_name && <div className="validation-error">{shippingFormErrors.first_name}</div>}
                                                         </div>
                                                         <div className="form-group col-md-6">
                                                             <InputComponent
                                                                 type="text"
                                                                 id="last_name"
                                                                 label="Last Name *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.last_name ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.last_name}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'last_name', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.last_name ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.last_name}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'last_name', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.last_name && <div className="validation-error">{billingFormErrors.last_name}</div>}
+                                                            {shippingFormErrors.last_name && <div className="validation-error">{shippingFormErrors.last_name}</div>}
                                                         </div>
                                                         <div className="form-group col-md-6">
                                                             <InputComponent
                                                                 type="text"
                                                                 id="contact_no"
                                                                 label="Phone *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.contact_no ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.contact_no}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.contact_no ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.contact_no}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'contact_no', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.contact_no && <div className="validation-error">{billingFormErrors.contact_no}</div>}
+                                                            {shippingFormErrors.contact_no && <div className="validation-error">{shippingFormErrors.contact_no}</div>}
                                                         </div>
                                                         <div className="form-group col-md-6">
                                                             <InputComponent
                                                                 type="text"
                                                                 id="email"
                                                                 label="Email Address *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.email}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.email ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.email}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'email', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
+                                                            {shippingFormErrors.email && <div className="validation-error">{shippingFormErrors.email}</div>}
                                                         </div>
                                                         <div className="form-group col-md-12">
                                                             <InputComponent
                                                                 type="text"
                                                                 id="street_address"
                                                                 label="Street address *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.street_address ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.street_address}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'street_address', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.street_address ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.street_address}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'street_address', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.street_address && <div className="validation-error">{billingFormErrors.street_address}</div>}
+                                                            {shippingFormErrors.street_address && <div className="validation-error">{shippingFormErrors.street_address}</div>}
                                                         </div>
                                                         <div className="form-group col-md-6">
                                                             <InputComponent
                                                                 type="text"
                                                                 id="city"
                                                                 label="Town / City *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.city}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.city ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.city}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'city', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
+                                                            {shippingFormErrors.city && <div className="validation-error">{shippingFormErrors.city}</div>}
                                                         </div>
                                                         <div className="form-group col-md-3">
                                                             <div className='mb-3'>
                                                                 <label htmlFor="last_name">Province</label>
                                                                 <RegionDropdown
-                                                                    defaultOptionLabel={'Select state'}
-                                                                    className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
+                                                                    defaultOptionLabel={'Select Province'}
+                                                                    className={`country-Dropdown gray-bg ${shippingFormErrors.state ? 'validation-error-border' : ''}`}
                                                                     country={'CA'}
                                                                     countryValueType={'short'}
-                                                                    value={billingFormData.state}
-                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
-                                                                    isdisabled={isChecked}
+                                                                    value={shippingFormData.state}
+                                                                    onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'state', e, "shippingform Error")}
                                                                 />
-                                                                {billingFormErrors.state && <div className="validation-error">{billingFormErrors.state}</div>}
+                                                                {shippingFormErrors.state && <div className="validation-error">{shippingFormErrors.state}</div>}
                                                             </div>
                                                         </div>
                                                         <div className="form-group col-md-3">
@@ -1171,308 +1061,440 @@ const CheckoutPage = () => {
                                                                 type="text"
                                                                 id="zipcode"
                                                                 label="Postal Code *"
-                                                                customClass={`form-control gray-bg ${billingFormErrors.zipcode ? 'validation-error-border' : ''}`}
-                                                                value={billingFormData?.zipcode}
-                                                                onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zipcode', e.target.value, "billingform Error")}
+                                                                customClass={`form-control gray-bg ${shippingFormErrors.zipcode ? 'validation-error-border' : ''}`}
+                                                                value={shippingFormData?.zipcode}
+                                                                onChange={(e) => handleInputChange(shippingFormData, setShippingFormData, 'zipcode', e.target.value, "shippingform Error")}
                                                                 placeholder=""
                                                                 required
-                                                                isdisabled={isChecked}
                                                             />
-                                                            {billingFormErrors.zipcode && <div className="validation-error">{billingFormErrors.zipcode}</div>}
+                                                            {shippingFormErrors.zipcode && <div className="validation-error">{shippingFormErrors.zipcode}</div>}
+                                                            {validPostal === true && <div className="validation-error">Please Enter valid Postal Code</div>}
                                                         </div>
-
                                                     </div>
 
                                                 </form>
                                             </div>
-                                        ) : null}
+                                            <div className="form-group">
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isChecked}
+                                                        onChange={handleCheckboxChange}
+                                                    />
+                                                    <span className="ml-2">Billing address is the same as Shipping address.</span>
+                                                </label>
+                                            </div>
+                                            {!isChecked ? (
+                                                <div>
+                                                    <h2>Billing Details</h2>
+                                                    <form onSubmit={handleSubmit}>
+                                                        <div className="form-row mt-3">
+                                                            <div className="form-group col-md-6">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="first_name"
+                                                                    label="First Name *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.first_name ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.first_name}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'first_name', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.first_name && <div className="validation-error">{billingFormErrors.first_name}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-6">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="last_name"
+                                                                    label="Last Name *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.last_name ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.last_name}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'last_name', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.last_name && <div className="validation-error">{billingFormErrors.last_name}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-6">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="contact_no"
+                                                                    label="Phone *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.contact_no ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.contact_no}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'contact_no', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.contact_no && <div className="validation-error">{billingFormErrors.contact_no}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-6">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="email"
+                                                                    label="Email Address *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.email ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.email}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'email', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.email && <div className="validation-error">{billingFormErrors.email}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-12">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="street_address"
+                                                                    label="Street address *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.street_address ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.street_address}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'street_address', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.street_address && <div className="validation-error">{billingFormErrors.street_address}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-6">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="city"
+                                                                    label="Town / City *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.city ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.city}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'city', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.city && <div className="validation-error">{billingFormErrors.city}</div>}
+                                                            </div>
+                                                            <div className="form-group col-md-3">
+                                                                <div className='mb-3'>
+                                                                    <label htmlFor="last_name">Province</label>
+                                                                    <RegionDropdown
+                                                                        defaultOptionLabel={'Select state'}
+                                                                        className={`country-Dropdown gray-bg ${billingFormErrors.state ? 'validation-error-border' : ''}`}
+                                                                        country={'CA'}
+                                                                        countryValueType={'short'}
+                                                                        value={billingFormData.state}
+                                                                        onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'state', e, "billingform Error")}
+                                                                        isdisabled={isChecked}
+                                                                    />
+                                                                    {billingFormErrors.state && <div className="validation-error">{billingFormErrors.state}</div>}
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group col-md-3">
+                                                                <InputComponent
+                                                                    type="text"
+                                                                    id="zipcode"
+                                                                    label="Postal Code *"
+                                                                    customClass={`form-control gray-bg ${billingFormErrors.zipcode ? 'validation-error-border' : ''}`}
+                                                                    value={billingFormData?.zipcode}
+                                                                    onChange={(e) => handleInputChange(billingFormData, setBillingFormData, 'zipcode', e.target.value, "billingform Error")}
+                                                                    placeholder=""
+                                                                    required
+                                                                    isdisabled={isChecked}
+                                                                />
+                                                                {billingFormErrors.zipcode && <div className="validation-error">{billingFormErrors.zipcode}</div>}
+                                                            </div>
+
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                </Collapse>
+                            </div>
+
+                            <div className="mt-3 mb-3" style={{ border: '1px solid #ccc', }}>
+                                <div style={{ backgroundColor: 'lightgray' }}>
+                                    <div
+                                        className=''
+                                        // onClick={() => setOpen(!open)}
+                                        onClick={handleShippingChargeClick}
+                                        aria-controls="example-collapse-text"
+                                        aria-expanded={showShippingCharge}
+                                    >
+                                        <div className="d-flex justify-content-between">
+                                            <div style={{ padding: 15 }}>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Charges</h4></div>
+                                            <div style={{ padding: 15 }}>{showShippingCharge ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
+
+                                        </div>
+
                                     </div>
                                 </div>
-                            </Collapse>
+                                <Collapse in={showShippingCharge} >
+                                    <div className='' id="example-collapse-text" >
+                                        {shippingRate && shippingRate.length !== 0 && <div className="container p-3">
+                                            <div className="coupon-section">
+                                                {shippingRate && shippingRate.map((service, index) => (
+                                                    <React.Fragment key={index} >
+                                                        <div className="d-flex justify-content-between mt-2">
+                                                            <div className="">
+                                                                <label>
+                                                                    <input
+                                                                        type="radio"
+                                                                        name="shippingOption"
+                                                                        value={service.serviceName}
+                                                                        checked={
+                                                                            selectedShippingOption &&
+                                                                            selectedShippingOption.serviceName === service.serviceName
+                                                                        }
+                                                                        onChange={() =>
+                                                                            handleShippingOptionChange(
+                                                                                service.serviceName,
+                                                                                service.basePrice.toFixed(2)
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                    <span className="ml-2">{service.serviceName}</span>
+                                                                </label>
+                                                            </div>
+                                                            <div className="">
+                                                                ${service.basePrice.toFixed(2)}
+                                                            </div>
+                                                        </div>
+                                                    </React.Fragment>
+                                                ))}
+                                            </div>
+                                        </div>}
+                                    </div>
+                                </Collapse>
+                            </div>
+                            <div>{showShippingCharge === false && <p style={{ textAlign: 'left', color: 'red' }}>Please first select Province and Postal code*</p>}</div>
+
+                            <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
+                                <div style={{ backgroundColor: 'lightgray' }}>
+                                    <div
+                                        className=''
+                                        // onClick={() => setOpen(!open)}
+                                        onClick={handleStripe}
+                                        aria-controls="example-collapse-text"
+                                        aria-expanded={stripeShow}
+                                    >
+                                        <div className="d-flex justify-content-between">
+                                            <div style={{ padding: 15 }}>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Card Details</h4></div>
+                                            <div style={{ padding: 15 }}>{stripeShow ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <Collapse in={stripeShow} >
+                                    <div className='' id="example-collapse-text" >
+                                        <div className="container p-3">
+                                            <Elements stripe={stripePromise}>
+                                                <StripeDetails ref={stripeDetailsRef} orderData={orderData} />
+                                            </Elements>
+                                        </div>
+                                    </div>
+                                </Collapse>
+                            </div>
+
                         </div>
 
-                        <div className="mt-3 mb-3" style={{ border: '1px solid #ccc', }}>
-                            <div style={{ backgroundColor: 'lightgray' }}>
-                                <div
-                                    className=''
-                                    // onClick={() => setOpen(!open)}
-                                    onClick={handleShippingChargeClick}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={showShippingCharge}
-                                >
-                                    <div className="d-flex justify-content-between">
-                                        <div style={{ padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Shipping Charges</h4></div>
-                                        <div style={{ padding: 15 }}>{showShippingCharge ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
+                        <div className="col-md-4">
+
+                            <div className="text-center">
+                                <h5 className="bold title d-inline">Order Summary</h5>
+                            </div>
+                            <div className="mt-5">
+                                <div className="d-flex justify-content-between mt-2">
+                                    <div className="mr-auto tab-title font-weight-normal">Subtotal</div>
+                                    <div className='ml-5 tab-title font-weight-normal'>
+                                        <span >${subtotal?.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between mt-2">
+                                    <div className="mr-auto tab-title font-weight-normal">Shipping</div>
+                                    <div>
+                                        <span className="ml-5">{shipping ? shipping : "-----------"}</span>
+                                    </div>
+                                </div>
+
+                                <>
+                                    {parseFloat(cartTotalTax?.gst) !== 0 &&
+                                        <div className="d-flex justify-content-between mt-2">
+                                            <div className="mr-auto tab-title font-weight-normal">GST {`(${province?.gst}%)`}</div>
+                                            <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.gst}</div>
+                                        </div>
+                                    }
+                                    {parseFloat(cartTotalTax?.pst) !== 0 &&
+                                        <div className="d-flex justify-content-between mt-2">
+                                            <div className="mr-auto tab-title font-weight-normal">PST {`(${province?.pst}%)`}</div>
+                                            <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.pst}</div>
+                                        </div>
+                                    }
+                                    {parseFloat(cartTotalTax?.hst) !== 0 &&
+                                        <div className="d-flex justify-content-between mt-2s">
+                                            <div className="mr-auto tab-title font-weight-normal">HST {`(${province?.hst}%)`}</div>
+                                            <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.hst}</div>
+                                        </div>
+                                    }
+                                </>
+
+                                {selectedShippingOption &&
+                                    <div className="d-flex justify-content-between mt-2">
+                                        <div className='mr-auto tab-title text-left font-weight-normal mr-2'>Shipping charge <br></br> ({selectedShippingOption.serviceName})</div>
+                                        <div className='ml-5  tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
+                                    </div>
+                                }
+                                {isApplyCoupon?.couponCode && couponDiscount > 0 &&
+                                    <div className="d-flex  mt-2">
+                                        <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
+                                                    ${isApplyCoupon?.calculation_type === 'percentage' ? `(${isApplyCoupon?.amount}%)` : `(${isApplyCoupon?.amount} CAD)`} `}</div>
+                                        <div className=' tab-title font-weight-normal'>- ${isApplyCoupon?.couponDiscount?.toFixed(2)}</div>
+                                    </div>
+                                }
+                                <hr></hr>
+                                <div className="d-flex justify-content-between m2 mb-2">
+                                    <div className=''>
+                                        <h4 className="tab-title pointer-on-hover ">Order Total</h4>
+                                    </div>
+                                    <div className='h4'>${orderTotal}</div>
+                                </div>
+
+
+                            </div>
+
+                            <div className="mb-3" style={{ border: '1px solid #ccc', }}>
+                                <div style={{ backgroundColor: 'lightgray' }}>
+                                    <div
+                                        className=''
+                                        // onClick={() => setOpen(!open)}
+                                        onClick={handleCouponClick}
+                                        aria-controls="example-collapse-text"
+                                        aria-expanded={showCouponInput}
+                                    >
+                                        <div className="d-flex justify-content-between">
+                                            <div style={{ color: 'black', padding: 15 }}>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Apply Coupon</h4></div>
+                                            <div style={{ padding: 15 }}>{showCouponInput ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
-                            <Collapse in={showShippingCharge} >
-                                <div className='' id="example-collapse-text" >
-                                    {shippingRate && shippingRate.length !== 0 && <div className="container p-3">
-                                        <div className="coupon-section">
-                                            {shippingRate && shippingRate.map((service, index) => (
-                                                <React.Fragment key={index} >
-                                                    <div className="d-flex justify-content-between mt-2">
-                                                        <div className="">
-                                                            <label>
-                                                                <input
-                                                                    type="radio"
-                                                                    name="shippingOption"
-                                                                    value={service.serviceName}
-                                                                    checked={
-                                                                        selectedShippingOption &&
-                                                                        selectedShippingOption.serviceName === service.serviceName
-                                                                    }
-                                                                    onChange={() =>
-                                                                        handleShippingOptionChange(
-                                                                            service.serviceName,
-                                                                            service.basePrice.toFixed(2)
-                                                                        )
-                                                                    }
-                                                                />
-                                                                <span className="ml-2">{service.serviceName}</span>
-                                                            </label>
+                                <Collapse in={showCouponInput} >
+                                    <div className='' id="example-collapse-text" >
+                                        <div className="container p-3">
+                                            <div className="coupon-section">
+                                                {!isApplyCoupon?.couponCode ? (
+                                                    <div className="d-flex justify-content-between ">
+                                                        <div className=''>
+                                                            <InputComponent
+                                                                type="text"
+                                                                id="coupon"
+                                                                label=""
+                                                                customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
+                                                                value={couponCode}
+                                                                onChange={(e) => setCouponCode(e.target.value)}
+                                                                placeholder="Enter your coupon code"
+                                                                required
+                                                            />
                                                         </div>
-                                                        <div className="">
-                                                            ${service.basePrice.toFixed(2)}
+                                                        <div className=''>
+                                                            <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Apply Coupon" disabled={!couponCode} />
                                                         </div>
                                                     </div>
-                                                </React.Fragment>
+                                                ) : (
+                                                    <div className="row justify-content-center align-items-center">
+                                                        <div className="col-auto text-center">
+                                                            <p className="fs-4 text-success d-flex align-items-center justify-content-center">
+                                                                <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
+                                                                Coupon applied!
+                                                            </p>
+                                                        </div>
+                                                        <div className="col-auto">
+                                                            <div className="d-inline-flex align-items-center coupon-container pointer-on-hover">
+                                                                {isApplyCoupon?.couponCode}
+                                                                <span className='ml-2 d-flex align-items-center' onClick={removeCoupon}>
+                                                                    <FontAwesomeIcon icon={faXmark} fontSize={20} />
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Collapse>
+                            </div>
+
+
+                            <div style={{ border: '1px solid #ccc', }}>
+                                <div style={{ backgroundColor: 'lightgray' }}>
+                                    <div
+                                        className=''
+                                        onClick={() => setOpen(!open)}
+                                        aria-controls="example-collapse-text"
+                                        aria-expanded={open}
+                                    >
+                                        <div className="d-flex justify-content-between ">
+                                            <div style={{ color: 'black', padding: 15 }}>
+                                                <h4 className="tab-title pointer-on-hover font-weight-normal">Items in order ({cartItems?.length})</h4></div>
+                                            <div style={{ padding: 15 }}>{open ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <Collapse in={open} >
+                                    <div className='' id="example-collapse-text" >
+                                        <div className="container">
+                                            {cartItems.map((item, index) => (
+                                                <div className="row p-2 mt-3" key={index} >
+                                                    <div className="col-md-3">
+                                                        <div className="">
+                                                            <ImageComponent src={item?.image[0]?.name} width={true} alt="Product Image" classAtribute="cart-products w-auto" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-7">
+                                                        <div className="text-left">
+                                                            {truncateString(item?.name, 50)}
+                                                            <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
+                                                            <span className='fs-5 font-bold'>{item?.purchaseQty}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-2">
+                                                        <div className='fs-5 font-bold'> ${item?.totalPrice}</div>
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
-                                    </div>}
-                                </div>
-                            </Collapse>
-                        </div>
-                        <div>{showShippingCharge === false && <p style={{ textAlign: 'left', color: 'red' }}>Please first select Province and Postal code*</p>}</div>
-
-                        <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
-                            <div style={{ backgroundColor: 'lightgray' }}>
-                                <div
-                                    className=''
-                                    // onClick={() => setOpen(!open)}
-                                    onClick={handleStripe}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={stripeShow}
-                                >
-                                    <div className="d-flex justify-content-between">
-                                        <div style={{ padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Card Details</h4></div>
-                                        <div style={{ padding: 15 }}>{stripeShow ? <i className="fas fa-angle-up pointer-on-hover"></i> : <i className="fas fa-angle-down pointer-on-hover"></i>}</div>
-
                                     </div>
+                                </Collapse>
 
-                                </div>
-                            </div>
-                            <Collapse in={stripeShow} >
-                                <div className='' id="example-collapse-text" >
-                                    <div className="container p-3">
-                                        <Elements stripe={stripePromise}>
-                                            <StripeDetails ref={stripeDetailsRef} orderData={orderData} />
-                                        </Elements>
-                                    </div>
-                                </div>
-                            </Collapse>
-                        </div>
-
-                    </div>
-
-                    <div className="col-md-4">
-
-                        <div className="text-center">
-                            <h5 className="bold title d-inline">Order Summary</h5>
-                        </div>
-                        <div className="mt-5">
-                            <div className="d-flex justify-content-between mt-2">
-                                <div className="mr-auto tab-title font-weight-normal">Subtotal</div>
-                                <div className='ml-5 tab-title font-weight-normal'>
-                                    <span >${subtotal?.toFixed(2)}</span>
-                                </div>
-                            </div>
-                            <div className="d-flex justify-content-between mt-2">
-                                <div className="mr-auto tab-title font-weight-normal">Shipping</div>
-                                <div>
-                                    <span className="ml-5">{shipping ? shipping : "-----------"}</span>
-                                </div>
                             </div>
 
-                            <>
-                                {parseFloat(cartTotalTax?.gst) !== 0 &&
-                                    <div className="d-flex justify-content-between mt-2">
-                                        <div className="mr-auto tab-title font-weight-normal">GST {`(${province?.gst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.gst}</div>
-                                    </div>
-                                }
-                                {parseFloat(cartTotalTax?.pst) !== 0 &&
-                                    <div className="d-flex justify-content-between mt-2">
-                                        <div className="mr-auto tab-title font-weight-normal">PST {`(${province?.pst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.pst}</div>
-                                    </div>
-                                }
-                                {parseFloat(cartTotalTax?.hst) !== 0 &&
-                                    <div className="d-flex justify-content-between mt-2s">
-                                        <div className="mr-auto tab-title font-weight-normal">HST {`(${province?.hst}%)`}</div>
-                                        <div className='ml-5 tab-title font-weight-normal'>+ ${cartTotalTax?.hst}</div>
-                                    </div>
-                                }
-                            </>
-
-                            {selectedShippingOption &&
-                                <div className="d-flex justify-content-between mt-2">
-                                    <div className='mr-auto tab-title text-left font-weight-normal mr-2'>Shipping charge <br></br> ({selectedShippingOption.serviceName})</div>
-                                    <div className='ml-5  tab-title font-weight-normal'>+ ${selectedShippingOption.basePrice}</div>
-                                </div>
-                            }
-                            {isApplyCoupon?.couponCode && couponDiscount > 0 &&
-                                <div className="d-flex  mt-2">
-                                    <div className='mr-auto tab-title text-left font-weight-normal'>{`Coupon Discount 
-                                                    ${isApplyCoupon?.calculation_type === 'percentage' ? `(${isApplyCoupon?.amount}%)` : `(${isApplyCoupon?.amount} CAD)`} `}</div>
-                                    <div className=' tab-title font-weight-normal'>- ${isApplyCoupon?.couponDiscount?.toFixed(2)}</div>
-                                </div>
-                            }
-                            <hr></hr>
-                            <div className="d-flex justify-content-between m2 mb-2">
-                                <div className=''>
-                                    <h4 className="tab-title pointer-on-hover ">Order Total</h4>
-                                </div>
-                                <div className='h4'>${orderTotal}</div>
-                            </div>
-
-
-                        </div>
-
-                        <div className="mb-3" style={{ border: '1px solid #ccc', }}>
-                            <div style={{ backgroundColor: 'lightgray' }}>
-                                <div
-                                    className=''
-                                    // onClick={() => setOpen(!open)}
-                                    onClick={handleCouponClick}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={showCouponInput}
-                                >
-                                    <div className="d-flex justify-content-between">
-                                        <div style={{ color: 'black', padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Apply Coupon</h4></div>
-                                        <div style={{ padding: 15 }}>{showCouponInput ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <Collapse in={showCouponInput} >
-                                <div className='' id="example-collapse-text" >
-                                    <div className="container p-3">
-                                        <div className="coupon-section">
-                                            { !isApplyCoupon?.couponCode ? (
-                                                <div className="d-flex justify-content-between ">
-                                                    <div className=''>
-                                                        <InputComponent
-                                                            type="text"
-                                                            id="coupon"
-                                                            label=""
-                                                            customClass={`form-control gray-bg  ml-auto `} //cart-checkout-btn
-                                                            value={couponCode}
-                                                            onChange={(e) => setCouponCode(e.target.value)}
-                                                            placeholder="Enter your coupon code"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <div className=''>                
-                                                         <ButtonComponent cssClass="shopping-btn p-3" onClick={handleApplyCoupon} label="Apply Coupon" disabled={!couponCode} />
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="row justify-content-center align-items-center">
-                                                    <div className="col-auto text-center">
-                                                        <p className="fs-4 text-success d-flex align-items-center justify-content-center">
-                                                            <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
-                                                            Coupon applied!
-                                                        </p>
-                                                    </div>
-                                                    <div className="col-auto">
-                                                        <div className="d-inline-flex align-items-center coupon-container pointer-on-hover">
-                                                            {isApplyCoupon?.couponCode}
-                                                            <span className='ml-2 d-flex align-items-center' onClick={removeCoupon}>
-                                                                <FontAwesomeIcon icon={faXmark} fontSize={20} />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Collapse>
-                        </div>
-
-
-                        <div style={{ border: '1px solid #ccc', }}>
-                            <div style={{ backgroundColor: 'lightgray' }}>
-                                <div
-                                    className=''
-                                    onClick={() => setOpen(!open)}
-                                    aria-controls="example-collapse-text"
-                                    aria-expanded={open}
-                                >
-                                    <div className="d-flex justify-content-between ">
-                                        <div style={{ color: 'black', padding: 15 }}>
-                                            <h4 className="tab-title pointer-on-hover font-weight-normal">Items in order ({cartItems?.length})</h4></div>
-                                        <div style={{ padding: 15 }}>{open ? <i className="fas fa-angle-up"></i> : <i className="fas fa-angle-down"></i>}</div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <Collapse in={open} >
-                                <div className='' id="example-collapse-text" >
-                                    <div className="container">
-                                        {cartItems.map((item, index) => (
-                                            <div className="row p-2 mt-3" key={index} >
-                                                <div className="col-md-3">
-                                                    <div className="">
-                                                        <ImageComponent src={item?.image[0]?.name} width={true} alt="Product Image" classAtribute="cart-products w-auto" />
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-7">
-                                                    <div className="text-left">
-                                                        {truncateString(item?.name, 50)} 
-                                                        <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
-                                                         <span className='fs-5 font-bold'>{item?.purchaseQty}</span>
-                                                    </div>
-                                                </div>
-                                                <div className="col-md-2">
-                                                    <div className='fs-5 font-bold'> ${item?.totalPrice}</div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </Collapse>
-
-                        </div>
-
-                        <div className='row'>
-                            <div className='text-right'>
-                                {/* <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
+                            <div className='row'>
+                                <div className='text-right'>
+                                    {/* <h6>Congrats, you'r eligible for Free <i className="fas fa-truck"></i> <br />Shipping</h6>
                             <p className='mt-3'>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a className="ml-1" href='#'>privacy policy</a></p> */}
-                                {/* <button class="checkout-button mt-4" onClick={handleSubmit}>Place Order</button> */}
-                                <div className="red_button product-add_to_cart_button mt-3 " onClick={handleSubmit}>
-                                    Place Order
+                                    {/* <button class="checkout-button mt-4" onClick={handleSubmit}>Place Order</button> */}
+                                    <div className="red_button product-add_to_cart_button mt-3 " onClick={handleSubmit}>
+                                        Place Order
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
-
-
                     </div>
                 </div>
+                <div className='pb-2'>
+                    <FooterComponents />
+                </div>
             </div>
-            <div className='pb-2'>
-                <FooterComponents />
-            </div>
-        </div>
         </>
 
     );
