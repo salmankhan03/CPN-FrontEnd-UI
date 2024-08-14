@@ -115,129 +115,259 @@ const CheckoutPage = () => {
             const originPostalCode = 'V6X2T4';
             const destinationPostalCode = shippingFormData.zipcode || 'M5A1A1';
             const weight = 1;
+            // const myHeaders = new Headers();
+            // myHeaders.append("Accept", "application/vnd.cpc.ship.rate-v4+xml");
+            // myHeaders.append("Content-Type", "application/vnd.cpc.ship.rate-v4+xml");
+            // myHeaders.append("Authorization", "Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2");
+            // myHeaders.append("Accept-Language", "en-CA");
+            // myHeaders.append("Cookie", "OWSPRD001SHIP=ship_01278_s001ptom001");
+            // const raw = `
+            // <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n
+            //     <mailing-scenario xmlns=\ "http://www.canadapost.ca/ws/ship/rate-v4\">\r\n
+            //         <parcel-characteristics>\r\n
+            //             <weight>${weight}</weight>\r\n </parcel-characteristics>\r\n
+            //         <origin-postal-code>${originPostalCode}</origin-postal-code>\r\n
+            //         <destination>\r\n
+            //             <domestic>\r\n
+            //                 <postal-code>${destinationPostalCode}</postal-code>\r\n </domestic>\r\n </destination>\r\n
+            //         <quote-type>counter</quote-type>\r\n </mailing-scenario>";`
 
-            //     const xmlRequest = `<?xml version="1.0" encoding="UTF-8"?>
-            //   <mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">
-            //     <parcel-characteristics>
-            //       <weight>1</weight>
-            //     </parcel-characteristics>
-            //     <origin-postal-code>V6X2T4</origin-postal-code>
-            //     <destination>
-            //       <domestic>
-            //         <postal-code>M5A1A1</postal-code>
-            //       </domestic>
-            //     </destination>
-            //     <quote-type>counter</quote-type>
-            //   </mailing-scenario>`;
-
-            // application/vnd.cpc.ship.rate-v4+xml',\
-            // const requestOptions = {
-            //     method: 'POST',
-            //     headers: {
-            //         Accept: 'application/vnd.cpc.ship.rate-v4+xml',
-            //         'Content-Type': 'application/vnd.cpc.ship.rate-v4+xml',
-            //         Authorization: 'Basic ' + btoa(`${userProperties.username}:${userProperties.password}`),
-            //         'Accept-Language': 'en-CA'                   
-            //     },
-            //     body: xmlRequest
-            // };
-            const myHeaders = new Headers();
-            myHeaders.append("Accept", "application/vnd.cpc.ship.rate-v4+xml");
-            myHeaders.append("Content-Type", "application/vnd.cpc.ship.rate-v4+xml");
-            myHeaders.append("Authorization", "Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2");
-            myHeaders.append("Accept-Language", "en-CA");
-            myHeaders.append("Cookie", "OWSPRD001SHIP=ship_01278_s001ptom001");
-            const raw = `
-            <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n
-                <mailing-scenario xmlns=\ "http://www.canadapost.ca/ws/ship/rate-v4\">\r\n
-                    <parcel-characteristics>\r\n
-                        <weight>1</weight>\r\n </parcel-characteristics>\r\n
-                    <origin-postal-code>V6X2T4</origin-postal-code>\r\n
-                    <destination>\r\n
-                        <domestic>\r\n
-                            <postal-code>M5A1A1</postal-code>\r\n </domestic>\r\n </destination>\r\n
-                    <quote-type>counter</quote-type>\r\n </mailing-scenario>";`
+            const formdata = new FormData();
+            formdata.append("originPostalCode", originPostalCode);
+            formdata.append("destinationPostalCode", destinationPostalCode);
+            formdata.append("weight", weight);
 
             const requestOptions = {
                 method: "POST",
-                headers: myHeaders,
-                body: raw,
-                redirect: "follow"
+                body: formdata,
             };
-            fetch("https://cors-anywhere.herokuapp.com/https://soa-gw.canadapost.ca/rs/ship/price", requestOptions)
-                .then(response => response.text())
-                .then(responseText => {
-                    const parser = new DOMParser();
-                    const xmlDoc = parser.parseFromString(responseText, 'text/xml');
 
-                    const getTextContent = (element, tagName) => {
-                        const childElement = element.getElementsByTagName(tagName)[0];
-                        return childElement ? childElement.textContent : '';
-                    };
+            fetch("https://backend.i-healthcare.ca/api/shipping-calculation", requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("result data", data?.response);
+                    if (data?.status_code === 200) {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(data?.response, 'text/xml');
 
-                    const getBooleanContent = (element, tagName) => {
-                        const childElement = element.getElementsByTagName(tagName)[0];
-                        return childElement ? childElement.textContent === 'true' : false;
-                    };
-
-
-                    const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
-                        return {
-                            serviceCode: getTextContent(priceQuote, 'service-code'),
-                            serviceName: getTextContent(priceQuote, 'service-name'),
-                            basePrice: parseFloat(getTextContent(priceQuote, 'base')),
-                            taxes: {
-                                gst: parseFloat(getTextContent(priceQuote, 'gst')),
-                                pst: parseFloat(getTextContent(priceQuote, 'pst')),
-                                hst: parseFloat(getTextContent(priceQuote, 'hst')),
-                            },
-                            dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
-                            options: {
-                                optionCode: getTextContent(priceQuote, 'option-code'),
-                                optionName: getTextContent(priceQuote, 'option-name'),
-                                optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
-                            },
-                            adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
-                                return {
-                                    adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
-                                    adjustmentName: getTextContent(adjustment, 'adjustment-name'),
-                                    adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
-                                    qualifier: {
-                                        percent: parseFloat(getTextContent(adjustment, 'percent')),
-                                    },
-                                };
-                            }),
-                            serviceStandard: {
-                                amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
-                                guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
-                                expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
-                                expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
-                            },
+                        const getTextContent = (element, tagName) => {
+                            const childElement = element.getElementsByTagName(tagName)[0];
+                            return childElement ? childElement.textContent : '';
                         };
-                    });
-                    setShippingRate(rates)
 
-                    if (rates && rates.length > 0) {
-                        const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
-                            return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
+                        const getBooleanContent = (element, tagName) => {
+                            const childElement = element.getElementsByTagName(tagName)[0];
+                            return childElement ? childElement.textContent === 'true' : false;
+                        };
+
+
+                        const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
+                            return {
+                                serviceCode: getTextContent(priceQuote, 'service-code'),
+                                serviceName: getTextContent(priceQuote, 'service-name'),
+                                basePrice: parseFloat(getTextContent(priceQuote, 'base')),
+                                taxes: {
+                                    gst: parseFloat(getTextContent(priceQuote, 'gst')),
+                                    pst: parseFloat(getTextContent(priceQuote, 'pst')),
+                                    hst: parseFloat(getTextContent(priceQuote, 'hst')),
+                                },
+                                dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
+                                options: {
+                                    optionCode: getTextContent(priceQuote, 'option-code'),
+                                    optionName: getTextContent(priceQuote, 'option-name'),
+                                    optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
+                                },
+                                adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
+                                    return {
+                                        adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
+                                        adjustmentName: getTextContent(adjustment, 'adjustment-name'),
+                                        adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
+                                        qualifier: {
+                                            percent: parseFloat(getTextContent(adjustment, 'percent')),
+                                        },
+                                    };
+                                }),
+                                serviceStandard: {
+                                    amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
+                                    guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
+                                    expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
+                                    expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
+                                },
+                            };
                         });
+                        setShippingRate(rates)
 
-                        setSelectedShippingOption({
-                            serviceName: lowestBasePriceOption.serviceName,
-                            basePrice: lowestBasePriceOption.basePrice.toFixed(2),
-                        });
-                    }
+                        if (rates && rates.length > 0) {
+                            const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
+                                return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
+                            });
 
-                    if (rates.length === 0) {
-                        setValidPostal(true);
+                            setSelectedShippingOption({
+                                serviceName: lowestBasePriceOption.serviceName,
+                                basePrice: lowestBasePriceOption.basePrice.toFixed(2),
+                            });
+                        }
+
+                        if (rates.length === 0) {
+                            setValidPostal(true);
+                        } else {
+                            setValidPostal(false);
+                        }
+
                     } else {
-                        setValidPostal(false);
+                        console.log("error")
                     }
-
-                })
-                .catch(error => {
+                }).catch(error => {
                     console.error('Fetch error:', error.message);
                 });
+
+
+            // const xmlResponse = responseText?.response || '';
+            // const jsonObject = JSON.parse(responseText?.response);
+
+            // const xmlString = jsonObject;
+            // console.log("xmlString",xmlString)
+
+            // const parser = new DOMParser();
+            // const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+
+
+            // const getTextContent = (element, tagName) => {
+            //     const childElement = element.getElementsByTagName(tagName)[0];
+            //     return childElement ? childElement.textContent : '';
+            // };
+
+            // const getBooleanContent = (element, tagName) => {
+            //     const childElement = element.getElementsByTagName(tagName)[0];
+            //     return childElement ? childElement.textContent === 'true' : false;
+            // };
+
+            // const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
+            //     return {
+            //         serviceCode: getTextContent(priceQuote, 'service-code'),
+            //         serviceName: getTextContent(priceQuote, 'service-name'),
+            //         basePrice: parseFloat(getTextContent(priceQuote, 'base')),
+            //         taxes: {
+            //             gst: parseFloat(getTextContent(priceQuote, 'gst')),
+            //             pst: parseFloat(getTextContent(priceQuote, 'pst')),
+            //             hst: parseFloat(getTextContent(priceQuote, 'hst')),
+            //         },
+            //         dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
+            //         options: {
+            //             optionCode: getTextContent(priceQuote, 'option-code'),
+            //             optionName: getTextContent(priceQuote, 'option-name'),
+            //             optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
+            //         },
+            //         adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
+            //             return {
+            //                 adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
+            //                 adjustmentName: getTextContent(adjustment, 'adjustment-name'),
+            //                 adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
+            //                 qualifier: {
+            //                     percent: parseFloat(getTextContent(adjustment, 'percent')),
+            //                 },
+            //             };
+            //         }),
+            //         serviceStandard: {
+            //             amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
+            //             guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
+            //             expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
+            //             expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
+            //         },
+            //     };
+            // });
+
+            // setShippingRate(rates);
+
+            // if (rates && rates.length > 0) {
+            //     const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
+            //         return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
+            //     });
+
+            //     setSelectedShippingOption({
+            //         serviceName: lowestBasePriceOption.serviceName,
+            //         basePrice: lowestBasePriceOption.basePrice.toFixed(2),
+            //     });
+            // }
+
+            // if (rates.length === 0) {
+            //     setValidPostal(true);
+            // } else {
+            //     setValidPostal(false);
+            // }
+
+
+            // .then(response => response.text())
+            // .then(responseText => {
+            //     const parser = new DOMParser();
+            //     const xmlDoc = parser.parseFromString(responseText, 'text/xml');
+
+            //     const getTextContent = (element, tagName) => {
+            //         const childElement = element.getElementsByTagName(tagName)[0];
+            //         return childElement ? childElement.textContent : '';
+            //     };
+
+            //     const getBooleanContent = (element, tagName) => {
+            //         const childElement = element.getElementsByTagName(tagName)[0];
+            //         return childElement ? childElement.textContent === 'true' : false;
+            //     };
+
+
+            //     const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
+            //         return {
+            //             serviceCode: getTextContent(priceQuote, 'service-code'),
+            //             serviceName: getTextContent(priceQuote, 'service-name'),
+            //             basePrice: parseFloat(getTextContent(priceQuote, 'base')),
+            //             taxes: {
+            //                 gst: parseFloat(getTextContent(priceQuote, 'gst')),
+            //                 pst: parseFloat(getTextContent(priceQuote, 'pst')),
+            //                 hst: parseFloat(getTextContent(priceQuote, 'hst')),
+            //             },
+            //             dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
+            //             options: {
+            //                 optionCode: getTextContent(priceQuote, 'option-code'),
+            //                 optionName: getTextContent(priceQuote, 'option-name'),
+            //                 optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
+            //             },
+            //             adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
+            //                 return {
+            //                     adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
+            //                     adjustmentName: getTextContent(adjustment, 'adjustment-name'),
+            //                     adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
+            //                     qualifier: {
+            //                         percent: parseFloat(getTextContent(adjustment, 'percent')),
+            //                     },
+            //                 };
+            //             }),
+            //             serviceStandard: {
+            //                 amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
+            //                 guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
+            //                 expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
+            //                 expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
+            //             },
+            //         };
+            //     });
+            //     setShippingRate(rates)
+
+            //     if (rates && rates.length > 0) {
+            //         const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
+            //             return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
+            //         });
+
+            //         setSelectedShippingOption({
+            //             serviceName: lowestBasePriceOption.serviceName,
+            //             basePrice: lowestBasePriceOption.basePrice.toFixed(2),
+            //         });
+            //     }
+
+            //     if (rates.length === 0) {
+            //         setValidPostal(true);
+            //     } else {
+            //         setValidPostal(false);
+            //     }
+
+            // })
+
         }
     }, [shippingFormData?.zipcode]);
 
