@@ -1426,14 +1426,14 @@ const CheckoutPage = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-7">
-                                                        <div className="text-left text-sm-centerd">
+                                                        <div className="text-left text-sm-centerd fs-6">
                                                             {truncateString(item?.name, 50)}
                                                             <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
-                                                            <span className='fs-5 font-bold'>{item?.purchaseQty}</span>
+                                                            <span className='fs-6 font-bold'>{item?.purchaseQty}</span>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-2">
-                                                        <div className='fs-5 font-bold'> ${item?.totalPrice}</div>
+                                                        <div className='fs-6 font-bold'> ${item?.totalPrice}</div>
                                                     </div>
                                                 </div>
                                             ))}
