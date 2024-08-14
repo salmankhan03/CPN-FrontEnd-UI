@@ -307,7 +307,7 @@ const CheckoutPage = () => {
     const validateForm = (formData, setFormErrors) => {
 
         let errors = {};
-        console.log(formData)
+        // console.log(formData)
         const firstName = formData?.first_name?.trim();
         const lastName = formData?.last_name?.trim();
         const country = formData?.country?.trim();
@@ -440,8 +440,8 @@ const CheckoutPage = () => {
 
         // Manage condition wise Tax
         const selectedProvince = ProvinceTax.find(p => p.provinceName === shippingFormData.state);
-        console.log("selectedProvince", selectedProvince)
-        console.log("selectedProvince", shippingFormData.state)
+        // console.log("selectedProvince", selectedProvince)
+        // console.log("selectedProvince", shippingFormData.state)
 
         const updatedCartItems = cartItems.map((item) => {
             if (item.is_tax_apply === 0) {
@@ -1177,8 +1177,12 @@ const CheckoutPage = () => {
                                     </div>
                                 </Collapse>
                             </div>
-
-                            <div className="mt-3 mb-3" style={{ border: '1px solid #ccc', }}>
+                            <div className='mt-3'>{shippingRate  && 
+                                <p style={{ textAlign: 'left',color:'black' }}>
+                                    You have multiple shipping options
+                                </p>}
+                            </div>
+                            <div className="mt-1 mb-3" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
                                         className=''
@@ -1234,8 +1238,6 @@ const CheckoutPage = () => {
                                     </div>
                                 </Collapse>
                             </div>
-                            <div>{showShippingCharge === false && <p style={{ textAlign: 'left', color: 'red' }}>Please first select Province and Postal code*</p>}</div>
-
                             <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
