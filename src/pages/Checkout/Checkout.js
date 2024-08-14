@@ -115,22 +115,6 @@ const CheckoutPage = () => {
             const originPostalCode = 'V6X2T4';
             const destinationPostalCode = shippingFormData.zipcode || 'M5A1A1';
             const weight = 1;
-            // const myHeaders = new Headers();
-            // myHeaders.append("Accept", "application/vnd.cpc.ship.rate-v4+xml");
-            // myHeaders.append("Content-Type", "application/vnd.cpc.ship.rate-v4+xml");
-            // myHeaders.append("Authorization", "Basic YjIyZjQ4NWJlMmNjYzQ5MjphMDNlYWY4NjY4NDdjODM3YjMxZTA2");
-            // myHeaders.append("Accept-Language", "en-CA");
-            // myHeaders.append("Cookie", "OWSPRD001SHIP=ship_01278_s001ptom001");
-            // const raw = `
-            // <?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n
-            //     <mailing-scenario xmlns=\ "http://www.canadapost.ca/ws/ship/rate-v4\">\r\n
-            //         <parcel-characteristics>\r\n
-            //             <weight>${weight}</weight>\r\n </parcel-characteristics>\r\n
-            //         <origin-postal-code>${originPostalCode}</origin-postal-code>\r\n
-            //         <destination>\r\n
-            //             <domestic>\r\n
-            //                 <postal-code>${destinationPostalCode}</postal-code>\r\n </domestic>\r\n </destination>\r\n
-            //         <quote-type>counter</quote-type>\r\n </mailing-scenario>";`
 
             const formdata = new FormData();
             formdata.append("originPostalCode", originPostalCode);
@@ -220,154 +204,6 @@ const CheckoutPage = () => {
                 }).catch(error => {
                     console.error('Fetch error:', error.message);
                 });
-
-
-            // const xmlResponse = responseText?.response || '';
-            // const jsonObject = JSON.parse(responseText?.response);
-
-            // const xmlString = jsonObject;
-            // console.log("xmlString",xmlString)
-
-            // const parser = new DOMParser();
-            // const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-
-
-            // const getTextContent = (element, tagName) => {
-            //     const childElement = element.getElementsByTagName(tagName)[0];
-            //     return childElement ? childElement.textContent : '';
-            // };
-
-            // const getBooleanContent = (element, tagName) => {
-            //     const childElement = element.getElementsByTagName(tagName)[0];
-            //     return childElement ? childElement.textContent === 'true' : false;
-            // };
-
-            // const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
-            //     return {
-            //         serviceCode: getTextContent(priceQuote, 'service-code'),
-            //         serviceName: getTextContent(priceQuote, 'service-name'),
-            //         basePrice: parseFloat(getTextContent(priceQuote, 'base')),
-            //         taxes: {
-            //             gst: parseFloat(getTextContent(priceQuote, 'gst')),
-            //             pst: parseFloat(getTextContent(priceQuote, 'pst')),
-            //             hst: parseFloat(getTextContent(priceQuote, 'hst')),
-            //         },
-            //         dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
-            //         options: {
-            //             optionCode: getTextContent(priceQuote, 'option-code'),
-            //             optionName: getTextContent(priceQuote, 'option-name'),
-            //             optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
-            //         },
-            //         adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
-            //             return {
-            //                 adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
-            //                 adjustmentName: getTextContent(adjustment, 'adjustment-name'),
-            //                 adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
-            //                 qualifier: {
-            //                     percent: parseFloat(getTextContent(adjustment, 'percent')),
-            //                 },
-            //             };
-            //         }),
-            //         serviceStandard: {
-            //             amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
-            //             guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
-            //             expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
-            //             expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
-            //         },
-            //     };
-            // });
-
-            // setShippingRate(rates);
-
-            // if (rates && rates.length > 0) {
-            //     const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
-            //         return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
-            //     });
-
-            //     setSelectedShippingOption({
-            //         serviceName: lowestBasePriceOption.serviceName,
-            //         basePrice: lowestBasePriceOption.basePrice.toFixed(2),
-            //     });
-            // }
-
-            // if (rates.length === 0) {
-            //     setValidPostal(true);
-            // } else {
-            //     setValidPostal(false);
-            // }
-
-
-            // .then(response => response.text())
-            // .then(responseText => {
-            //     const parser = new DOMParser();
-            //     const xmlDoc = parser.parseFromString(responseText, 'text/xml');
-
-            //     const getTextContent = (element, tagName) => {
-            //         const childElement = element.getElementsByTagName(tagName)[0];
-            //         return childElement ? childElement.textContent : '';
-            //     };
-
-            //     const getBooleanContent = (element, tagName) => {
-            //         const childElement = element.getElementsByTagName(tagName)[0];
-            //         return childElement ? childElement.textContent === 'true' : false;
-            //     };
-
-
-            //     const rates = Array.from(xmlDoc.getElementsByTagName('price-quote')).map(priceQuote => {
-            //         return {
-            //             serviceCode: getTextContent(priceQuote, 'service-code'),
-            //             serviceName: getTextContent(priceQuote, 'service-name'),
-            //             basePrice: parseFloat(getTextContent(priceQuote, 'base')),
-            //             taxes: {
-            //                 gst: parseFloat(getTextContent(priceQuote, 'gst')),
-            //                 pst: parseFloat(getTextContent(priceQuote, 'pst')),
-            //                 hst: parseFloat(getTextContent(priceQuote, 'hst')),
-            //             },
-            //             dueAmount: parseFloat(getTextContent(priceQuote, 'due')),
-            //             options: {
-            //                 optionCode: getTextContent(priceQuote, 'option-code'),
-            //                 optionName: getTextContent(priceQuote, 'option-name'),
-            //                 optionPrice: parseFloat(getTextContent(priceQuote, 'option-price')),
-            //             },
-            //             adjustments: Array.from(priceQuote.getElementsByTagName('adjustment')).map(adjustment => {
-            //                 return {
-            //                     adjustmentCode: getTextContent(adjustment, 'adjustment-code'),
-            //                     adjustmentName: getTextContent(adjustment, 'adjustment-name'),
-            //                     adjustmentCost: parseFloat(getTextContent(adjustment, 'adjustment-cost')),
-            //                     qualifier: {
-            //                         percent: parseFloat(getTextContent(adjustment, 'percent')),
-            //                     },
-            //                 };
-            //             }),
-            //             serviceStandard: {
-            //                 amDelivery: getBooleanContent(priceQuote, 'am-delivery'),
-            //                 guaranteedDelivery: getBooleanContent(priceQuote, 'guaranteed-delivery'),
-            //                 expectedTransitTime: parseInt(getTextContent(priceQuote, 'expected-transit-time')),
-            //                 expectedDeliveryDate: getTextContent(priceQuote, 'expected-delivery-date'),
-            //             },
-            //         };
-            //     });
-            //     setShippingRate(rates)
-
-            //     if (rates && rates.length > 0) {
-            //         const lowestBasePriceOption = rates.reduce((minOption, currentOption) => {
-            //             return minOption.basePrice < currentOption.basePrice ? minOption : currentOption;
-            //         });
-
-            //         setSelectedShippingOption({
-            //             serviceName: lowestBasePriceOption.serviceName,
-            //             basePrice: lowestBasePriceOption.basePrice.toFixed(2),
-            //         });
-            //     }
-
-            //     if (rates.length === 0) {
-            //         setValidPostal(true);
-            //     } else {
-            //         setValidPostal(false);
-            //     }
-
-            // })
-
         }
     }, [shippingFormData?.zipcode]);
 
@@ -471,7 +307,7 @@ const CheckoutPage = () => {
     const validateForm = (formData, setFormErrors) => {
 
         let errors = {};
-        console.log(formData)
+        // console.log(formData)
         const firstName = formData?.first_name?.trim();
         const lastName = formData?.last_name?.trim();
         const country = formData?.country?.trim();
@@ -604,8 +440,8 @@ const CheckoutPage = () => {
 
         // Manage condition wise Tax
         const selectedProvince = ProvinceTax.find(p => p.provinceName === shippingFormData.state);
-        console.log("selectedProvince", selectedProvince)
-        console.log("selectedProvince", shippingFormData.state)
+        // console.log("selectedProvince", selectedProvince)
+        // console.log("selectedProvince", shippingFormData.state)
 
         const updatedCartItems = cartItems.map((item) => {
             if (item.is_tax_apply === 0) {
@@ -1341,8 +1177,12 @@ const CheckoutPage = () => {
                                     </div>
                                 </Collapse>
                             </div>
-
-                            <div className="mt-3 mb-3" style={{ border: '1px solid #ccc', }}>
+                            <div className='mt-3'>{shippingRate  && 
+                                <p style={{ textAlign: 'left',color:'black' }}>
+                                    You have multiple shipping options
+                                </p>}
+                            </div>
+                            <div className="mt-1 mb-3" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
                                         className=''
@@ -1398,8 +1238,6 @@ const CheckoutPage = () => {
                                     </div>
                                 </Collapse>
                             </div>
-                            <div>{showShippingCharge === false && <p style={{ textAlign: 'left', color: 'red' }}>Please first select Province and Postal code*</p>}</div>
-
                             <div className="mt-3 mb-5" style={{ border: '1px solid #ccc', }}>
                                 <div style={{ backgroundColor: 'lightgray' }}>
                                     <div
