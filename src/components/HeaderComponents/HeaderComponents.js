@@ -373,7 +373,7 @@ function Header() {
 
     };
   }, []);
-// Temperrory Top header Slogn Comments because top header not used 
+  // Temperrory Top header Slogn Comments because top header not used 
   // const getSlogan = async () => {
   //   try {
   //     const resp = await BannersServices.getSlogan();
@@ -749,13 +749,17 @@ function Header() {
                     </div>
                   )}
                   {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff', }} ref={dropdownRef}>
+                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff',top:50 }} ref={dropdownRef}>
                       {AuthData === undefined && GuestData === undefined ? (
                         <div className='text-black pt-2' onClick={() => { handleNavigation('login'); dispatch(setUserShowGuestOrNot(true)) }}>Login/Signup</div>
                       ) : (
-                        <div className='text-black pt-2' onClick={logout}>logout</div>
+                        <React.Fragment>
+                          <div className='text-black pt-2'>
+                            <Link to="/my-account">My Account</Link>
+                          </div>
+                          <div className='text-black pt-2' onClick={logout}>logout</div>
+                        </React.Fragment>
                       )}
-                      <div className='text-black pt-2' onClick={() => handleNavigation('#')}>My Account</div>
                     </div>
                   ) : null}
 
