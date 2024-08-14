@@ -149,7 +149,7 @@
   }
 
   h2 {
-    font-size: 36px;
+    font-size: 23px !important;
   }
 
   .main_slider_content h6 {
@@ -318,6 +318,10 @@
   .Toastify__toast-container--top-right {
     /* top: 8rem !important; */
     top: auto !important;
+  }
+  .carousel-caption{
+    left: 55% !important;
+    top: 1px;
   }
 }
 
@@ -686,6 +690,15 @@
 
   .product {
     height: auto;
+    padding-bottom: 20px;
+  }
+  .inline-text{
+    margin: 0px !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+  h5.title{
+    font-size: 22px !important;
   }
 
   .product_name a {
@@ -836,12 +849,25 @@
 
   .carousel-item img {
     /* max-height: 100px !important; */
-    height: 170px;
+    height: 142px;
+    width: 100% !important;
   }
 
   .carouselCaptionHeading {
     font-size: 20px !important;
   }
+  .dynamic-html h2{
+    font-size: 10px !important;
+  }
+  .dynamic-html p{
+    font-size: 10px;
+    margin-bottom: 7px;
+  }
+  .dynamic-html button{
+    padding: 4px 11px !important;
+    font-size: 10px !important;
+  }
+
 }
 
 /************
