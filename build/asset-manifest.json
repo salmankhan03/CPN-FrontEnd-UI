@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.41db827e.css",
-    "main.js": "/static/js/main.7e81d8ff.js",
+    "main.js": "/static/js/main.060d6692.js",
     "static/media/banner_aboutus.jpg": "/static/media/banner_aboutus.97abb3846a33aef0bb4d.jpg",
     "static/media/Satoshi-Medium.otf": "/static/media/Satoshi-Medium.e9d34f0493a853cf10c1.otf",
     "static/media/Satoshi-Bold.otf": "/static/media/Satoshi-Bold.b5dd7deee13e32689234.otf",
@@ -25,10 +25,10 @@
     "static/media/arrow-chevron-left.svg": "/static/media/arrow-chevron-left.5a844c8db69efc99c45b.svg",
     "static/media/arrow-chevron-right.svg": "/static/media/arrow-chevron-right.51bf723ca3f11d8480ed.svg",
     "main.41db827e.css.map": "/static/css/main.41db827e.css.map",
-    "main.7e81d8ff.js.map": "/static/js/main.7e81d8ff.js.map"
+    "main.060d6692.js.map": "/static/js/main.060d6692.js.map"
   },
   "entrypoints": [
     "static/css/main.41db827e.css",
-    "static/js/main.7e81d8ff.js"
+    "static/js/main.060d6692.js"
   ]
 }
