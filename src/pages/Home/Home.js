@@ -306,24 +306,24 @@ function HomeScreen() {
                 notifyError(`Products Quantity not Sufficient`);
             }
         } else {
-            if(Number(productItem?.quantity) <= productItem?.quantity){
-            let cartObj = {
-                id: productItem.id,
-                name: productItem.name,
-                image: productItem.images,
-                description: productItem.description,
-                price: productItem.sell_price,
-                sku: productItem.sku,
-                purchaseQty: 1,
-                totalPrice: 1 * JSON.parse(productItem.sell_price),
-                is_tax_apply: productItem?.is_tax_apply,
-                availableQty: productItem?.quantity
-            };
-            notifySuccess(`${message} added to the cart!`);
-            dispatch(addtoCartItems(cartObj));
-        }else{
-            notifyError(`Products Quantity not Sufficient`);
-        }
+            if (1 <= Number(productItem?.quantity)) {
+                let cartObj = {
+                    id: productItem.id,
+                    name: productItem.name,
+                    image: productItem.images,
+                    description: productItem.description,
+                    price: productItem.sell_price,
+                    sku: productItem.sku,
+                    purchaseQty: 1,
+                    totalPrice: 1 * JSON.parse(productItem.sell_price),
+                    is_tax_apply: productItem?.is_tax_apply,
+                    availableQty: productItem?.quantity
+                };
+                notifySuccess(`${message} added to the cart!`);
+                dispatch(addtoCartItems(cartObj));
+            }else {
+                notifyError(`Products Quantity not Sufficient`);
+            }
         }
     }
 

@@ -45,7 +45,7 @@ function ProductListing(props) {
                 notifyError(`Products Quantity not Sufficient`);
             }
         } else {
-            if (Number(productItem?.quantity) <= productItem?.quantity ) {
+            if (1 <= productItem?.quantity ) {
                 let cartObj = {
                     id: productItem.id,
                     name: productItem.name,
