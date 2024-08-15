@@ -630,7 +630,7 @@ function ProductDetails() {
                                 <div className="breadcrumbs d-flex flex-row align-items-center mt-2 mb-2">
                                     <ul>
                                         <li>
-                                            <a href="/">Home</a>
+                                            <a href="/Shop">Shop</a>
                                         </li>
                                         <li>
                                             <a href={`/shop?name=brand&id=${productData.brand_id}`}>
