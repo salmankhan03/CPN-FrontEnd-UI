@@ -108,11 +108,14 @@ function ProductListing(props) {
                                 <span className="actualPrice sf-Regular">${productItem?.price}</span>
                             )}
                         </div>
+                        {Number(productItem?.quantity) === 0 &&
+                            <div class="out-of-stock"> Out of Stock </div>}
+                        {Number(productItem?.quantity) !== 0 && 
                         <div>
                             <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>
                                 <i className="fas fa-shopping-bag mt-2"></i>
                             </span>
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>

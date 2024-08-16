@@ -977,11 +977,14 @@ function ProductDetails() {
                                                                 <span className="actualPrice sf-Regular">${item?.price}</span>
                                                             )}
                                                         </div>
+                                                        {Number(item?.quantity) === 0 &&
+                                                            <div class="out-of-stock"> Out of Stock </div>}
+                                                        {Number(item?.quantity) !== 0 && 
                                                         <div>
                                                             <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
                                                                 <i className="fas fa-shopping-bag mt-2"></i>
                                                             </span>
-                                                        </div>
+                                                        </div>}
                                                     </div>
                                                 </div>
                                             </div>
