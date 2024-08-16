@@ -334,7 +334,7 @@ const CartPage = () => {
                                                     </td>
                                                     <td className='align-middle pt-5 pb-5'>
                                                         <p className='fw-normal fs-4 secondaryColor mt-3'>
-                                                            ${item?.totalPrice}
+                                                            ${item?.totalPrice?.toFixed(2)}
                                                         </p>
                                                     </td>
                                                     <td className='align-middle pt-5 pb-5'>
@@ -363,7 +363,7 @@ const CartPage = () => {
                                                         ${item.price}
                                                     </div>
                                                     <div className='col-6 text-end'>
-                                                        ${item.totalPrice}
+                                                        ${item.totalPrice?.toFixed(2)}
                                                     </div>
                                                 </div>
                                                 <div className='row align-items-center mt-2'>

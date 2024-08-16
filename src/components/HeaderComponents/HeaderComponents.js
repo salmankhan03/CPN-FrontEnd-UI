@@ -688,7 +688,8 @@ function Header() {
                     <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
-                        {cartItems.length}
+                        {cartItems.reduce((total, item) => total + JSON.parse(item.purchaseQty), 0)}
+                        {/* {cartItems.length} */}
                       </span>
                     )}
                   </div>
