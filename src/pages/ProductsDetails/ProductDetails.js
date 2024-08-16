@@ -702,7 +702,11 @@ function ProductDetails() {
                                     <div style={{ borderBottom: '1px solid #eee', width: '100%', display: 'flex' }}>
                                         <div className="product_price priceLabelColor mt-3 mb-3">
                                             ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
-                                            {productData?.quantity > 0 && <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>}
+                                            {productData?.sell_price !== productData?.price && (
+                                            <span className="ml-2">
+                                                ${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}
+                                            </span>
+                                            )}
                                         </div>
                                     </div>
                                     {Number(productData?.quantity) === 0 &&
@@ -960,7 +964,10 @@ function ProductDetails() {
                                                     <div className="d-flex mt-2 justify-content-between">
                                                         <div>
                                                             <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
-                                                            {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>}
+                                                            {/* {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>} */}
+                                                            {item?.sell_price !== item?.price && (
+                                                                <span className="actualPrice sf-Regular">${item?.price}</span>
+                                                            )}
                                                         </div>
                                                         <div>
                                                             <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
