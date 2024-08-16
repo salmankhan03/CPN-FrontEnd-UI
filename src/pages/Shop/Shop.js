@@ -434,8 +434,8 @@ function ShopScreen() {
                                     {chipsData.length > 0 && (
                                         <div className='row'>
                                             <div className='text-left'>
-                                                {chipsData.map(chip => (
-                                                    <Chip key={chip} label={chip?.label} onRemove={() => removeChip(chip)} />
+                                                {chipsData.map((chip,index) => (
+                                                    <Chip key={index} label={chip?.label} onRemove={() => removeChip(chip)} />
                                                 ))}
                                             </div>
                                         </div>
