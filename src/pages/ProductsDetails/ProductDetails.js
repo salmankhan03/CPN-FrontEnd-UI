@@ -343,13 +343,14 @@ function ProductDetails() {
         const existingCartItem = cartItems.find(item => item?.id === product?.id);
         let message = truncateString(product?.name, 60)
         if (existingCartItem) {
-            if((existingCartItem?.purchaseQty + quantity) <= product?.quantity){
-                const updatedCartItems = cartItems.map(item => {
+            const availableQuantity = (Number(product?.quantity) - existingCartItem?.purchaseQty);
+            const actualQuantity = Math.min(quantity, availableQuantity);
+            const updatedCartItems = cartItems.map(item => {
                 if (item.id === product.id) {
                     return {
                         ...item,
-                        purchaseQty: quantity + item?.purchaseQty,
-                        totalPrice: (quantity + item?.purchaseQty )* (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                        purchaseQty: actualQuantity + item?.purchaseQty,
+                        totalPrice: (actualQuantity + item?.purchaseQty )* (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
                         price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
                         sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
                         availableQty: product?.quantity
@@ -359,31 +360,34 @@ function ProductDetails() {
                 }
             });
             dispatch(updateCartItems(updatedCartItems));
-            notifySuccess(`${message} already added in the cart!`);
-            }else{
-                notifyError(`Products Quantity not Sufficient`);
+            if(availableQuantity > 0){
+                notifySuccess(`${message} already added in the cart!`);
+            }
+            if(quantity > availableQuantity){
+                notifyError(`Product Quantity not Sufficient`);
             }
         } else {
-            if(quantity <= Number(product?.quantity)){
-                let cartObj = {
-                    id: product.id,
-                    name: product.name,
-                    image: product.images,
-                    description: product.description,
-                    price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
-                    sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
-                    purchaseQty: quantity,
-                    totalPrice: quantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
-                    is_tax_apply: product?.is_tax_apply,
-                    availableQty: product?.quantity
-                };
-                if (selectedProductsVarints) {
-                    cartObj['variants'] = selectedProductsVarints;
-                }
-                notifySuccess(`${message} added to the cart!`);
-                dispatch(addtoCartItems(cartObj));
-            }else{
-                notifyError(`Products Quantity not Sufficient`);
+            const actualQuantity = Math.min(quantity, Number(product?.quantity));
+            //actual quantity to add to cart = min (quantity the customer wants to add, available quantity)
+            let cartObj = {
+                id: product.id,
+                name: product.name,
+                image: product.images,
+                description: product.description,
+                price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
+                sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
+                purchaseQty: actualQuantity,
+                totalPrice: actualQuantity * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                is_tax_apply: product?.is_tax_apply,
+                availableQty: product?.quantity,
+            };
+            if (selectedProductsVarints) {
+                cartObj['variants'] = selectedProductsVarints;
+            }
+            notifySuccess(`${message} added to the cart!`);
+            dispatch(addtoCartItems(cartObj));
+            if(quantity > Number(product?.quantity)){
+                notifyError(`Product Quantity not Sufficient`);
             }
         }
     }
