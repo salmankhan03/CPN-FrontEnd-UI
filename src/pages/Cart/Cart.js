@@ -159,7 +159,7 @@ const CartPage = () => {
             dispatch(updateCartSubTotal(updatedCartSubTotals + JSON.parse(updatedItem.price)))
             setSubTotalWithCoupon(updatedCartSubTotals + JSON.parse(updatedItem.price));
         } else {
-            notifyError(`Products Quantity not Sufficient`);
+            notifyError(`Product Quantity not Sufficient`);
         }
     };
     const handleDecrement = (index) => {

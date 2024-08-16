@@ -883,6 +883,10 @@ function ProductDetails() {
                                                     label="Add to Cart"
                                                 />
                                             </div>
+                                            { Number(productData?.quantity) <= 10 &&
+                                            <div className="mt-3 d-flex">
+                                                Low in stock, only {Number(productData?.quantity)} left
+                                            </div>}
                                         </div>
                                     </div>
                                     <div className="mt-4 brandLabel">
