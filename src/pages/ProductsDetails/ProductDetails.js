@@ -391,6 +391,17 @@ function ProductDetails() {
             }
         }
     }
+
+    const disablePlus = (product) => {
+        const existingCartItem = cartItems.find(item => item?.id === product?.id);
+        const availableQuantity = existingCartItem? (Number(product?.quantity) - existingCartItem?.purchaseQty): Number(product?.quantity);
+        if(quantity >= availableQuantity){
+            //notifyError(`Product Quantity not Sufficient`);
+            return "plus disabled";
+        }
+        return "plus";
+    }
+
     const selectVarintsProducts = (id, optionID, types) => {
 
         let index = chooseVariants[id] === optionID
@@ -851,7 +862,7 @@ function ProductDetails() {
                                             <div className="quantity d-flex align-items-center flex-sm-row">
                                                 <div className="quantity_selector d-flex align-items-center">
                                                     <span
-                                                        className={productData?.quantity > 1 ? "minus" : "minus disabled"}
+                                                        className={quantity > 1 ? "minus" : "minus disabled"}
                                                         onClick={handleDecrement}
                                                         style={{ cursor: 'pointer' }}
                                                     >
@@ -859,7 +870,8 @@ function ProductDetails() {
                                                     </span>
                                                     <span id="quantity_value" className="mx-3">{quantity}</span>
                                                     <span
-                                                        className="plus"
+                                                        //className="plus"
+                                                        className = {disablePlus(productData)}
                                                         onClick={handleIncrement}
                                                         style={{ cursor: 'pointer' }}
                                                     >

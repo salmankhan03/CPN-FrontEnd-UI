@@ -2056,6 +2056,12 @@ span.minus.disabled {
   cursor: none;
 }
 
+span.plus.disabled {
+  color: #b5aec4;
+  pointer-events: none;
+  cursor: none;
+}
+
 /*********************************
 10. Newsletter
 *********************************/
