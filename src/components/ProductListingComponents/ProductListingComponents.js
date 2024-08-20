@@ -5,6 +5,8 @@ import ImageComponent from "../ImageComponents/ImageComponents";
 import { notifyError, notifySuccess } from "../ToastComponents/ToastComponents";
 import { addtoCartItems, updateCartItems } from "../../redux/action/cart-action";
 import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStoreSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -109,13 +111,15 @@ function ProductListing(props) {
                             )}
                         </div>
                         {Number(productItem?.quantity) === 0 &&
-                            <div class="out-of-stock"> Out of Stock </div>}
+                            <div class="out-of-stock-circle"> <FontAwesomeIcon icon={faStoreSlash} /> </div>
+                        }
                         {Number(productItem?.quantity) !== 0 && 
-                        <div>
-                            <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>
-                                <i className="fas fa-shopping-bag mt-2"></i>
-                            </span>
-                        </div>}
+                            <div>
+                                <span className="circle mt-1" onClick={(event) => addToCart(event, productItem)}>
+                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                </span>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

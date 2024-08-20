@@ -850,7 +850,7 @@ function Header() {
                       className={`nav-menu-list text-white`}
                       onClick={() => handleMegamuToggleOpen('brand')}
                     >
-                      Brand
+                      Brands
                     </Link>
                     <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand" />
                   </li>

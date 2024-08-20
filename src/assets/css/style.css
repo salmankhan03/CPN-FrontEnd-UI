@@ -4230,3 +4230,16 @@ select {
   color: red;
   border-radius: 15px;
 }
+
+.out-of-stock-circle{
+  color: red;
+  width: 2rem;
+  height: 2rem;
+  background-color: #dce3e6;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+} 
