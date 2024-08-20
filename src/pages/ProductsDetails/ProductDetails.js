@@ -983,10 +983,14 @@ function ProductDetails() {
                                                     </div>
                                                     <div className="d-flex mt-2 justify-content-between">
                                                         <div>
-                                                            <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
-                                                            {/* {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>} */}
+                                                            {item?.sell_price === item?.price && (
+                                                                <span className="normalPriceLabel sf-Regular">${item?.price}</span>
+                                                            )}
                                                             {item?.sell_price !== item?.price && (
+                                                                <>
+                                                                <div className="priceLabel sf-Bold">${item?.sell_price}</div>
                                                                 <span className="actualPrice sf-Regular">${item?.price}</span>
+                                                                </>
                                                             )}
                                                         </div>
                                                         {Number(item?.quantity) === 0 &&

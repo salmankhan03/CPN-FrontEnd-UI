@@ -36,12 +36,14 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                                     </div>
                                     <div className="d-flex mt-2 justify-content-between">
                                         <div>
-                                            <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>
-                                                ${category?.sell_price}
-                                            </div>
-                                            {/* { category?.quantity > 0 && category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>} */}
+                                            {category?.sell_price === category?.price && (
+                                                <span className="normalPriceLabel sf-Regular">${category?.price}</span>
+                                            )}
                                             {category?.sell_price !== category?.price && (
+                                                <>
+                                                <div className="priceLabel sf-Bold">${category?.sell_price}</div>
                                                 <span className="actualPrice sf-Regular">${category?.price}</span>
+                                                </>
                                             )}
                                         </div>
                                         {Number(category?.quantity) === 0 &&

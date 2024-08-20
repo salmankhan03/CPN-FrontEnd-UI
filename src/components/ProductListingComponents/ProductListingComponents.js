@@ -104,12 +104,17 @@ function ProductListing(props) {
                     <div className="d-flex mt-2 justify-content-between">
 
                         <div>
-                            <div className={`${productItem?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${productItem?.sell_price}</div>
-                            {/* {productItem?.quantity > 0 && productItem?.price && <span className="actualPrice sf-Regular">${productItem?.price}</span>} */}
+                            {productItem?.sell_price === productItem?.price && (
+                                <span className="normalPriceLabel sf-Regular">${productItem?.price}</span>
+                            )}
                             {productItem?.sell_price !== productItem?.price && (
+                                <>
+                                <div className="priceLabel sf-Bold">${productItem?.sell_price}</div>
                                 <span className="actualPrice sf-Regular">${productItem?.price}</span>
+                                </>
                             )}
                         </div>
+
                         {Number(productItem?.quantity) === 0 &&
                             <div class="out-of-stock-circle"> <FontAwesomeIcon icon={faStoreSlash} /> </div>
                         }
