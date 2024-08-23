@@ -97,6 +97,7 @@ function ShopScreen() {
         }
 
     }, [])
+    
     useEffect(() => {
         if (name === "category") {
             setSelectedCategories(prevSelectedCategories => [
@@ -223,6 +224,7 @@ function ShopScreen() {
 
         }
     };
+
     // function getBrandList() {
     //     CategoryServices.getAllBrand({
     //         page: page,
@@ -267,6 +269,7 @@ function ShopScreen() {
     //         console.log(error)
     //     })
     // }
+    
     async function getfilterWiseProduct(data) {
         setProducts_List_loader(true)
 
@@ -292,9 +295,8 @@ function ShopScreen() {
             setProducts_List_loader(false)
             console.log(error)
         })
-
-
     }
+
     async function getProductsList(limit) {
         // console.log(limit)
         await ProductServices.getAllProducts({
@@ -321,6 +323,7 @@ function ShopScreen() {
             console.log(error)
         })
     }
+
     function getPriceFilter() {
         ProductServices.getMaximumPrice().then((resp) => {
             // setLoading(false)
@@ -333,11 +336,13 @@ function ShopScreen() {
             console.log(error)
         })
     }
+
     const handleChange = (e) => {
         setSelectedOption(e.target.value);
         setCurrentPage(1)
         setFiltersChanged(true);
     };
+
     const handleSortingChange = (e) => {
         setSelectedSortingOption(e?.target?.value ? e?.target?.value : e);
         setFiltersChanged(true);
@@ -362,6 +367,7 @@ function ShopScreen() {
     if (loader) {
         return <SpinnerLoading loading={loader} />
     }
+
     return (
         <>
             <Header />

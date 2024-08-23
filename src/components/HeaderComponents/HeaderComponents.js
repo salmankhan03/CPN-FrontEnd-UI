@@ -29,7 +29,7 @@ import MegaMenu from '../MegaMenuComponents/MegaMenuComponents';
 
 
 const StyledHeader = styled.header`
-    background-color: #fff  ;
+    background-color: #fff;
     width: 100%;
     padding: 10px 12px 8px 12px;
     display: flex;
@@ -68,7 +68,8 @@ const StyledHeader = styled.header`
       }
     }
   `;
-const NavManu = styled.ul`
+
+const NavMenu = styled.ul`
     list-style: none;
     display: flex;
     margin-bottom:0px;
@@ -129,6 +130,7 @@ const NavManu = styled.ul`
     }
   `;
 // right: 0;
+
 const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -142,6 +144,7 @@ const useWindowWidth = () => {
 
   return width;
 };
+
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -195,6 +198,7 @@ function Header() {
   const handleMegamuToggleOpen = (menuType) => {
     setIsMegaMenuOpen((prevState) => ({ ...prevState, [menuType]: !prevState[menuType] }));
   };
+
   useEffect(() => {
     if (inputRef.current && dropdownRef.current) {
       const inputWidth = inputRef.current.offsetWidth;
@@ -207,11 +211,13 @@ function Header() {
     setSearchResults([]);
     // navigate(`/Shop?name=search=${searchInputText}`)
   }
+
   const handleShow = () => {
     console.log("isEllipsisToggleOpen Value false set")
     setIsEllipsisToggleOpen(false);
     setShow(true);
   }
+
   const debouncedSearch = useCallback(
     debounce((query) => {
       searchProducts(query);
@@ -239,6 +245,7 @@ function Header() {
     setSearchResults([]);
 
   };
+
   const clearSearchText = () => {
     setSearchInputText('');
     setSearchResults([]);
@@ -263,6 +270,7 @@ function Header() {
       console.log(error)
     })
   }
+
   async function getSearchResult(query, screen) {
     await ProductServices.getSearchResults({ searchParam: query }).then((resp) => {
       if (resp?.status_code === 200) {
@@ -288,6 +296,7 @@ function Header() {
     })
   }
   // };
+
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
@@ -308,6 +317,7 @@ function Header() {
       setBrowseCategoryIsOpen(false);
     }
   };
+
   const handleSearchOutsideClick = (event) => {
     if (searchResultRef.current && !searchResultRef.current.contains(event.target)) {
       // setSearchResults([])
@@ -334,7 +344,7 @@ function Header() {
       }
     };
 
-    const handleNavManuOutsideClick = (event) => {
+    const handleNavMenuOutsideClick = (event) => {
       // console.log("isEllipsisToggleOpen Value false set")
 
       if (navMenuRef.current && !navMenuRef.current.contains(event.target)) {
@@ -348,6 +358,7 @@ function Header() {
         setIsEllipsisToggleOpen(false);
       }
     };
+
     window.addEventListener('scroll', handleScroll);
 
     if (headerRef.current) {
@@ -356,7 +367,7 @@ function Header() {
 
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleOutsideClick);
-    document.addEventListener('mousedown', handleNavManuOutsideClick);
+    document.addEventListener('mousedown', handleNavMenuOutsideClick);
     document.addEventListener('mousedown', handleEllipsisOutsideClick);
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('mousedown', handleBrowseClickOutside);
@@ -366,7 +377,7 @@ function Header() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('mousedown', handleNavManuOutsideClick);
+      document.removeEventListener('mousedown', handleNavMenuOutsideClick);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('mousedown', handleBrowseClickOutside);
       document.removeEventListener('mousedown', handleSearchOutsideClick);
@@ -439,7 +450,7 @@ function Header() {
           dispatch(setUserData({}))
           dispatch(setGuestUser({}))
           dispatch(setUserLogInOrNot(false))
-          notifySuccess(`logOut Suceefully`);
+          notifySuccess(`Logout Suceefully`);
           navigate(`/`)
 
         }
@@ -449,7 +460,7 @@ function Header() {
     } else {
       dispatch(setUserData({}))
       dispatch(setGuestUser({}))
-      notifySuccess(`Guest User logOut Suceefully`);
+      notifySuccess(`Guest User Logout Suceefully`);
       navigate(`/`)
     }
   };
@@ -527,65 +538,6 @@ function Header() {
   return (
     <>
       <div ref={headerRef}>
-        {/* Top Header Start */}
-        {/* <div className={`header-content-top  hide-div container`}>
-          <div className="left-content">
-            <span className='topBarFonts'>
-              (00)0000-0000
-            </span>
-            <span className='topBarFonts ml-2'>|</span>
-            <span className='ml-3 ml-md-2 topBarFonts'>
-              Store Location
-            </span>
-          </div>
-          <div className="middle-content">
-            <Carousel
-              activeIndex={index}
-              onSelect={handleSelect}
-              controls={false}
-              indicators={false}
-            >
-              {slogans?.map((slogan, idx) => (
-                <Carousel.Item key={idx} interval={10000}>                  
-                  <div
-                    className="w-full h-full text-white bg-opacity-50 dynamic-html"
-                    style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                    dangerouslySetInnerHTML={{ __html: slogan?.text }}
-                  />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-
-          </div>
-          <div className="right-content">
-            <div className="language-dropdown ml-3 ml-md-2">
-              <select className='cutom-dropdown topBarFonts'>
-                <option className="custom-option" value="en">English</option>
-                <option className="custom-option" value="es">Spanish</option>
-                <option className="custom-option" value="fr">French</option>
-              </select>
-            </div>
-            <span className='ml-3 ml-md-1'> |
-              {AuthDataFname && AuthDataFname.first_name && AuthDataFname.last_name ? (
-                <Link to="/my-account" className='ml-2 ml-md-2 topBarFonts'>
-                  My Account
-                </Link>
-              ) : (
-                GuestData ? (
-                  <Link to="#" className='ml-2 ml-md-2 topBarFonts'>
-                    {GuestData}
-                  </Link>
-                ) : (
-                  <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))} className='ml-2 ml-md-2 topBarFonts'>
-                    Login / Sign Up
-                  </Link>
-                )
-              )}
-
-            </span>
-          </div>
-        </div> */}
-        {/* Top Header Close */}
         <header
           /* Scrolling Header Commentd & header-fixed in animation commented */
           className={`header-visible`}
@@ -593,110 +545,33 @@ function Header() {
         //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
         >
           {/* Middle Header Start */}
-          <div className="" style={{ backgroundColor: '#fff' }}>
+          {/* <div className="" style={{ backgroundColor: '#fff' }}>
             <div className={`header-content-top pt-0 pb-0 ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
               <div className="left-content">
-                {/* <Link to="/">
-                  <img className="my-1" src={stickyLogo} alt="no-result" width="200" />
-                </Link> */}
+
               </div>
               <div className="middle-content" style={{ backgroundColor: '#fff' }} >
-                {/* Search bar Comment */}
-                {/* <div className='parent-container ml-2 hide-div search-container-width ml-5 mr-5'
-                  style={{ border: '1px solid #ccc', borderRadius: 20, width: '80%' }}> */}
-                {/* <div className="align-items-center "> */}
-                {/* <div className="dropdown dropdown-right-border" ref={navDropdownRef}>
-                      <div onClick={categoryToggleDropdown} className="dropdown-toggle text-black">
-                        <span className='searchDropdown' style={{ color: '#ababab' }}>Browse Categories</span>
-                      </div>
-
-                      {categoryIsOpen && (
-                        <div className="dropdown-content" style={{ zIndex: 2 }}>
-                          {Categories.map((Category, index) => {
-                            return (
-                              <div className='m-2 pointer-on-hover text-left'>
-                                <span className='text-black' onClick={() => navigateToShop(Category.id, 1)}>{Category?.name}</span>
-                              </div>);
-                          })}
-                        </div>
-                      )}
-                    </div> */}
-                {/* <div className="search-container "> */}
-                {/* <div className="search-container position-relative">
-                    <input
-                      type="text"
-                      placeholder="Search for items..."
-                      className="search-input"
-                      style={{ width: '90%', marginLeft: 10 }}
-                      value={searchInputText}
-                      onChange={handleInputChange}
-                      onClick={handleSearchInputClick}
-                    />
-                    <div
-                      className={`clear-search-icon  ${searchInputText ? 'enabled' : 'disabled'}`}
-                      onClick={searchInputText ? clearSearchText : null}
-                      style={{ color: searchInputText ? '#000' : '#ccc', padding: '8px' }}
-                    >
-                      {searchInputText ? (
-                        <i className={`fas fa-times-circle ${searchInputText ? 'pointer-on-hover secondaryColor' : ''}`}></i>
-                      ) : (
-                        <span style={{ visibility: 'hidden' }}>
-                          <i className="fas fa-times-circle"></i>
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="search-icon">
-                      <i
-                        // className="fas fa-search pointer-on-hover" 
-                        // onClick={() => handleResultClick(Object.keys(searchResults)[0])}
-                        className={`fas fa-search ${searchResults && Object.keys(searchResults).length ? 'pointer-on-hover secondaryColor' : ''}`}
-                        onClick={searchResults && Object.keys(searchResults).length ? () => handleResultClick(Object.keys(searchResults)[0]) : null}
-                      ></i>
-                    </div>
-
-                    {searchResults && searchResultsShow && (
-                      <div className="search-results mt-1 position-absolute" ref={searchResultRef} style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                        <ul className="list-group">
-                          {Object.keys(searchResults).map((result, index) => {
-                            console.log(result, "res");
-                            return (
-                              <li key={index} className="text-left text-black p-2 pointer-on-hover" style={{}} onClick={() => handleResultClick(result)}>
-                                <span className='ml-1'><i className="fas fa-search"></i></span>
-
-                                <span className='ml-2'>{result}  <span className=''>{`(${searchResults[result]})`} </span> </span>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
-                  </div> */}
-                {/* </div> */}
-                {/* </div> */}
-                {/* </div> */}
-
+                
               </div>
               <div className="right-content">
                 <div className="icons-container">
                   <div className="hide-div displyHide">
-                    {/* Search Component (commented out) */}
+                   
                   </div>
-                  {/* Cart Icon */}
+                 
                   <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid', }} onClick={() => handleNavigation('cart')}>
-                    {/* <FontAwesomeIcon icon={faBagShopping} fontSize={23} /> */}
+                   
                     <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
                     {cartItems.length !== undefined && cartItems.length > 0 && (
                       <span id="checkout_items" className="checkout_items">
                         {cartItems.reduce((total, item) => total + JSON.parse(item.purchaseQty), 0)}
-                        {/* {cartItems.length} */}
+                       
                       </span>
                     )}
                   </div>
-                  {/* User Icon */}
+               
                   <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
-                    {/* <i className="fa fa-user fa-lg mt-2" height aria-hidden="true" ></i> */}
-                    {/* <FontAwesomeIcon icon={faUser} fontSize={23} className='mt-1' /> */}
+          
                     <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
                     {isOpen && (
                       <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
@@ -712,11 +587,11 @@ function Header() {
                             <div onClick={logout}>logout</div>
                           </>
                         )}
-                        {/*  */}
+                       
                       </div>
                     )}
                   </div>
-                  {/* Mobile Menu Toggle */}
+                  
                   <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen}>
                     <i className="fa fa-bars" aria-hidden="true" style={{ color: '#000' }}></i>
                   </div>
@@ -763,62 +638,25 @@ function Header() {
                       )}
                     </div>
                   ) : null}
-
-
-                  {/* <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
-                    <i className="fa fa-user fa-lg" aria-hidden="true"></i>
-                    {isOpen && (
-                      <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', minWidth: 'auto' }}>
-                        {AuthData === undefined && GuestData === undefined ? (
-                          <Link to="/login">Login/Signup</Link>
-                        ) : (
-                          <div onClick={logout}>logout</div>
-                        )}
-                        <Link to="/my-account">My Account</Link>
-                      </div>
-                    )}
-                  </div> */}
                 </div>
               </div>
-
-
-
-
-
             </div>
-            {/* </header> */}
 
-          </div>
+          </div> */}
           {/* Middle Header Close */}
           {/* Bottom Header Start */}
           <div className='secondaryBG' >
             <nav className={`header-content-top bottomHeaderBG container pt-1 pb-1`} >
               <div className="left-content">
-                {/* <div className="dropdown" ref={headerNavDropdownRef}>
-                  <div onClick={toggleBrowseCategoryDropdown} className="dropdown-toggle text-white">
-                    <span><i className="fa fa-bars" aria-hidden="true"></i></span>
-                    <span className='searchDropdown ml-2' style={{ color: '#ababab' }}>Browse Categories</span>
-                  </div>
-                  {browseCategoryIsOpen && (
-                    <div className="dropdown-content" style={{ zIndex: 2 }}>
-                      {Categories.map((Category, index) => {
-                        return (
-                          // <Link to={`/shop?name=category&id=${Category.id}`}>{Category?.name}</Link>
-                          <div className='m-2 pointer-on-hover text-left'>
-                            <span className='text-black' onClick={() => navigateToShop(Category.id, 2)}>{Category?.name}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                  )}
-                </div> */}
+                <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen}>
+                        <i className="fa fa-bars" aria-hidden="true"></i>
+                </div>
+                
                 <Link to="/">
                   <img className="my-1 ml-2" src={WhiteLogo} alt="no-result" width="200" />
                 </Link>
-                {/* </div>
-              <div className='middle-content'> */}
-                <NavManu >
+
+                <NavMenu >
                   <li style={{ paddingLeft: 15, paddingRight: 15 }} className='mt-2'>
                     <Link to={"#"} className={`nav-menu-list text-white `} onClick={handleToggleOpen}>
                       Best Seller
@@ -854,58 +692,13 @@ function Header() {
                     </Link>
                     <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand" />
                   </li>
-                  {/* <li style={{ paddingLeft: 15, paddingRight: 15 }}>
-                    <Link to={"/faq"} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
-                      Faq
-                    </Link>
-                  </li>
-                  <li style={{ paddingLeft: 15, paddingRight: 35 }}>
-                    <Link to={'#'} className={`${scrollPosition > 0 ? 'fixed-heder-list' : 'nav-menu-list'} text-white`} onClick={handleToggleOpen}>
-                      Contact
-                    </Link>
-                  </li> */}
-                </NavManu>
-                {/* this menu is working but currently set modal */}
-                {/* <NavManu isToggleOpen={isToggleOpen} ref={navMenuRef} className='mobileMenu icon displyHide displaynone' style={{overflow:'hidden'}}>
-                  <ul className={`d-block w-100 pl-0 ${isToggleOpen ? 'show' : 'displyHide displaynone'}`}>
-                    {renderCategories(CategoriesListData)}
-                    <hr />
-                  </ul>
-                  
-                  <div className='d-flex w-100 p-2 mt-2' onClick={handleAtoZToggle}>
-                    <div>
-                      <span className="pointer-on-hover">{"A to Z Brand"}</span>
-                    </div>
-                    <div className='ms-auto'>
-                      <FontAwesomeIcon
-                        icon={isAtoZOpen ? faChevronDown : faChevronRight}
-                        fontSize={18}
-                        className=""
-                      />
-                    </div>
-                  </div>
-                  {isAtoZOpen && (
-                    <ul className="d-block w-100 pl-0  mb-5">
-                      {BrandListData.map((brand, index) => (
-    
-                        <div className='d-flex w-100 p-2 mt-2' key={index}>
-                          <div>
-                            <span className="pointer-on-hover" onClick={() =>  navigate(`/shop?name=brand&id=${brand?.id}`)}>{brand?.name}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </ul>
-                  )}
 
-                </NavManu> */}
+                </NavMenu>
               </div>
-              <div className="right-content hide-div">
-                {/* <div className="">
-                  <ImageComponent src={phone} alt="Contact" classAtribute={`fs-1 `} />
-                  <span className='ml-2'>Hotline: <span className=''>1800-1102</span> </span>
-                </div> */}
+
+              <div className="right-content">
                 <div className='parent-container ml-2 hide-div search-container-width'
-                  style={{ border: '1px solid #ccc', borderRadius: 15, width: 'auto' }}>
+                  style={{ border: '1px solid #FFFFFF', borderRadius: 15, width: 'auto' }}>
                   <div className="search-container position-relative">
                     <input
                       type="text"
@@ -932,8 +725,6 @@ function Header() {
 
                     <div className="search-icon">
                       <i
-                        // className="fas fa-search pointer-on-hover" 
-                        // onClick={() => handleResultClick(Object.keys(searchResults)[0])}
                         className={`fas fa-search ${searchResults && Object.keys(searchResults).length && searchResultsShow ? 'pointer-on-hover  text-white' : ''}`}
                         onClick={searchResults && Object.keys(searchResults).length ? () => handleResultClick(Object.keys(searchResults)[0]) : null}
                       ></i>
@@ -956,7 +747,121 @@ function Header() {
                       </div>
                     )}
                   </div>
+                </div>
 
+                <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
+                  <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>Searching Products</Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body className='d-flex flex-column justify-content-top'>
+                    <div className='w-100 position-relative'>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        className="form-control custom-search-input"
+                        placeholder="Search products"
+                        value={searchInputText}
+                        onChange={handleInputChange}
+                      />
+                      {searchResults && (
+                        <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
+                          <ul className="list-group">
+                            {Object.keys(searchResults).map((result, index) => {
+                              // console.log(result, "res");
+                              return (
+                                <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
+                                  <span className='ml-1'><i className="fas fa-search"></i></span>
+                                  {/* : {searchResults[result]} */}
+                                  <span className='ml-2'>{result} <span className=''>{`(${searchResults[result]})`} </span></span>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </Offcanvas.Body>
+                </Offcanvas>
+
+                <div className="icons-container">
+                  {/* Cart Icon */}
+                  <div className="icon" style={{display: 'inline-grid'}} onClick={() => handleNavigation('cart')}>
+                    <ImageComponent src={cartsIcon} alt={"Cart"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
+                    {cartItems.length !== undefined && cartItems.length > 0 && (
+                      <span id="checkout_items" className="checkout_items">
+                        {cartItems.reduce((total, item) => total + JSON.parse(item.purchaseQty), 0)}
+                        {/* {cartItems.length} */}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* User Icon */}
+                  <div className="nav-menu-list icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
+                    <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
+                    {isOpen && (
+                      <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
+                        {AuthData === undefined && GuestData === undefined ? (
+                          <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
+                        ) : (
+                          <>
+                            {AuthData ? (
+                              <Link to="/my-account">My Account</Link>
+                            ) : (
+                              <span className="disabled-link">My Account</span>
+                            )}
+                            <div onClick={logout} style={{color: '#333', cursor: 'pointer'}}>Logout</div>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Mobile Menu Toggle */}
+                  {/* <div className="mobileMenu icon displyHide displaynone" onClick={handleEllipsisToggleOpen}>
+                    <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#fff' }}></i>
+                  </div>
+
+                  {isEllipsisToggleOpen && (
+                    <div className='p-2 shadow  ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 50 }} ref={ellipsisRef}> */}
+                      <div className="row mt-2">
+                        <div className="col text-right">
+                          <div className="d-inline-flex align-items-center">
+                            <React.Fragment>
+                              <div className="search-icon hideSearch" onClick={handleShow}>
+                                <i className="fas fa-search"></i>
+                              </div>
+                              {/* <div className="position-relative mx-2 mobileMenu" onClick={() => handleNavigation('cart')}>
+                                <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
+                                {cartItems.length !== undefined && cartItems.length > 0 && (
+                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-16px', right: '-10px' }}>
+                                    {cartItems.length}
+                                  </span>
+                                )}
+                              </div> */}
+                              {/* <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
+                                <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
+                              </div> */}
+                            </React.Fragment>
+                          </div>
+                        </div>
+                      </div>
+                    {/* </div>
+                  )} */}
+                  
+                  {isOpen && width <= 768 ? (
+                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff',top:50 }} ref={dropdownRef}>
+                      {AuthData === undefined && GuestData === undefined ? (
+                        <div className='text-black pt-2' onClick={() => { handleNavigation('login'); dispatch(setUserShowGuestOrNot(true)) }}>Login/Signup</div>
+                      ) : (
+                        <React.Fragment>
+                          <div className='text-black pt-2'>
+                            <Link to="/my-account">My Account</Link>
+                          </div>
+                          <div className='text-black pt-2' onClick={logout} >Logout</div>
+                        </React.Fragment>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </nav>
@@ -964,50 +869,31 @@ function Header() {
           {/* Bottom Header Close */}
         </header>
 
-        <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Searching Products</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body className='d-flex flex-column justify-content-top'>
-            <div className='w-100 position-relative'>
-              <input
-                ref={inputRef}
-                type="text"
-                className="form-control custom-search-input"
-                placeholder="Search products"
-                value={searchInputText}
-                onChange={handleInputChange}
-              />
-              {searchResults && (
-                <div className="search-results mt-1 position-absolute" style={{ top: '100%', left: 0, zIndex: 999, backgroundColor: '#fff', borderRadius: '5px', boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)', maxHeight: '300px', overflowY: 'auto', width: '100%' }}>
-                  <ul className="list-group">
-                    {Object.keys(searchResults).map((result, index) => {
-                      // console.log(result, "res");
-                      return (
-                        <li key={index} className="text-left text-black p-2" style={{}} onClick={() => handleResultClick(result)}>
-                          <span className='ml-1'><i className="fas fa-search"></i></span>
-                          {/* : {searchResults[result]} */}
-                          <span className='ml-2'>{result} <span className=''>{`(${searchResults[result]})`} </span></span>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </Offcanvas.Body>
-        </Offcanvas>
-
 
         <Offcanvas show={isToggleOpen} onHide={() => setIsToggleOpen(false)} className="">
           <Offcanvas.Header closeButton>
             <Offcanvas.Title>
-              <span className='mr-2'>
+              <span className='mx-2'>
                 <FontAwesomeIcon
                   icon={faUser}
                   fontSize={18}
+                  className='mr-3'
                 />
-              </span>Welcome</Offcanvas.Title>
+              
+                {AuthData === undefined && GuestData === undefined ? (
+                  <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
+                ) : (
+                  <>
+                    {AuthData ? (
+                      <Link to="/my-account" className='mr-3'>My Account</Link>
+                    ) : (
+                      <span className="disabled-link">My Account</span>
+                    )}
+                    <span onClick={logout} style={{color: '#333', cursor: 'pointer'}}>Logout</span>
+                  </>
+                )}
+                </span>
+              </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body className='d-flex flex-column justify-content-top'>
             <ul className="d-block w-100 pl-0">
@@ -1025,7 +911,7 @@ function Header() {
               <hr />
               <div className='d-flex w-100 p-2 mt-2' onClick={handleAtoZToggle}>
                 <div>
-                  <span className="pointer-on-hover">{"A to Z Brand"}</span>
+                  <span className="pointer-on-hover">{"A to Z Brands"}</span>
                 </div>
                 <div className='ms-auto'>
                   <FontAwesomeIcon

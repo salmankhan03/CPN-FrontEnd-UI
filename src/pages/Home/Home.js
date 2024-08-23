@@ -41,7 +41,7 @@ const useSlidesToShow = () => {
         } else if (width >= 768) {
             setSlidesToShow(3);
         } else if (width >= 576) {
-            setSlidesToShow(1);
+            setSlidesToShow(2);
         } else {
             setSlidesToShow(1);
         }
@@ -99,7 +99,7 @@ function HomeScreen() {
                 settings: {
                     slidesToShow: Math.min(weeklyProductsList?.length, 2),
                     slidesToScroll: 1,
-                    arrows: false,
+                    arrows: true,
                 },
             },
             {
@@ -112,6 +112,7 @@ function HomeScreen() {
             },
         ],
     };
+
     useEffect(() => {
         window.scrollTo(0, 0);
         fetchData();
@@ -158,6 +159,7 @@ function HomeScreen() {
             return () => clearTimeout(timers);
         })
     }
+    
     function getBanners() {
         setBanner_loader(true)
         BannersServices.getBanners().then((resp) => {
