@@ -3917,12 +3917,12 @@ ul li {
   }
 }
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .offcanvas-start {
     height: calc(100vh - 75px);
     top: 75px !important;
   }
-}
+} */
 
 @media (min-width: 992px) {
   .sidebarMobile {
@@ -4243,3 +4243,8 @@ select {
   font-size: 0.875rem;
   cursor: pointer;
 } 
+
+.offcanvas {
+  height: 100vh;
+  width: 320px !important;
+}

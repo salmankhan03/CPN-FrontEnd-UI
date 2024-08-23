@@ -541,110 +541,8 @@ function Header() {
         <header
           /* Scrolling Header Commentd & header-fixed in animation commented */
           className={`header-visible`}
-        // Old Code
-        //  className={`${scrollPosition > headerHeight ? (isScrollingDown ? 'header-fixed' : 'header-visible') : ''}`}
         >
-          {/* Middle Header Start */}
-          {/* <div className="" style={{ backgroundColor: '#fff' }}>
-            <div className={`header-content-top pt-0 pb-0 ${scrollPosition > headerHeight ? 'headerWhite' : ''} container`}>
-              <div className="left-content">
-
-              </div>
-              <div className="middle-content" style={{ backgroundColor: '#fff' }} >
-                
-              </div>
-              <div className="right-content">
-                <div className="icons-container">
-                  <div className="hide-div displyHide">
-                   
-                  </div>
-                 
-                  <div className="icon hide-div displyHide carts-hide" style={{ display: 'inline-grid', }} onClick={() => handleNavigation('cart')}>
-                   
-                    <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
-                    {cartItems.length !== undefined && cartItems.length > 0 && (
-                      <span id="checkout_items" className="checkout_items">
-                        {cartItems.reduce((total, item) => total + JSON.parse(item.purchaseQty), 0)}
-                       
-                      </span>
-                    )}
-                  </div>
-               
-                  <div className="icon hide-div displyHide" onClick={() => setIsOpen(!isOpen)} ref={dropdownRef} style={{ position: 'relative' }}>
-          
-                    <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
-                    {isOpen && (
-                      <div className="dropdown-content" style={{ position: 'absolute', right: 0, top: '100%', zIndex: 2, backgroundColor: '#fff', }}>
-                        {AuthData === undefined && GuestData === undefined ? (
-                          <Link to="/login" onClick={() => dispatch(setUserShowGuestOrNot(true))}>Login/Signup</Link>
-                        ) : (
-                          <>
-                            {AuthData ? (
-                              <Link to="/my-account">My Account</Link>
-                            ) : (
-                              <span className="disabled-link">My Account</span>
-                            )}
-                            <div onClick={logout}>logout</div>
-                          </>
-                        )}
-                       
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="menuToggleBtn mobileMenu icon" onClick={handleToggleOpen}>
-                    <i className="fa fa-bars" aria-hidden="true" style={{ color: '#000' }}></i>
-                  </div>
-                  <div className="mobileMenu icon displyHide displaynone" onClick={handleEllipsisToggleOpen}>
-                    <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#000' }}></i>
-                  </div>
-                  {isEllipsisToggleOpen && (
-                    <div className='p-2 shadow  ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 50 }} ref={ellipsisRef}>
-                      <div className="row mt-2">
-                        <div className="col text-right">
-                          <div className="d-inline-flex align-items-center">
-                            <React.Fragment>
-                              <div className="search-icon" onClick={handleShow}>
-                                <i className="fas fa-search"></i>
-                              </div>
-                              <div className="position-relative mx-2" onClick={() => handleNavigation('cart')}>
-                                <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
-                                {cartItems.length !== undefined && cartItems.length > 0 && (
-                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-16px', right: '-10px' }}>
-                                    {cartItems.length}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
-                                <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
-                              </div>
-                            </React.Fragment>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff',top:50 }} ref={dropdownRef}>
-                      {AuthData === undefined && GuestData === undefined ? (
-                        <div className='text-black pt-2' onClick={() => { handleNavigation('login'); dispatch(setUserShowGuestOrNot(true)) }}>Login/Signup</div>
-                      ) : (
-                        <React.Fragment>
-                          <div className='text-black pt-2'>
-                            <Link to="/my-account">My Account</Link>
-                          </div>
-                          <div className='text-black pt-2' onClick={logout}>logout</div>
-                        </React.Fragment>
-                      )}
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-
-          </div> */}
-          {/* Middle Header Close */}
-          {/* Bottom Header Start */}
+          {/* Header Start */}
           <div className='secondaryBG' >
             <nav className={`header-content-top bottomHeaderBG container pt-1 pb-1`} >
               <div className="left-content">
@@ -702,7 +600,7 @@ function Header() {
                   <div className="search-container position-relative">
                     <input
                       type="text"
-                      placeholder="Search for items..."
+                      placeholder="Search Products..."
                       className="search-input text-white"
                       style={{ marginLeft: 10 }}
                       value={searchInputText}
@@ -751,7 +649,7 @@ function Header() {
 
                 <Offcanvas show={show} onHide={handleClose} className="d-lg-none">
                   <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Searching Products</Offcanvas.Title>
+                    <Offcanvas.Title>Search Products</Offcanvas.Title>
                   </Offcanvas.Header>
                   <Offcanvas.Body className='d-flex flex-column justify-content-top'>
                     <div className='w-100 position-relative'>
@@ -784,6 +682,16 @@ function Header() {
                 </Offcanvas>
 
                 <div className="icons-container">
+
+                  {/* Mobile Search Icon */}
+                  <div className="d-inline-flex align-items-center">
+                    <React.Fragment>
+                      <div className="search-icon hideSearch" onClick={handleShow}>
+                        <i className="fas fa-search"></i>
+                      </div>
+                    </React.Fragment>
+                  </div>
+
                   {/* Cart Icon */}
                   <div className="icon" style={{display: 'inline-grid'}} onClick={() => handleNavigation('cart')}>
                     <ImageComponent src={cartsIcon} alt={"Cart"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
@@ -815,53 +723,6 @@ function Header() {
                       </div>
                     )}
                   </div>
-
-                  {/* Mobile Menu Toggle */}
-                  {/* <div className="mobileMenu icon displyHide displaynone" onClick={handleEllipsisToggleOpen}>
-                    <i className="fa fa-ellipsis-h" aria-hidden="true" style={{ color: '#fff' }}></i>
-                  </div>
-
-                  {isEllipsisToggleOpen && (
-                    <div className='p-2 shadow  ' style={{ position: 'absolute', zIndex: 998, backgroundColor: "#fff", right: 0, top: 50 }} ref={ellipsisRef}> */}
-                      <div className="row mt-2">
-                        <div className="col text-right">
-                          <div className="d-inline-flex align-items-center">
-                            <React.Fragment>
-                              <div className="search-icon hideSearch" onClick={handleShow}>
-                                <i className="fas fa-search"></i>
-                              </div>
-                              {/* <div className="position-relative mx-2 mobileMenu" onClick={() => handleNavigation('cart')}>
-                                <ImageComponent src={cartsIcon} alt={"iHelthCaree"} classAtribute={`fs-6 ${cartItems.length > 0 ? '' : 'cartsHeight'}`} />
-                                {cartItems.length !== undefined && cartItems.length > 0 && (
-                                  <span id="checkout_items" className="badge badge-danger position-absolute" style={{ top: '-16px', right: '-10px' }}>
-                                    {cartItems.length}
-                                  </span>
-                                )}
-                              </div> */}
-                              {/* <div className="mx-2" onClick={mobileDropdown} ref={dropdownRef}>
-                                <ImageComponent src={account} alt={"User"} classAtribute={`fs-6`} />
-                              </div> */}
-                            </React.Fragment>
-                          </div>
-                        </div>
-                      </div>
-                    {/* </div>
-                  )} */}
-                  
-                  {isOpen && width <= 768 ? (
-                    <div className="dropdown-content" style={{ position: 'absolute', right: 0, zIndex: 2, backgroundColor: '#fff',top:50 }} ref={dropdownRef}>
-                      {AuthData === undefined && GuestData === undefined ? (
-                        <div className='text-black pt-2' onClick={() => { handleNavigation('login'); dispatch(setUserShowGuestOrNot(true)) }}>Login/Signup</div>
-                      ) : (
-                        <React.Fragment>
-                          <div className='text-black pt-2'>
-                            <Link to="/my-account">My Account</Link>
-                          </div>
-                          <div className='text-black pt-2' onClick={logout} >Logout</div>
-                        </React.Fragment>
-                      )}
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </nav>

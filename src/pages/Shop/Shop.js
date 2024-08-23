@@ -375,7 +375,7 @@ function ShopScreen() {
                 <MetaTitle pageTitle={'Ecommerce - Vitamins, Supplements, Natural Health Products'} />
                 <div className="custom-container container">
                     <div style={{ display: 'flex' }} className={'sidebarMobile'}>
-                        <i className="fa fa-bars d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filter Product By Brand and Category</i>
+                        <i className="fa fa-filter d-lg-none" aria-hidden="true" style={{ color: '#000' }} onClick={handleShow}> Filters</i>
                     </div>
                     <div className="row shop" style={{}}>
                         <div className="col-md-12 col-lg-3 sidebar_hide mt-4 ">
