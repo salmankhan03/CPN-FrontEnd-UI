@@ -28,6 +28,7 @@ import NotFoundPage from './pages/NotFound/NotFound';
 import SearchResults from './pages/Search/SearchResult';
 import MyAccount from './pages/MyAccount/MyAccount';
 import ForgotPassword from "./pages/ForgotPassword";
+import CreateNewPassword from "./pages/ForgotPassword/CreateNewPassword";
 
 
 
@@ -91,6 +92,7 @@ function App() {
           <Route path="/products-details/:id" element={<WithNavbar component={ProductDetails} />} />
           {/* <Route path="/login" element={<LoginScreen onLogin={() => setLoggedIn(true)} />} /> */}
           <Route path="/login" element={<WithNavbar component={LoginScreen} />} />
+          <Route path="/confirm-password" element={<WithNavbar component={CreateNewPassword} />} />
           <Route path="/signup" element={<SignUp />} />
 
           <Route path="/cart" element={<WithNavbar component={CartPage} />} />

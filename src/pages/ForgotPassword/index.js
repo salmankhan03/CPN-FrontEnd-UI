@@ -3,6 +3,8 @@ import Header from "../../components/HeaderComponents/HeaderComponents";
 import FooterComponents from "../../components/FooterComponents/FooterComponents";
 import InputComponent from "../../components/InputComponents/InputComponents";
 import ButtonComponent from "../../components/ButtonComponents/ButtonComponents";
+import AuthServices from "../../services/AuthServices";
+import {notifyError, notifySuccess} from "../../components/ToastComponents/ToastComponents";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -31,8 +33,16 @@ const ForgotPassword = () => {
     const handleEmailSend = (e) => {
         e.preventDefault();
         if (validateEmail(email)) {
+            AuthServices.customerForgotPasswordEmail({email: email}).then((resp) => {
+                if (resp?.status_code === 200) {
+                    notifySuccess(`Email Sent SuccessFully`);
+                    setEmail('')
+                    setEmailError('')
+                }
+            }).catch((error) => {
+                notifyError(`${error?.response?.data?.message}`);
 
-            console.log('Email sent to:', email);
+            })
         }
     };
 
