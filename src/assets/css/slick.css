@@ -139,6 +139,8 @@ h2 {
 /* Optional: Add margin to slide items if necessary */
 .slick-slide > div {
     margin: 0 10px;
+    width: -webkit-fill-available;
+
 }
 
 /* Adjust for fewer items */

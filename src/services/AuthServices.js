@@ -24,7 +24,10 @@ const AuthServices = {
     },
     getCustomerDetaila:async(id)=>{
         return requests.get(`${id}/get-customer-by-id`)
-    }
+    },
+    customerForgotPasswordEmail: async (body) => {
+        return requests.post(`/customer/forget-password`, body);
+    },
 
 };
 
