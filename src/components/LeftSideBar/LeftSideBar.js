@@ -130,20 +130,20 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
         </div>
       )}
       <div className="m-2 leftSidebarCategory">
-        <h4 className="d-flex justify-content-between align-items-center">
+        <h4 className="d-flex justify-content-between align-items-center sf-Bold">
           Categories
           <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">
               {categoriesData?.length > visibleRecords && (
-                <button className="load-more-button btn btn-sm " onClick={handleLoadMore}>View More</button>
+                <button className="load-more-button btn-border-radius btn btn-sm red_button " onClick={handleLoadMore}>View More</button>
               )}
               {visibleRecords > 5 && (
-                <button className="load-more-button btn btn-sm" onClick={handleViewLess}>View Less</button>
+                <button className="load-more-button btn-border-radius btn btn-sm red_button" onClick={handleViewLess}>View Less</button>
               )}
             </div>
           </span>
         </h4>
-        <div className='mt-4'>
+        <div className='mt-4 sf-Medium'>
           <div className='mb-3 position-relative '>
             <InputComponent
               type="text"
@@ -173,25 +173,25 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
         </div>
       </div>
       <div className='m-2 mt-2 leftSidebarPrice'>
-        <h4>Filter by Price</h4>
+        <h4 className="sf-Bold">Filter by Price</h4>
         <div className='mt-4 m-2'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
         </div>
       </div>
       <div className="m-2 leftSidebarBrand">
-        <h4 className="d-flex justify-content-between align-items-center">Brands
+        <h4 className="d-flex justify-content-between align-items-center sf-Bold">Brands
           <span className="load-more-span">
             <div className="load-more-container pt-0 mt-0">
               {filteredBrands?.length >= visibleBrandRecords ? (
-                <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleLoadMoreBrands} label="View More" />
+                <ButtonComponent cssClass="shopping-btn btn-border-radius red_button p-2 fs-6" onClick={handleLoadMoreBrands} label="View More" />
               ) : (
-                <ButtonComponent cssClass="shopping-btn btn-border-radius  p-2 fs-6" onClick={handleViewLessBrands} label="View Less" />
+                <ButtonComponent cssClass="shopping-btn btn-border-radius red_button p-2 fs-6" onClick={handleViewLessBrands} label="View Less" />
 
               )}
             </div>
           </span>
         </h4>
-        <div className='mt-4'>
+        <div className='mt-4 sf-Medium'>
           <div className='mb-3 position-relative'>
             <InputComponent
               type="text"
