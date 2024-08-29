@@ -605,6 +605,9 @@ section {
   color: #b5aec4;
   text-transform: uppercase;
 }
+.bottomHeaderBG{
+  background-color: var(--secondary-color) !important;
+}
 
 /*********************************
 3.1 Currency
@@ -2806,8 +2809,6 @@ ul.stander li a {
   /* padding: 4px 8px; */
   /* border-radius: 4px; */
 }
-
-
 .custom-product-tags-container .product-tag {
   position: relative;
   padding-right: 10px;
@@ -2822,7 +2823,6 @@ ul.stander li a {
 .custom-product-tags-container .product-tag:last-child::after {
   content: "";
 }
-
 
 /*********************************
 * Products Details Tabs
