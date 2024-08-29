@@ -54,7 +54,7 @@ COLOR PALETTE
   --Products-title-color: #2e3133;
   --button-blue-color: #0777b9;
   --lightGray-color: #f3f4f6;
-  --logoColor: #0777b9;
+  --logoColor: #E4573D;
 }
 
 /***********
@@ -109,7 +109,7 @@ COLOR PALETTE
 
 
 .sf-Regular {
-  font-family: "Regular";
+  font-family: "Regular" !important;
 }
 
 .sf-Medium {
@@ -139,8 +139,8 @@ h4,
 h5,
 h6 {
   color: #2e3133;
-  font-family: "Bold";
-  font-weight: bold;
+  font-family: "Bold" !important;
+  /*font-weight: bold;*/
 }
 .interBold{
   color: #2e3133;
@@ -183,6 +183,7 @@ h5 {
 h5.title {
   font-weight: bold;
   letter-spacing: -0.03rem;
+  font-family: "Bold" !important;
 }
 
 h3.titles {
@@ -327,7 +328,7 @@ ul {
 
 p {
   /* font-family: "Poppins", sans-serif; */
-  font-family:"Regular" ;
+  font-family:"Regular" !important;
   font-size: 14px;
   line-height: 1.7;
   font-weight: 500;
@@ -1187,8 +1188,9 @@ section {
   align-items: center;
   width: auto;
   height: 40px;
-  background: var(--secondary-color);
+  background: var(--secondary-color) !important;
   border-radius: 3px;
+  font-family: "Regular" !important;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -1197,8 +1199,7 @@ section {
 }
 
 .red_button:hover {
-  background: var(--logoColor) !important;
-}
+  background: var(--logoColor) !important;}
 
 .red_button a {
   display: block;
@@ -3826,7 +3827,7 @@ ul li {
 
 .load-more-button {
   padding: 5px 10px !important;
-  background-color: #0777b9 !important;
+  /*background-color: #0777b9 !important;*/
   /* Button color */
   color: #fff !important;
   /* Text color */
