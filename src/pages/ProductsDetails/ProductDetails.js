@@ -25,6 +25,8 @@ import { gsap } from 'gsap';
 import Modal from 'react-bootstrap/Modal';
 import Header from "../../components/HeaderComponents/HeaderComponents";
 import ButtonComponent from "../../components/ButtonComponents/ButtonComponents";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 
 const useSlidesToShow = () => {
@@ -871,11 +873,9 @@ function ProductDetails() {
                                     ) : null}
                                     <div className='' style={{ borderBottom: '1px solid #eee', width: '100%' }}>
                                         <div className='d-flex align-items-center justify-content-start flex-column flex-sm-row' style={{ marginBottom: '30px' }}>
-                                            <div className="d-flex align-items-left flex-column flex-sm-row">
-                                                {/* <div className="mt-3 d-flex">Quantity:</div> */}
+                                            <div className="d-flex align-items-center flex-column flex-sm-row">
                                                 <div className="quantity d-flex align-items-center ml-0 mt-3 mt-sm-0">
-                                                <span className="mr-3 mt-2">Quantity:</span>
-
+                                                    <span className="mr-3 mt-2">Quantity:</span>
                                                     <div className="quantity_selector d-flex align-items-center">
                                                         <span
                                                             className={productData?.quantity > 1 ? "minus" : "minus disabled"}
@@ -895,6 +895,12 @@ function ProductDetails() {
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="d-flex align-items-center justify-content-start flex-column flex-sm-row mt-3 mt-sm-0 ml-sm-3">
+                                                <p className="m-0">  
+                                                    <FontAwesomeIcon icon={faCircleCheck} fontSize={20} className="mr-2 qtyCheckButton"  />
+                                                    {productData?.quantity} in Stock
+                                                </p>
+                                            </div>
                                             <ButtonComponent
                                                 cssClass={`shopping-btn btn-border-radius w-auto mt-3 mt-sm-0 ml-sm-5 ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
                                                 onClick={() => {
@@ -911,6 +917,7 @@ function ProductDetails() {
                                                 label="Add to Cart"
                                             />
                                         </div>
+
 
                                     </div>
                                     <div className="mt-4 brandLabel">
@@ -930,7 +937,7 @@ function ProductDetails() {
                             </div>
                         </div>
                         <div className="row marginTopBottom product-detail mt-5">
-                            {/* <Container className="mt-4">
+                            <Container className="mt-4">
                                 <Tabs
                                     id="tab-component"
                                     className="custom-tabs"
@@ -953,11 +960,11 @@ function ProductDetails() {
                                         </div>
                                     </Tab>
                                 </Tabs>
-                            </Container> */}
-                        <div>
-                        <h3 class="entry-product-section-heading product-description-heading text-left">Description</h3>
-                        </div>
-                        <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
+                            </Container>
+                            {/* <div>
+                                <h3 class="entry-product-section-heading product-description-heading text-left">Description</h3>
+                            </div>
+                            <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} /> */}
 
                         </div>
                     </div>

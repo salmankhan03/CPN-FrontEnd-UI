@@ -2,7 +2,7 @@ import React from "react";
 
 function ProductTags({ tags }) {
     return (
-      <div className="product-tags-container">
+      <div className="product-tags-container custom-product-tags-container">
         {tags?.map((tag, index) =>{
           console.log("tag",tag)
           return (
