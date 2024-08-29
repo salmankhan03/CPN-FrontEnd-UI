@@ -7,6 +7,9 @@ import '../../assets/css/slick.css';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from '../ImageComponents/ImageComponents';
 import ButtonComponent from '../ButtonComponents/ButtonComponents';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStoreSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString, addToCart, navigated }) => {
     const [recordsLength, setRecordsLength] = useState(recordsDisplay ? recordsDisplay : 10);
@@ -33,16 +36,28 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                                     </div>
                                     <div className="d-flex mt-2 justify-content-between">
                                         <div>
-                                            <div className={`${category?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>
-                                                ${category?.sell_price}
-                                            </div>
-                                            { category?.quantity > 0 && category?.price && <span className="actualPrice sf-Regular">${category?.price}</span>}
+                                            {category?.sell_price === category?.price && (
+                                                <span className="normalPriceLabel sf-Regular">${category?.price}</span>
+                                            )}
+                                            {category?.sell_price !== category?.price && (
+                                                <>
+                                                <div className="priceLabel sf-Bold">${category?.sell_price}</div>
+                                                <span className="actualPrice sf-Regular">${category?.price}</span>
+                                                </>
+                                            )}
                                         </div>
+                                        {Number(category?.quantity) === 0 &&
+                                            <div class="out-of-stock-circle">
+                                                <FontAwesomeIcon icon={faStoreSlash} />
+                                            </div>
+                                        }
+                                        {Number(category?.quantity) !== 0 &&
                                         <div>
                                             <span className="circle" onClick={(event) => addToCart(event, category)}>
                                                 <i className="fas fa-shopping-bag mt-2"></i>
                                             </span>
                                         </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -389,6 +389,17 @@ function ProductDetails() {
             }
         }
     }
+
+    const disablePlus = (product) => {
+        const existingCartItem = cartItems.find(item => item?.id === product?.id);
+        const availableQuantity = existingCartItem? (Number(product?.quantity) - existingCartItem?.purchaseQty): Number(product?.quantity);
+        if(quantity >= availableQuantity){
+            //notifyError(`Product Quantity not Sufficient`);
+            return "plus disabled";
+        }
+        return "plus";
+    }
+
     const selectVarintsProducts = (id, optionID, types) => {
 
         let index = chooseVariants[id] === optionID
@@ -659,7 +670,7 @@ function ProductDetails() {
                                 <div className="breadcrumbs d-flex flex-row align-items-center mt-2 mb-2">
                                     <ul>
                                         <li>
-                                            <a href="/">Home</a>
+                                            <a href="/Shop">Shop</a>
                                         </li>
                                         <li>
                                             <a href={`/shop?name=brand&id=${productData.brand_id}`}>
@@ -1007,14 +1018,24 @@ function ProductDetails() {
                                                     </div>
                                                     <div className="d-flex mt-2 justify-content-between">
                                                         <div>
-                                                            <div className={`${item?.price ? 'priceLabel' : 'normalPriceLabel'} sf-Bold`}>${item?.sell_price}</div>
-                                                            {item?.price && <span className="actualPrice sf-Regular">${item?.price}</span>}
+                                                            {item?.sell_price === item?.price && (
+                                                                <span className="normalPriceLabel sf-Regular">${item?.price}</span>
+                                                            )}
+                                                            {item?.sell_price !== item?.price && (
+                                                                <>
+                                                                <div className="priceLabel sf-Bold">${item?.sell_price}</div>
+                                                                <span className="actualPrice sf-Regular">${item?.price}</span>
+                                                                </>
+                                                            )}
                                                         </div>
+                                                        {Number(item?.quantity) === 0 &&
+                                                            <div class="out-of-stock"> Out of Stock </div>}
+                                                        {Number(item?.quantity) !== 0 && 
                                                         <div>
                                                             <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
                                                                 <i className="fas fa-shopping-bag mt-2"></i>
                                                             </span>
-                                                        </div>
+                                                        </div>}
                                                     </div>
                                                 </div>
                                             </div>

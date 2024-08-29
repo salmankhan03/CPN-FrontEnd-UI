@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListComponents from '../ListComponents/ListComponents';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +13,13 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
   const [visibleRecords, setVisibleRecords] = useState(5);
   const [visibleBrandRecords, setVisibleBrandRecords] = useState(5);
 
+  // useEffect(() => {
+  //   setFilteredPrice(priceRange);
+  // }, [priceRange]);
+
+  // useEffect(() => {
+  //   setPriceRange(filteredPrice);
+  // }, [filteredPrice]);
 
   const handleDataChange = (event) => {
     const dataType = event.target.dataset.datatype; // Access the 'datatypes' attribute
@@ -28,6 +35,7 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
       setSelectedBrands(updatedBrand);
     }
   };
+
   const handleCategoryChange = (categoryId, isChecked) => {
     let newSelectedCategories = [...selectedCategories];
 
@@ -75,9 +83,11 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
     }
     return null;
   };
+
   const filteredCategories = categoriesData?.filter(category =>
     category.name?.toLowerCase()?.includes(categorySearchTerm?.toLowerCase())
   );
+
   const filteredBrands = brandData?.filter(category =>
     category.name?.toLowerCase()?.includes(brandSearchTerm?.toLowerCase())
   );
@@ -86,13 +96,16 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
     console.log(event)
     setCategorySearchTerm(event.target.value);
   };
+
   const handleSearchBrand = (event) => {
     console.log(event)
     setBrandSearchTerm(event.target.value);
   };
+
   const handleClearSearch = () => {
     setCategorySearchTerm('');
   };
+
   const handleClearBrand = () => {
     setBrandSearchTerm('');
   };
@@ -105,21 +118,29 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
   const handleViewLess = () => {
     setVisibleRecords((prevVisible) => Math.max(5, prevVisible - 5)); // Decrease visible records by 5, minimum 5
   };
+
   const handleLoadMoreBrands = () => {
     setVisibleBrandRecords((prevVisible) => prevVisible + 5);
     // console.log("visibleBrandRecords", visibleBrandRecords)
     // console.log("filteredBrands?.length", filteredBrands?.length)
   };
+
   const handleViewLessBrands = () => {
     setVisibleBrandRecords((prevVisible) => Math.max(5, prevVisible - 5)); // Decrease visible records by 5, minimum 5
   };
+
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedBrands([]);
-    setFilteredPrice([0, maximumPrice]);
+    //setFilteredPrice([0, maximumPrice]);
+    setPriceRange([0, maximumPrice]);
   };
 
-  const hasActiveFilters = selectedCategories.length > 0 || selectedBrands.length > 0 ;
+  const hasActiveFilters = selectedCategories.length > 0 
+                        || selectedBrands.length > 0 
+                        || filteredPrice[0] !== 0 
+                        || filteredPrice[1] !== maximumPrice;
+                        console.log("filteredPrice", filteredPrice)
 
   return (
     <div >
@@ -176,6 +197,12 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
         <h4 className="sf-Bold">Filter by Price</h4>
         <div className='mt-4 m-2'>
           <RangeSliderInput min={0} max={maximumPrice} values={priceRange} filteredPrice={filteredPrice} setFilteredPrice={setFilteredPrice} />
+          {/* {(filteredPrice[0] !== 0 || filteredPrice[1] !== maximumPrice) && (
+            <div className="m-3 clearFilter">
+              <p onClick={() => setPriceRange([0, maximumPrice])}>Clear Filter by Price</p>
+              <FontAwesomeIcon icon={faTrash} fontSize={23} className="icon"/>
+            </div>
+          )} */}
         </div>
       </div>
       <div className="m-2 leftSidebarBrand">

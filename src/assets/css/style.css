@@ -2060,6 +2060,12 @@ span.minus.disabled {
   cursor: none;
 }
 
+span.plus.disabled {
+  color: #b5aec4;
+  pointer-events: none;
+  cursor: none;
+}
+
 /*********************************
 10. Newsletter
 *********************************/
@@ -3950,12 +3956,12 @@ ul li {
   }
 }
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
   .offcanvas-start {
     height: calc(100vh - 75px);
     top: 75px !important;
   }
-}
+} */
 
 @media (min-width: 992px) {
   .sidebarMobile {
@@ -4264,6 +4270,23 @@ select {
   border-radius: 15px;
 }
 
+.out-of-stock-circle{
+  color: red;
+  width: 2rem;
+  height: 2rem;
+  background-color: #dce3e6;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+} 
+
+.offcanvas {
+  height: 100vh;
+  width: 320px !important;
+}
 /* product Details  */
 .entry-product-categories {
   font-size: 14px;

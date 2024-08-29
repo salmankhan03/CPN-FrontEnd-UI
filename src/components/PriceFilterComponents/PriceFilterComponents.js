@@ -19,17 +19,21 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
             }, delay);
         };
     };
+
     const handlePriceChange = debounce((newValues) => {
         console.log(newValues);
         setFilteredPrice(newValues);
         setPrice(newValues);
     }, 1000);
+
     const handleSliderChange = (values) => {
         handlePriceChange(values);
     };
+
     useEffect(() => {
         return () => clearTimeout(timeoutId);
     }, []);
+
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             setFilteredPrice((prevFilteredPrice) => {
@@ -38,6 +42,7 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
         }, 1000);
         return () => clearTimeout(timeoutId);
     }, [price, filteredPrice, setFilteredPrice]);
+
     const customHandleInputChange = (e, type) => {
         const inputValue = parseFloat(e);
         if (!isNaN(inputValue)) {
@@ -50,6 +55,16 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
                 }
                 return newPrice;
             });
+
+            // setFilteredPrice(prevPrice => {
+            //     let newPrice = [...prevPrice];
+            //     if (type === "min") {
+            //         newPrice[0] = inputValue;
+            //     } else {
+            //         newPrice[1] = inputValue;
+            //     }
+            //     return newPrice;
+            // });
         }
     };
 
@@ -61,7 +76,7 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
                     min={min}
                     max={max}
                     range
-                    step={1}
+                    step={10}
                     defaultValue={filteredPrice[0] === undefined && filteredPrice[1] === undefined ? filteredPrice : [min,max]}
                     onChange={handleSliderChange}
                 />              
@@ -92,7 +107,7 @@ const RangeSliderInput = ({ min, max, values, filteredPrice, setFilteredPrice })
                                 customClass={`form-control gray-bg `}
                                 value={price[1]}
                                 onChange={(e) => customHandleInputChange(e.target.value, "max")}
-                                placeholder="MaxPrice"
+                                placeholder={max}
                                 required
                             />
                         </div>
