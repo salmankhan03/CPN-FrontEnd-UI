@@ -64,46 +64,46 @@ COLOR PALETTE
 /* Bold Fonts */
 @font-face {
   /*---------- Inter ExtraBold ----------*/
-    /* font-family: 'Bold';
+  /* font-family: 'Bold';
     src: url('../fonts/Inter/static/Inter-ExtraBold.ttf') format('truetype'); */
 
   /*---------- Sf-Pro-Bold ----------*/
-    /* font-family: 'Bold';
+  /* font-family: 'Bold';
     src: url('../fonts/sf-pro/SFPRODISPLAYBOLD.OTF') format('truetype'); */
 
   /*---------- Satoshi-Bold ----------*/
-    font-family: 'Bold';
-    src: url('../fonts/satoshi/Satoshi-Bold.otf') format('truetype');
+  font-family: 'Bold';
+  src: url('../fonts/satoshi/Satoshi-Bold.otf') format('truetype');
 }
 
 /* Regular Fonts */
 @font-face {
   /*---------- Inter-Regular ----------*/
-    /* font-family: 'Regular';
+  /* font-family: 'Regular';
     src: url('../fonts/Inter/static/Inter-Regular.ttf') format('truetype'); */
 
   /*---------- Sf-Pro-Regular ----------*/
-    /* font-family: 'Regular';
+  /* font-family: 'Regular';
     src: url('../fonts/sf-pro/SFPRODISPLAYREGULAR.OTF') format('truetype'); */
 
   /*---------- Satoshi-Regular ----------*/
-    font-family: 'Regular';
-    src: url('../fonts/satoshi/Satoshi-Regular.otf') format('truetype');
+  font-family: 'Regular';
+  src: url('../fonts/satoshi/Satoshi-Regular.otf') format('truetype');
 }
 
 /* Medium Fonts */
 @font-face {
   /*---------- Inter-Medium ----------*/
-    /* font-family: 'Medium';
+  /* font-family: 'Medium';
     src: url('../fonts/Inter/static/Inter-Medium.ttf') format('truetype'); */
-  
+
   /*---------- Sf-Pro-Medium ----------*/
-    /* font-family: 'Medium';
+  /* font-family: 'Medium';
     src: url('../fonts/sf-pro/SFPRODISPLAYMEDIUM.OTF') format('truetype'); */
 
   /*---------- Satoshi-Medium ----------*/
-    font-family: 'Medium';
-    src: url('../fonts/satoshi/Satoshi-Medium.otf') format('truetype');
+  font-family: 'Medium';
+  src: url('../fonts/satoshi/Satoshi-Medium.otf') format('truetype');
 }
 
 
@@ -124,6 +124,7 @@ COLOR PALETTE
 .fontSize10 {
   font-size: 10;
 }
+
 .fontSize14 {
   font-size: 14px !important;
 }
@@ -142,7 +143,8 @@ h6 {
   font-family: "Bold" !important;
   /*font-weight: bold;*/
 }
-.interBold{
+
+.interBold {
   color: #2e3133;
   font-family: "Bold";
   font-weight: bold;
@@ -206,7 +208,8 @@ h3.titles {
 .secondaryColor {
   color: var(--secondary-color) !important
 }
-.secondaryBG{
+
+.secondaryBG {
   background-color: var(--secondary-color) !important;
 }
 
@@ -303,14 +306,14 @@ h3.titles {
 }
 
 body {
-/* "Poppins", sans-serif; */
-  
-    color: #9B9B9B;
-    font-family: "Regular" !important;
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 0em;
-    line-height: 1.74;
+  /* "Poppins", sans-serif; */
+
+  color: #9B9B9B;
+  font-family: "Regular" !important;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0em;
+  line-height: 1.74;
 }
 
 div {
@@ -328,7 +331,7 @@ ul {
 
 p {
   /* font-family: "Poppins", sans-serif; */
-  font-family:"Regular" !important;
+  font-family: "Regular" !important;
   font-size: 14px;
   line-height: 1.7;
   font-weight: 500;
@@ -605,7 +608,8 @@ section {
   color: #b5aec4;
   text-transform: uppercase;
 }
-.bottomHeaderBG{
+
+.bottomHeaderBG {
   background-color: var(--secondary-color) !important;
 }
 
@@ -1202,7 +1206,8 @@ section {
 }
 
 .red_button:hover {
-  background: var(--logoColor) !important;}
+  background: var(--logoColor) !important;
+}
 
 .red_button a {
   display: block;
@@ -2815,6 +2820,7 @@ ul.stander li a {
   /* padding: 4px 8px; */
   /* border-radius: 4px; */
 }
+
 .custom-product-tags-container .product-tag {
   position: relative;
   padding-right: 10px;
@@ -2997,10 +3003,12 @@ h2 {
 .small-card {
   display: none;
 }
-.cartsfitImg{
+
+.cartsfitImg {
   object-fit: contain;
 }
-.maxHeight{
+
+.maxHeight {
   height: 92px;
 }
 
@@ -3174,7 +3182,8 @@ h2 {
   background: #fff;
   border: 2px solid #dce3e6;
 }
-.box-height{
+
+.box-height {
   line-height: 1.75rem !important;
   padding-right: 1.375rem !important;
   padding-left: 1.375rem !important;
@@ -3527,18 +3536,17 @@ input:-webkit-autofill:active {
 
 
 
-.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
   /* color: var(--bs-nav-tabs-link-active-color); */
   background-color: none;
   border-color: none;
   border-top: none;
   border: none;
   border-bottom: 2px solid var(--secondary-color) !important;
-}x
+}
 
-
-
-.custom-tabs .nav-item {
+x .custom-tabs .nav-item {
   text-align: center;
   margin-bottom: -1px;
   border: none !important;
@@ -3556,7 +3564,7 @@ input:-webkit-autofill:active {
   color: #696969;
   border-radius: 0 !important;
   transition: none
-  /* transition: background-color 0.5s, border-color 0.3s; */
+    /* transition: background-color 0.5s, border-color 0.3s; */
 }
 
 .custom-tabs .nav-link.active {
@@ -3614,9 +3622,10 @@ input:-webkit-autofill:active {
 .tab-content-custom-peragraph ul {
   list-style: disc;
 }
+
 .tab-content-custom-peragraph p>strong {
-color: var(--brand-color);
-font-family: "Bold" !important;
+  color: var(--brand-color);
+  font-family: "Bold" !important;
 }
 
 .tab-content-custom-peragraph ul>li {
@@ -3628,6 +3637,7 @@ font-family: "Bold" !important;
   line-height: 1.74;
 
 }
+
 .tab-content-custom-peragraph ol>li {
   font-family: "Regular";
   color: #9B9B9B;
@@ -3997,9 +4007,9 @@ ul li {
 .download-app {
   width: 150px;
 }
-.text-light-color{
-  color: #9b9b9b
 
+.text-light-color {
+  color: #9b9b9b
 }
 
 .footer-links {
@@ -4027,7 +4037,7 @@ label {
 
 /* Toast  */
 .Toastify__toast-container--top-right {
- top: auto !important;
+  top: auto !important;
 }
 
 .productImageModal {
@@ -4229,10 +4239,11 @@ select {
 .carousel-control-next-icon {
   background-image: url("../images/arrow-chevron-right.svg") !important;
 }
+
 .carousel-indicators [data-bs-target] {
   box-sizing: content-box;
   flex: 0 1 auto;
-  width: 10px !important; 
+  width: 10px !important;
   height: 10px !important;
   padding: 0;
   margin-right: 3px;
@@ -4246,7 +4257,7 @@ select {
   border-bottom: 10px solid transparent;
   opacity: .5;
   transition: opacity .6s ease;
-  border-radius: 100%;  
+  border-radius: 100%;
 }
 
 .disabled-link {
@@ -4254,6 +4265,7 @@ select {
   cursor: not-allowed;
   text-decoration: none;
 }
+
 /* Products Description */
 .tab-content-custom-paragraph-word-wrap {
   white-space: normal;
@@ -4261,8 +4273,9 @@ select {
   word-break: break-word;
   overflow-wrap: break-word;
 }
+
 /* End */
-.out-of-stock{
+.out-of-stock {
   padding: 7px;
   border: 1px solid;
   background-color: #fde8e8;
@@ -4270,7 +4283,7 @@ select {
   border-radius: 15px;
 }
 
-.out-of-stock-circle{
+.out-of-stock-circle {
   color: red;
   width: 2rem;
   height: 2rem;
@@ -4281,12 +4294,13 @@ select {
   align-items: center;
   font-size: 0.875rem;
   cursor: pointer;
-} 
+}
 
 .offcanvas {
   height: 100vh;
   width: 320px !important;
 }
+
 /* product Details  */
 .entry-product-categories {
   font-size: 14px;
@@ -4296,6 +4310,7 @@ select {
   color: #ababab;
   margin: 0 0 5px;
 }
+
 .entry-title {
   font-size: 34px !important;
   font-weight: 400 !important;
@@ -4303,6 +4318,7 @@ select {
   margin: 0 0 13px !important;
   font-family: "Regular";
 }
+
 .entry-product-section-heading {
   font-size: 28px;
   font-weight: 500;
@@ -4311,24 +4327,67 @@ select {
   padding-bottom: 8px;
   margin: 43px 0 18px;
 }
-.qtyCheckButton{
+
+.qtyCheckButton {
   color: #8cc63e;
 }
+
 /* Checkout */
 .checkout-payment-info-heading {
-  padding-top: 46px;
-  border-top: 1px solid #eee;
+  /* padding-top: 46px; */
+  /* border-top: 1px solid #eee; */
   margin-bottom: 32px;
   font-size: 20px;
   font-weight: 500;
   line-height: 1.6;
   text-align: left;
 }
-.activePaymentsCard{
+
+.activePaymentsCard {
   background: #edf4fe;
   border-color: #edf4fe;
   color: #387aff;
 }
-.borderBottom{
-  border-bottom:1px solid #ccc
+
+.borderBottom {
+  border-bottom: 1px solid #eee
+}
+
+.checkout-form-login-toggle,
+.checkout-form-coupon-toggle {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #9B9B9B;
+  font-family: "Regular" !important;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0em;
+}
+
+.custom-input-container {
+  position: relative;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px; /* Rounded corners for the input */
+  background-color: #f7f7f7; /* Background color for the input container */
+  display: flex;
+  align-items: center;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px; /* Adjusted padding to make space for the icon */
+  border: none;
+  border-radius: 5px; /* Matching border-radius */
+  background-color: transparent; /* Transparent background to show container color */
+  outline: none; /* Remove the default focus outline */
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 15px; /* Position the icon inside the input, on the right side */
+  color: #888; /* Icon color */
+  font-size: 16px;
 }
