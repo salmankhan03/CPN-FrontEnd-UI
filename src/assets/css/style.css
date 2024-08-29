@@ -46,7 +46,7 @@ COLOR PALETTE
 ***********/
 :root {
   --primary-color: #6e0000;
-  --secondary-color: #415da1;
+  --secondary-color: #4e97fd;
   --black-color: #000000;
   --White-color: #fff;
   --brand-color: #747c80;
@@ -1919,10 +1919,10 @@ section {
 
 .product_price {
   display: inline-block;
-  font-size: 24px;
+  font-size: 24px !important;
   color: #fe4c50;
-  font-weight: 500;
-  line-height: 30px;
+  font-weight: 700;
+  /* line-height: 30px; */
   margin-top: 2px;
 }
 
@@ -4223,4 +4223,47 @@ select {
   background-color: #fde8e8;
   color: red;
   border-radius: 15px;
+}
+
+/* product Details  */
+.entry-product-categories {
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ababab;
+  margin: 0 0 5px;
+}
+.entry-title {
+  font-size: 34px !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  margin: 0 0 13px !important;
+  font-family: "Regular";
+}
+.entry-product-section-heading {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.6;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin: 43px 0 18px;
+}
+/* Checkout */
+.checkout-payment-info-heading {
+  padding-top: 46px;
+  border-top: 1px solid #eee;
+  margin-bottom: 32px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: left;
+}
+.activePaymentsCard{
+  background: #edf4fe;
+  border-color: #edf4fe;
+  color: #387aff;
+}
+.borderBottom{
+  border-bottom:1px solid #ccc
 }
