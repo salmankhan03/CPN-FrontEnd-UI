@@ -343,28 +343,28 @@ function ProductDetails() {
         const existingCartItem = cartItems.find(item => item?.id === product?.id);
         let message = truncateString(product?.name, 60)
         if (existingCartItem) {
-            if((existingCartItem?.purchaseQty + quantity) <= product?.quantity){
+            if ((existingCartItem?.purchaseQty + quantity) <= product?.quantity) {
                 const updatedCartItems = cartItems.map(item => {
-                if (item.id === product.id) {
-                    return {
-                        ...item,
-                        purchaseQty: quantity + item?.purchaseQty,
-                        totalPrice: (quantity + item?.purchaseQty )* (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
-                        price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
-                        sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
-                        availableQty: product?.quantity
-                    };
-                } else {
-                    return item;
-                }
-            });
-            dispatch(updateCartItems(updatedCartItems));
-            notifySuccess(`${message} already added in the cart!`);
-            }else{
+                    if (item.id === product.id) {
+                        return {
+                            ...item,
+                            purchaseQty: quantity + item?.purchaseQty,
+                            totalPrice: (quantity + item?.purchaseQty) * (selectedProductsVarints ? JSON.parse(selectedProductsVarints?.sell_price) : JSON.parse(product.sell_price)),
+                            price: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sell_price,
+                            sku: selectedProductsVarints ? selectedProductsVarints?.sell_price : product.sku,
+                            availableQty: product?.quantity
+                        };
+                    } else {
+                        return item;
+                    }
+                });
+                dispatch(updateCartItems(updatedCartItems));
+                notifySuccess(`${message} already added in the cart!`);
+            } else {
                 notifyError(`Products Quantity not Sufficient`);
             }
         } else {
-            if(quantity <= Number(product?.quantity)){
+            if (quantity <= Number(product?.quantity)) {
                 let cartObj = {
                     id: product.id,
                     name: product.name,
@@ -382,7 +382,7 @@ function ProductDetails() {
                 }
                 notifySuccess(`${message} added to the cart!`);
                 dispatch(addtoCartItems(cartObj));
-            }else{
+            } else {
                 notifyError(`Products Quantity not Sufficient`);
             }
         }
@@ -490,7 +490,7 @@ function ProductDetails() {
             return (
                 <div style={{ display: 'flex' }}>
                     {productData.images.map((item, index) => (
-                        <div className="thumbnail" onClick={() => handleThumbnailClick(item.name)} onMouseEnter={() => setSelectedImage(item.name)}>
+                        <div className="thumbnail" key={index} onClick={() => handleThumbnailClick(item.name)} onMouseEnter={() => setSelectedImage(item.name)}>
                             <div className={`thumbnail-image ${selectedImage === item.name ? 'selected' : ''}`}>
                                 <img src={item.name} alt={`Product Image 0`} className="product-image" />
                             </div>
@@ -567,7 +567,7 @@ function ProductDetails() {
                     return {
                         ...item,
                         purchaseQty: 1 + item?.purchaseQty,
-                        totalPrice: (1 + item?.purchaseQty )* JSON.parse(productItem?.sell_price),
+                        totalPrice: (1 + item?.purchaseQty) * JSON.parse(productItem?.sell_price),
                         price: productItem.sell_price,
                         sku: productItem.sku,
                     };
@@ -620,12 +620,39 @@ function ProductDetails() {
                 <Modal.Body className={"productImageModal"}>{renderModelSlider()}</Modal.Body>
             </Modal>
             <MetaTitle pageTitle={productData?.name} />
-            <div className="container single_product_container border-bottom-0 pb-0">
+            {productData && (
+                <div className="" style={{ backgroundColor: '#F8F8F8' }}>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
+                                <div className="breadcrumbs d-flex flex-row align-items-center mt-0 mb-0">
+                                    <ul className="mb-0">
+                                        <li>
+                                            <a href="/">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href={`/shop?name=brand&id=${productData.brand_id}`}>
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
+                                                {productData?.brand}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href={`/products-details/${productData?.id}`}>
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
+                                                {truncateString(productData?.name, 70)}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className="container single_product_container border-bottom-0 pb-0 mt-5">
                 {productData && (
                     <div>
-                        <div className="row">
-                            {/* <Toast /> */}
-
+                        {/* <div className="row" style={{backgroundColor:'#F8F8F8'}}>
                             <div className="col">
                                 <div className="breadcrumbs d-flex flex-row align-items-center mt-2 mb-2">
                                     <ul>
@@ -640,14 +667,14 @@ function ProductDetails() {
                                         </li>
                                         <li>
                                             <a href={`/products-details/${productData?.id}`}>
-                                                <i className="fa fa-angle-right" aria-hidden="true"></i>                                               
+                                                <i className="fa fa-angle-right" aria-hidden="true"></i>
                                                 {truncateString(productData?.name, 70)}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="row ">
                             <div className="col-lg-5">
@@ -655,7 +682,7 @@ function ProductDetails() {
                                     <div className="row">
                                         <div className="col-lg-12 image_col order-lg-2 order-1">
                                             <div className="fluid__image-container">
-                                                <img src={selectedImage} onClick={handleShow} style={{ width: '300px', height:'300px', cursor: 'pointer', objectFit:'contain'}} alt={'Product Image'} />
+                                                <img src={selectedImage} onClick={handleShow} style={{ width: '275px', height: '350px', cursor: 'pointer', objectFit: 'contain' }} alt={'Product Image'} />
 
                                                 {/*<ReactImageMagnify {...{*/}
                                                 {/*    smallImage: {*/}
@@ -689,33 +716,38 @@ function ProductDetails() {
                                 </div>
                             </div>
                             <div className="col-lg-7 mt-4">
-                                <div className="product_details mt-4">
-
-                                    <div className="product_details_title">
-                                        <h3 className="product-title text-left titleColor custom-auto-height" style={{ fontSize: '25px' }}>{productData?.name}</h3>
+                                <div className="product_details mt-4 ml-5 mr-5">
+                                    <div className="mb-3 ">
+                                        <a className="entry-product-categories" href={`/shop?name=brand&id=${productData.category?.id}`}>
+                                            {productData?.category?.name}
+                                        </a>
                                     </div>
-                                    <div className="mt-3 productDetailBrandLabel">
-                                        Brand:  <a href={`/shop?name=brand&id=${productData.brand_id}`}>
+                                    {/* <div className="product_details_title">
+                                        <h3 className="product-title text-left titleColor custom-auto-height" style={{ fontSize: '25px' }}>{productData?.name}</h3>
+                                    </div> */}
+                                    <h1 className="entry-title text-left">{productData?.name}</h1>
+                                    <div className="mt-3 productDetailBrandLabel mb-3">
+                                        Brands:  <a className="" href={`/shop?name=brand&id=${productData.brand_id}`}>
                                             {productData?.brand}
                                         </a>
                                     </div>
-                                    <div style={{ borderBottom: '1px solid #eee', width: '100%', display: 'flex' }}>
-                                        <div className="product_price priceLabelColor mt-3 mb-3">
-                                            ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price}
-                                            {productData?.quantity > 0 && <span className="ml-2">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>}
+                                    <div style={{ borderTop: '1px solid #eee', width: '100%', display: 'flex' }}>
+                                        <div className=" mt-3 mb-3">
+                                            <span className="product_price priceLabelColor"> ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price} </span>
+                                            {productData?.quantity > 0 && <span className="ml-2 actualPrice sf-Regular">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>}
                                         </div>
                                     </div>
                                     {Number(productData?.quantity) === 0 &&
-                                    <div className="mt-4 mb-2">
-                                         <span class="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity  : "Out of Stock"} </span>                                                
-                                    </div>
+                                        <div className="mt-3 mb-3">
+                                            <span class="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity : "Out of Stock"} </span>
+                                        </div>
                                     }
                                     {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
                                 </div> */}
                                     {productsVariants?.length > 0 && chooseVariants ? (
                                         <>
-                                            <div className="mt-3 ">
+                                            <div className="mt-3 mb-3 ">
                                                 Stock: {selectedProductsVarints ? selectedProductsVarints?.quantity : "Out of Stock"}
                                             </div>
                                             {!selectedProductsVarints ? (
@@ -750,7 +782,7 @@ function ProductDetails() {
                                                                             let index = z?.options?.findIndex((xy) => xy === ids)
 
                                                                             return (
-                                                                                <React.Fragment key={option?.name}>
+                                                                                <React.Fragment key={k}>
                                                                                     {index !== -1 ? (
                                                                                         <option key={option?.name} value={option?.id} name={z?.options[k]}>{option?.name}</option>
                                                                                     ) : null}
@@ -838,44 +870,48 @@ function ProductDetails() {
                                         </>
                                     ) : null}
                                     <div className='' style={{ borderBottom: '1px solid #eee', width: '100%' }}>
-                                        <div className='' style={{ marginBottom: '30px' }}>
-                                            <div className="mt-3 d-flex">Quantity:</div>
-                                            <div className="quantity d-flex align-items-center flex-sm-row">
-                                                <div className="quantity_selector d-flex align-items-center">
-                                                    <span
-                                                        className={productData?.quantity > 1 ? "minus" : "minus disabled"}
-                                                        onClick={handleDecrement}
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <i className="fa fa-minus" aria-hidden="true"></i>
-                                                    </span>
-                                                    <span id="quantity_value" className="mx-3">{quantity}</span>
-                                                    <span
-                                                        className="plus"
-                                                        onClick={handleIncrement}
-                                                        style={{ cursor: 'pointer' }}
-                                                    >
-                                                        <i className="fa fa-plus" aria-hidden="true"></i>
-                                                    </span>
+                                        <div className='d-flex align-items-center justify-content-start flex-column flex-sm-row' style={{ marginBottom: '30px' }}>
+                                            <div className="d-flex align-items-left flex-column flex-sm-row">
+                                                {/* <div className="mt-3 d-flex">Quantity:</div> */}
+                                                <div className="quantity d-flex align-items-center ml-0 mt-3 mt-sm-0">
+                                                <span className="mr-3 mt-2">Quantity:</span>
+
+                                                    <div className="quantity_selector d-flex align-items-center">
+                                                        <span
+                                                            className={productData?.quantity > 1 ? "minus" : "minus disabled"}
+                                                            onClick={handleDecrement}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
+                                                            <i className="fa fa-minus" aria-hidden="true"></i>
+                                                        </span>
+                                                        <span id="quantity_value" className="mx-3">{quantity}</span>
+                                                        <span
+                                                            className="plus"
+                                                            onClick={handleIncrement}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
+                                                            <i className="fa fa-plus" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <ButtonComponent
-                                                    // cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints ? 'disabled' : ''}`}
-                                                    cssClass={`shopping-btn btn-border-radius w-auto ml-5 ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled': ''}`}
-                                                    onClick={() => {
-                                                        if (productsVariants?.length) {
-                                                            if (selectedProductsVarints) {
-                                                                addtoCart(productData);
-                                                            }
-                                                        } else {
-                                                            if(Number(productData?.quantity) > 0){
-                                                                addtoCart(productData);
-                                                            }
-                                                        }
-                                                    }}
-                                                    label="Add to Cart"
-                                                />
                                             </div>
+                                            <ButtonComponent
+                                                cssClass={`shopping-btn btn-border-radius w-auto mt-3 mt-sm-0 ml-sm-5 ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
+                                                onClick={() => {
+                                                    if (productsVariants?.length) {
+                                                        if (selectedProductsVarints) {
+                                                            addtoCart(productData);
+                                                        }
+                                                    } else {
+                                                        if (Number(productData?.quantity) > 0) {
+                                                            addtoCart(productData);
+                                                        }
+                                                    }
+                                                }}
+                                                label="Add to Cart"
+                                            />
                                         </div>
+
                                     </div>
                                     <div className="mt-4 brandLabel">
                                         <label style={{ minWidth: '100px', display: 'inline-flex' }}>SKU:</label> <span className="ml-2">{selectedProductsVarints ? selectedProductsVarints?.sku : productData?.sku}</span>
@@ -893,8 +929,8 @@ function ProductDetails() {
                                 </div>
                             </div>
                         </div>
-                        <div className="row marginTopBottom product-detail">
-                            <Container className="mt-4">
+                        <div className="row marginTopBottom product-detail mt-5">
+                            {/* <Container className="mt-4">
                                 <Tabs
                                     id="tab-component"
                                     className="custom-tabs"
@@ -903,7 +939,7 @@ function ProductDetails() {
                                 >
                                     <Tab eventKey="description" title="Description">
                                         <div className="tab-content-custom" ref={tabContentRef}>
-                                            <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap'  dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
+                                            <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
                                         </div>
                                     </Tab>
                                     <Tab eventKey="reviews" title="Reviews (0)">
@@ -917,7 +953,12 @@ function ProductDetails() {
                                         </div>
                                     </Tab>
                                 </Tabs>
-                            </Container>
+                            </Container> */}
+                        <div>
+                        <h3 class="entry-product-section-heading product-description-heading text-left">Description</h3>
+                        </div>
+                        <div className='tab-content-custom-peragraph tab-content-custom-paragraph-word-wrap' dangerouslySetInnerHTML={{ __html: decodeURIComponent((productData?.description === null) ? "" : productData?.description) }} />
+
                         </div>
                     </div>
                 )}
