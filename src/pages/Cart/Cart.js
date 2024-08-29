@@ -481,7 +481,7 @@ const CartPage = () => {
                                                 <h5 className="bold pointer-on-hover title d-inline">Order Summary</h5>
                                             </div>
                                             <div
-                                                className=" mt-5">
+                                                className=" mt-5 ">
 
                                                 <div className="d-flex justify-content-between tab-title mt-2">
                                                     <div className=''> <p className='tab-title'>Subtotal:</p></div>
