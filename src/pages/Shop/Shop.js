@@ -122,7 +122,7 @@ function ShopScreen() {
 
     useEffect(() => {
         if (!show) {
-            const getSelectedBrands = brandData?.filter(brand => selectedBrands.includes(brand.id));
+            const getSelectedBrands = brandData?.filter(brand => selectedBrands?.includes(brand.id));
             const selectedBrandNames = getSelectedBrands?.map(brand => brand.name);
             
             //Category Data SET CHIPS 
@@ -131,7 +131,7 @@ function ShopScreen() {
                     if (category?.id === id) {
                         return category;
                     }
-                    if (category.children && category.children.length > 0) {
+                    if (category?.children && category?.children?.length > 0) {
                         const found = findCategoryById(category.children, id);
                         if (found) {
                             return found;

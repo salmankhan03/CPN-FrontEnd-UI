@@ -29,15 +29,15 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
       handleCategoryChange(categoryId, event.target.checked);
     } else {
       const brandId = parseInt(event?.target?.value, 10);
-      const updatedBrand = event.target.checked
-        ? [...selectedBrands, brandId]
-        : selectedBrands.filter(id => id !== brandId);
+      const updatedBrand = event?.target?.checked
+        ? [...(selectedBrands || []), brandId]
+        : (selectedBrands || []).filter(id => id !== brandId);
       setSelectedBrands(updatedBrand);
     }
   };
 
   const handleCategoryChange = (categoryId, isChecked) => {
-    let newSelectedCategories = [...selectedCategories];
+    let newSelectedCategories = [...(selectedCategories || [])];
 
     const updateChildCategories = (category, isChecked) => {
       category.children?.forEach(child => {
@@ -136,8 +136,8 @@ function LeftSideBarComponents({ categoriesData, brandData, selectedCategories, 
     setPriceRange([0, maximumPrice]);
   };
 
-  const hasActiveFilters = selectedCategories.length > 0 
-                        || selectedBrands.length > 0 
+  const hasActiveFilters = selectedCategories?.length > 0 
+                        || selectedBrands?.length > 0 
                         || filteredPrice[0] !== 0 
                         || filteredPrice[1] !== maximumPrice;
                         console.log("filteredPrice", filteredPrice)

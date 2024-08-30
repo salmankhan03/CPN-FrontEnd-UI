@@ -16,8 +16,8 @@ const ListComponents = ({ data, selectedData, handleDataChange, datatypes, recor
  
 
   const renderCategory = (category) => {
-    const isExpanded = expandedItems.includes(category.id);
-    const isChecked = selectedData.includes(category.id);
+    const isExpanded = expandedItems?.includes(category.id);
+    const isChecked = selectedData?.includes(category.id);
 
     return (
       <div key={category.id}>
