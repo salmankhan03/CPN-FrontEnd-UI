@@ -423,15 +423,15 @@ const CartPage = () => {
                                 {isApplyCoupon?.couponCode ? (
                                     <div className="text-left" style={{ padding: 25 }}>
                                         <h6 className="pointer-on-hover title d-inline">Coupon Discount</h6>
-                                        <div class="row d-block align-items-center mt-5">
-                                            <div class="col-auto">
-                                                <p class="fs-4 text-success d-flex align-items-center">
+                                        <div className="row d-block align-items-center mt-5">
+                                            <div className="col-auto">
+                                                <p className="fs-4 text-success d-flex align-items-center">
                                                     <FontAwesomeIcon icon={faCheck} fontSize={20} className="mr-2" />
                                                     Coupon applied!
                                                 </p>
                                             </div>
-                                            <div class="col-auto">
-                                                <div class="coupon-container pointer-on-hover">
+                                            <div className="col-auto">
+                                                <div className="coupon-container pointer-on-hover">
                                                     {isApplyCoupon?.couponCode}
                                                     <span className='ml-2 d-flex ' onClick={removeCoupon}>
                                                         <FontAwesomeIcon icon={faXmark} fontSize={20} />

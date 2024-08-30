@@ -116,7 +116,7 @@ function ProductListing(props) {
                         </div>
 
                         {Number(productItem?.quantity) === 0 &&
-                            <div class="out-of-stock-circle"> <FontAwesomeIcon icon={faStoreSlash} /> </div>
+                            <div className="out-of-stock-circle"> <FontAwesomeIcon icon={faStoreSlash} /> </div>
                         }
                         {Number(productItem?.quantity) !== 0 && 
                             <div>

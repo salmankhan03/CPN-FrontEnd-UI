@@ -47,7 +47,7 @@ const ProductsListingSlider = ({ data, recordsDisplay, settings, truncateString,
                                             )}
                                         </div>
                                         {Number(category?.quantity) === 0 &&
-                                            <div class="out-of-stock-circle">
+                                            <div className="out-of-stock-circle">
                                                 <FontAwesomeIcon icon={faStoreSlash} />
                                             </div>
                                         }

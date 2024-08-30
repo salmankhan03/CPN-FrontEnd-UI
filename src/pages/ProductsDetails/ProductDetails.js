@@ -752,7 +752,7 @@ function ProductDetails() {
                                     </div>
                                     {Number(productData?.quantity) === 0 &&
                                         <div className="mt-3 mb-3">
-                                            <span class="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity : "Out of Stock"} </span>
+                                            <span className="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity : "Out of Stock"} </span>
                                         </div>
                                     }
                                     {/* <div className="product_rating mt-3">
@@ -1034,7 +1034,7 @@ function ProductDetails() {
                                                             )}
                                                         </div>
                                                         {Number(item?.quantity) === 0 &&
-                                                            <div class="out-of-stock"> Out of Stock </div>}
+                                                            <div className="out-of-stock"> Out of Stock </div>}
                                                         {Number(item?.quantity) !== 0 &&
                                                             <div>
                                                                 <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
