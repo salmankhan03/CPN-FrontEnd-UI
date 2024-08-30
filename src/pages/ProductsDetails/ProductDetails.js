@@ -392,8 +392,8 @@ function ProductDetails() {
 
     const disablePlus = (product) => {
         const existingCartItem = cartItems.find(item => item?.id === product?.id);
-        const availableQuantity = existingCartItem? (Number(product?.quantity) - existingCartItem?.purchaseQty): Number(product?.quantity);
-        if(quantity >= availableQuantity){
+        const availableQuantity = existingCartItem ? (Number(product?.quantity) - existingCartItem?.purchaseQty) : Number(product?.quantity);
+        if (quantity >= availableQuantity) {
             //notifyError(`Product Quantity not Sufficient`);
             return "plus disabled";
         }
@@ -729,7 +729,7 @@ function ProductDetails() {
                                 </div>
                             </div>
                             <div className="col-lg-7 mt-4">
-                                <div className="product_details mt-4 ml-5 mr-5">
+                                <div className="product_details mt-4 ml-lg-5 mr-lg-5 ml-sm-1 mr-sm-1">
                                     <div className="mb-3 ">
                                         <a className="entry-product-categories" href={`/shop?name=brand&id=${productData.category?.id}`}>
                                             {productData?.category?.name}
@@ -882,11 +882,11 @@ function ProductDetails() {
                                             })}
                                         </>
                                     ) : null}
-                                    <div className='' style={{ borderBottom: '1px solid #eee', width: '100%' }}>
-                                        <div className='d-flex align-items-center justify-content-start flex-column flex-sm-row' style={{ marginBottom: '30px' }}>
-                                            <div className="d-flex align-items-center flex-column flex-sm-row">
-                                                <div className="quantity d-flex align-items-center ml-0 mt-3 mt-sm-0">
-                                                    <span className="mr-3 mt-2">Quantity:</span>
+                                    <div className='borderBottom w-100' >                                       
+                                        <div className="row mb-3">
+                                            <div className="col-12 col-md-7 col-lg-8 mb-3">
+                                                <div className="quantity d-flex align-items-center mt-3 mt-sm-0">
+                                                    <span className="mr-2">Quantity:</span>
                                                     <div className="quantity_selector d-flex align-items-center">
                                                         <span
                                                             className={productData?.quantity > 1 ? "minus" : "minus disabled"}
@@ -904,30 +904,35 @@ function ProductDetails() {
                                                             <i className="fa fa-plus" aria-hidden="true"></i>
                                                         </span>
                                                     </div>
+                                                    <p className="m-0 pl-3 d-flex align-items-center">
+                                                        <FontAwesomeIcon icon={faCircleCheck} fontSize={20} className="mr-1 qtyCheckButton" />
+                                                        <span>{productData?.quantity} in Stock</span>
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div className="d-flex align-items-center justify-content-start flex-column flex-sm-row mt-3 mt-sm-0 ml-sm-3">
-                                                <p className="m-0">  
-                                                    <FontAwesomeIcon icon={faCircleCheck} fontSize={20} className="mr-2 qtyCheckButton"  />
-                                                    {productData?.quantity} in Stock
-                                                </p>
+                                            <div className="col-12 col-md-5 col-lg-4 mt-3 mb-3 mt-md-0">
+                                                <div className="row align-items-center ">
+                                                    <div className="quantity d-flex align-items-center ">
+                                                            <ButtonComponent
+                                                                cssClass={`shopping-btn btn-border-radius  w-auto ml-0  ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
+                                                                onClick={() => {
+                                                                    if (productsVariants?.length) {
+                                                                        if (selectedProductsVarints) {
+                                                                            addtoCart(productData);
+                                                                        }
+                                                                    } else {
+                                                                        if (Number(productData?.quantity) > 0) {
+                                                                            addtoCart(productData);
+                                                                        }
+                                                                    }
+                                                                }}
+                                                                label="Add to Cart"
+                                                            />
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <ButtonComponent
-                                                cssClass={`shopping-btn btn-border-radius w-auto mt-3 mt-sm-0 ml-sm-5 ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
-                                                onClick={() => {
-                                                    if (productsVariants?.length) {
-                                                        if (selectedProductsVarints) {
-                                                            addtoCart(productData);
-                                                        }
-                                                    } else {
-                                                        if (Number(productData?.quantity) > 0) {
-                                                            addtoCart(productData);
-                                                        }
-                                                    }
-                                                }}
-                                                label="Add to Cart"
-                                            />
                                         </div>
+
 
 
                                     </div>
@@ -1023,19 +1028,19 @@ function ProductDetails() {
                                                             )}
                                                             {item?.sell_price !== item?.price && (
                                                                 <>
-                                                                <div className="priceLabel sf-Bold">${item?.sell_price}</div>
-                                                                <span className="actualPrice sf-Regular">${item?.price}</span>
+                                                                    <div className="priceLabel sf-Bold">${item?.sell_price}</div>
+                                                                    <span className="actualPrice sf-Regular">${item?.price}</span>
                                                                 </>
                                                             )}
                                                         </div>
                                                         {Number(item?.quantity) === 0 &&
                                                             <div class="out-of-stock"> Out of Stock </div>}
-                                                        {Number(item?.quantity) !== 0 && 
-                                                        <div>
-                                                            <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
-                                                                <i className="fas fa-shopping-bag mt-2"></i>
-                                                            </span>
-                                                        </div>}
+                                                        {Number(item?.quantity) !== 0 &&
+                                                            <div>
+                                                                <span className="circle" onClick={(event) => relatedAddToCart(event, item)}>
+                                                                    <i className="fas fa-shopping-bag mt-2"></i>
+                                                                </span>
+                                                            </div>}
                                                     </div>
                                                 </div>
                                             </div>

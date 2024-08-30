@@ -575,7 +575,11 @@
 11. 539px
 ************/
 
-@media only screen and (max-width: 539px) {}
+@media only screen and (max-width: 539px) {
+  .quantity_selector {
+    width: 120px !important;
+  }
+}
 
 /************
 12. 480px
