@@ -109,7 +109,7 @@ function ShopScreen() {
     useEffect(() => {
         if (name === "category") {
             setSelectedCategories(prevSelectedCategories => [
-                ...prevSelectedCategories,
+                ...(Array.isArray(prevSelectedCategories) ? prevSelectedCategories : []),
                 JSON.parse(id)
             ]);
         } else if (name === "brand") {
