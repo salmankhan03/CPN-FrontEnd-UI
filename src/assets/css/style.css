@@ -3145,13 +3145,15 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #2e3133;
+  color: var(--secondary-color) ;
+  /* #2e3133 */
   font-size: 0.875rem;
   cursor: pointer;
 }
 
 .circle:hover {
-  background-color: var(--secondary-color)
+  background-color: var(--logoColor);
+  color:#fff;
 }
 
 .circle:hover .fa-shopping-bag {
@@ -4184,9 +4186,12 @@ table {
 
 .clearFilter .icon {
   color: var(--secondary-color);
-  /* or any color you prefer */
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+.clearFilter .icon:hover {
+  transform: scale(1.1);
+  color: var(--logoColor); 
 }
 
 .inline-box {

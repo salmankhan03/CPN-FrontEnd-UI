@@ -39,7 +39,7 @@ const CustomPagination = ({ totalItems, itemsPerPage, onPageChange, currentPages
             </div>
             <div className='d-flex justify-content-center text-center mt-2'>
                 <span className={`circle ${currentPages === 1 ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage - 1)}>
-                    <i className="fa fa-angle-left" aria-hidden="true" style={{ color: 'black', lineHeight: '30px', fontSize: 10 }}></i>
+                    <i className="fa fa-angle-left" aria-hidden="true" style={{ lineHeight: '30px', fontSize: 10 }}></i>
                 </span>
                 {renderPaginationButtons()}
                 <span className={`circle ml-2  ${currentPages === totalPages ? 'hide-button' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
