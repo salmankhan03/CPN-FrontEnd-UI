@@ -1,6 +1,8 @@
 const initialState = {
     productListData: [],
-    productData:{}
+    productData:{},
+    selectedCategories: [],
+    selectedBrands: [],
 }
 
 export const ProductListReducer = (state = initialState, action) => {
@@ -14,6 +16,16 @@ export const ProductListReducer = (state = initialState, action) => {
             return {
                 ...state,
                 productData: action.payload
+            };
+        case "CHECKED_CATEGORY":
+            return {
+                ...state,
+                selectedCategories: action.payload
+            };
+        case "CHECKED_BRAND":
+            return {
+                ...state,
+                selectedBrands: action.payload
             };
           
         default:

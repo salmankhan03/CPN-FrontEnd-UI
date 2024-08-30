@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProductListing from '../../components/ProductListingComponents/ProductListingComponents';
 import LeftSideBarComponents from '../../components/LeftSideBar/LeftSideBar';
 import ProductServices from '../../services/ProductServices';
-import { setProductList } from '../../redux/action/action';
+import { setProductList, setSelectedBrand, setSelectedCategorie } from '../../redux/action/action';
 import { useDispatch, useSelector } from 'react-redux';
 import NotFound from '../../components/NotFoundComponents/NotFoundComponents';
 import Loadings from '../../components/LoadingComponents/LoadingComponents';
@@ -23,6 +23,10 @@ function ShopScreen() {
     // const { type, id } = useParams();
     const Categories = useSelector(state => state.CategoryReducer.categoryListData)
     const Brands = useSelector(state => state.BrandReducer.brandsListData)
+
+    const selectedCategorie = useSelector(state => state.ProductReducer.selectedCategories);
+    const selectedBrand = useSelector(state => state.ProductReducer.selectedBrands);
+
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
@@ -48,8 +52,8 @@ function ShopScreen() {
     const [categories_Loader, setCategories_Loader] = useState(true);
 
     const [brandData, setBrandData] = useState(Brands);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-    const [selectedBrands, setSelectedBrands] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState(selectedCategorie);
+    const [selectedBrands, setSelectedBrands] = useState(selectedBrand);
     const [filteredPrice, setFilteredPrice] = useState([0, 0]);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedOption, setSelectedOption] = useState();
@@ -76,6 +80,10 @@ function ShopScreen() {
         }, 2500);
     };
 
+    useEffect(() => {
+        dispatch(setSelectedCategorie(selectedCategories));
+        dispatch(setSelectedBrand(selectedBrands));
+    }, [selectedCategories, selectedBrands]);
 
     useEffect(() => {
         getProductsList(selectedOption)
@@ -269,7 +277,7 @@ function ShopScreen() {
     //         console.log(error)
     //     })
     // }
-    
+
     async function getfilterWiseProduct(data) {
         setProducts_List_loader(true)
 
