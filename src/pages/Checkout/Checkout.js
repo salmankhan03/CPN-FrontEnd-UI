@@ -942,13 +942,13 @@ const CheckoutPage = () => {
             <div className="container mt-5">
                 <div>
                     <div className='row mt-5'>
-                        <div class="sf-Medium text-center">
-                            <h1 class="heading">Checkout</h1>
+                        <div className="sf-Medium text-center">
+                            <h1 className="heading">Checkout</h1>
                         </div>
                     </div>
                     <div className="row mt-5">
 
-                        <div className="col-md-12 col-lg-8 ">
+                        <div className="col-md-12 col-lg-8 mt-3 ">
                             {!AuthData &&
                                 <div className='text-left checkout-form-login-toggle mt-1 mb-1'>
                                     Returning customer?
@@ -1720,8 +1720,8 @@ const CheckoutPage = () => {
                                 </div>
                             </div>
 
-                            <div class="row text-left mb-3 mt-5 pl-0 pr-0">
-                                <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="https://medizin.thememove.com/privacy-policy/" class="woocommerce-privacy-policy-link" target="_blank">privacy policy</a>.</p>
+                            <div className="row text-left mb-3 mt-5 pl-0 pr-0">
+                                <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="https://medizin.thememove.com/privacy-policy/" className="woocommerce-privacy-policy-link" target="_blank">privacy policy</a>.</p>
                             </div>
                             <div className='row pl-0 pr-0 '>
                                 <div className="form-group">
@@ -1742,7 +1742,7 @@ const CheckoutPage = () => {
 
                         </div>
 
-                        <div className="col-md-12 col-lg-4 ">
+                        <div className="col-md-12 col-lg-4 mt-3">
                             <div className='leftSidebarBrand p-3'>
 
                                 <div className="text-center borderBottom pb-3">
@@ -1752,20 +1752,20 @@ const CheckoutPage = () => {
                                 <div className="mt-3">
                                     {cartItems.map((item, index) => (
                                         <div className='borderBottom'>
-                                            <div className="row p-2 mt-3 pb-3 " key={index} >
-                                                <div className="col-md-3">
+                                            <div className="row container p-2 mt-3 pb-3 " key={index} >
+                                                <div className="col-md-3 mt-2 mb-2">
                                                     <div className="">
                                                         <ImageComponent src={item?.image[0]?.name} width={true} alt="Product Image" classAtribute="cart-products w-auto" />
                                                     </div>
                                                 </div>
-                                                <div className="col-md-7">
+                                                <div className="col-md-7 mt-2 mb-2">
                                                     <div className="text-left text-sm-centerd fs-6">
                                                         {truncateString(item?.name, 35)}
                                                         <FontAwesomeIcon icon={faTimes} fontSize={16} className="ml-2 mr-2" />
                                                         <span className='fs-6 font-bold'>{item?.purchaseQty}</span>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-2">
+                                                <div className="col-md-2 mt-2 mb-2">
                                                     <div className='fs-6 font-bold'> ${item?.totalPrice}</div>
                                                 </div>
                                             </div>
