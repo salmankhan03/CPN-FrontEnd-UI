@@ -53,6 +53,7 @@
 ************/
 
 @media only screen and (max-width: 1380px) {}
+
 @media (min-width: 992px) {
   .col-lg-3 {
     flex: 0 0 auto;
@@ -278,7 +279,8 @@
     margin-top: 30px;
     margin-bottom: 40px;
   }
-  .inline-box{
+
+  .inline-box {
     left: 0px;
   }
 
@@ -319,7 +321,8 @@
     /* top: 8rem !important; */
     top: auto !important;
   }
-  .carousel-caption{
+
+  .carousel-caption {
     left: 55% !important;
     top: 1px;
   }
@@ -385,7 +388,8 @@
   .smallFonts {
     font-size: small !important;
   }
-  .inline-box{
+
+  .inline-box {
     left: 0px;
   }
 
@@ -516,6 +520,9 @@
     /* top: 9rem !important; */
   }
 
+  .orderTableHideStatus {
+    display: none !important;
+  }
 }
 
 /************
@@ -527,7 +534,8 @@
     right: -100%;
     width: 100%;
   }
-  .breadcrumbs{
+
+  .breadcrumbs {
     height: 120px;
   }
 
@@ -579,7 +587,8 @@
   .quantity_selector {
     width: 120px !important;
   }
-  .custom-tabs .nav-link{
+
+  .custom-tabs .nav-link {
     padding: 10px !important;
     font-size: medium !important;
   }
@@ -700,12 +709,14 @@
     height: auto;
     padding-bottom: 20px;
   }
-  .inline-text{
+
+  .inline-text {
     margin: 0px !important;
     margin-left: 10px !important;
     margin-right: 10px !important;
   }
-  h5.title{
+
+  h5.title {
     font-size: 22px !important;
   }
 
@@ -864,18 +875,22 @@
   .carouselCaptionHeading {
     font-size: 20px !important;
   }
-  .dynamic-html h2{
+
+  .dynamic-html h2 {
     font-size: 10px !important;
   }
-  .dynamic-html p{
+
+  .dynamic-html p {
     font-size: 10px;
     margin-bottom: 7px;
   }
-  .dynamic-html button{
+
+  .dynamic-html button {
     padding: 4px 11px !important;
     font-size: 10px !important;
   }
-  .text-sm-centerd{
+
+  .text-sm-centerd {
     text-align: center !important;
   }
 

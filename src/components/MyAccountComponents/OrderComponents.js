@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-
+import ButtonComponent from '../ButtonComponents/ButtonComponents';
 
 const Order = ({ orderData }) => {
     console.log(orderData)
@@ -35,7 +35,7 @@ const Order = ({ orderData }) => {
                                 was placed on {moment(selectedOrder.created_at).format('MMMM D, YYYY')} and is currently Processing.
                             </p>
                             <h2 className='mt-5 ml-0'>Order details</h2>
-                          
+
                             <table className="table text-center mt-5">
                                 <thead>
                                     <tr>
@@ -79,7 +79,7 @@ const Order = ({ orderData }) => {
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.street_address}</p>
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.city}  <span className='ml-2'> {selectedOrder?.billing_address?.zipcode}</span></p>
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.state}, <span className='ml-2'> {selectedOrder?.billing_address?.country}</span></p>
-                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.contact_no}</p><br/>
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.billing_address?.contact_no}</p><br />
                                             <p>{selectedOrder?.billing_address?.email} </p>
                                         </address>
                                     </div>
@@ -90,17 +90,22 @@ const Order = ({ orderData }) => {
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.street_address}</p>
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.city}  <span className='ml-2'> {selectedOrder?.billing_address?.zipcode}</span></p>
                                             <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.state}, <span className='ml-2'> {selectedOrder?.billing_address?.country}</span></p>
-                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.contact_no}</p><br/>
-                                            
+                                            <p className='mb-0 mt-0 pt-1'>{selectedOrder?.shipping_address?.contact_no}</p><br />
+
                                         </address>
                                     </div>
                                 </div>
                             </div>
 
                             <div className='text-center mt-5'>
-                                <button className="btn secondaryBG text-white text-center" onClick={handleBackToTable}>
+                                {/* <button className="btn secondaryBG text-white text-center" onClick={handleBackToTable}>
                                     Back to Orders
-                                </button>
+                                </button> */}
+                                <ButtonComponent
+                                                cssClass={`shopping-btn btn-border-radius w-auto `}
+                                                onClick={handleBackToTable}
+                                                label="Back to Orders"
+                                            />
                             </div>
                         </div>
                     ) : (
@@ -109,7 +114,7 @@ const Order = ({ orderData }) => {
                                 <tr>
                                     <th>Order </th>
                                     <th>Date</th>
-                                    <th>Status</th>
+                                    <th className='orderTableHideStatus'>Status</th>
                                     <th>Total</th>
                                     <th>Actions</th>
                                 </tr>
@@ -119,12 +124,14 @@ const Order = ({ orderData }) => {
                                     <tr key={order?.id}>
                                         <td>#{order?.id}</td>
                                         <td>{moment(order?.created_at).format('DD/MM/YYYY')}</td>
-                                        <td>{order?.status}</td>
+                                        <td className='orderTableHideStatus'>{order?.status}</td>
                                         <td>${order?.total_amount}</td>
                                         <td>
-                                            <button className="btn secondaryBG text-white" onClick={() => handleViewOrder(order)}>
-                                                View
-                                            </button>
+                                            <ButtonComponent
+                                                cssClass={`shopping-btn btn-border-radius w-auto `}
+                                                onClick={() => handleViewOrder(order)}
+                                                label="View"
+                                            />
                                         </td>
                                     </tr>
                                 ))}
