@@ -731,7 +731,7 @@ function ProductDetails() {
                             <div className="col-lg-7 mt-4">
                                 <div className="product_details mt-4 ml-lg-5 mr-lg-5 ml-sm-1 mr-sm-1">
                                     <div className="mb-3 ">
-                                        <a className="entry-product-categories" href={`/shop?name=brand&id=${productData.category?.id}`}>
+                                        <a className="entry-product-categories" href={`/shop?name=category&id=${productData.category?.id}`}>
                                             {productData?.category?.name}
                                         </a>
                                     </div>
