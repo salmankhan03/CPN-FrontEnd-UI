@@ -218,65 +218,66 @@ function ShopScreen() {
 
     const fetchData = async () => {
         try {
-            await Promise.all([
-                // getProductsList(),
-                // getCategoryList(),
-                // getBrandList(),
-                getPriceFilter(),
-            ]);
+            const promises = [];
+            if (brandData?.length === 0) {
+                promises.push(getBrandList());
+            }
+            if (categoriesData?.length === 0) {
+                promises.push(getCategoryList());
+            }
+            promises.push(getPriceFilter());
+            await Promise.all(promises);            
         } catch (error) {
             console.error('Error fetching data:', error);
-            setLoader(false)
         } finally {
-            setLoader(false)
-
+            setLoader(false);
         }
     };
+    
+    function getBrandList() {
+        CategoryServices.getAllBrand({
+            page: 1,
+            limit: 100,
+        }).then((resp) => {
+            // setLoading(false)
+            // console.log(resp)
+            if (resp?.status_code === 200) {
+                // console.log(resp.list.data)
+                dispatch(setBrandList([
+                    ...resp?.list?.data
+                ]))
+                setBrandData(resp?.list?.data)
+            }
+        }).catch((error) => {
+            // setLoading(false)
+            console.log(error)
+        })
 
-    // function getBrandList() {
-    //     CategoryServices.getAllBrand({
-    //         page: page,
-    //         limit: 100,
-    //     }).then((resp) => {
-    //         // setLoading(false)
-    //         // console.log(resp)
-    //         if (resp?.status_code === 200) {
-    //             // console.log(resp.list.data)
-    //             dispatch(setBrandList([
-    //                 ...resp?.list?.data
-    //             ]))
-    //             setBrandData(resp?.list?.data)
-    //         }
-    //     }).catch((error) => {
-    //         // setLoading(false)
-    //         console.log(error)
-    //     })
+    }
 
-    // }
-
-    // function getCategoryList() {
-    //     CategoryServices.getAllCategory({
-    //         page: page,
-    //         limit: defaultLimit,
-    //     }).then((resp) => {
-    //         // setLoading(false)
-    //         // console.log(resp)
-    //         if (resp?.status_code === 200) {
-    //             dispatch(setCategoryList([
-    //                 ...resp?.tree?.data
-    //             ]))
-    //             setCategoriesData(resp?.tree?.data)
-    //             const timers = setTimeout(() => {
-    //                 setCategories_Loader(false)
-    //             }, 1000);
-    //             return () => clearTimeout(timers);
-    //         }
-    //     }).catch((error) => {
-    //         // setLoading(false)
-    //         setCategories_Loader(false)
-    //         console.log(error)
-    //     })
-    // }
+    function getCategoryList() {
+        CategoryServices.getAllCategory({
+            page: page,
+            limit: defaultLimit,
+        }).then((resp) => {
+            // setLoading(false)
+            // console.log(resp)
+            if (resp?.status_code === 200) {
+                dispatch(setCategoryList([
+                    ...resp?.tree?.data
+                ]))
+                setCategoriesData(resp?.tree?.data)
+                const timers = setTimeout(() => {
+                    setCategories_Loader(false)
+                }, 1000);
+                return () => clearTimeout(timers);
+            }
+        }).catch((error) => {
+            // setLoading(false)
+            setCategories_Loader(false)
+            console.log(error)
+        })
+    }
 
     async function getfilterWiseProduct(data) {
         setProducts_List_loader(true)
