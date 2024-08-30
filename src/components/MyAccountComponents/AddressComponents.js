@@ -4,6 +4,7 @@ import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import InputComponent from '../InputComponents/InputComponents';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import ButtonComponent from '../ButtonComponents/ButtonComponents';
 
 const Address = ({ user, onUpdateUser }) => {
     const [editMode, setEditMode] = useState(false);
@@ -113,10 +114,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="first_name"
                                     label="First Name *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.first_name : shippingFormErrors.first_name ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.first_name : shippingFormErrors.first_name ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.first_name : shippingFormData?.first_name}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'first_name', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Enter First Name"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.first_name : shippingFormErrors.first_name && <div className="validation-error">{formType === 'billing' ? billingFormErrors.first_name : shippingFormErrors.first_name}</div>}
@@ -126,10 +127,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="last_name"
                                     label="Last Name *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.last_name : shippingFormErrors.last_name ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.last_name : shippingFormErrors.last_name ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.last_name : shippingFormData?.last_name}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'last_name', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Enter Last Name"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.last_name : shippingFormErrors.last_name && <div className="validation-error">{formType === 'billing' ? billingFormErrors.last_name : shippingFormErrors.last_name}</div>}
@@ -139,10 +140,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="contact_no"
                                     label="Phone *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.contact_no : shippingFormErrors.contact_no ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.contact_no : shippingFormErrors.contact_no ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.contact_no : shippingFormData?.contact_no}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'contact_no', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Phone"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.contact_no : shippingFormErrors.contact_no && <div className="validation-error">{formType === 'billing' ? billingFormErrors.contact_no : shippingFormErrors.contact_no}</div>}
@@ -152,10 +153,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="email"
                                     label="Email Address *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.email : shippingFormErrors.email ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.email : shippingFormErrors.email ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.email : shippingFormData?.email}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'email', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Enter Email Address"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.email : shippingFormErrors.email && <div className="validation-error">{formType === 'billing' ? billingFormErrors.email : shippingFormErrors.email}</div>}
@@ -165,10 +166,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="street_address"
                                     label="Street address *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.street_address : shippingFormErrors.street_address ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.street_address : shippingFormErrors.street_address ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.street_address : shippingFormData?.street_address}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'street_address', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Street address"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.street_address : shippingFormErrors.street_address && <div className="validation-error">{formType === 'billing' ? billingFormErrors.street_address : shippingFormErrors.street_address}</div>}
@@ -178,10 +179,10 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="city"
                                     label="Town / City *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.city : shippingFormErrors.city ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.city : shippingFormErrors.city ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.city : shippingFormData?.city}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'city', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Town / City"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.city : shippingFormErrors.city && <div className="validation-error">{formType === 'billing' ? billingFormErrors.city : shippingFormErrors.city}</div>}
@@ -191,7 +192,7 @@ const Address = ({ user, onUpdateUser }) => {
                                     <label htmlFor="last_name">Province</label>
                                     <RegionDropdown
                                         defaultOptionLabel={'Select Province'}
-                                        className={`country-Dropdown gray-bg ${formType === 'billing' ? billingFormErrors.state : shippingFormErrors.state ? 'validation-error-border' : ''}`}
+                                        className={`country-Dropdown r-style gray-bg ${formType === 'billing' ? billingFormErrors.state : shippingFormErrors.state ? 'validation-error-border' : ''}`}
                                         country={'CA'}
                                         countryValueType={'short'}
                                         value={formType === 'billing' ? billingFormData.state : shippingFormData.state}
@@ -205,17 +206,17 @@ const Address = ({ user, onUpdateUser }) => {
                                     type="text"
                                     id="zipcode"
                                     label="Postal Code *"
-                                    customClass={`form-control gray-bg ${formType === 'billing' ? billingFormErrors.zipcode : shippingFormErrors.zipcode ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formType === 'billing' ? billingFormErrors.zipcode : shippingFormErrors.zipcode ? 'validation-error-border' : ''}`}
                                     value={formType === 'billing' ? billingFormData?.zipcode : shippingFormData?.zipcode}
                                     onChange={(e) => handleInputChange(formType === 'billing' ? billingFormData : shippingFormData, formType === 'billing' ? setBillingFormData : setShippingFormData, 'zipcode', e.target.value, formType === 'billing' ? 'billingFormError' : 'shippingFormError')}
-                                    placeholder=""
+                                    placeholder="Postal Code"
                                     required
                                 />
                                 {formType === 'billing' ? billingFormErrors.zipcode : shippingFormErrors.zipcode && <div className="validation-error">{formType === 'billing' ? billingFormErrors.zipcode : shippingFormErrors.zipcode}</div>}
                                 {validPostal === true && <div className="validation-error">Please Enter valid Postal Code</div>}
                             </div>
                         </div>
-                        <button type="submit" className="red_button product-add_to_cart_button pointer-on-hover mt-3">Save</button>
+                        <ButtonComponent cssClass="shopping-btn " onClick={formType === 'billing' ? handleBillingSubmit : handleShippingSubmit} label="Save" />
                     </form>
                 </React.Fragment>
             ) : (

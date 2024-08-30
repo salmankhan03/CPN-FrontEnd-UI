@@ -102,7 +102,7 @@ const Order = ({ orderData }) => {
                                     Back to Orders
                                 </button> */}
                                 <ButtonComponent
-                                                cssClass={`shopping-btn btn-border-radius w-auto `}
+                                                cssClass={`shopping-btn w-auto `}
                                                 onClick={handleBackToTable}
                                                 label="Back to Orders"
                                             />
@@ -128,7 +128,7 @@ const Order = ({ orderData }) => {
                                         <td>${order?.total_amount}</td>
                                         <td>
                                             <ButtonComponent
-                                                cssClass={`shopping-btn btn-border-radius w-auto `}
+                                                cssClass={`shopping-btn w-auto `}
                                                 onClick={() => handleViewOrder(order)}
                                                 label="View"
                                             />

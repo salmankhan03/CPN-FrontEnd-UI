@@ -177,7 +177,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                             <InputComponent
                                 type="password"
                                 id="oldPassword"
-                                customClass={`form-control gray-bg ${passwordFormDataErrors.oldPassword ? 'validation-error-border' : ''}`}
+                                customClass={`form-control r-style gray-bg ${passwordFormDataErrors.oldPassword ? 'validation-error-border' : ''}`}
                                 value={passwordFormData.oldPassword}
                                 onChange={(e) => handleChangePassword('oldPassword', e.target.value)}
                                 placeholder="Enter old password"
@@ -190,7 +190,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                             <InputComponent
                                 type="password"
                                 id="newPassword"
-                                customClass={`form-control gray-bg ${passwordFormDataErrors.newPassword ? 'validation-error-border' : ''}`}
+                                customClass={`form-control r-style gray-bg ${passwordFormDataErrors.newPassword ? 'validation-error-border' : ''}`}
                                 value={passwordFormData.newPassword}
                                 onChange={(e) => handleChangePassword('newPassword', e.target.value)}
                                 placeholder="Enter new password"
@@ -203,7 +203,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                             <InputComponent
                                 type="password"
                                 id="confirmPassword"
-                                customClass={`form-control gray-bg ${passwordFormDataErrors.confirmPassword ? 'validation-error-border' : ''}`}
+                                customClass={`form-control r-style gray-bg ${passwordFormDataErrors.confirmPassword ? 'validation-error-border' : ''}`}
                                 value={passwordFormData.confirmPassword}
                                 onChange={(e) => handleChangePassword('confirmPassword', e.target.value)}
                                 placeholder="Confirm new password"
@@ -213,12 +213,8 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleSaveChanges} style={{ backgroundColor: '#415da1', borderColor: '#415da1' }}>
-                        Save Changes
-                    </Button>
+                    <ButtonComponent cssClass="shopping-btn gray-bg closebtn " onClick={handleClose} label="Close" />
+                    <ButtonComponent cssClass="shopping-btn  " onClick={handleSaveChanges} label="Save Changes" />
                 </Modal.Footer>
             </Modal>
             <div className="row">
@@ -232,7 +228,7 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                                 <InputComponent
                                     type={field === 'date_of_birth' ? 'date' : 'text'}
                                     id={field}
-                                    customClass={`form-control gray-bg ${formDataErrors[field] ? 'validation-error-border' : ''}`}
+                                    customClass={`form-control r-style gray-bg ${formDataErrors[field] ? 'validation-error-border' : ''}`}
                                     value={formData[field]}
                                     onChange={(e) => handleChange(field, e.target.value)}
                                     placeholder=""
@@ -240,7 +236,8 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                                 {formDataErrors[field] && <div className="validation-error" style={{ color: 'red', fontSize: '0.875em' }}>{formDataErrors[field]}</div>}
                             </div>
                         ))}
-                        <ButtonComponent cssClass="empty-carts" onClick={handleShow} label="Change Password" />
+                        <ButtonComponent cssClass="shopping-btn " onClick={handleShow} label="Change Password" />
+
                     </div>
                     {/* <div className="form-group">
                         {isButtonLoading ? (
@@ -255,9 +252,9 @@ const AccountDetails = ({ user, onUpdateUser }) => {
                     </div> */}
                     <div className="form-group">
                         {isButtonLoading ? (
-                            <ButtonComponent cssClass="shopping-btn btn-border-radius mt-5" onClick={''} label="Loading ...." disabled={true} />
+                            <ButtonComponent cssClass="shopping-btn mt-5" onClick={''} label="Loading ...." disabled={true} />
                         ) : (
-                            <ButtonComponent cssClass="shopping-btn btn-border-radius mt-5" onClick={handleSubmit} label="Save" />
+                            <ButtonComponent cssClass="shopping-btn mt-5" onClick={handleSubmit} label="Save" />
                         )}
                     </div>
                 </form>

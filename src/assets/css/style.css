@@ -4104,6 +4104,13 @@ label {
   color: #ffff;
   border-radius: 30px;
 }
+.closebtn{
+  color: #000000;
+}
+
+.closebtn:hover{
+  color: #fff;
+}
 
 .btn-border-radius {
   border-radius: 15px !important;
