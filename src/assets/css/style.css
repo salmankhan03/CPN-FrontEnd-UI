@@ -140,7 +140,7 @@ h4,
 h5,
 h6 {
   color: #2e3133;
-  font-family: "Bold" !important;
+  /* font-family: "Bold" !important; */
   /*font-weight: bold;*/
 }
 
@@ -177,15 +177,16 @@ h6 {
 
 
 h5 {
-  font-size: 1.5rem !important;
+  font-size: 1.3rem !important;
   line-height: 2rem;
 
 }
 
 h5.title {
-  font-weight: bold;
-  letter-spacing: -0.03rem;
-  font-family: "Bold" !important;
+  font-size: 30px !important;
+  font-weight: 600;
+  line-height: 1.34;
+  margin-bottom: 50px;
 }
 
 h3.titles {
@@ -1383,7 +1384,7 @@ section {
 
 .product_image {
   width: 100%;
-  height: 190px;
+  /* height: 190px; */
   display: flex;
   justify-content: center;
   background-color: #fff;
@@ -1987,6 +1988,7 @@ section {
   width: 132px;
   height: 100%;
   border: solid 1px #e5e5e5;
+  border-radius: 25px;
   /* margin-left: 29px; */
 }
 
@@ -3145,7 +3147,7 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--secondary-color) ;
+  color: var(--secondary-color);
   /* #2e3133 */
   font-size: 0.875rem;
   cursor: pointer;
@@ -3153,7 +3155,7 @@ h2 {
 
 .circle:hover {
   background-color: var(--logoColor);
-  color:#fff;
+  color: #fff;
 }
 
 .circle:hover .fa-shopping-bag {
@@ -3579,6 +3581,10 @@ x .custom-tabs .nav-item {
   /* font-weight: bold; */
 }
 
+.custom-tabs .nav-item:first-child .nav-link {
+  padding-left: 0 !important;
+}
+
 .custom-tabs .nav-link:focus,
 .custom-tabs .nav-link:hover {
 
@@ -3591,7 +3597,7 @@ x .custom-tabs .nav-item {
 }
 
 .tab-content-custom {
-  padding: 1rem;
+  /* padding: 1rem; */
   /* border: 1px solid #dee2e6; */
   border-top: none;
   border-radius: 0 0 0.25rem 0.25rem;
@@ -3615,11 +3621,13 @@ x .custom-tabs .nav-item {
 .tab-content-custom-peragraph h4,
 .tab-content-custom-peragraph h5,
 .tab-content-custom-peragraph h6 {
-  font-weight: bold !important;
+  /* font-weight: bold !important; */
   letter-spacing: -0.03rem !important;
-  font-family: "Bold" !important;
-  font-size: 1.5rem !important;
+  /* font-family: "Bold" !important; */
+  font-size: 1.1rem !important;
+  color: var(--brand-color);
 }
+
 
 .tab-content-custom-peragraph ul {
   list-style: disc;
@@ -3656,10 +3664,11 @@ x .custom-tabs .nav-item {
   line-height: 1.5rem; */
   font-family: "Regular";
   color: #9B9B9B;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: 0em;
-  line-height: 1.74;
+  line-height: 1.5em;
+  margin-bottom: 10px;
 }
 
 ul {
@@ -4104,16 +4113,17 @@ label {
   color: #ffff;
   border-radius: 30px;
 }
-.closebtn{
+
+.closebtn {
   color: #000000;
 }
 
-.closebtn:hover{
+.closebtn:hover {
   color: #fff;
 }
 
 .btn-border-radius {
-  border-radius: 15px !important;
+  border-radius: 25px !important;
 }
 
 
@@ -4196,9 +4206,10 @@ table {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
+
 .clearFilter .icon:hover {
   transform: scale(1.1);
-  color: var(--logoColor); 
+  color: var(--logoColor);
 }
 
 .inline-box {
@@ -4289,10 +4300,10 @@ select {
 /* End */
 .out-of-stock {
   padding: 7px;
-  border: 1px solid;
+  border: 0;
   background-color: #fde8e8;
   color: red;
-  border-radius: 15px;
+  /* border-radius: 15px; */
 }
 
 .out-of-stock-circle {
@@ -4321,6 +4332,7 @@ select {
   letter-spacing: 1px;
   color: #ababab;
   margin: 0 0 5px;
+  line-height: 1.74;
 }
 
 .entry-title {
@@ -4380,26 +4392,34 @@ select {
   position: relative;
   width: 100%;
   border: 1px solid #ccc;
-  border-radius: 5px; /* Rounded corners for the input */
-  background-color: #f7f7f7; /* Background color for the input container */
+  border-radius: 5px;
+  /* Rounded corners for the input */
+  background-color: #f7f7f7;
+  /* Background color for the input container */
   display: flex;
   align-items: center;
 }
 
 .custom-input {
   width: 100%;
-  padding: 10px 40px 10px 15px; /* Adjusted padding to make space for the icon */
+  padding: 10px 40px 10px 15px;
+  /* Adjusted padding to make space for the icon */
   border: none;
-  border-radius: 5px; /* Matching border-radius */
-  background-color: transparent; /* Transparent background to show container color */
-  outline: none; /* Remove the default focus outline */
+  border-radius: 5px;
+  /* Matching border-radius */
+  background-color: transparent;
+  /* Transparent background to show container color */
+  outline: none;
+  /* Remove the default focus outline */
   box-sizing: border-box;
   font-size: 16px;
 }
 
 .input-icon {
   position: absolute;
-  right: 15px; /* Position the icon inside the input, on the right side */
-  color: #888; /* Icon color */
+  right: 15px;
+  /* Position the icon inside the input, on the right side */
+  color: #888;
+  /* Icon color */
   font-size: 16px;
 }

@@ -730,7 +730,7 @@ function ProductDetails() {
                             </div>
                             <div className="col-lg-7 mt-4">
                                 <div className="product_details mt-4 ml-lg-5 mr-lg-5 ml-sm-1 mr-sm-1">
-                                    <div className="mb-3 ">
+                                    <div className="mb-2 ">
                                         <a className="entry-product-categories" href={`/shop?name=category&id=${productData.category?.id}`}>
                                             {productData?.category?.name}
                                         </a>
@@ -739,22 +739,22 @@ function ProductDetails() {
                                         <h3 className="product-title text-left titleColor custom-auto-height" style={{ fontSize: '25px' }}>{productData?.name}</h3>
                                     </div> */}
                                     <h1 className="entry-title text-left">{productData?.name}</h1>
-                                    <div className="mt-3 productDetailBrandLabel mb-3">
+                                    <div className="mt-2 productDetailBrandLabel mb-2">
                                         Brands:  <a className="" href={`/shop?name=brand&id=${productData.brand_id}`}>
                                             {productData?.brand}
                                         </a>
                                     </div>
                                     <div style={{ borderTop: '1px solid #eee', width: '100%', display: 'flex' }}>
-                                        <div className=" mt-3 mb-3">
+                                        <div className="mt-2 mb-3">
                                             <span className="product_price priceLabelColor"> ${selectedProductsVarints ? selectedProductsVarints?.sell_price : productData?.sell_price} </span>
                                             {productData?.quantity > 0 && <span className="ml-2 actualPrice sf-Regular">${selectedProductsVarints ? selectedProductsVarints?.originalPrice : productData?.price}</span>}
+                                            {Number(productData?.quantity) === 0 &&
+                                                <span className="out-of-stock ml-5"> {productData && productData.quantity > 0 ? productData.quantity : "Out of Stock"} </span>
+                                            }
                                         </div>
+
                                     </div>
-                                    {Number(productData?.quantity) === 0 &&
-                                        <div className="mt-3 mb-3">
-                                            <span className="out-of-stock"> {productData && productData.quantity > 0 ? productData.quantity : "Out of Stock"} </span>
-                                        </div>
-                                    }
+
                                     {/* <div className="product_rating mt-3">
                                     <RatingComponents rating={productData.rating} />
                                 </div> */}
@@ -882,7 +882,7 @@ function ProductDetails() {
                                             })}
                                         </>
                                     ) : null}
-                                    <div className='borderBottom w-100' >                                       
+                                    <div className='borderBottom w-100' >
                                         <div className="row mb-3">
                                             <div className="col-12 col-md-7 col-lg-8 mb-3">
                                                 <div className="quantity d-flex align-items-center mt-3 mt-sm-0">
@@ -913,21 +913,21 @@ function ProductDetails() {
                                             <div className="col-12 col-md-5 col-lg-4 mt-3 mb-3 mt-md-0">
                                                 <div className="row align-items-center ">
                                                     <div className="quantity d-flex align-items-center ">
-                                                            <ButtonComponent
-                                                                cssClass={`shopping-btn btn-border-radius  w-auto ml-0  ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
-                                                                onClick={() => {
-                                                                    if (productsVariants?.length) {
-                                                                        if (selectedProductsVarints) {
-                                                                            addtoCart(productData);
-                                                                        }
-                                                                    } else {
-                                                                        if (Number(productData?.quantity) > 0) {
-                                                                            addtoCart(productData);
-                                                                        }
+                                                        <ButtonComponent
+                                                            cssClass={`shopping-btn btn-border-radius  w-auto ml-0  ${productsVariants?.length > 0 && !selectedProductsVarints || Number(productData?.quantity) === 0 ? 'disabled' : ''}`}
+                                                            onClick={() => {
+                                                                if (productsVariants?.length) {
+                                                                    if (selectedProductsVarints) {
+                                                                        addtoCart(productData);
                                                                     }
-                                                                }}
-                                                                label="Add to Cart"
-                                                            />
+                                                                } else {
+                                                                    if (Number(productData?.quantity) > 0) {
+                                                                        addtoCart(productData);
+                                                                    }
+                                                                }
+                                                            }}
+                                                            label="Add to Cart"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>

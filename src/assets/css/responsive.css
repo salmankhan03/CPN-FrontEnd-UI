@@ -43,7 +43,7 @@
 
 @media only screen and (max-width: 1440px) {
   .product_image {
-    height: 200px;
+    /* height: 200px; */
   }
 
 }
@@ -136,7 +136,7 @@
 
 @media only screen and (max-width: 1024px) {
   .product_image {
-    height: 200px;
+    /* height: 200px; */
   }
 }
 
@@ -496,9 +496,9 @@
     width: 100px;
   }
 
-  .product_image {
+  /* .product_image {
     height: 140px;
-  }
+  } */
 
   .bannerTopMargin {
     margin-top: 1rem !important;
