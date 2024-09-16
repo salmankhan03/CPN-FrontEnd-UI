@@ -556,7 +556,7 @@ function Header() {
 
                 <NavMenu >
                   <li style={{ paddingLeft: 15, paddingRight: 15 }} className='mt-2'>
-                    <Link to={"#"} className={`nav-menu-list text-white `} onClick={handleToggleOpen}>
+                    <Link to={"#"} className={`nav-menu-list text-white `} onClick={''}>
                       Best Seller
                     </Link>
                   </li>
@@ -588,7 +588,7 @@ function Header() {
                     >
                       Brands
                     </Link>
-                    <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand" />
+                    {/* <MegaMenu isOpen={isMegaMenuOpen.brand} data={BrandListData} type="brand" /> */}
                   </li>
 
                 </NavMenu>
