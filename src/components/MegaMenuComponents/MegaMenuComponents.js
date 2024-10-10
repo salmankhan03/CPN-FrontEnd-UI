@@ -19,19 +19,16 @@ const RenderCategories = ({ categories, type, level = 0, onCategoryClick }) => {
   return (
     <>
       {categories.map((category) => (
-        <div className={`category-item ${level === 0 ? 'col-md-3' : ''}`} key={category.id}>
-          <div>
-             {/* style={{ paddingLeft: `${level * }px` }}> */}
-    
-            {/* Category Name */}
+        <div className={`category-item ${level === 0 ? 'col-md-3 parent-category' : 'child-category'}`} key={category.id}>
+          {/* style={{ paddingLeft: `${level * 10}px` }} */}
+          <div >
             <span
-              className={`category-name ${level === 0 ? 'font-weight-bold' : ''}`}
+              className={`category-name ${level === 0 ? 'parent-category-name' : 'child-category-name'}`}
               onClick={() => handleCategoryClick(category, type)}
             >
               {category.name}
             </span>
 
-            {/* Render Children Categories */}
             {category.children && category.children.length > 0 && (
               <div className="child-categories">
                 <RenderCategories categories={category.children} type={type} level={level + 1} onCategoryClick={onCategoryClick} />

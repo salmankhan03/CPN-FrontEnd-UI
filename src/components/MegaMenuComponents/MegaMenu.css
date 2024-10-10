@@ -22,16 +22,6 @@
   margin-bottom: 10px;
 }
 
-.category-name {
-  cursor: pointer;
-  display: inline-block;
-  color: #333;
-}
-
-.category-name:hover {
-  color: #007bff;
-}
-
 .category-image {
   width: 30px;
   height: 30px;
@@ -40,6 +30,36 @@
   margin-right: 10px;
 }
 
+/* Parent Category Styles */
+.parent-category-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 0;
+}
+
+.parent-category-name:hover {
+  color: #007bff;
+}
+
+/* Child Category Styles */
+.child-category-name {
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 0;
+  margin-left: 15px; /* Indent child categories */
+}
+
+.child-category-name:hover {
+  color: #007bff;
+}
+
+/* Additional styling for nested child categories */
 .child-categories {
   margin-left: 20px;
 }
